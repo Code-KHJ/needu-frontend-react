@@ -35,14 +35,14 @@ const Header = () => {
         <a href="/" className="blind logo">
           logo
         </a>
-        <div className="nav_wrap">
-          <div className="btn_ham_gnb blind" onClick={toggleMenu}>
+        <div className="nav-wrap">
+          <div className="btn-ham-gnb blind" onClick={toggleMenu}>
             <span></span>
             <span></span>
             <span></span>
           </div>
           <nav className={`${isMenuShow ? "show" : ""}`}>
-            <div className="gnb_wrap">
+            <div className="gnb-wrap">
               <ul className="gnb">
                 <li>
                   <a href="/review/search">기관리뷰</a>

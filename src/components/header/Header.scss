@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* mobile */
-/* z-index (.modal : 10) (.nav_wrap : 11) */
+/* z-index (.modal : 10) (.nav-wrap : 11) */
 
 header {
   position: sticky;
@@ -40,13 +40,13 @@ header {
     background: url(@/assets/images/logo_NeedU.png) no-repeat center/95%;
   }
 
-  .nav_wrap {
+  .nav-wrap {
     z-index: 11;
     position: relative;
   }
 }
 
-.btn_ham_gnb {
+.btn-ham-gnb {
   position: absolute;
   top: 0;
   right: 0;
@@ -65,7 +65,7 @@ header {
 nav {
   display: none;
   width: 100%;
-  .gnb_wrap {
+  .gnb-wrap {
     margin-top: 60px;
     width: 100%;
     margin-right: 60px;
@@ -165,20 +165,20 @@ nav {
   .header-wrap {
     width: 86%;
 
-    .nav_wrap {
+    .nav-wrap {
       width: 100%;
       flex: 1;
       display: flex;
       align-items: center;
     }
   }
-  .btn_ham_gnb {
+  .btn-ham-gnb {
     display: none;
   }
   nav {
     display: flex !important;
     justify-content: space-between !important;
-    .gnb_wrap {
+    .gnb-wrap {
       margin: 0;
       width: fit-content;
       display: flex;
@@ -233,7 +233,7 @@ nav {
 // /* 768 end */
 // /* 1024 */
 @media screen and (min-width: 1024px) {
-  /* .gnb_wrap{
+  /* .gnb-wrap{
   width:75%;
 } */
   nav {

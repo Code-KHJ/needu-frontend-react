@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-.mo_none {
+.mo-none {
   display: none;
 }
 .content-font {
@@ -12,14 +12,14 @@ main {
   width: 100%;
   margin-top: 240px;
 }
-.main_wrap {
+.main-wrap {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   width: 80%;
   margin: 80px auto;
 }
-.login_wrap {
+.login-wrap {
   width: 100%;
   max-width: 390px;
   display: flex;
@@ -29,85 +29,91 @@ main {
   border: 1px solid #aaa;
   border-radius: 12px;
   background-color: #eeefff;
+  & > h1 {
+    text-align: center;
+    font-size: 1.8rem;
+  }
 }
-.login_wrap > h1 {
-  text-align: center;
-  font-size: 1.8rem;
-}
-.login_box {
+.login-box {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.login_input_wrap {
+.login-input-wrap {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  & > form > input::placeholder {
+    color: #000;
+    font-size: 1.2rem;
+    font-family: "NanumSquareAcl";
+  }
+  #userid {
+    width: 100%;
+    padding: 16px 12px;
+    border-radius: 4px 4px 0px 0px;
+    border: 1px solid #aaa;
+    background-color: #fafafa;
+    font-size: 1.4rem;
+  }
+  #userpw {
+    width: 100%;
+    padding: 16px 12px;
+    border-radius: 0px 0px 4px 4px;
+    border: 1px solid #aaa;
+    background-color: #fafafa;
+    font-size: 1.4rem;
+    margin-top: -1px;
+  }
+  .login-option {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+    .save_id > input {
+      width: 14px;
+      height: 14px;
+    }
+    .save_id > label {
+      margin-left: 5px;
+      font-size: 1.2rem;
+      vertical-align: top;
+    }
+    & > button {
+      font-size: 1.2rem;
+      vertical-align: top;
+      font-family: "NanumSquareAcl";
+    }
+  }
 }
-#userid {
-  width: 100%;
-  padding: 16px 12px;
-  border-radius: 4px 4px 0px 0px;
-  border: 1px solid #aaa;
-  background-color: #fafafa;
-  font-size: 1.4rem;
-}
-#userpw {
-  width: 100%;
-  padding: 16px 12px;
-  border-radius: 0px 0px 4px 4px;
-  border: 1px solid #aaa;
-  background-color: #fafafa;
-  font-size: 1.4rem;
-  margin-top: -1px;
-}
-.login_input_wrap form input::placeholder {
-  color: #000;
-  font-size: 1.2rem;
-  font-family: "NanumSquareAcl";
-}
-.login_option {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 8px;
-}
-.save_id > input {
-  width: 14px;
-  height: 14px;
-}
-.save_id > label {
-  margin-left: 5px;
-  font-size: 1.2rem;
-  vertical-align: top;
-}
-.login_option > button {
-  font-size: 1.2rem;
-  vertical-align: top;
-  font-family: "NanumSquareAcl";
-}
-#submit_user {
+
+#btn_login {
   width: 100%;
   padding: 14px 52px;
   border-radius: 5px;
-  background-color: #6269f5;
-  color: #fafafa;
+  background-color: #aaa;
+  color: #444;
   font-size: 1.4rem;
   font-family: "NanumSquareAcb";
+}
+.btn-able {
+  background-color: #6269f5;
+  color: #fafafa;
   cursor: pointer;
 }
-.to_signup {
+.to-signup {
   margin: 0 auto;
   font-size: 1.2rem;
+  & > a {
+    margin-left: 16px;
+    font-family: "NanumSquareBold";
+  }
 }
-.to_signup > a {
-  margin-left: 16px;
-  font-family: "NanumSquareBold";
-}
-.ad_wrap {
+
+.ad-wrap {
   width: 270px;
-  background: url(images/needU_login_banner.jpg) no-repeat center/cover;
+  background: url(@/assets/images/needU_login_banner.jpg) no-repeat center/cover;
   border-radius: 5px;
 }
 /* main end */
@@ -192,45 +198,46 @@ main {
   .tab_show {
     display: block;
   }
-  .login_box {
+  .login-box {
     flex-direction: row;
     gap: 8px;
   }
-  .login_input_wrap {
+  .login-input-wrap {
     width: calc(100% - 88px);
   }
-  #submit_user {
+  #btn_login {
     width: 80px;
     height: 100px;
     padding: 20px;
   }
+  /* 아이디/비밀번호 찾기 모달 */
   .form-item {
     width: 440px;
   }
 }
 /* PC 1024 사이즈 반응형 */
 @media screen and (min-width: 1024px) {
-  .pc_show {
+  .pc-show {
     display: block;
   }
-  .main_wrap {
+  .main-wrap {
     gap: 50px;
   }
-  #userid,
-  #userpw,
-  #submit_user {
-    font-size: 1.6rem;
-  }
-  .login_input_wrap {
+  .login-input-wrap {
     width: calc(100% - 90px);
+    & > form > input::placeholder {
+      font-size: 1.4rem;
+    }
+    #userid,
+    #userpw {
+      font-size: 1.6rem;
+    }
   }
-  #submit_user {
+  #btn_login {
+    font-size: 1.6rem;
     width: 82px;
   }
-  .login_input_wrap form input::placeholder {
-    font-size: 1.4rem;
-  }
-  .to_signup {
+  .to-signup {
     font-size: 1.4rem;
   }
 }
