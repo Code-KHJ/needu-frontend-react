@@ -15,7 +15,6 @@ const Login = () => {
 
   useEffect(() => {
     setIsSubmitDisabled(!(userid.trim() !== "" && userpw.trim() !== ""));
-    console.log(isSubmitDisabled);
   }, [userid, userpw]);
 
   return (
@@ -59,7 +58,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className={`${isSubmitDisabled ? "" : "btn-able"}`}
+              className={`btn_login ${isSubmitDisabled ? "" : "btn-able"}`}
               id="btn_login"
               form="form_user"
               disabled={isSubmitDisabled}
