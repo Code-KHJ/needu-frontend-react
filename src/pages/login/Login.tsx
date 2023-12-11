@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { regEmail, regPw } from "@/utils/validation";
 import "./Login.scss";
+import axios from "axios";
 
 const Login = () => {
   const [userid, setUserid] = useState<string>("");
@@ -8,14 +10,41 @@ const Login = () => {
 
   const handleUserid = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserid(event.target.value);
+    if (!regEmail.test(event.target.value)) {
+      event.target.classList.add("unvalid");
+      return;
+    }
+    event.target.classList.remove("unvalid");
   };
   const handleUserpw = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserpw(event.target.value);
+    if (!regPw.test(event.target.value)) {
+      event.target.classList.add("unvalid");
+      return;
+    }
+    event.target.classList.remove("unvalid");
   };
 
   useEffect(() => {
-    setIsSubmitDisabled(!(userid.trim() !== "" && userpw.trim() !== ""));
+    const isUseridValid = regEmail.test(userid);
+    const isUserpwValid = regPw.test(userpw);
+    setIsSubmitDisabled(!(isUseridValid && isUserpwValid));
   }, [userid, userpw]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const response = await axios.post(
+      "https://needu.site:3000/login",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+  };
 
   return (
     <>
@@ -24,7 +53,7 @@ const Login = () => {
           <h1>사회복지기관 리뷰 플랫폼 NEEDU</h1>
           <div className="login-box" id="form_login_user">
             <div className="login-input-wrap">
-              <form id="form_user" method="post" action="/login">
+              <form id="form_user" onSubmit={handleSubmit}>
                 <fieldset>
                   <input
                     type="text"
