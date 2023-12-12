@@ -38,6 +38,44 @@
   }
 }
 
+//내부 폼
+.explanation {
+  font-size: 1.4rem;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 40px;
+  font-size: 1.4rem;
+  flex-wrap: wrap;
+  & > label {
+    width: 100px;
+  }
+  .item-input {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    max-width: 310px;
+    & > input {
+      padding: 10px 20px;
+      max-width: 310px;
+      width: 100%;
+      height: 38px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+    & > p {
+      max-width: 310px;
+      padding: 0px 20px;
+      font-size: 1.2rem;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
 /* mobile-end */
 
 @media screen and (min-width: 768px) {
@@ -50,6 +88,23 @@
 
   .modal-footer {
     justify-content: flex-end;
+  }
+
+  //내부 폼
+  .explanation {
+    font-size: 1.6rem;
+  }
+  .item {
+    font-size: 1.6rem;
+    flex-wrap: nowrap;
+    .item-input {
+      flex-direction: row;
+      flex-wrap: wrap;
+      max-width: none;
+      & > p {
+        font-size: 1.4rem;
+      }
+    }
   }
 }
 
@@ -65,6 +120,15 @@
   .modal-footer {
     & > button {
       font-size: 1.8rem;
+    }
+  }
+
+  //내부 폼
+  .item {
+    .item-input {
+      & > p {
+        max-width: none;
+      }
     }
   }
 }

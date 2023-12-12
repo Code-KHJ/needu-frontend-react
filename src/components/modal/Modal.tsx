@@ -27,7 +27,7 @@ const ModalComponent: React.FC<ModalProps> = ({
     content: {
       width: "80%",
       height: "auto",
-      maxWidth: "760px",
+      maxWidth: "820px",
       top: "50%",
       right: "unset",
       bottom: "unset",
