@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { regEmail, regPw } from "@/utils/validation";
 import "./Login.scss";
 import axios from "axios";
+import ModalComponent from "@/components/modal/Modal";
 
 const Login = () => {
+  // 입력폼 유효성검사
   const [userid, setUserid] = useState<string>("");
   const [userpw, setUserpw] = useState<string>("");
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -31,6 +33,20 @@ const Login = () => {
     setIsSubmitDisabled(!(isUseridValid && isUserpwValid));
   }, [userid, userpw]);
 
+  // 모달 컨트롤
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+  const openModal = (content: string) => {
+    setModalIsOpen(true);
+    setModalContent(content);
+    document.body.style.overflow = "hidden";
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    document.body.style.overflow = "auto";
+  };
+
+  // 폼 제출
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -81,8 +97,18 @@ const Login = () => {
                   <input type="checkbox" id="saveId">
                   <label for="saveId">아이디 저장</label>  
                 </div> */}
-                <button type="button">아이디 찾기</button>
-                <button type="button">비밀번호 찾기</button>
+                <button type="button" onClick={() => openModal("searchId")}>
+                  아이디 찾기
+                </button>
+                <button type="button" onClick={() => openModal("searchPw")}>
+                  비밀번호 찾기
+                </button>
+                <ModalComponent
+                  isOpen={modalIsOpen}
+                  onRequestClose={closeModal}
+                  closeModal={closeModal}
+                  content={modalContent}
+                />
               </div>
             </div>
             <button
