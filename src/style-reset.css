@@ -58,6 +58,9 @@ select {
   font-family: "NanumSquare";
   color: #333333;
 }
+input:focus {
+  outline: none;
+}
 .screen_out {
   position: absolute;
   left: -9999px;

@@ -6,32 +6,39 @@ import ModalComponent from "@/components/modal/Modal";
 
 const Login = () => {
   // 입력폼 유효성검사
-  const [userid, setUserid] = useState<string>("");
-  const [userpw, setUserpw] = useState<string>("");
+  const [values, setValues] = useState({
+    id: "",
+    password: "",
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+    switch (e.target.name) {
+      case "id":
+        validation(regEmail, e.target);
+        break;
+      case "password":
+        validation(regPw, e.target);
+        break;
+    }
+  };
+
+  const validation = (reg: RegExp, target: HTMLInputElement) => {
+    if (!reg.test(target.value)) {
+      target.classList.add("unvalid");
+    } else {
+      target.classList.remove("unvalid");
+    }
+  };
+
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
-
-  const handleUserid = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserid(event.target.value);
-    if (!regEmail.test(event.target.value)) {
-      event.target.classList.add("unvalid");
-      return;
-    }
-    event.target.classList.remove("unvalid");
-  };
-  const handleUserpw = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserpw(event.target.value);
-    if (!regPw.test(event.target.value)) {
-      event.target.classList.add("unvalid");
-      return;
-    }
-    event.target.classList.remove("unvalid");
-  };
-
   useEffect(() => {
-    const isUseridValid = regEmail.test(userid);
-    const isUserpwValid = regPw.test(userpw);
+    const isUseridValid = regEmail.test(values.id);
+    const isUserpwValid = regPw.test(values.password);
     setIsSubmitDisabled(!(isUseridValid && isUserpwValid));
-  }, [userid, userpw]);
+  }, [values]);
 
   // 모달 컨트롤
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -47,18 +54,13 @@ const Login = () => {
   };
 
   // 폼 제출
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const response = await axios.post(
-      "https://needu.site:3000/login",
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await axios.post("https://needu.site:3000/login", values, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     console.log(response);
   };
 
@@ -76,8 +78,8 @@ const Login = () => {
                     name="id"
                     id="userid"
                     placeholder="아이디(이메일형식)를 입력하세요"
-                    value={userid}
-                    onInput={handleUserid}
+                    value={values.id}
+                    onChange={handleChange}
                     required
                   />
                   <input
@@ -86,8 +88,8 @@ const Login = () => {
                     id="userpw"
                     autoComplete="off"
                     placeholder="비밀번호를 입력하세요"
-                    value={userpw}
-                    onInput={handleUserpw}
+                    value={values.password}
+                    onChange={handleChange}
                     required
                   />
                 </fieldset>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import "./Modal.scss";
-import SearchId from "./SearchId";
+import SearchId from "./contents/SearchId";
+import SearchPw from "./contents/SearchPw";
 
 interface ModalProps {
   isOpen: boolean;
@@ -39,36 +40,30 @@ const ModalComponent: React.FC<ModalProps> = ({
   };
 
   //content에 따라 하위 컴포넌트 불러오기
-  const [modalTitle, setModalTitle] = useState<string>("안내");
+  const [modalTitle, setModalTitle] = useState<string>("Title");
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
-  const [modalBtn, setModalBtn] = useState<string>("제출");
   useEffect(() => {
     switch (content) {
       case "searchId":
         setModalTitle("아이디 찾기");
         setModalContent(<SearchId />);
-        setModalBtn("찾기");
         break;
       case "searchPw":
         setModalTitle("비밀번호 찾기");
-        setModalContent(<SearchId />);
-        setModalBtn("찾기");
+        setModalContent(<SearchPw />);
         break;
     }
   }, [content]);
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onRequestClose} style={customStyles}>
-      <div className="modal-header">
+      <div className="modal-title">
         <div>{modalTitle}</div>
         <button className="btn-close" type="reset" onClick={closeModal}>
           <img src="src/assets/images/cancel.png" alt="닫기" />
         </button>
       </div>
       <div className="modal-content">{modalContent}</div>
-      <div className="modal-footer">
-        <button>{modalBtn}</button>
-      </div>
     </Modal>
   );
 };
