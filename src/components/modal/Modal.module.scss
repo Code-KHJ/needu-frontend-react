@@ -1,0 +1,125 @@
+@charset "utf-8";
+
+.modal_wrap {
+  .modal_title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    height: 65px;
+    background: #6269f5;
+    font-size: 1.8rem;
+    color: #ffffff;
+    .btn_close > img {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+
+  .modal_form {
+    padding: 40px;
+    height: auto;
+    background: #fff;
+  }
+
+  .modal_button {
+    display: flex;
+    justify-content: center;
+    padding: 20px 28px;
+    background: #eee;
+  }
+
+  //내부 폼
+  .explanation {
+    font-size: 1.4rem;
+  }
+  .item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 40px;
+    font-size: 1.4rem;
+    flex-wrap: wrap;
+    & > label {
+      width: 100px;
+    }
+    .item_input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      max-width: 310px;
+      & > input {
+        padding: 10px 20px;
+        max-width: 310px;
+        width: 100%;
+        height: 38px;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+      }
+      & > p {
+        max-width: 310px;
+        padding: 0px 20px;
+        font-size: 1.2rem;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+}
+
+/* mobile-end */
+
+@media screen and (min-width: 768px) {
+  .modal_wrap {
+    .modal_title {
+      .btn_close > img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .modal_button {
+      justify-content: flex-end;
+    }
+
+    //내부 폼
+    .explanation {
+      font-size: 1.6rem;
+    }
+    .item {
+      font-size: 1.6rem;
+      flex-wrap: nowrap;
+      .item_input {
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: none;
+        & > p {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .modal_wrap {
+    .modal_title {
+      font-size: 2rem;
+      .btn_close > img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    //내부 폼
+    .item {
+      .item_input {
+        & > p {
+          max-width: none;
+        }
+      }
+    }
+  }
+}

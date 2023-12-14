@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./Header.scss";
+import styles from "./Header.module.scss";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [name, setName] = useState("");
@@ -25,32 +26,34 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    setName("홍길동");
+    setName("");
   }, []);
 
   return (
     <header>
-      <div className={`back-white ${isMenuShow ? "show" : ""}`}></div>
-      <div className="header-wrap">
-        <a href="/" className="blind logo">
+      <div
+        className={`${styles.bg_white} ${isMenuShow ? styles.show : ""}`}
+      ></div>
+      <div className={styles.header_wrap}>
+        <Link to="/" className={`blind ${styles.logo}`}>
           logo
-        </a>
-        <div className="nav-wrap">
-          <div className="btn-ham-gnb blind" onClick={toggleMenu}>
+        </Link>
+        <div className={styles.nav_wrap}>
+          <div className={`${styles.btn_ham_gnb} blind`} onClick={toggleMenu}>
             <span></span>
             <span></span>
             <span></span>
           </div>
-          <nav className={`${isMenuShow ? "show" : ""}`}>
-            <div className="gnb-wrap">
-              <ul className="gnb">
+          <nav className={`${isMenuShow ? styles.show : ""}`}>
+            <div className={styles.gnb_wrap}>
+              <ul className={styles.gnb}>
                 <li>
-                  <a href="/review/search">기관리뷰</a>
+                  <Link to="/review/search">기관리뷰</Link>
                 </li>
                 <li>
-                  <a href="/review/write">리뷰작성</a>
+                  <Link to="/review/write">리뷰작성</Link>
                 </li>
-                <li className="beta">
+                <li className={styles.beta}>
                   <a href="https://needu.oopy.io">니쥬챗</a>
                   <img src="src/assets/images/ico_beta.png" />
                 </li>
@@ -64,24 +67,24 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-            <div className="usersign">
+            <div className={styles.usersign}>
               {name ? (
                 <>
-                  <a href="/mypage/profile" className="nickname">
+                  <Link to="/mypage/profile" className={styles.nickname}>
                     {name}님
-                  </a>
-                  <a href="/logout" className="logout">
+                  </Link>
+                  <Link to="/logout" className={styles.logout}>
                     <span>로그아웃</span>
-                  </a>
+                  </Link>
                 </>
               ) : (
                 <>
-                  <a href="/login" className="login">
+                  <Link to="/login" className={styles.login}>
                     로그인
-                  </a>
-                  <a href="/signup" className="signup">
+                  </Link>
+                  <Link to="/signup" className={styles.signup}>
                     회원가입
-                  </a>
+                  </Link>
                 </>
               )}
             </div>

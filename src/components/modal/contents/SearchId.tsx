@@ -3,7 +3,7 @@ import { regPhone } from "@/utils/validation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const SearchId = () => {
+const SearchId = ({ styles }) => {
   const [values, setValues] = useState({
     phone: "",
   });
@@ -42,15 +42,15 @@ const SearchId = () => {
 
   return (
     <>
-      <div className="modal-form">
-        <div className="explanation">
+      <div className={styles.modal_form}>
+        <div className={styles.explanation}>
           회원가입 시 작성하신 휴대폰 번호를 입력해주세요.
         </div>
         <form id="search_id" onSubmit={handleSubmit}>
           <fieldset>
-            <div className="item">
+            <div className={styles.item}>
               <label>휴대폰 번호</label>
-              <div className="item-input">
+              <div className={styles.item_input}>
                 <input
                   type="text"
                   name="phone"
@@ -65,18 +65,18 @@ const SearchId = () => {
               </div>
             </div>
             <div
-              className="item userId"
+              className={`${styles.item} ${styles.userId}`}
               style={{ display: resultUserId.length > 0 ? "" : "none" }}
             >
               <label>아이디</label>
-              <div className="item-input">
+              <div className={styles.item_input}>
                 <input type="text" value={resultUserId} disabled></input>
               </div>
             </div>
           </fieldset>
         </form>
       </div>
-      <div className="modal-button">
+      <div className={styles.modal_button}>
         <SubmitBtn
           text="조회"
           targetForm="search_id"

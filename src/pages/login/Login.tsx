@@ -126,6 +126,7 @@ const Login = () => {
           <div className="to-signup">
             아직 회원이 아니신가요?<a href="/signup">회원가입</a>
           </div>
+          <p>test</p>
         </div>
         <div className="ad-wrap mo-none pc-show">
           {/* <img className="ad" src="/styles/images/needU_login_banner.jpg" alt="광고배너"> */}

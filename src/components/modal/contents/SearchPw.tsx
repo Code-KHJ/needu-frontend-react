@@ -3,7 +3,7 @@ import { regEmail, regPhone } from "@/utils/validation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const SearchPw = () => {
+const SearchPw = ({ styles }) => {
   const [values, setValues] = useState({
     id: "",
     authCode: "",

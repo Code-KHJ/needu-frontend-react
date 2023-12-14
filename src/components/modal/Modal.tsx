@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import "./Modal.scss";
+import styles from "./Modal.module.scss";
 import SearchId from "./contents/SearchId";
 import SearchPw from "./contents/SearchPw";
 
@@ -26,6 +26,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       zIndex: 11,
     },
     content: {
+      position: "relative",
       width: "80%",
       height: "auto",
       maxWidth: "820px",
@@ -46,24 +47,29 @@ const ModalComponent: React.FC<ModalProps> = ({
     switch (content) {
       case "searchId":
         setModalTitle("아이디 찾기");
-        setModalContent(<SearchId />);
+        setModalContent(<SearchId styles={styles} />);
         break;
       case "searchPw":
         setModalTitle("비밀번호 찾기");
-        setModalContent(<SearchPw />);
+        setModalContent(<SearchPw styles={styles} />);
         break;
     }
   }, [content]);
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} style={customStyles}>
-      <div className="modal-title">
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      style={customStyles}
+      className={styles.modal_wrap}
+    >
+      <div className={styles.modal_title}>
         <div>{modalTitle}</div>
-        <button className="btn-close" type="reset" onClick={closeModal}>
+        <button className={styles.btn_close} type="reset" onClick={closeModal}>
           <img src="src/assets/images/cancel.png" alt="닫기" />
         </button>
       </div>
-      <div className="modal-content">{modalContent}</div>
+      <div className={styles.modal_content}>{modalContent}</div>
     </Modal>
   );
 };
