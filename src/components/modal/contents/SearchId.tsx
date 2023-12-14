@@ -1,3 +1,4 @@
+import SubmitBtn from "@/components/elements/SubmitBtn";
 import { regPhone } from "@/utils/validation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -22,7 +23,7 @@ const SearchId = () => {
   const [msg, setMsg] = useState("");
 
   //버튼 활성화
-  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   useEffect(() => {
     setIsSubmitDisabled(!regPhone.test(values.phone));
   }, [values]);
@@ -31,11 +32,12 @@ const SearchId = () => {
   const [resultUserId, setResultUserId] = useState("");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await axios.post("/", values, {
-      headers: { "Content-Type": "application/json" },
-    });
+    setResultUserId("테스트");
+    // const response = await axios.post("/", values, {
+    //   headers: { "Content-Type": "application/json" },
+    // });
 
-    setResultUserId(response.data);
+    // setResultUserId(response.data);
   };
 
   return (
@@ -75,14 +77,11 @@ const SearchId = () => {
         </form>
       </div>
       <div className="modal-button">
-        <button
-          type="submit"
-          form="search_id"
-          className={`${isSubmitDisabled ? "" : "btn-able"}`}
-          disabled={isSubmitDisabled}
-        >
-          조회
-        </button>
+        <SubmitBtn
+          text="조회"
+          targetForm="search_id"
+          isSubmitDisabled={isSubmitDisabled}
+        />
       </div>
     </>
   );

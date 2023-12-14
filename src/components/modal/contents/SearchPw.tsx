@@ -1,3 +1,4 @@
+import SubmitBtn from "@/components/elements/SubmitBtn";
 import { regEmail, regPhone } from "@/utils/validation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -85,14 +86,11 @@ const SearchPw = () => {
         </form>
       </div>
       <div className="modal-button">
-        <button
-          type="submit"
-          form="search_id"
-          className={`${isSubmitDisabled ? "" : "btn-able"}`}
-          disabled={isSubmitDisabled}
-        >
-          조회
-        </button>
+        <SubmitBtn
+          text="조회"
+          targetForm="search_pw"
+          isSubmitDisabled={isSubmitDisabled}
+        />
       </div>
     </>
   );
