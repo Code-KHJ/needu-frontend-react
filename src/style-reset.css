@@ -77,4 +77,13 @@ i {
   font-style: normal;
 }
 
+.invalid {
+  border: 1px solid red !important;
+}
+
+.btn_able {
+  background-color: #6269f5 !important;
+  color: #fafafa !important;
+  cursor: pointer !important;
+}
 /* reset-end */

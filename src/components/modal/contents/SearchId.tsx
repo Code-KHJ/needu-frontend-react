@@ -3,7 +3,11 @@ import { regPhone } from "@/utils/validation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const SearchId = ({ styles }) => {
+interface SearchIdProps {
+  styles: CSSModuleClasses;
+}
+
+const SearchId: React.FC<SearchIdProps> = ({ styles }) => {
   const [values, setValues] = useState({
     phone: "",
   });
@@ -14,9 +18,9 @@ const SearchId = ({ styles }) => {
       [e.target.name]: e.target.value,
     });
     if (!regPhone.test(e.target.value)) {
-      e.target.classList.add("unvalid");
+      e.target.classList.add("invalid");
     } else {
-      e.target.classList.remove("unvalid");
+      e.target.classList.remove("invalid");
     }
   };
 

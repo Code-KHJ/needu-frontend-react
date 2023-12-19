@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [name, setName] = useState("");
@@ -16,7 +16,6 @@ const Header = () => {
       setMenuShow(false);
     }
   };
-
   useEffect(() => {
     window.addEventListener("resize", handleResize);
 
@@ -24,6 +23,11 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const location = useLocation();
+  useEffect(() => {
+    setMenuShow(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     setName("");

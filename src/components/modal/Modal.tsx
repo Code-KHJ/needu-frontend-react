@@ -26,7 +26,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       zIndex: 11,
     },
     content: {
-      position: "relative",
+      position: "absolute",
       width: "80%",
       height: "auto",
       maxWidth: "820px",

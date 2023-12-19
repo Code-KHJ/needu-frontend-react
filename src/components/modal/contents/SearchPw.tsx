@@ -17,9 +17,9 @@ const SearchPw = ({ styles }) => {
     switch (e.target.name) {
       case "id":
         if (!regEmail.test(e.target.value)) {
-          e.target.classList.add("unvalid");
+          e.target.classList.add("invalid");
         } else {
-          e.target.classList.remove("unvalid");
+          e.target.classList.remove("invalid");
         }
         break;
       case "authCode":

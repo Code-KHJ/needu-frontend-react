@@ -10,6 +10,7 @@
     background: #6269f5;
     font-size: 1.8rem;
     color: #ffffff;
+    border-radius: 5px 5px 0 0;
     .btn_close > img {
       width: 16px;
       height: 16px;
@@ -28,6 +29,7 @@
     justify-content: center;
     padding: 20px 28px;
     background: #eee;
+    border-radius: 0 0 5px 5px;
   }
 
   //내부 폼

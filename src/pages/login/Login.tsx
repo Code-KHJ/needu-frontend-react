@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { regEmail, regPw } from "@/utils/validation";
-import "./Login.scss";
+import { regEmail, regPw, validateInput } from "@/utils/validation";
+import styles from "./Login.module.scss";
 import axios from "axios";
 import ModalComponent from "@/components/modal/Modal";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   // 입력폼 유효성검사
@@ -17,19 +18,11 @@ const Login = () => {
     });
     switch (e.target.name) {
       case "id":
-        validation(regEmail, e.target);
+        validateInput(regEmail, e.target);
         break;
       case "password":
-        validation(regPw, e.target);
+        validateInput(regPw, e.target);
         break;
-    }
-  };
-
-  const validation = (reg: RegExp, target: HTMLInputElement) => {
-    if (!reg.test(target.value)) {
-      target.classList.add("unvalid");
-    } else {
-      target.classList.remove("unvalid");
     }
   };
 
@@ -66,17 +59,18 @@ const Login = () => {
 
   return (
     <>
-      <div className="main-wrap">
-        <div className="login-wrap">
+      <div className={styles.main_wrap}>
+        <div className={styles.login_wrap}>
           <h1>사회복지기관 리뷰 플랫폼 NEEDU</h1>
-          <div className="login-box" id="form_login_user">
-            <div className="login-input-wrap">
+          <div className={styles.login_box} id="form_login_user">
+            <div className={styles.login_input_wrap}>
               <form id="form_user" onSubmit={handleSubmit}>
                 <fieldset>
                   <input
                     type="text"
                     name="id"
                     id="userid"
+                    className={styles.userid}
                     placeholder="아이디(이메일형식)를 입력하세요"
                     value={values.id}
                     onChange={handleChange}
@@ -86,6 +80,7 @@ const Login = () => {
                     type="password"
                     name="password"
                     id="userpw"
+                    className={styles.userpw}
                     autoComplete="off"
                     placeholder="비밀번호를 입력하세요"
                     value={values.password}
@@ -94,7 +89,7 @@ const Login = () => {
                   />
                 </fieldset>
               </form>
-              <div className="login-option">
+              <div className={styles.login_option}>
                 {/* <div className="save_id">
                   <input type="checkbox" id="saveId">
                   <label for="saveId">아이디 저장</label>  
@@ -115,7 +110,9 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className={`btn_login ${isSubmitDisabled ? "" : "btn-able"}`}
+              className={`${styles.btn_login} ${
+                isSubmitDisabled ? "" : "btn_able"
+              }`}
               id="btn_login"
               form="form_user"
               disabled={isSubmitDisabled}
@@ -123,12 +120,13 @@ const Login = () => {
               로그인
             </button>
           </div>
-          <div className="to-signup">
-            아직 회원이 아니신가요?<a href="/signup">회원가입</a>
+          <div className={styles.to_signup}>
+            아직 회원이 아니신가요?<Link to="/signup">회원가입</Link>
           </div>
-          <p>test</p>
         </div>
-        <div className="ad-wrap mo-none pc-show">
+        <div
+          className={`${styles.ad_wrap} ${styles.mo_none} ${styles.pc_show}`}
+        >
           {/* <img className="ad" src="/styles/images/needU_login_banner.jpg" alt="광고배너"> */}
         </div>
       </div>
