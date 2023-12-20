@@ -9,13 +9,9 @@ interface ButtonProps {
 
 const StyledButton = styled.button`
   width: 100%;
-  max-width: 180px;
   height: 54px;
   padding: 8px;
-  color: ${(props) => (props.disabled ? "#444" : "#fafafa")};
   font-size: 1.6rem;
-  border-radius: 5px;
-  background: ${(props) => (props.disabled ? "#aaa" : "#6369f5")};
 `;
 
 const SubmitBtn: React.FC<ButtonProps> = ({

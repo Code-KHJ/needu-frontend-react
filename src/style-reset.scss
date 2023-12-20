@@ -50,8 +50,15 @@ button {
   border: none;
   background: none;
   font-family: "NanumSquare";
-  color: #333333;
+  border-radius: 5px;
+  color: #fafafa;
+  background-color: #6269f5;
   cursor: pointer;
+  &:disabled {
+    color: #444;
+    background-color: #aaaaaa;
+    cursor: not-allowed;
+  }
 }
 input,
 select {
@@ -80,10 +87,9 @@ i {
 .invalid {
   border: 1px solid red !important;
 }
-
-.btn_able {
-  background-color: #6269f5 !important;
-  color: #fafafa !important;
-  cursor: pointer !important;
+.valid {
+  background-color: #fff !important;
+  border: 1px solid #6269f5 !important;
 }
+
 /* reset-end */

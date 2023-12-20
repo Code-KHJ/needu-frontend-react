@@ -110,9 +110,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className={`${styles.btn_login} ${
-                isSubmitDisabled ? "" : "btn_able"
-              }`}
+              className={styles.btn_login}
               id="btn_login"
               form="form_user"
               disabled={isSubmitDisabled}

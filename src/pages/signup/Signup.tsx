@@ -19,6 +19,7 @@ const Signup = () => {
 
   const [validValues, setValidValues] = useState({
     id: false,
+    idAuth: false,
     password: false,
     password2: false,
     phonenumber: false,
@@ -26,6 +27,16 @@ const Signup = () => {
     policy: false,
     personal_info: false,
   });
+
+  const [validMsg, setValidMsg] = useState({
+    id: "",
+    password: "",
+    password2: "",
+    phonenumber: "",
+    nickname: "",
+  });
+
+  const response123: boolean = true;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -36,10 +47,72 @@ const Signup = () => {
     });
     switch (name) {
       case "id":
-        validate(regEmail, e.target);
+        //이메일 유효성검사
+        if (!regEmail.test(value)) {
+          e.target.classList.add("invalid");
+          setValidValues({
+            ...validValues,
+            [name]: false,
+          });
+          setValidMsg({
+            ...validMsg,
+            [name]: "이메일 형식이 올바르지 않습니다.",
+          });
+          break;
+        }
+
+        /////////이메일 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
+        if (!response123) {
+          e.target.classList.add("invalid");
+          setValidValues({
+            ...validValues,
+            [name]: false,
+          });
+          setValidMsg({
+            ...validMsg,
+            [name]: "이미 사용중인 이메일입니다.",
+          });
+          break;
+        }
+
+        //id인증 완료
+        e.target.classList.remove("invalid");
+        setValidValues({
+          ...validValues,
+          [name]: true,
+        });
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
+        setAuthBtn({
+          ...authBtn,
+          req: true,
+        });
         break;
       case "password":
-        validate(regPw, e.target);
+        if (!regPw.test(value)) {
+          e.target.classList.add("invalid");
+          setValidValues({
+            ...validValues,
+            [name]: false,
+          });
+          setValidMsg({
+            ...validMsg,
+            [name]:
+              "비밀번호는 영문, 숫자, 특수문자만 사용가능하며, 반드시 영문, 숫자 조합이 필요합니다.",
+          });
+          break;
+        }
+        e.target.classList.remove("invalid");
+        setValidValues({
+          ...validValues,
+          [name]: true,
+        });
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
         break;
       case "password2":
         if (value !== values.password) {
@@ -48,20 +121,86 @@ const Signup = () => {
             ...validValues,
             [name]: false,
           });
-        } else {
-          e.target.classList.remove("invalid");
-          setValidValues({
-            ...validValues,
-            [name]: true,
+          setValidMsg({
+            ...validMsg,
+            [name]: "비밀번호가 일치하지 않습니다.",
           });
+          break;
         }
+        e.target.classList.remove("invalid");
+        setValidValues({
+          ...validValues,
+          [name]: true,
+        });
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
         break;
       case "phonenumber":
-        validate(regPhone, e.target);
+        if (!regPhone.test(value)) {
+          e.target.classList.add("invalid");
+          setValidValues({
+            ...validValues,
+            [name]: false,
+          });
+          setValidMsg({
+            ...validMsg,
+            [name]: "연락처 형식이 올바르지 않습니다.",
+          });
+          break;
+        }
+        e.target.classList.remove("invalid");
+        setValidValues({
+          ...validValues,
+          [name]: true,
+        });
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
         break;
       case "nickname":
-        validate(regNickname, e.target);
+        //닉네임 유효성검사
+        if (!regNickname.test(value)) {
+          e.target.classList.add("invalid");
+          setValidValues({
+            ...validValues,
+            [name]: false,
+          });
+          setValidMsg({
+            ...validMsg,
+            [name]: "닉네임은 영어, 한글, 숫자만 사용이 가능합니다.",
+          });
+          break;
+        }
+
+        /////////닉네임 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
+        if (!response123) {
+          e.target.classList.add("invalid");
+          setValidValues({
+            ...validValues,
+            [name]: false,
+          });
+          setValidMsg({
+            ...validMsg,
+            [name]: "이미 사용중인 닉네임입니다.",
+          });
+          break;
+        }
+
+        //인증 완료
+        e.target.classList.remove("invalid");
+        setValidValues({
+          ...validValues,
+          [name]: true,
+        });
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
         break;
+
       case "policy":
         setValidValues({
           ...validValues,
@@ -79,26 +218,71 @@ const Signup = () => {
     }
   };
 
-  const validate = (reg: RegExp, target: HTMLInputElement) => {
-    if (!reg.test(target.value)) {
-      target.classList.add("invalid");
-      setValidValues({
-        ...validValues,
-        [target.name]: false,
-      });
-    } else {
-      target.classList.remove("invalid");
-      setValidValues({
-        ...validValues,
-        [target.name]: true,
-      });
+  ///////////인증번호 요청///////////////
+  const createdAuthCode: string = "123";
+  const [authCode, setAuthCode] = useState("");
+  const [authBtn, setAuthBtn] = useState({
+    req: false,
+    confirm: false,
+    confirmText: "",
+  });
+
+  const reqAuthMail = () => {
+    setAuthBtn({
+      ...authBtn,
+      confirmText: "확인",
+    });
+    ///////////인증메일 발송 api
+    alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
+  };
+  const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAuthCode(e.target.value);
+    setAuthBtn({
+      ...authBtn,
+      confirm: true,
+    });
+  };
+  const confirmAuthCode = () => {
+    if (createdAuthCode !== authCode) {
+      alert(
+        "인증번호가 틀렸습니다. 재발송을 원하시면 인증요청 버튼을 다시 클릭해주세요."
+      );
+      return;
     }
+    alert("이메일이 인증되었습니다.");
+    setAuthBtn({
+      req: false,
+      confirm: false,
+      confirmText: "인증완료",
+    });
+    setValidValues({
+      ...validValues,
+      idAuth: true,
+    });
+  };
+
+  //체크박스 일괄 체크
+  const [checkAll, setCheckAll] = useState(false);
+  const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setCheckAll(checked);
+    setValues({
+      ...values,
+      policy: checked,
+      personal_info: checked,
+      marketing_email: checked,
+      marketing_SMS: checked,
+    });
+    setValidValues({
+      ...validValues,
+      policy: checked,
+      personal_info: checked,
+    });
   };
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   useEffect(() => {
     const isSubmit = Object.values(validValues).every((value) => value);
-    console.log(isSubmit);
     setIsSubmitDisabled(!isSubmit);
   }, [values, validValues]);
 
@@ -119,7 +303,7 @@ const Signup = () => {
                     type="email"
                     name="id"
                     id="id"
-                    className=""
+                    className={`${validValues.id ? "valid" : ""}`}
                     maxLength={40}
                     style={{ imeMode: "disabled" }}
                     autoCapitalize="off"
@@ -127,39 +311,52 @@ const Signup = () => {
                     placeholder="이메일(ID)를 입력해주세요."
                     value={values.id}
                     onChange={handleChange}
+                    readOnly={authBtn.confirmText == "인증완료"}
                     required
                   />
-                  <button type="button" className={styles.req_btn} disabled>
+                  <button
+                    type="button"
+                    className={styles.req_btn}
+                    disabled={!authBtn.req}
+                    onClick={reqAuthMail}
+                  >
                     인증요청
                   </button>
                 </div>
-                <div
-                  className={styles.checkmsg}
-                  id="checkidmsg"
-                  style={{ display: "none" }}
-                ></div>
+                <div className={styles.checkmsg} id="checkidmsg">
+                  {validMsg.id}
+                </div>
               </div>
-              <div className={`${styles.item} ${styles.checkEmail}`}>
+              <div
+                className={`${styles.item} ${
+                  authBtn.confirmText.length > 0 ? "" : styles.checkEmail
+                }`}
+              >
                 <div>
                   <input
                     type="text"
-                    className={styles.authCode_input}
+                    className={`${styles.authCode_input} ${
+                      authBtn.confirmText == "인증완료" ? "valid" : ""
+                    }`}
                     maxLength={40}
                     style={{ imeMode: "disabled" }}
                     autoCapitalize="off"
                     autoComplete="off"
                     placeholder="인증번호를 입력해주세요."
+                    onChange={handleAuth}
+                    value={authCode}
+                    readOnly={authBtn.confirmText == "인증완료"}
                     required
                   />
-                  <button type="button" className={styles.confirm_btn} disabled>
-                    확인
+                  <button
+                    type="button"
+                    className={styles.confirm_btn}
+                    disabled={!authBtn.confirm}
+                    onClick={confirmAuthCode}
+                  >
+                    {authBtn.confirmText}
                   </button>
                 </div>
-                <div
-                  className={styles.checkmsg}
-                  id="checkidmsg"
-                  style={{ display: "none" }}
-                ></div>
               </div>
               {/* <!-- 비밀번호 --> */}
               <div className={styles.item}>
@@ -170,7 +367,8 @@ const Signup = () => {
                   type="password"
                   name="password"
                   id="password1"
-                  className=""
+                  className={`${validValues.password ? "valid" : ""}`}
+                  minLength={8}
                   maxLength={16}
                   style={{ imeMode: "disabled" }}
                   autoComplete="off"
@@ -179,11 +377,7 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                <div
-                  className={styles.checkmsg}
-                  id="checkpw1msg"
-                  style={{ display: "none" }}
-                ></div>
+                <div className={styles.checkmsg}>{validMsg.password}</div>
               </div>
               {/* <!-- 비밀번호 확인 --> */}
               <div className={styles.item}>
@@ -194,7 +388,7 @@ const Signup = () => {
                   type="password"
                   name="password2"
                   id="password2"
-                  className=""
+                  className={`${validValues.password2 ? "valid" : ""}`}
                   maxLength={16}
                   style={{ imeMode: "disabled" }}
                   autoComplete="off"
@@ -203,11 +397,9 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                <div
-                  className={styles.checkmsg}
-                  id="checkpw2msg"
-                  style={{ display: "none" }}
-                ></div>
+                <div className={styles.checkmsg} id="checkpw2msg">
+                  {validMsg.password2}
+                </div>
               </div>
               {/* <!-- 휴대폰 번호 --> */}
               <div className={styles.item}>
@@ -218,7 +410,7 @@ const Signup = () => {
                   type="text"
                   name="phonenumber"
                   id="phone"
-                  className=""
+                  className={`${validValues.phonenumber ? "valid" : ""}`}
                   autoComplete="off"
                   placeholder="휴대전화 번호('-'빼고 숫자만 입력)"
                   maxLength={11}
@@ -226,11 +418,7 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                <div
-                  className={styles.checkmsg}
-                  id="checkPnmsg"
-                  style={{ display: "none" }}
-                ></div>
+                <div className={styles.checkmsg}>{validMsg.phonenumber}</div>
               </div>
               {/* <!-- 닉네임 --> */}
               <div className={styles.item}>
@@ -241,7 +429,7 @@ const Signup = () => {
                   type="text"
                   name="nickname"
                   id="nickname"
-                  className=""
+                  className={`${validValues.nickname ? "valid" : ""}`}
                   minLength={2}
                   maxLength={20}
                   autoComplete="off"
@@ -250,16 +438,19 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                <div
-                  className={styles.checkmsg}
-                  id="checknmmsg"
-                  style={{ display: "none" }}
-                ></div>
+                <div className={styles.checkmsg} id="checknmmsg">
+                  {validMsg.nickname}
+                </div>
               </div>
             </div>
             <div className={styles.join_agree}>
               <div className={styles.join_input_all}>
-                <input type="checkbox" id="check_1" />
+                <input
+                  type="checkbox"
+                  id="check_1"
+                  onChange={handleCheckAll}
+                  checked={checkAll}
+                />
                 <label htmlFor="check_1">전체동의</label>
               </div>
               <div className={styles.join_input}>
@@ -382,12 +573,7 @@ const Signup = () => {
               </ul>
             </div>
             <div className={styles.btn_signup}>
-              <button
-                type="submit"
-                id="btnSubmit"
-                className={`${isSubmitDisabled ? "" : "btn_able"}`}
-                disabled={isSubmitDisabled}
-              >
+              <button type="submit" id="btnSubmit" disabled={isSubmitDisabled}>
                 회원가입 완료
               </button>
             </div>

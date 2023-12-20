@@ -84,6 +84,8 @@ main {
         font-size: 1.2rem;
         vertical-align: top;
         font-family: "NanumSquareAcl";
+        color: #000;
+        background-color: transparent;
       }
     }
   }
@@ -91,9 +93,6 @@ main {
   .btn_login {
     width: 100%;
     padding: 14px 52px;
-    border-radius: 5px;
-    background-color: #aaa;
-    color: #444;
     font-size: 1.4rem;
     font-family: "NanumSquareAcb";
   }
