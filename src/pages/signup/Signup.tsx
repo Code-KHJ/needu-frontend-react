@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Signup.module.scss";
 import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
+import userApi from "@/api/user";
+import _ from "lodash";
 
 const Signup = () => {
   //유효성 검사
@@ -36,6 +38,10 @@ const Signup = () => {
     nickname: "",
   });
 
+  const [duplic, setDuplic] = useState({
+    id: false,
+    nickname: false,
+  });
   const response123: boolean = true;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +52,7 @@ const Signup = () => {
       [name]: inputValue,
     });
     switch (name) {
-      case "id":
+      case "id": {
         //이메일 유효성검사
         if (!regEmail.test(value)) {
           e.target.classList.add("invalid");
@@ -60,9 +66,10 @@ const Signup = () => {
           });
           break;
         }
-
+        const response = debounceFunc(e, value);
+        console.log(response);
         /////////이메일 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
-        if (!response123) {
+        if (duplic.id) {
           e.target.classList.add("invalid");
           setValidValues({
             ...validValues,
@@ -90,6 +97,7 @@ const Signup = () => {
           req: true,
         });
         break;
+      }
       case "password":
         if (!regPw.test(value)) {
           e.target.classList.add("invalid");
@@ -217,6 +225,29 @@ const Signup = () => {
         break;
     }
   };
+
+  //유저 정보 중복 검사
+  const debounceFunc = useCallback(
+    _.debounce(async (e, value) => {
+      const result = await userApi.duplic(e, value);
+      console.log(result);
+      if (e.target.name == "id") {
+        if (result !== "abc@abc.com") {
+          setDuplic({
+            ...duplic,
+            [e.target.name]: false,
+          });
+        } else {
+          setDuplic({
+            ...duplic,
+            [e.target.name]: true,
+          });
+        }
+      }
+      return result;
+    }, 1000),
+    []
+  );
 
   ///////////인증번호 요청///////////////
   const createdAuthCode: string = "123";
