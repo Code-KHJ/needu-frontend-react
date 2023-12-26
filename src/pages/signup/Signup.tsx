@@ -19,15 +19,25 @@ const Signup = () => {
     info_period: "탈퇴시",
   });
 
-  const [validValues, setValidValues] = useState({
-    id: false,
-    idAuth: false,
-    password: false,
-    password2: false,
-    phonenumber: false,
-    nickname: false,
-    policy: false,
-    personal_info: false,
+  type ValidValues = {
+    id: boolean | null;
+    idAuth: boolean | null;
+    password: boolean | null;
+    password2: boolean | null;
+    phonenumber: boolean | null;
+    nickname: boolean | null;
+    policy: boolean | null;
+    personal_info: boolean | null;
+  };
+  const [validValues, setValidValues] = useState<ValidValues>({
+    id: null,
+    idAuth: null,
+    password: null,
+    password2: null,
+    phonenumber: null,
+    nickname: null,
+    policy: null,
+    personal_info: null,
   });
 
   const [validMsg, setValidMsg] = useState({
@@ -38,12 +48,6 @@ const Signup = () => {
     nickname: "",
   });
 
-  const [duplic, setDuplic] = useState({
-    id: false,
-    nickname: false,
-  });
-  const response123: boolean = true;
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
@@ -51,11 +55,11 @@ const Signup = () => {
       ...values,
       [name]: inputValue,
     });
+
     switch (name) {
       case "id": {
         //이메일 유효성검사
         if (!regEmail.test(value)) {
-          e.target.classList.add("invalid");
           setValidValues({
             ...validValues,
             [name]: false,
@@ -64,46 +68,29 @@ const Signup = () => {
             ...validMsg,
             [name]: "이메일 형식이 올바르지 않습니다.",
           });
-          break;
-        }
-        const response = debounceFunc(e, value);
-        console.log(response);
-        /////////이메일 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
-        if (duplic.id) {
-          e.target.classList.add("invalid");
-          setValidValues({
-            ...validValues,
-            [name]: false,
+          setAuthBtn({
+            ...authBtn,
+            req: false,
           });
+          break;
+        } else {
           setValidMsg({
             ...validMsg,
-            [name]: "이미 사용중인 이메일입니다.",
+            [name]: "",
           });
+
+          const response = debounceId(e);
+          console.log(response);
+          /////////이메일 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
           break;
         }
-
-        //id인증 완료
-        e.target.classList.remove("invalid");
-        setValidValues({
-          ...validValues,
-          [name]: true,
-        });
-        setValidMsg({
-          ...validMsg,
-          [name]: "",
-        });
-        setAuthBtn({
-          ...authBtn,
-          req: true,
-        });
-        break;
       }
       case "password":
         if (!regPw.test(value)) {
-          e.target.classList.add("invalid");
           setValidValues({
             ...validValues,
             [name]: false,
+            password2: false,
           });
           setValidMsg({
             ...validMsg,
@@ -112,19 +99,27 @@ const Signup = () => {
           });
           break;
         }
-        e.target.classList.remove("invalid");
-        setValidValues({
-          ...validValues,
-          [name]: true,
-        });
+        if (values.password2 !== value) {
+          setValidValues({
+            ...validValues,
+            [name]: true,
+            password2: false,
+          });
+        } else {
+          setValidValues({
+            ...validValues,
+            [name]: true,
+            password2: true,
+          });
+        }
         setValidMsg({
           ...validMsg,
           [name]: "",
         });
+
         break;
       case "password2":
         if (value !== values.password) {
-          e.target.classList.add("invalid");
           setValidValues({
             ...validValues,
             [name]: false,
@@ -135,7 +130,6 @@ const Signup = () => {
           });
           break;
         }
-        e.target.classList.remove("invalid");
         setValidValues({
           ...validValues,
           [name]: true,
@@ -147,7 +141,6 @@ const Signup = () => {
         break;
       case "phonenumber":
         if (!regPhone.test(value)) {
-          e.target.classList.add("invalid");
           setValidValues({
             ...validValues,
             [name]: false,
@@ -158,7 +151,6 @@ const Signup = () => {
           });
           break;
         }
-        e.target.classList.remove("invalid");
         setValidValues({
           ...validValues,
           [name]: true,
@@ -168,10 +160,9 @@ const Signup = () => {
           [name]: "",
         });
         break;
-      case "nickname":
+      case "nickname": {
         //닉네임 유효성검사
         if (!regNickname.test(value)) {
-          e.target.classList.add("invalid");
           setValidValues({
             ...validValues,
             [name]: false,
@@ -182,33 +173,11 @@ const Signup = () => {
           });
           break;
         }
-
+        const response = debounceNick(e);
+        console.log(response);
         /////////닉네임 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
-        if (!response123) {
-          e.target.classList.add("invalid");
-          setValidValues({
-            ...validValues,
-            [name]: false,
-          });
-          setValidMsg({
-            ...validMsg,
-            [name]: "이미 사용중인 닉네임입니다.",
-          });
-          break;
-        }
-
-        //인증 완료
-        e.target.classList.remove("invalid");
-        setValidValues({
-          ...validValues,
-          [name]: true,
-        });
-        setValidMsg({
-          ...validMsg,
-          [name]: "",
-        });
         break;
-
+      }
       case "policy":
         setValidValues({
           ...validValues,
@@ -227,25 +196,70 @@ const Signup = () => {
   };
 
   //유저 정보 중복 검사
-  const debounceFunc = useCallback(
-    _.debounce(async (e, value) => {
-      const result = await userApi.duplic(e, value);
-      console.log(result);
-      if (e.target.name == "id") {
-        if (result !== "abc@abc.com") {
-          setDuplic({
-            ...duplic,
-            [e.target.name]: false,
+  const debounceId = useCallback(
+    _.debounce(async (e) => {
+      const { name, value } = e.target;
+      const isDuplic = await userApi.duplic(name, value);
+      setValidValues((prevValidValues) => {
+        //중복
+        if (!isDuplic) {
+          setValidMsg({
+            ...validMsg,
+            [name]: "이미 사용중인 이메일입니다.",
           });
-        } else {
-          setDuplic({
-            ...duplic,
-            [e.target.name]: true,
+          setAuthBtn({
+            ...authBtn,
+            req: false,
           });
+          return {
+            ...prevValidValues,
+            [name]: false,
+          };
+          //중복
         }
-      }
-      return result;
-    }, 1000),
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
+        setAuthBtn({
+          ...authBtn,
+          req: true,
+        });
+
+        return {
+          ...prevValidValues,
+          [name]: true,
+        };
+      });
+    }, 300),
+    []
+  );
+  const debounceNick = useCallback(
+    _.debounce(async (e) => {
+      const { name, value } = e.target;
+      const isDuplic = await userApi.duplic(name, value);
+      setValidValues((prevValidValues) => {
+        //중복
+        if (!isDuplic) {
+          setValidMsg({
+            ...validMsg,
+            [name]: "이미 사용중인 닉네임입니다.",
+          });
+          return {
+            ...prevValidValues,
+            [name]: false,
+          };
+        }
+        setValidMsg({
+          ...validMsg,
+          [name]: "",
+        });
+        return {
+          ...prevValidValues,
+          [name]: true,
+        };
+      });
+    }, 300),
     []
   );
 
@@ -334,7 +348,13 @@ const Signup = () => {
                     type="email"
                     name="id"
                     id="id"
-                    className={`${validValues.id ? "valid" : ""}`}
+                    className={`${
+                      validValues.id === null
+                        ? ""
+                        : validValues.id
+                        ? "valid"
+                        : "invalid"
+                    }`}
                     maxLength={40}
                     style={{ imeMode: "disabled" }}
                     autoCapitalize="off"
@@ -398,7 +418,13 @@ const Signup = () => {
                   type="password"
                   name="password"
                   id="password1"
-                  className={`${validValues.password ? "valid" : ""}`}
+                  className={`${
+                    validValues.password === null
+                      ? ""
+                      : validValues.password
+                      ? "valid"
+                      : "invalid"
+                  }`}
                   minLength={8}
                   maxLength={16}
                   style={{ imeMode: "disabled" }}
@@ -419,7 +445,13 @@ const Signup = () => {
                   type="password"
                   name="password2"
                   id="password2"
-                  className={`${validValues.password2 ? "valid" : ""}`}
+                  className={`${
+                    validValues.password2 === null
+                      ? ""
+                      : validValues.password2
+                      ? "valid"
+                      : "invalid"
+                  }`}
                   maxLength={16}
                   style={{ imeMode: "disabled" }}
                   autoComplete="off"
@@ -441,7 +473,13 @@ const Signup = () => {
                   type="text"
                   name="phonenumber"
                   id="phone"
-                  className={`${validValues.phonenumber ? "valid" : ""}`}
+                  className={`${
+                    validValues.phonenumber === null
+                      ? ""
+                      : validValues.phonenumber
+                      ? "valid"
+                      : "invalid"
+                  }`}
                   autoComplete="off"
                   placeholder="휴대전화 번호('-'빼고 숫자만 입력)"
                   maxLength={11}
@@ -460,7 +498,13 @@ const Signup = () => {
                   type="text"
                   name="nickname"
                   id="nickname"
-                  className={`${validValues.nickname ? "valid" : ""}`}
+                  className={`${
+                    validValues.nickname === null
+                      ? ""
+                      : validValues.nickname
+                      ? "valid"
+                      : "invalid"
+                  }`}
                   minLength={2}
                   maxLength={20}
                   autoComplete="off"
