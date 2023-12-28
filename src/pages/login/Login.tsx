@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { regEmail, regPw, validateInput } from "@/utils/validation";
 import styles from "./Login.module.scss";
-import axios from "axios";
 import ModalComponent from "@/components/modal/Modal";
 import { Link } from "react-router-dom";
+import userApi from "@/apis/user";
+import { LoginDto } from "@/interface/User";
 
 const Login = () => {
   // 입력폼 유효성검사
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<LoginDto>({
     id: "",
     password: "",
   });
@@ -49,11 +50,7 @@ const Login = () => {
   // 폼 제출
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await axios.post("https://needu.site:3000/login", values, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await userApi.login(values);
     console.log(response);
   };
 

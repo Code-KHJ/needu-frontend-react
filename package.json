@@ -18,6 +18,8 @@
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.21.0",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
     "styled-components": "^6.1.1",
     "vite-plugin-svgr": "^4.2.0"
   },

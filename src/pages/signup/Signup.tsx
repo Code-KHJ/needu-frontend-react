@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Signup.module.scss";
 import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
-import userApi from "@/api/user";
+import userApi from "@/apis/user";
 import _ from "lodash";
+import { SingupDto } from "@/interface/User";
 
 const Signup = () => {
   //유효성 검사
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<SingupDto>({
     id: "",
     password: "",
     password2: "",
@@ -81,7 +82,6 @@ const Signup = () => {
 
           const response = debounceId(e);
           console.log(response);
-          /////////이메일 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
           break;
         }
       }
@@ -175,7 +175,6 @@ const Signup = () => {
         }
         const response = debounceNick(e);
         console.log(response);
-        /////////닉네임 중복 검사 api///lodash 사용해서 입력완료되었을 때 실행되도록
         break;
       }
       case "policy":
@@ -264,7 +263,7 @@ const Signup = () => {
   );
 
   ///////////인증번호 요청///////////////
-  const createdAuthCode: string = "123";
+  let createdAuthCode: string = "";
   const [authCode, setAuthCode] = useState("");
   const [authBtn, setAuthBtn] = useState({
     req: false,
@@ -278,6 +277,12 @@ const Signup = () => {
       confirmText: "확인",
     });
     ///////////인증메일 발송 api
+    const response = userApi.verifyEmail(values.id);
+    if (response.status !== 200) {
+      alert("에러발생 다시 시도해주세요.");
+      return;
+    }
+    createdAuthCode = response.data;
     alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
   };
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -331,12 +336,18 @@ const Signup = () => {
     setIsSubmitDisabled(!isSubmit);
   }, [values, validValues]);
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await userApi.signup(values);
+    console.log(response);
+  };
+
   return (
     <>
       <div className={styles.signup_wrap}>
         {/* <!-- 회원가입 입력폼 --> <!-- name 부분은 DB 필드이름하고 매치--> */}
         <div className={styles.signup}>
-          <form name="frm" id="frm" method="post" action="/signup">
+          <form name="frm" id="frm" onSubmit={handleSubmit}>
             <div className={styles.write_wrap}>
               {/* <!-- 아이디 --> */}
               <div className={styles.item}>
