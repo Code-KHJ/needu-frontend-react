@@ -1,23 +1,25 @@
-import React, { useCallback, useEffect, useState } from "react";
-import styles from "./Signup.module.scss";
-import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
-import userApi from "@/apis/user";
-import _ from "lodash";
-import { SingupDto } from "@/interface/User";
+import React, { useCallback, useEffect, useState } from 'react';
+import styles from './Signup.module.scss';
+import { regEmail, regNickname, regPhone, regPw } from '@/utils/validation';
+import userApi from '@/apis/user';
+import _ from 'lodash';
+import { SingupDto } from '@/interface/User';
+import Input from '@/components/elements/Input';
+import Label from '@/components/elements/Label';
 
 const Signup = () => {
   //유효성 검사
   const [values, setValues] = useState<SingupDto>({
-    id: "",
-    password: "",
-    password2: "",
-    phonenumber: "",
-    nickname: "",
+    id: '',
+    password: '',
+    password2: '',
+    phonenumber: '',
+    nickname: '',
     policy: false,
     personal_info: false,
     marketing_email: false,
     marketing_SMS: false,
-    info_period: "탈퇴시",
+    info_period: '탈퇴시',
   });
 
   type ValidValues = {
@@ -42,23 +44,23 @@ const Signup = () => {
   });
 
   const [validMsg, setValidMsg] = useState({
-    id: "",
-    password: "",
-    password2: "",
-    phonenumber: "",
-    nickname: "",
+    id: '',
+    password: '',
+    password2: '',
+    phonenumber: '',
+    nickname: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === 'checkbox' ? checked : value;
     setValues({
       ...values,
       [name]: inputValue,
     });
 
     switch (name) {
-      case "id": {
+      case 'id': {
         //이메일 유효성검사
         if (!regEmail.test(value)) {
           setValidValues({
@@ -67,7 +69,7 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: "이메일 형식이 올바르지 않습니다.",
+            [name]: '이메일 형식이 올바르지 않습니다.',
           });
           setAuthBtn({
             ...authBtn,
@@ -77,15 +79,14 @@ const Signup = () => {
         } else {
           setValidMsg({
             ...validMsg,
-            [name]: "",
+            [name]: '',
           });
 
-          const response = debounceId(e);
-          console.log(response);
+          debounceId(e);
           break;
         }
       }
-      case "password":
+      case 'password':
         if (!regPw.test(value)) {
           setValidValues({
             ...validValues,
@@ -95,7 +96,7 @@ const Signup = () => {
           setValidMsg({
             ...validMsg,
             [name]:
-              "비밀번호는 영문, 숫자, 특수문자만 사용가능하며, 반드시 영문, 숫자 조합이 필요합니다.",
+              '비밀번호는 영문, 숫자, 특수문자만 사용가능하며, 반드시 영문, 숫자 조합이 필요합니다.',
           });
           break;
         }
@@ -114,11 +115,11 @@ const Signup = () => {
         }
         setValidMsg({
           ...validMsg,
-          [name]: "",
+          [name]: '',
         });
 
         break;
-      case "password2":
+      case 'password2':
         if (value !== values.password) {
           setValidValues({
             ...validValues,
@@ -126,7 +127,7 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: "비밀번호가 일치하지 않습니다.",
+            [name]: '비밀번호가 일치하지 않습니다.',
           });
           break;
         }
@@ -136,10 +137,10 @@ const Signup = () => {
         });
         setValidMsg({
           ...validMsg,
-          [name]: "",
+          [name]: '',
         });
         break;
-      case "phonenumber":
+      case 'phonenumber':
         if (!regPhone.test(value)) {
           setValidValues({
             ...validValues,
@@ -147,7 +148,7 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: "연락처 형식이 올바르지 않습니다.",
+            [name]: '연락처 형식이 올바르지 않습니다.',
           });
           break;
         }
@@ -157,10 +158,10 @@ const Signup = () => {
         });
         setValidMsg({
           ...validMsg,
-          [name]: "",
+          [name]: '',
         });
         break;
-      case "nickname": {
+      case 'nickname': {
         //닉네임 유효성검사
         if (!regNickname.test(value)) {
           setValidValues({
@@ -169,21 +170,20 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: "닉네임은 영어, 한글, 숫자만 사용이 가능합니다.",
+            [name]: '닉네임은 영어, 한글, 숫자만 사용이 가능합니다.',
           });
           break;
         }
-        const response = debounceNick(e);
-        console.log(response);
+        debounceNick(e);
         break;
       }
-      case "policy":
+      case 'policy':
         setValidValues({
           ...validValues,
           [name]: checked,
         });
         break;
-      case "personal_info":
+      case 'personal_info':
         setValidValues({
           ...validValues,
           [name]: checked,
@@ -204,7 +204,7 @@ const Signup = () => {
         if (!isDuplic) {
           setValidMsg({
             ...validMsg,
-            [name]: "이미 사용중인 이메일입니다.",
+            [name]: '이미 사용중인 이메일입니다.',
           });
           setAuthBtn({
             ...authBtn,
@@ -218,7 +218,7 @@ const Signup = () => {
         }
         setValidMsg({
           ...validMsg,
-          [name]: "",
+          [name]: '',
         });
         setAuthBtn({
           ...authBtn,
@@ -242,7 +242,7 @@ const Signup = () => {
         if (!isDuplic) {
           setValidMsg({
             ...validMsg,
-            [name]: "이미 사용중인 닉네임입니다.",
+            [name]: '이미 사용중인 닉네임입니다.',
           });
           return {
             ...prevValidValues,
@@ -251,7 +251,7 @@ const Signup = () => {
         }
         setValidMsg({
           ...validMsg,
-          [name]: "",
+          [name]: '',
         });
         return {
           ...prevValidValues,
@@ -263,27 +263,28 @@ const Signup = () => {
   );
 
   ///////////인증번호 요청///////////////
-  let createdAuthCode: string = "";
-  const [authCode, setAuthCode] = useState("");
+  const [createdAuthCode, setCreatedAuthCode] = useState('');
+  const [authCode, setAuthCode] = useState('');
   const [authBtn, setAuthBtn] = useState({
     req: false,
     confirm: false,
-    confirmText: "",
+    confirmText: '',
   });
 
-  const reqAuthMail = () => {
+  const reqAuthMail = async () => {
     setAuthBtn({
       ...authBtn,
-      confirmText: "확인",
+      confirmText: '확인',
     });
     ///////////인증메일 발송 api
-    const response = userApi.verifyEmail(values.id);
-    if (response.status !== 200) {
-      alert("에러발생 다시 시도해주세요.");
+    const response = await userApi.verifyEmail(values.id);
+    if (response.data.status !== 'completed') {
+      alert('에러발생 다시 시도해주세요.');
       return;
     }
-    createdAuthCode = response.data;
-    alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
+    console.log(response.data.authNum);
+    setCreatedAuthCode(response.data.authNum);
+    alert('인증번호가 전송되었습니다. 이메일을 확인해주세요.');
   };
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuthCode(e.target.value);
@@ -295,15 +296,15 @@ const Signup = () => {
   const confirmAuthCode = () => {
     if (createdAuthCode !== authCode) {
       alert(
-        "인증번호가 틀렸습니다. 재발송을 원하시면 인증요청 버튼을 다시 클릭해주세요."
+        '인증번호가 틀렸습니다. 재발송을 원하시면 인증요청 버튼을 다시 클릭해주세요.'
       );
       return;
     }
-    alert("이메일이 인증되었습니다.");
+    alert('이메일이 인증되었습니다.');
     setAuthBtn({
       req: false,
       confirm: false,
-      confirmText: "인증완료",
+      confirmText: '인증완료',
     });
     setValidValues({
       ...validValues,
@@ -351,29 +352,21 @@ const Signup = () => {
             <div className={styles.write_wrap}>
               {/* <!-- 아이디 --> */}
               <div className={styles.item}>
-                <label htmlFor="id">
-                  이메일(ID)<span style={{ color: "red" }}>*</span>
-                </label>
+                <Label title="이메일(ID)" target="id" required={true} />
                 <div>
-                  <input
-                    type="email"
+                  <Input
                     name="id"
-                    id="id"
                     className={`${
                       validValues.id === null
-                        ? ""
+                        ? 'input_default'
                         : validValues.id
-                        ? "valid"
-                        : "invalid"
+                        ? 'input_done'
+                        : 'input_wrong'
                     }`}
-                    maxLength={40}
-                    style={{ imeMode: "disabled" }}
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    placeholder="이메일(ID)를 입력해주세요."
                     value={values.id}
+                    placeholder=""
                     onChange={handleChange}
-                    readOnly={authBtn.confirmText == "인증완료"}
+                    readOnly={authBtn.confirmText == '인증완료'}
                     required
                   />
                   <button
@@ -391,23 +384,21 @@ const Signup = () => {
               </div>
               <div
                 className={`${styles.item} ${
-                  authBtn.confirmText.length > 0 ? "" : styles.checkEmail
+                  authBtn.confirmText.length > 0 ? '' : styles.checkEmail
                 }`}
               >
                 <div>
-                  <input
-                    type="text"
-                    className={`${styles.authCode_input} ${
-                      authBtn.confirmText == "인증완료" ? "valid" : ""
+                  <Input
+                    name="authNum"
+                    className={`${
+                      authBtn.confirmText == '인증완료'
+                        ? 'input_done'
+                        : 'input_default'
                     }`}
-                    maxLength={40}
-                    style={{ imeMode: "disabled" }}
-                    autoCapitalize="off"
-                    autoComplete="off"
                     placeholder="인증번호를 입력해주세요."
                     onChange={handleAuth}
                     value={authCode}
-                    readOnly={authBtn.confirmText == "인증완료"}
+                    readOnly={authBtn.confirmText == '인증완료'}
                     required
                   />
                   <button
@@ -422,53 +413,44 @@ const Signup = () => {
               </div>
               {/* <!-- 비밀번호 --> */}
               <div className={styles.item}>
-                <label htmlFor="password1">
-                  비밀번호<span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                  type="password"
+                <Label title="비밀번호" target="password" required={true} />
+                <Input
                   name="password"
-                  id="password1"
                   className={`${
                     validValues.password === null
-                      ? ""
+                      ? 'input_default'
                       : validValues.password
-                      ? "valid"
-                      : "invalid"
+                      ? 'input_done'
+                      : 'input_wrong'
                   }`}
-                  minLength={8}
-                  maxLength={16}
-                  style={{ imeMode: "disabled" }}
-                  autoComplete="off"
-                  placeholder="비밀번호(8~16자리) 영문 대소문자, 숫자, 특수문자 조합"
                   value={values.password}
                   onChange={handleChange}
+                  readOnly={false}
+                  placeholder=""
                   required
                 />
                 <div className={styles.checkmsg}>{validMsg.password}</div>
               </div>
               {/* <!-- 비밀번호 확인 --> */}
               <div className={styles.item}>
-                <label htmlFor="password2">
-                  비밀번호 확인<span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                  type="password"
+                <Label
+                  title="비밀번호 확인"
+                  target="password2"
+                  required={true}
+                />
+                <Input
                   name="password2"
-                  id="password2"
                   className={`${
                     validValues.password2 === null
-                      ? ""
+                      ? 'input_default'
                       : validValues.password2
-                      ? "valid"
-                      : "invalid"
+                      ? 'input_done'
+                      : 'input_wrong'
                   }`}
-                  maxLength={16}
-                  style={{ imeMode: "disabled" }}
-                  autoComplete="off"
-                  placeholder="비밀번호를 다시 한번 입력해주세요"
                   value={values.password2}
                   onChange={handleChange}
+                  readOnly={false}
+                  placeholder=""
                   required
                 />
                 <div className={styles.checkmsg} id="checkpw2msg">
@@ -477,51 +459,44 @@ const Signup = () => {
               </div>
               {/* <!-- 휴대폰 번호 --> */}
               <div className={styles.item}>
-                <label htmlFor="phone">
-                  휴대폰<span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                  type="text"
-                  name="phonenumber"
-                  id="phone"
+                <Label
+                  title="휴대폰번호"
+                  target="phonenumber"
+                  required={true}
+                />
+                <Input
+                  name="phone"
                   className={`${
                     validValues.phonenumber === null
-                      ? ""
+                      ? 'input_default'
                       : validValues.phonenumber
-                      ? "valid"
-                      : "invalid"
+                      ? 'input_done'
+                      : 'input_wrong'
                   }`}
-                  autoComplete="off"
-                  placeholder="휴대전화 번호('-'빼고 숫자만 입력)"
-                  maxLength={11}
                   value={values.phonenumber}
                   onChange={handleChange}
+                  readOnly={false}
+                  placeholder=""
                   required
                 />
                 <div className={styles.checkmsg}>{validMsg.phonenumber}</div>
               </div>
               {/* <!-- 닉네임 --> */}
               <div className={styles.item}>
-                <label htmlFor="nickname">
-                  닉네임<span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                  type="text"
+                <Label title="닉네임" target="nickname" required={true} />
+                <Input
                   name="nickname"
-                  id="nickname"
                   className={`${
                     validValues.nickname === null
-                      ? ""
+                      ? 'input_default'
                       : validValues.nickname
-                      ? "valid"
-                      : "invalid"
+                      ? 'input_done'
+                      : 'input_wrong'
                   }`}
-                  minLength={2}
-                  maxLength={20}
-                  autoComplete="off"
-                  placeholder="닉네임을 입력해주세요"
                   value={values.nickname}
                   onChange={handleChange}
+                  readOnly={false}
+                  placeholder=""
                   required
                 />
                 <div className={styles.checkmsg} id="checknmmsg">
@@ -630,7 +605,7 @@ const Signup = () => {
                     value="탈퇴시"
                     id="input_radio1"
                     onChange={handleChange}
-                    checked={values.info_period === "탈퇴시"}
+                    checked={values.info_period === '탈퇴시'}
                   />
                   <label htmlFor="input_radio1">탈퇴시</label>
                 </li>
@@ -641,7 +616,7 @@ const Signup = () => {
                     value="3년"
                     id="input_radio2"
                     onChange={handleChange}
-                    checked={values.info_period === "3년"}
+                    checked={values.info_period === '3년'}
                   />
                   <label htmlFor="input_radio2">3년</label>
                 </li>
@@ -652,7 +627,7 @@ const Signup = () => {
                     value="1년"
                     id="input_radio3"
                     onChange={handleChange}
-                    checked={values.info_period === "1년"}
+                    checked={values.info_period === '1년'}
                   />
                   <label htmlFor="input_radio3">1년</label>
                 </li>

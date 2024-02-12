@@ -1,5 +1,5 @@
-import { LoginDto, SingupDto } from "@/interface/User";
-import customAxios from "./axios-config";
+import { LoginDto, SingupDto } from '@/interface/User';
+import customAxios from './axios-config';
 
 const userApi = {
   login: async (userData: LoginDto) => {
@@ -7,7 +7,7 @@ const userApi = {
       id: userData.id,
       password: userData.password,
     };
-    const response = await customAxios.post("/auth/login", userLoginDto);
+    const response = await customAxios.post('/auth/login', userLoginDto);
 
     ////이부분 작업 필요
     if (response.data) {
@@ -21,7 +21,7 @@ const userApi = {
       item: type,
       value: value,
     };
-    const response = await customAxios.post("/user/duplic", userDuplicDto);
+    const response = await customAxios.post('/user/duplic', userDuplicDto);
     if (response.data) {
       return true;
     } else {
@@ -29,11 +29,17 @@ const userApi = {
     }
   },
   verifyEmail: async (email: string) => {
-    const response = await customAxios.post("/user/verifyemail", email);
+    const verifyEmailDto = {
+      email: email,
+    };
+    const response = await customAxios.post(
+      '/user/verifyemail',
+      verifyEmailDto
+    );
     return response;
   },
   signup: async (userData: SingupDto) => {
-    const response = await customAxios.post("/user/signup", userData);
+    const response = await customAxios.post('/user/signup', userData);
     console.log(response);
   },
 };

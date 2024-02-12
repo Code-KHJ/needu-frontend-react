@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+input {
+  width: 100%;
+  height: 60px;
+  padding-left: 20px;
+  font-size: 1.8rem;
+  border-radius: 4px;
+  &::placeholder {
+    color: #aaa;
+  }
+  &:read-only {
+    color: #aaa;
+    background-color: #efefef;
+  }
+}
+.input_default {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  color: #aaa;
+  &:hover {
+    background-color: #fff;
+    border: 1px solid #6269f5;
+  }
+  &:focus {
+    border: 1px solid #6269f5;
+    color: #222;
+  }
+}
+
+.input_wrong {
+  background-color: #fff;
+  border: 1px solid #ff4444;
+  color: #222;
+}
+
+.input_done {
+  border: 1px solid #6269f5;
+  color: #aaa;
+  &:focus {
+    color: #222;
+  }
+}
+
+.label_default {
+  display: flex;
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 8px;
+}
