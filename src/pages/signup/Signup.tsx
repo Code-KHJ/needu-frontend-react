@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { SingupDto } from '@/interface/User';
 import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
+import Button from '@/components/elements/Button';
 
 const Signup = () => {
   //유효성 검사
@@ -19,7 +20,6 @@ const Signup = () => {
     personal_info: false,
     marketing_email: false,
     marketing_SMS: false,
-    info_period: '탈퇴시',
   });
 
   type ValidValues = {
@@ -337,10 +337,15 @@ const Signup = () => {
     setIsSubmitDisabled(!isSubmit);
   }, [values, validValues]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const response = await userApi.signup(values);
-    console.log(response);
+    if (response.status == 201) {
+      alert('회원가입이 완료되었습니다.');
+      window.location.href = '/';
+    } else {
+      alert('회원가입이 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -348,7 +353,8 @@ const Signup = () => {
       <div className={styles.signup_wrap}>
         {/* <!-- 회원가입 입력폼 --> <!-- name 부분은 DB 필드이름하고 매치--> */}
         <div className={styles.signup}>
-          <form name="frm" id="frm" onSubmit={handleSubmit}>
+          <h1>회원가입</h1>
+          <form name="frm" id="frm">
             <div className={styles.write_wrap}>
               {/* <!-- 아이디 --> */}
               <div className={styles.item}>
@@ -369,14 +375,16 @@ const Signup = () => {
                     readOnly={authBtn.confirmText == '인증완료'}
                     required
                   />
-                  <button
-                    type="button"
-                    className={styles.req_btn}
-                    disabled={!authBtn.req}
+                  <Button
+                    children="인증요청"
+                    className={`${
+                      authBtn.req === true
+                        ? 'btn_condition_true'
+                        : 'btn_condition_false'
+                    }`}
+                    isDisabled={!authBtn.req}
                     onClick={reqAuthMail}
-                  >
-                    인증요청
-                  </button>
+                  />
                 </div>
                 <div className={styles.checkmsg} id="checkidmsg">
                   {validMsg.id}
@@ -401,14 +409,16 @@ const Signup = () => {
                     readOnly={authBtn.confirmText == '인증완료'}
                     required
                   />
-                  <button
-                    type="button"
-                    className={styles.confirm_btn}
-                    disabled={!authBtn.confirm}
+                  <Button
+                    children={authBtn.confirmText}
+                    className={`${
+                      authBtn.confirm === true
+                        ? 'btn_condition_true'
+                        : 'btn_condition_false'
+                    }`}
+                    isDisabled={!authBtn.confirm}
                     onClick={confirmAuthCode}
-                  >
-                    {authBtn.confirmText}
-                  </button>
+                  />
                 </div>
               </div>
               {/* <!-- 비밀번호 --> */}
@@ -595,48 +605,17 @@ const Signup = () => {
                 </span>
               </div>
             </div>
-            <div className={styles.join_radio}>
-              <div>정보보유기간</div>
-              <ul className={styles.join_radio_ul}>
-                <li>
-                  <input
-                    type="radio"
-                    name="info_period"
-                    value="탈퇴시"
-                    id="input_radio1"
-                    onChange={handleChange}
-                    checked={values.info_period === '탈퇴시'}
-                  />
-                  <label htmlFor="input_radio1">탈퇴시</label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    name="info_period"
-                    value="3년"
-                    id="input_radio2"
-                    onChange={handleChange}
-                    checked={values.info_period === '3년'}
-                  />
-                  <label htmlFor="input_radio2">3년</label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    name="info_period"
-                    value="1년"
-                    id="input_radio3"
-                    onChange={handleChange}
-                    checked={values.info_period === '1년'}
-                  />
-                  <label htmlFor="input_radio3">1년</label>
-                </li>
-              </ul>
-            </div>
             <div className={styles.btn_signup}>
-              <button type="submit" id="btnSubmit" disabled={isSubmitDisabled}>
-                회원가입 완료
-              </button>
+              <Button
+                children="회원가입 완료"
+                className={`${
+                  isSubmitDisabled === false
+                    ? 'btn_condition_true'
+                    : 'btn_condition_false'
+                }`}
+                isDisabled={isSubmitDisabled}
+                onClick={handleSubmit}
+              />
             </div>
           </form>
         </div>

@@ -25,7 +25,7 @@ const Input: React.FC<InputProps> = ({
       return (
         <input
           type="email"
-          className={styles[className]}
+          className={`${styles.input} ${styles[className]}`}
           name="id"
           maxLength={40}
           autoCapitalize="off"
@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = ({
       return (
         <input
           type="password"
-          className={styles[className]}
+          className={`${styles.input} ${styles[className]}`}
           name="password"
           minLength={8}
           maxLength={16}
@@ -55,7 +55,7 @@ const Input: React.FC<InputProps> = ({
       return (
         <input
           type="password"
-          className={styles[className]}
+          className={`${styles.input} ${styles[className]}`}
           name="password2"
           minLength={8}
           maxLength={16}
@@ -70,7 +70,7 @@ const Input: React.FC<InputProps> = ({
       return (
         <input
           type="text"
-          className={styles[className]}
+          className={`${styles.input} ${styles[className]}`}
           name="phonenumber"
           autoComplete="off"
           maxLength={11}
@@ -84,7 +84,7 @@ const Input: React.FC<InputProps> = ({
       return (
         <input
           type="text"
-          className={styles[className]}
+          className={`${styles.input} ${styles[className]}`}
           name="nickname"
           autoComplete="off"
           minLength={2}
@@ -99,7 +99,7 @@ const Input: React.FC<InputProps> = ({
       return (
         <input
           type="text"
-          className={styles[className]}
+          className={`${styles.input} ${styles[className]}`}
           maxLength={40}
           autoCapitalize="off"
           placeholder={placeholder}

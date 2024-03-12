@@ -40,7 +40,7 @@ const userApi = {
   },
   signup: async (userData: SingupDto) => {
     const response = await customAxios.post('/user/signup', userData);
-    console.log(response);
+    return response;
   },
 };
 

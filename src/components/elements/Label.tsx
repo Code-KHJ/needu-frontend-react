@@ -11,14 +11,20 @@ const Label: React.FC<LabelProps> = ({ title, target, required }) => {
   switch (required) {
     case true:
       return (
-        <label htmlFor={target} className={styles.label_default}>
+        <label
+          htmlFor={target}
+          className={`${styles.label} ${styles.label_default}`}
+        >
           {title}
           <span style={{ color: 'red' }}>*</span>
         </label>
       );
     case false:
       return (
-        <label htmlFor={target} className={styles.label_default}>
+        <label
+          htmlFor={target}
+          className={`${styles.label} ${styles.label_default}`}
+        >
           {title}
         </label>
       );

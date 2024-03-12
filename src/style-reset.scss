@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url("https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css");
+@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css');
 /* font-family: 
 'NanumSquareLight';
 'NanumSquare';
@@ -24,7 +24,7 @@ body {
 html {
   color: #333333;
   font-size: 0.625rem;
-  font-family: "NanumSquare";
+  font-family: 'NanumSquare';
   /* font-family: 'NanumSquareNeo-Variable'; */
 }
 .container {
@@ -47,22 +47,15 @@ fieldset {
   border: none;
 }
 button {
-  border: none;
-  background: none;
-  font-family: "NanumSquare";
-  border-radius: 5px;
-  color: #fafafa;
-  background-color: #6269f5;
+  font-family: 'NanumSquare';
   cursor: pointer;
   &:disabled {
-    color: #444;
-    background-color: #aaaaaa;
     cursor: not-allowed;
   }
 }
 input,
 select {
-  font-family: "NanumSquare";
+  font-family: 'NanumSquare';
   color: #333333;
 }
 input:focus {
@@ -76,7 +69,7 @@ input:focus {
   text-indent: -9999px;
 }
 .clearfix::after {
-  content: "";
+  content: '';
   display: block;
   clear: both;
 }
