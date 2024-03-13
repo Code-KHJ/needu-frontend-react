@@ -71,13 +71,13 @@ header {
     .gnb li {
       margin-bottom: 60px;
       margin-top: 60px;
-      font-size: 1.8rem;
     }
     .gnb li a {
       display: block;
       width: 100%;
       height: fit-content;
       line-height: 1.8;
+      font-size: 1.8rem;
     }
     .gnb li a::after {
       content: "";
@@ -103,11 +103,11 @@ header {
   .usersign {
     margin-top: 80px; /* 중첩돼서 80px로 구현됨 */
     display: flex;
-    font-size: 1.8rem;
     justify-content: space-between;
     & > a {
       display: block;
       line-height: 1.8;
+      font-size: 1.8rem;
     }
     .login::before {
       content: "";

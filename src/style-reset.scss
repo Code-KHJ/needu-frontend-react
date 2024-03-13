@@ -47,12 +47,15 @@ fieldset {
   border: none;
 }
 button {
-  font-family: 'NanumSquare';
   cursor: pointer;
   &:disabled {
     cursor: not-allowed;
   }
 }
+button{
+  background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+}
+
 input,
 select {
   font-family: 'NanumSquare';
@@ -83,6 +86,40 @@ i {
 .valid {
   background-color: #fff !important;
   border: 1px solid #6269f5 !important;
+}
+
+
+// font setting
+* { //default
+  color: #000;
+  font-size: 1.6rem;
+  font-family: 'NanumSquare';
+}
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.subtitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.subtxt {
+  font-size: 1.4rem;
+}
+/* 테블릿 768 사이즈 반응형 */
+@media screen and (min-width: 768px) {
+  * { //default
+    font-size: 1.8rem;
+  }
+  .title {
+    font-size: 2.0rem;
+  }
+  .subtitle {
+    font-size: 1.8rem;
+  }
+  .subtxt {
+    font-size: 1.6rem;
+  }
 }
 
 /* reset-end */

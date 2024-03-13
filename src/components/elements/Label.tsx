@@ -13,7 +13,7 @@ const Label: React.FC<LabelProps> = ({ title, target, required }) => {
       return (
         <label
           htmlFor={target}
-          className={`${styles.label} ${styles.label_default}`}
+          className={`${styles.label_default}`}
         >
           {title}
           <span style={{ color: 'red' }}>*</span>
@@ -23,7 +23,7 @@ const Label: React.FC<LabelProps> = ({ title, target, required }) => {
       return (
         <label
           htmlFor={target}
-          className={`${styles.label} ${styles.label_default}`}
+          className={`${styles.label_default}`}
         >
           {title}
         </label>
