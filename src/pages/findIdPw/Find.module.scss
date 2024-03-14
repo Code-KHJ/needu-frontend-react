@@ -1,0 +1,55 @@
+@charset "utf-8";
+.none {
+  display: none;
+}
+
+.wrap {
+  max-width: 500px;
+}
+.explanation {
+  text-align: center;
+}
+
+.search_form {
+  margin-top: 58px;
+  & > div:nth-of-type(2){
+    margin-top: 30px;
+    button {
+      margin-top: 58px;
+    }
+  }
+}
+.checkmsg {
+  margin-top: 6px;
+  margin-left: 6px;
+  color: #ff4444;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  & > i {
+    margin-left: 10px;
+    width: 16px;
+    background: url(@/assets/images/ico_info.png) no-repeat center/contain;
+  }
+}
+button {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.result {
+  margin-top: 80px;
+  border-top: 1px solid #aaa;
+  & > div {
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+.social_login {
+  margin-top: 40px;
+  height: 60px;
+}

@@ -20,6 +20,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
+      type='button'
       children={children}
       style={style}
       className={`${styles.button} ${styles[className]}`}

@@ -4,12 +4,6 @@
   display: none;
 }
 
-/* header end */
-main {
-  width: 100%;
-  margin-top: 240px;
-}
-
 .main_wrap {
   width: 80%;
   min-width: 295px;
@@ -79,20 +73,6 @@ main {
     width: 250px;
     margin: 0 auto;
     height: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 12px;
-    .kakao {
-      width: 200px;
-      height: 40px;
-      background: url(@/assets/images/social_kakao.png) no-repeat center/contain;
-    }
-    .naver {
-      width: 52px;
-      height: 40px;
-      background: url(@/assets/images/social_naver.png) no-repeat center/contain;
-    }
   }
 }
 
@@ -102,13 +82,14 @@ main {
 @media screen and (min-width: 768px) {
   .main_wrap {
     .login_wrap {
-      padding: 80px 50px;
+      padding: 80px 38px;
     }
     .login_box {
-      width: 258px
+      width: 280px
     }
     .social_login {
-      width: 258px;
+      width: 280px;
+      height: 45px;
     }
   }
 }

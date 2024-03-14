@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import userApi from "@/apis/user";
 import { LoginDto } from "@/interface/User";
 import Button from "@/components/elements/Button";
+import SocialLogin from "@/components/IcoSocialLogin";
 
 const Login = () => {
   // 입력폼 유효성검사
@@ -91,8 +92,9 @@ const Login = () => {
             아직 회원이 아니신가요?<Link to="/signup" className="subtxt">회원가입</Link>
           </div>
           <div className={styles.social_login}>
-            <button className={styles.kakao}></button>
-            <button className={styles.naver}></button>
+            <SocialLogin
+              height='40px'
+            />
           </div>
         </div>
       </div>

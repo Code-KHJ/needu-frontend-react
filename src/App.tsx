@@ -7,10 +7,12 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import Findid from "./pages/findIdPw/Findid";
 import Findpw from "./pages/findIdPw/Findpw";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />

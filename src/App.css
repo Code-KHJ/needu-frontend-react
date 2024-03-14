@@ -4,14 +4,18 @@
 body {
   color: #000;
   font-size: 1.6rem;
-  font-family: 'NanumSquare';
+  background-color: #fafafa;
 }
-.container {
+main {
   width: 100%;
   height: auto;
   min-height: 100%;
-  background-color: #fafafa;
   overflow: auto;
   position: relative;
   padding-bottom: 200px;
+}
+
+.wrap {
+  width: 80%;
+  margin: 80px auto 0;
 }

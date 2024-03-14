@@ -38,6 +38,22 @@ const userApi = {
     );
     return response;
   },
+  verifyPhone: async (phone: string) => {
+    const verifyEmailDto = {
+      phone: phone,
+    };
+    // const response = await customAxios.post(
+    //   '/user/verifyemail',
+    //   verifyEmailDto
+    // );
+    const response = {
+      data: {
+        status: 'completed',
+        authNum: '123456'
+      }
+    }
+    return response;
+  },
   signup: async (userData: SingupDto) => {
     const response = await customAxios.post('/user/signup', userData);
     return response;
