@@ -49,9 +49,13 @@ const userApi = {
     const response = {
       data: {
         status: 'completed',
-        authNum: '123456'
-      }
-    }
+        authNum: '123456',
+      },
+    };
+    return response;
+  },
+  findId: async (phone: string) => {
+    const response = await customAxios.post('/user/find/id', { phone: phone });
     return response;
   },
   signup: async (userData: SingupDto) => {

@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import naverImage from '@/assets/images/social_naver.png';
 import kakaoSymbol from '@/assets/images/symbol_kakao.png';
 
 interface SocialLoginProps {
-  height: string
+  height: string;
 }
 
 const SocialLoginDiv = styled.div`
@@ -16,7 +16,7 @@ const SocialLoginDiv = styled.div`
   button {
     margin-top: 0px;
   }
-`
+`;
 
 const KakaoBtn = styled.button`
   display: flex;
@@ -24,7 +24,7 @@ const KakaoBtn = styled.button`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background: #FEE500;
+  background: #fee500;
   border-radius: 5px;
   img {
     height: 18px;
@@ -32,10 +32,10 @@ const KakaoBtn = styled.button`
   span {
     margin-left: 12px;
   }
-`
+`;
 
 const NaverBtn = styled.button<SocialLoginProps>`
-  width: ${({height}) => (height === '60px' ? '65px' : '45px')};
+  width: ${({ height }) => (height === '60px' ? '65px' : '45px')};
   flex-shrink: 0;
   background: url(${naverImage}) no-repeat center/contain;
 `;
@@ -45,12 +45,11 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ height }) => {
     <SocialLoginDiv>
       <KakaoBtn>
         <img src={kakaoSymbol}></img>
-        <span className='subtxt'>카카오로 시작하기</span>
+        <span>카카오로 시작하기</span>
       </KakaoBtn>
       <NaverBtn height={height}></NaverBtn>
     </SocialLoginDiv>
-    
-  )
-}
+  );
+};
 
-export default SocialLogin
+export default SocialLogin;
