@@ -52,14 +52,55 @@
     }
     .user_data {
       display: flex;
-      flex: row;
-      gap: 40px;
-      justify-content: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
       margin-top: 10px;
       .user_data_id {
         & > input {
           margin-right: 8px;
         }
+      }
+      & > div:nth-of-type(2) {
+        flex-basis: 1;
+        min-width: 125px;
+      }
+    }
+  }
+
+  /* 테블릿 768 사이즈 반응형 */
+  @media screen and (min-width: 768px) {
+    .search_form {
+      margin-top: 65px;
+      .input_box {
+        float: left;
+        width: 340px;
+      }
+      & > div:nth-of-type(1) {
+        button {
+          width: 140px;
+          margin-top: 0px;
+          margin-left: 20px;
+        }
+      }
+      & > div:nth-of-type(2) {
+        margin-top: 30px;
+        button {
+          margin-top: 58px;
+        }
+      }
+    }
+    .result {
+      .social_login {
+        margin-top: 40px;
+        height: 60px;
+      }
+      .user_data {
+        padding: 0px 30px;
+      }
+      .btn_div {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
       }
     }
   }

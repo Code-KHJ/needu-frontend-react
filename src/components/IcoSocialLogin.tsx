@@ -7,6 +7,8 @@ interface SocialLoginProps {
   height: string;
 }
 
+const BaseUrl = import.meta.env.VITE_APP_API_URL;
+
 const SocialLoginDiv = styled.div`
   width: 100%;
   height: 100%;
@@ -43,11 +45,16 @@ const NaverBtn = styled.button<SocialLoginProps>`
 const SocialLogin: React.FC<SocialLoginProps> = ({ height }) => {
   return (
     <SocialLoginDiv>
-      <KakaoBtn>
+      <KakaoBtn
+        onClick={() => (window.location.href = `${BaseUrl}/auth/kakao`)}
+      >
         <img src={kakaoSymbol}></img>
         <span>카카오로 시작하기</span>
       </KakaoBtn>
-      <NaverBtn height={height}></NaverBtn>
+      <NaverBtn
+        height={height}
+        onClick={() => (window.location.href = `${BaseUrl}/auth/google`)}
+      ></NaverBtn>
     </SocialLoginDiv>
   );
 };

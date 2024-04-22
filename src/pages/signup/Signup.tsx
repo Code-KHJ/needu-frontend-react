@@ -116,6 +116,7 @@ const Signup = () => {
         setValidMsg({
           ...validMsg,
           [name]: '',
+          password2: '',
         });
 
         break;
@@ -341,8 +342,8 @@ const Signup = () => {
     e.preventDefault();
     const response = await userApi.signup(values);
     if (response.status == 201) {
-      alert('회원가입이 완료되었습니다.');
-      window.location.href = '/';
+      alert('회원가입이 완료되었습니다. 로그인 후 서비스를 이용해주세요.');
+      window.location.href = '/login';
     } else {
       alert('회원가입이 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
@@ -353,7 +354,7 @@ const Signup = () => {
       <div className={styles.signup_wrap}>
         {/* <!-- 회원가입 입력폼 --> <!-- name 부분은 DB 필드이름하고 매치--> */}
         <div className={styles.signup}>
-          <h1 className='title'>회원가입</h1>
+          <h1 className="title">회원가입</h1>
           <form name="frm" id="frm">
             <div className={styles.write_wrap}>
               {/* <!-- 아이디 --> */}
@@ -386,7 +387,10 @@ const Signup = () => {
                     onClick={reqAuthMail}
                   />
                 </div>
-                <div className={`${"subtxt"} ${styles.checkmsg}`} id="checkidmsg">
+                <div
+                  className={`${'subtxt'} ${styles.checkmsg}`}
+                  id="checkidmsg"
+                >
                   {validMsg.id}
                 </div>
               </div>
@@ -439,7 +443,9 @@ const Signup = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${"subtxt"} ${styles.checkmsg}`}>{validMsg.password}</div>
+                <div className={`${'subtxt'} ${styles.checkmsg}`}>
+                  {validMsg.password}
+                </div>
               </div>
               {/* <!-- 비밀번호 확인 --> */}
               <div className={styles.item}>
@@ -463,7 +469,10 @@ const Signup = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${"subtxt"} ${styles.checkmsg}`} id="checkpw2msg">
+                <div
+                  className={`${'subtxt'} ${styles.checkmsg}`}
+                  id="checkpw2msg"
+                >
                   {validMsg.password2}
                 </div>
               </div>
@@ -489,7 +498,9 @@ const Signup = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${"subtxt"} ${styles.checkmsg}`}>{validMsg.phonenumber}</div>
+                <div className={`${'subtxt'} ${styles.checkmsg}`}>
+                  {validMsg.phonenumber}
+                </div>
               </div>
               {/* <!-- 닉네임 --> */}
               <div className={styles.item}>
@@ -509,7 +520,10 @@ const Signup = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${"subtxt"} ${styles.checkmsg}`} id="checknmmsg">
+                <div
+                  className={`${'subtxt'} ${styles.checkmsg}`}
+                  id="checknmmsg"
+                >
                   {validMsg.nickname}
                 </div>
               </div>
@@ -533,7 +547,9 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                <label htmlFor="check_2" className='subtxt'>(필수) 개인 회원 약관에 동의</label>
+                <label htmlFor="check_2" className="subtxt">
+                  (필수) 개인 회원 약관에 동의
+                </label>
                 <span className={`material-symbols-outlined ${styles.arrow}`}>
                   <a
                     href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-2023-08-06-850d2be0329c403daf4377ade286c4a1?pvs=4"
@@ -552,7 +568,7 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                <label htmlFor="check_3" className='subtxt'>
+                <label htmlFor="check_3" className="subtxt">
                   (필수) 개인정보 수집 및 이용에 동의
                 </label>
                 <span className={`material-symbols-outlined ${styles.arrow}`}>
@@ -572,7 +588,7 @@ const Signup = () => {
                   checked={values.marketing_email}
                   onChange={handleChange}
                 />
-                <label htmlFor="check_4" className='subtxt'>
+                <label htmlFor="check_4" className="subtxt">
                   (선택) 마케팅 정보 수신 동의 - 이메일
                 </label>
                 <span className={`material-symbols-outlined ${styles.arrow}`}>
@@ -592,7 +608,7 @@ const Signup = () => {
                   checked={values.marketing_SMS}
                   onChange={handleChange}
                 />
-                <label htmlFor="check_5" className='subtxt'>
+                <label htmlFor="check_5" className="subtxt">
                   (선택) 마케팅 정보 수신 동의 - SMS/MMS
                 </label>
                 <span className={`material-symbols-outlined ${styles.arrow}`}>

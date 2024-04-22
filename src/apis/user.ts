@@ -7,13 +7,30 @@ const userApi = {
       id: userData.id,
       password: userData.password,
     };
-    const response = await customAxios.post('/auth/login', userLoginDto);
-
-    ////이부분 작업 필요
-    if (response.data) {
-      return true;
-    } else {
-      return false;
+    try {
+      const response = await customAxios.post('/auth/login', userLoginDto);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error.response;
+    }
+  },
+  getMe: async () => {
+    try {
+      const response = await customAxios.get('/auth/me');
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error.response;
+    }
+  },
+  logout: async () => {
+    try {
+      const response = await customAxios.post('/auth/logout');
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error.response;
     }
   },
   duplic: async (type: string, value: string) => {
@@ -39,27 +56,28 @@ const userApi = {
     return response;
   },
   verifyPhone: async (phone: string) => {
-    const verifyEmailDto = {
+    const verifyPhoneDto = {
       phone: phone,
     };
-    // const response = await customAxios.post(
-    //   '/user/verifyemail',
-    //   verifyEmailDto
-    // );
-    const response = {
-      data: {
-        status: 'completed',
-        authNum: '123456',
-      },
-    };
+    const response = await customAxios.post(
+      '/user/verifyphone',
+      verifyPhoneDto
+    );
     return response;
   },
-  findId: async (phone: string) => {
-    const response = await customAxios.post('/user/find/id', { phone: phone });
+  findUser: async (field: string, value: string) => {
+    const response = await customAxios.post('/user/find/user', {
+      field: field,
+      value: value,
+    });
     return response;
   },
   signup: async (userData: SingupDto) => {
     const response = await customAxios.post('/user/signup', userData);
+    return response;
+  },
+  updatePw: async (userData: object) => {
+    const response = await customAxios.put('/user/update/pw', userData);
     return response;
   },
 };

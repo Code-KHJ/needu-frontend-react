@@ -47,7 +47,7 @@ const Findid = () => {
       createdCode: response.data.authNum,
     });
     setReqPhone(values);
-    alert('인증번호가 전송되었습니다.');
+    alert('인증번호가 전송되었습니다. 잠시만 기다려주세요.');
   };
 
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +64,7 @@ const Findid = () => {
       );
       return;
     }
-    const response = await userApi.findId(reqPhone);
+    const response = await userApi.findUser('phonenumber', reqPhone);
     if (response.status !== 201) {
       alert('에러발생 다시 시도해주세요.');
       return;
@@ -74,7 +74,7 @@ const Findid = () => {
       userData: response.data,
     });
 
-    alert('이메일이 인증되었습니다.');
+    alert('인증되었습니다.');
   };
 
   const [result, setResult] = useState({
@@ -108,22 +108,24 @@ const Findid = () => {
         <form className={styles.search_form}>
           <div>
             <Label title="휴대전화번호" target="phonenumber" required={false} />
-            <Input
-              name="phone"
-              className={`${
-                validValues === null
-                  ? 'input_default'
-                  : validValues
-                  ? 'input_done'
-                  : 'input_wrong'
-              }`}
-              value={values}
-              onChange={handleChange}
-              readOnly={false}
-              placeholder=""
-              required
-            />
-            <div className={`${'subtxt'} ${styles.checkmsg}`}>{validMsg}</div>
+            <div className={styles.input_box}>
+              <Input
+                name="phone"
+                className={`${
+                  validValues === null
+                    ? 'input_default'
+                    : validValues
+                    ? 'input_done'
+                    : 'input_wrong'
+                }`}
+                value={values}
+                onChange={handleChange}
+                readOnly={false}
+                placeholder=""
+                required
+              />
+              <div className={`${'subtxt'} ${styles.checkmsg}`}>{validMsg}</div>
+            </div>
             <Button
               children="인증요청"
               className={`${
@@ -178,7 +180,7 @@ const Findid = () => {
                 </div>
                 <Button
                   children="회원가입"
-                  style={{ width: '100%', 'margin-top': '20px' }}
+                  style={{ width: '100%', marginTop: '20px' }}
                   className="btn_condition_true"
                   isDisabled={false}
                   onClick={moveSignup}
@@ -204,17 +206,17 @@ const Findid = () => {
                   </li>
                 ))}
               </ul>
-              <div style={{ 'margin-top': '40px' }}>
+              <div className={styles.btn_div} style={{ marginTop: '40px' }}>
                 <Button
                   children="비밀번호 찾기"
-                  style={{ width: '100%', 'margin-top': '20px' }}
+                  style={{ width: '100%', marginTop: '20px' }}
                   className="btn_default"
                   isDisabled={false}
                   onClick={moveFindpw}
                 />
                 <Button
                   children="로그인"
-                  style={{ width: '100%', 'margin-top': '20px' }}
+                  style={{ width: '100%', marginTop: '20px' }}
                   className="btn_condition_true"
                   isDisabled={false}
                   onClick={moveLogin}

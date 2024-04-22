@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { regEmail, regPw, validateInput } from "@/utils/validation";
-import styles from "./Login.module.scss";
-import { Link } from "react-router-dom";
-import userApi from "@/apis/user";
-import { LoginDto } from "@/interface/User";
-import Button from "@/components/elements/Button";
-import SocialLogin from "@/components/IcoSocialLogin";
+import React, { useEffect, useState } from 'react';
+import { regEmail, regPw, validateInput } from '@/utils/validation';
+import styles from './Login.module.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import userApi from '@/apis/user';
+import { LoginDto } from '@/interface/User';
+import Button from '@/components/elements/Button';
+import SocialLogin from '@/components/IcoSocialLogin';
+import { useUser } from '@/contexts/UserContext';
 
 const Login = () => {
   // 입력폼 유효성검사
   const [values, setValues] = useState<LoginDto>({
-    id: "",
-    password: "",
+    id: '',
+    password: '',
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -19,10 +20,10 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
     switch (e.target.name) {
-      case "id":
+      case 'id':
         validateInput(regEmail, e.target);
         break;
-      case "password":
+      case 'password':
         validateInput(regPw, e.target);
         break;
     }
@@ -35,11 +36,29 @@ const Login = () => {
     setIsSubmitDisabled(!(isUseridValid && isUserpwValid));
   }, [values]);
 
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
+
   // 폼 제출
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const response = await userApi.login(values);
     console.log(response);
+    if (response.status !== 200) {
+      alert('일치하는 회원정보가 없습니다.');
+      return;
+    } else {
+      setUser({ id: response.data.id, nickname: response.data.nickname });
+      localStorage.setItem(
+        'userInfo',
+        JSON.stringify({
+          id: response.data.id,
+          nickname: response.data.nickname,
+        })
+      );
+      alert(response.data.nickname + '님 환영합니다.');
+      navigate('/');
+    }
   };
 
   return (
@@ -75,26 +94,31 @@ const Login = () => {
                 </fieldset>
               </form>
               <div className={styles.login_option}>
-                <Link to="/find/id" className="subtxt">아이디 찾기</Link>
+                <Link to="/find/id" className="subtxt">
+                  아이디 찾기
+                </Link>
                 <span>|</span>
-                <Link to="/find/pw" className="subtxt">비밀번호 찾기</Link>
+                <Link to="/find/pw" className="subtxt">
+                  비밀번호 찾기
+                </Link>
               </div>
             </div>
             <Button
               children="로그인"
               className={`btn_condition_true`}
-              style={{ height: '40px'}}
+              style={{ height: '40px' }}
               isDisabled={isSubmitDisabled}
               onClick={handleSubmit}
             />
           </div>
           <div className={`subtxt ${styles.to_signup}`}>
-            아직 회원이 아니신가요?<Link to="/signup" className="subtxt">회원가입</Link>
+            아직 회원이 아니신가요?
+            <Link to="/signup" className="subtxt">
+              회원가입
+            </Link>
           </div>
           <div className={styles.social_login}>
-            <SocialLogin
-              height='40px'
-            />
+            <SocialLogin height="40px" />
           </div>
         </div>
       </div>

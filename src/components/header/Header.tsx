@@ -1,9 +1,41 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Header.module.scss";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import styles from './Header.module.scss';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useUser } from '@/contexts/UserContext';
+import userApi from '@/apis/user';
 
 const Header = () => {
-  const [name, setName] = useState("");
+  const { user, setUser } = useUser();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user.id == null) {
+        const userInfo = localStorage.getItem('userInfo');
+        if (userInfo !== null) {
+          const userData = JSON.parse(userInfo);
+          console.log(userData);
+          setUser({ id: userData.id, nickname: userData.nickname });
+        } else {
+          const response = await userApi.getMe();
+          console.log(response);
+          if (response.status == 200) {
+            setUser({ id: response.data.id, nickname: response.data.nickname });
+            localStorage.setItem(
+              'userInfo',
+              JSON.stringify({
+                id: response.data.id,
+                nickname: response.data.nickname,
+              })
+            );
+          } else {
+            setUser({ id: null, nickname: null });
+          }
+        }
+      }
+    };
+    fetchData();
+  }, [user.id, setUser]);
+
   const [isMenuShow, setMenuShow] = useState(false);
 
   const toggleMenu = () => {
@@ -17,10 +49,10 @@ const Header = () => {
     }
   };
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -29,14 +61,23 @@ const Header = () => {
     setMenuShow(false);
   }, [location.pathname]);
 
-  useEffect(() => {
-    setName("");
-  }, []);
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    localStorage.removeItem('userInfo');
+    const response = await userApi.logout();
+    if (response.status == 200) {
+      window.location.href = '/';
+    } else {
+      alert('문제가 발생했습니다. 다시 시도해주세요.');
+      return;
+    }
+  };
 
   return (
     <header>
       <div
-        className={`${styles.bg_white} ${isMenuShow ? styles.show : ""}`}
+        className={`${styles.bg_white} ${isMenuShow ? styles.show : ''}`}
       ></div>
       <div className={styles.header_wrap}>
         <Link to="/" className={`blind ${styles.logo}`}>
@@ -48,7 +89,7 @@ const Header = () => {
             <span></span>
             <span></span>
           </div>
-          <nav className={`${isMenuShow ? styles.show : ""}`}>
+          <nav className={`${isMenuShow ? styles.show : ''}`}>
             <div className={styles.gnb_wrap}>
               <ul className={styles.gnb}>
                 <li>
@@ -72,14 +113,12 @@ const Header = () => {
               </ul>
             </div>
             <div className={styles.usersign}>
-              {name ? (
+              {user.nickname !== null ? (
                 <>
                   <Link to="/mypage/profile" className={styles.nickname}>
-                    {name}님
+                    {user.nickname}님
                   </Link>
-                  <Link to="/logout" className={styles.logout}>
-                    <span>로그아웃</span>
-                  </Link>
+                  <span className={styles.logout} onClick={logout}></span>
                 </>
               ) : (
                 <>
