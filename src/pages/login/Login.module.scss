@@ -35,14 +35,16 @@
     gap: 8px;
     .userid {
       width: 100%;
-      padding: 16px 12px;
+      height: 60px;
+      padding: 18px 16px;
       border-radius: 4px 4px 0px 0px;
       border: 1px solid #aaa;
       background-color: #fafafa;
     }
     .userpw {
       width: 100%;
-      padding: 16px 12px;
+      height: 60px;
+      padding: 18px 16px;
       border-radius: 0px 0px 4px 4px;
       border: 1px solid #aaa;
       background-color: #fafafa;
@@ -72,7 +74,7 @@
   .social_login {
     width: 250px;
     margin: 0 auto;
-    height: 40px;
+    height: 60px;
   }
 }
 
@@ -85,11 +87,11 @@
       padding: 80px 38px;
     }
     .login_box {
-      width: 280px
+      width: 280px;
     }
     .social_login {
       width: 280px;
-      height: 45px;
+      height: 60px;
     }
   }
 }

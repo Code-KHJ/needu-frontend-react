@@ -6,7 +6,7 @@
 header {
   position: sticky;
   width: 100%;
-  height: 120px;
+  height: 97px;
   top: 0;
   display: flex;
   align-items: center;
@@ -80,7 +80,7 @@ header {
       font-size: 1.8rem;
     }
     .gnb li a::after {
-      content: "";
+      content: '';
       display: inline-block;
       width: 7px;
       height: 14px;
@@ -110,7 +110,7 @@ header {
       font-size: 1.8rem;
     }
     .login::before {
-      content: "";
+      content: '';
       display: inline-block;
       transform: translateY(4px);
       width: 18px;
@@ -119,7 +119,7 @@ header {
       background: url(@/assets/images/ico_login.png) no-repeat center/contain;
     }
     .signup::before {
-      content: "";
+      content: '';
       display: inline-block;
       transform: translateY(4px);
       width: 18px;
@@ -135,7 +135,7 @@ header {
       text-overflow: ellipsis;
     }
     .nickname::before {
-      content: "";
+      content: '';
       display: inline-block;
       transform: translateY(4px);
       width: 18px;
@@ -144,7 +144,7 @@ header {
       background: url(@/assets/images/ico_login.png) no-repeat center/contain;
     }
     .logout::before {
-      content: "";
+      content: '';
       display: inline-block;
       transform: translateY(4px);
       width: 18px;
@@ -152,8 +152,8 @@ header {
       margin-right: 3px;
       background: url(@/assets/images/ico_logout.png) no-repeat center/contain;
     }
-    .logout span {
-      display: none;
+    .logout {
+      cursor: pointer;
     }
   }
 }
@@ -221,9 +221,6 @@ header {
       }
       .logout {
         display: inline-block !important;
-      }
-      .logout span {
-        display: none;
       }
       & > a:first-child {
         margin-right: 20px;

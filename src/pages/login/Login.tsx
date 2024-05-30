@@ -106,7 +106,7 @@ const Login = () => {
             <Button
               children="로그인"
               className={`btn_condition_true`}
-              style={{ height: '40px' }}
+              style={{ height: '60px' }}
               isDisabled={isSubmitDisabled}
               onClick={handleSubmit}
             />
@@ -118,7 +118,7 @@ const Login = () => {
             </Link>
           </div>
           <div className={styles.social_login}>
-            <SocialLogin height="40px" />
+            <SocialLogin height="60px" />
           </div>
         </div>
       </div>

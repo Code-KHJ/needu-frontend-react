@@ -7,35 +7,6 @@ import userApi from '@/apis/user';
 const Header = () => {
   const { user, setUser } = useUser();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (user.id == null) {
-        const userInfo = localStorage.getItem('userInfo');
-        if (userInfo !== null) {
-          const userData = JSON.parse(userInfo);
-          console.log(userData);
-          setUser({ id: userData.id, nickname: userData.nickname });
-        } else {
-          const response = await userApi.getMe();
-          console.log(response);
-          if (response.status == 200) {
-            setUser({ id: response.data.id, nickname: response.data.nickname });
-            localStorage.setItem(
-              'userInfo',
-              JSON.stringify({
-                id: response.data.id,
-                nickname: response.data.nickname,
-              })
-            );
-          } else {
-            setUser({ id: null, nickname: null });
-          }
-        }
-      }
-    };
-    fetchData();
-  }, [user.id, setUser]);
-
   const [isMenuShow, setMenuShow] = useState(false);
 
   const toggleMenu = () => {

@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+.write_training_wrap {
+  margin: 80px auto;
+  .corp_info {
+    background-color: #6269f5;
+    padding: 40px 10%;
+    .corp_name {
+      color: #fafafa;
+      line-height: 34px;
+    }
+    .corp_location {
+      margin-top: 5px;
+      color: #fafafa;
+    }
+    .corp_review_cnt {
+      margin-top: 23px;
+      color: #fafafa;
+      text-align: end;
+      & > strong {
+        color: #fafafa;
+      }
+    }
+  }
+  .guide {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+    & > p {
+      & > a {
+        color: blue;
+        font-weight: 700;
+      }
+      & > strong {
+        color: red;
+      }
+    }
+  }
+}
+
+/* main end */
+/* mobile-end */
+
+@media screen and (min-width: 768px) {
+  .write_training_wrap {
+    width: 86%;
+    .corp_info {
+      .corp_name {
+        line-height: 56px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .write_training_wrap {
+    width: 67%;
+  }
+}

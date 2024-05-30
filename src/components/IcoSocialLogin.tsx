@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import naverImage from '@/assets/images/social_naver.png';
 import kakaoSymbol from '@/assets/images/symbol_kakao.png';
+import googleImage from '@/assets/images/social_google.png';
 
 interface SocialLoginProps {
   height: string;
@@ -36,10 +36,10 @@ const KakaoBtn = styled.button`
   }
 `;
 
-const NaverBtn = styled.button<SocialLoginProps>`
+const GoogleBtn = styled.button<SocialLoginProps>`
   width: ${({ height }) => (height === '60px' ? '65px' : '45px')};
   flex-shrink: 0;
-  background: url(${naverImage}) no-repeat center/contain;
+  background: url(${googleImage}) no-repeat center/contain;
 `;
 
 const SocialLogin: React.FC<SocialLoginProps> = ({ height }) => {
@@ -51,10 +51,10 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ height }) => {
         <img src={kakaoSymbol}></img>
         <span>카카오로 시작하기</span>
       </KakaoBtn>
-      <NaverBtn
+      <GoogleBtn
         height={height}
         onClick={() => (window.location.href = `${BaseUrl}/auth/google`)}
-      ></NaverBtn>
+      ></GoogleBtn>
     </SocialLoginDiv>
   );
 };
