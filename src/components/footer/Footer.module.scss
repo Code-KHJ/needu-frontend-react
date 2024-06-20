@@ -65,7 +65,7 @@ footer {
       font-size: 1.4rem;
     }
     & > span:not(:last-child)::after {
-      content: "|";
+      content: '|';
       color: #888;
       margin-left: 10px;
       margin-right: 10px;
@@ -95,7 +95,7 @@ footer {
 @media screen and (min-width: 1280px) {
   footer {
     .footer_wrap {
-      width: 67%;
+      max-width: 1280px;
     }
   }
 }

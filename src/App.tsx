@@ -10,41 +10,15 @@ import Findpw from './pages/findIdPw/Findpw';
 import ScrollToTop from './components/ScrollToTop';
 import { useUser } from './contexts/UserContext';
 import { useEffect, useState } from 'react';
-import userApi from './apis/user';
-import WriteTraining from './pages/review/WriteTraining';
+import ReviewRoutes from './pages/review';
 
 function App() {
-  const { user, setUser } = useUser();
-  const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      if (user.id == null) {
-        const userInfo = localStorage.getItem('userInfo');
-        if (userInfo !== null) {
-          const userData = JSON.parse(userInfo);
-          setUser({ id: userData.id, nickname: userData.nickname });
-          setIsLogin(true);
-        } else {
-          const response = await userApi.getMe();
-          if (response.status == 200) {
-            setUser({ id: response.data.id, nickname: response.data.nickname });
-            setIsLogin(true);
-            localStorage.setItem(
-              'userInfo',
-              JSON.stringify({
-                id: response.data.id,
-                nickname: response.data.nickname,
-              })
-            );
-          } else {
-            setUser({ id: null, nickname: null });
-            setIsLogin(false);
-          }
-        }
-      }
-    };
-    fetchData();
-  }, [user.id, setUser]);
+  const { user, loading } = useUser();
+  const isLogin = user.id !== null;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <BrowserRouter>
@@ -67,10 +41,7 @@ function App() {
           path="/find/pw"
           element={isLogin ? <Navigate to="/" /> : <Findpw />}
         />
-        <Route
-          path="/review/write/training"
-          element={isLogin ? <Navigate to="/" /> : <WriteTraining />}
-        />
+        <Route path="/review/*" element={<ReviewRoutes isLogin={isLogin} />} />
       </Routes>
       <Footer />
     </BrowserRouter>

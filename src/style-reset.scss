@@ -83,7 +83,12 @@ i {
 }
 
 // font setting
-* {
+a,
+li,
+select,
+input,
+label,
+button {
   //default
   color: #000;
   font-family: 'Pretendard-Regular';
