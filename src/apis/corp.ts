@@ -10,6 +10,15 @@ const corpApi = {
       return error;
     }
   },
+  getWithTraining: async (name: string) => {
+    try {
+      const response = await customAxios.get(`/corp/training/${name}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default corpApi;

@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Write.module.scss';
 import InputDate from '@/components/elements/InputDate';
-import Input from '../../components/elements/Input';
 import ScoreStar from '@/components/ScoreStar';
 import Button from '@/components/elements/Button';
-import test from 'node:test';
 import corpApi from '@/apis/corp';
 import sharedApi from '@/apis/shared';
 import { ReviewWorkingDto } from '@/interface/Review';
-import { type } from '../../interface/User';
 import { useUser } from '@/contexts/UserContext';
 import reviewApi from '@/apis/review';
 
@@ -345,7 +342,6 @@ const WriteWorking = () => {
                     <ScoreStar
                       name={item.en}
                       readonly={false}
-                      fontsize={'40px'}
                       value={values[item.en]}
                       onChange={(newValue) =>
                         handleScoreChange(item.en, newValue)
@@ -365,7 +361,6 @@ const WriteWorking = () => {
           <ScoreStar
             name="total_score"
             readonly={true}
-            fontsize={'40px'}
             value={values.total_score}
             onChange={(newValue) => handleScoreChange('total_score', newValue)}
           ></ScoreStar>

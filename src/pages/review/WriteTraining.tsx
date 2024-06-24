@@ -1,28 +1,195 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Write.module.scss';
-import InputDate from '@/components/elements/InputDate';
-import Input from '../../components/elements/Input';
 import ScoreStar from '@/components/ScoreStar';
 import Button from '@/components/elements/Button';
 import test from 'node:test';
+import { useUser } from '@/contexts/UserContext';
+import corpApi from '@/apis/corp';
+import { ReviewTrainingDto } from '@/interface/Review';
+import reviewApi from '@/apis/review';
 
 const WriteTraining = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const name = queryParams.get('name');
+  const { user } = useUser();
 
-  console.log(name);
+  const [corp, setCorp] = useState({
+    no: null,
+    corp_name: null,
+    city: null,
+    gugun: null,
+    cnt: null,
+    avg: null,
+  });
+
+  const startList = [
+    { ko: '성장가능성', en: 'growth_score' },
+    { ko: '일 가치감', en: 'worth_score' },
+    { ko: '추천 의향', en: 'recommend_score' },
+    { ko: '수퍼바이징 만족도', en: 'supervisor_score' },
+  ];
+
+  useEffect(() => {
+    if (!name) {
+      navigate('/');
+      return;
+    }
+    const getCorp = async () => {
+      const response: any = await corpApi.getWithTraining(name);
+      console.log(response);
+      if (response.status !== 200) {
+        navigate('/');
+      }
+      if (!response.data.corp_name) {
+        navigate('/');
+      }
+      setCorp(response.data);
+      setValues({
+        ...values,
+        corp_name: response.data.corp_name,
+      });
+    };
+    getCorp();
+  }, [name]);
+
+  const [values, setValues] = useState<ReviewTrainingDto>({
+    corp_name: '',
+    user_id: user.id,
+    year: '',
+    season: '',
+    cost: null,
+    number_of_participants: null,
+    duration: null,
+    total_score: 0,
+    growth_score: 0,
+    worth_score: 0,
+    recommend_score: 0,
+    supervisor_score: 0,
+    highlight: '',
+    pros: '',
+    cons: '',
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    if (
+      name == 'cost' ||
+      name == 'number_of_participants' ||
+      name == 'duration'
+    ) {
+      setValues({
+        ...values,
+        [name]: parseFloat(value),
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    }
+  };
+
+  const [valid, setValid] = useState({
+    corp_name: false,
+    user_id: false,
+    year: false,
+    season: false,
+    cost: false,
+    number_of_participants: false,
+    duration: false,
+    total_score: false,
+    growth_score: false,
+    worth_score: false,
+    recommend_score: false,
+    supervisor_score: false,
+    highlight: false,
+    pros: false,
+    cons: false,
+  });
+
+  useEffect(() => {
+    setValid({
+      corp_name: values.corp_name !== '',
+      user_id: values.user_id !== '',
+      year: values.year !== '',
+      season: values.season !== '',
+      cost: values.cost > 0,
+      number_of_participants: values.number_of_participants > 0,
+      duration: values.duration > 0,
+      total_score: values.total_score > 0,
+      growth_score: values.growth_score > 0,
+      worth_score: values.worth_score > 0,
+      recommend_score: values.recommend_score > 0,
+      supervisor_score: values.supervisor_score > 0,
+      highlight: values.highlight.length > 2,
+      pros: values.pros.length >= 30,
+      cons: values.cons.length >= 30,
+    });
+  }, [values]);
+
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  for (let year = currentYear; year >= 2000; year--) {
+    years.push(`${year}년`);
+  }
+
+  const handleScoreChange = (name: string, newValue: number) => {
+    if (newValue !== null) {
+      const updatedValues = {
+        ...values,
+        [name]: parseFloat(newValue.toFixed(1)),
+      };
+
+      const totalScore =
+        (updatedValues.growth_score +
+          updatedValues.worth_score +
+          updatedValues.recommend_score +
+          updatedValues.supervisor_score) /
+        4;
+
+      setValues((prevValues) => ({
+        ...prevValues,
+        ...updatedValues,
+        total_score: parseFloat(totalScore.toFixed(1)),
+      }));
+    }
+  };
+
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  useEffect(() => {
+    const isSubmit = Object.values(valid).every((value) => value);
+    setIsSubmitDisabled(!isSubmit);
+  }, [values, valid]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log(typeof values.cost);
+    const response = await reviewApi.createTraining(values);
+    if (response.status !== 201) {
+      alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+    } else {
+      alert('리뷰가 작성되었습니다.');
+      navigate('/');
+    }
+  };
+
   return (
     <div className={styles.write_training_wrap}>
       <div className={styles.corp_info}>
-        <h1 className={`banner_title ${styles.corp_name}`}>
-          서울특별시사회복지사협회
-        </h1>
-        <p className={`banner_subtitle ${styles.corp_location}`}>기관 주소</p>
+        <h1 className={`banner_title ${styles.corp_name}`}>{corp.corp_name}</h1>
+        <p className={`banner_subtitle ${styles.corp_location}`}>
+          {corp.city} {corp.gugun}
+        </p>
         <p className={`banner_subtitle ${styles.corp_review_cnt}`}>
-          이 기관에 <strong className={`banner_title`}>000</strong>개 리뷰가
-          있어요!
+          이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong>개
+          리뷰가 있어요!
         </p>
       </div>
       <div className={styles.guide}>
@@ -44,58 +211,160 @@ const WriteTraining = () => {
       </div>
       <form className={styles.form_wrap}>
         <div className={styles.multiple_choice}>
-          <div className={styles.work_info_wrap}>
-            <h1 className="title">근무정보</h1>
-            <div className={styles.work_info_content}>
+          <div className={styles.training_info_wrap}>
+            <h1 className="title">실습정보</h1>
+            <div className={styles.training_info_content}>
               <div className={styles.period}>
                 <div className={styles.label}>
-                  <div className="subtitle">근무기간</div>
-                  <div>
-                    <input type="checkbox" />
-                    <label>재직중</label>
-                  </div>
+                  <div className="subtitle">실습기간</div>
                 </div>
-                <div className={styles.date_pickr}>
-                  <InputDate name="start_date" minDate="1950-01-01"></InputDate>
-                  <InputDate name="end_date" minDate="2000-01-01"></InputDate>
+                <div className={styles.period_content}>
+                  <select
+                    name="year"
+                    className={`${
+                      valid.year
+                        ? styles.valid
+                        : values.year == ''
+                        ? ''
+                        : styles.invalid
+                    }`}
+                    value={values.year}
+                    onChange={handleChange}
+                  >
+                    <option value="" selected disabled hidden>
+                      실습연도
+                    </option>
+                    {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="season"
+                    className={`${
+                      valid.season
+                        ? styles.valid
+                        : values.season == ''
+                        ? ''
+                        : styles.invalid
+                    }`}
+                    value={values.season}
+                    onChange={handleChange}
+                  >
+                    <option value="" selected disabled hidden>
+                      실습시기
+                    </option>
+                    <option key="여름방학" value="여름방학">
+                      여름방학
+                    </option>
+                    <option key="겨울방학" value="겨울방학">
+                      겨울방학
+                    </option>
+                    <option key="1학기중" value="1학기중">
+                      1학기중
+                    </option>
+                    <option key="2학기중" value="2학기중">
+                      2학기중
+                    </option>
+                  </select>
                 </div>
               </div>
-              <div className={styles.work_type}>
-                <div className="subtitle">근무직종</div>
-                <select>
-                  <option selected disabled hidden>
-                    직종 선택
-                  </option>
-                  <option>직종 선택</option>
-                </select>
+              <div className={styles.cost}>
+                <div className="subtitle">실습비</div>
+                <div className={styles.input_with_unit_container}>
+                  <input
+                    type="number"
+                    name="cost"
+                    className={`${styles.input_with_unit} ${
+                      valid.cost
+                        ? styles.valid
+                        : values.cost == null
+                        ? ''
+                        : styles.invalid
+                    }`}
+                    placeholder="실습비를 적어주세요"
+                    value={values.cost}
+                    onChange={handleChange}
+                  ></input>
+                  <span className={styles.unit}>원</span>
+                </div>
               </div>
-              <div>
-                <div className="subtitle">키워드 선택</div>
-                <div className={styles.keyword}></div>
+              <div className={styles.people}>
+                <div className="subtitle">실습인원</div>
+                <div className={styles.input_with_unit_container}>
+                  <input
+                    type="number"
+                    name="number_of_participants"
+                    className={`${styles.input_with_unit} ${
+                      valid.number_of_participants
+                        ? styles.valid
+                        : values.number_of_participants == null
+                        ? ''
+                        : styles.invalid
+                    }`}
+                    placeholder="함께 실습한 인원을 적어주세요"
+                    value={values.number_of_participants}
+                    onChange={handleChange}
+                  ></input>
+                  <span className={styles.unit}>명</span>
+                </div>
+              </div>
+              <div className={styles.duration}>
+                <div className="subtitle">실습시간</div>
+                <div className={styles.input_with_unit_container}>
+                  <input
+                    type="number"
+                    name="duration"
+                    className={`${styles.input_with_unit} ${
+                      valid.duration
+                        ? styles.valid
+                        : values.duration == null
+                        ? ''
+                        : styles.invalid
+                    }`}
+                    placeholder="진행한 실습 시간을 적어주세요"
+                    value={values.duration}
+                    onChange={handleChange}
+                  ></input>
+                  <span className={styles.unit}>시간</span>
+                </div>
               </div>
             </div>
           </div>
           <div className={styles.score_wrap}>
             <h1 className="title">평가하기</h1>
             <div className={styles.score_content}>
-              <div className={styles.score_item}>
-                <div className="subtitle">성장가능성</div>
-                <div className={styles.score_star}>
-                  <ScoreStar
-                    readonly={false}
-                    fontsize={'40px'}
-                    value={3.5}
-                  ></ScoreStar>
-                  <div className="banner_title">3.5</div>
+              {startList.map((item) => (
+                <div className={styles.score_item}>
+                  <div className="subtitle">{item.ko}</div>
+                  <div className={styles.score_star}>
+                    <ScoreStar
+                      name={item.en}
+                      readonly={false}
+                      value={values[item.en]}
+                      onChange={(newValue) =>
+                        handleScoreChange(item.en, newValue)
+                      }
+                    ></ScoreStar>
+                    <div className="banner_title">
+                      {values[item.en].toFixed(1)}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
         <div className={styles.total_score}>
           <h1 className="title">총점</h1>
-          <ScoreStar readonly={true} fontsize={'40px'} value={3.0}></ScoreStar>
-          <div className="banner_title">3.0</div>
+          <ScoreStar
+            name="total_score"
+            readonly={true}
+            value={values.total_score}
+            onChange={(newValue) => handleScoreChange('total_score', newValue)}
+          ></ScoreStar>
+          <div className="banner_title">{values.total_score.toFixed(1)}</div>
         </div>
         <div className={styles.subjective}>
           <h1 className="title">상세평가</h1>
@@ -103,42 +372,88 @@ const WriteTraining = () => {
             <div className={styles.subjective_item}>
               <h1 className="subtitle">한줄평</h1>
               <textarea
+                className={`${
+                  valid.highlight
+                    ? styles.valid
+                    : values.highlight == ''
+                    ? ''
+                    : styles.invalid
+                }`}
+                name="highlight"
                 minLength={2}
                 maxLength={50}
                 placeholder="한줄평을 2~15자로 작성해주세요"
+                value={values.highlight}
+                onChange={handleChange}
               ></textarea>
             </div>
             <div className={styles.subjective_item}>
-              <h1 className="subtitle">근무기관 장점</h1>
+              <h1 className="subtitle">실습기관 강점</h1>
               <textarea
-                className={styles.long_text}
+                name="pros"
+                className={`${styles.long_text} ${
+                  valid.pros
+                    ? styles.valid
+                    : values.pros == ''
+                    ? ''
+                    : styles.invalid
+                }`}
                 rows={10}
                 minLength={30}
                 maxLength={2000}
-                placeholder="근무했던 기관의 장점을 작성해주세요.(최소 30자)"
+                placeholder="실습했던 기관의 강점을 작성해주세요.(최소 30자)"
+                value={values.pros}
+                onChange={handleChange}
               ></textarea>
-              <p className="subtxt">현재 글자수: 000자</p>
+              <p
+                style={{
+                  color: values.pros !== '' && !valid.pros ? 'red' : '',
+                }}
+                className="subtxt"
+              >
+                현재 글자수: {values.pros.length}자
+              </p>
             </div>
             <div className={styles.subjective_item}>
-              <h1 className="subtitle">근무기관 단점</h1>
+              <h1 className="subtitle">실습기관 약점</h1>
               <textarea
-                className={styles.long_text}
+                name="cons"
+                className={`${styles.long_text} ${
+                  valid.cons
+                    ? styles.valid
+                    : values.cons == ''
+                    ? ''
+                    : styles.invalid
+                }`}
                 rows={10}
                 minLength={30}
                 maxLength={2000}
-                placeholder="근무했던 기관의 단점을 작성해주세요.(최소 30자)"
+                placeholder="실습했던 기관의 약점을 작성해주세요.(최소 30자)"
+                value={values.cons}
+                onChange={handleChange}
               ></textarea>
-              <p className="subtxt">현재 글자수: 000자</p>
+              <p
+                style={{
+                  color: values.cons !== '' && !valid.cons ? 'red' : '',
+                }}
+                className="subtxt"
+              >
+                현재 글자수: {values.cons.length}자
+              </p>
             </div>
           </div>
         </div>
         <div className={styles.submit_btn}>
           <Button
             children="제출"
-            className={`${'btn_condition_false'}`}
+            className={`${
+              isSubmitDisabled === false
+                ? 'btn_condition_true'
+                : 'btn_condition_false'
+            }`}
             style={{ minWidth: '110px', height: '60px' }}
-            isDisabled={true}
-            onClick={test}
+            isDisabled={isSubmitDisabled}
+            onClick={handleSubmit}
           ></Button>
         </div>
       </form>

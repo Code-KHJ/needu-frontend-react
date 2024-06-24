@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+.detail_working_wrap {
+  margin: 80px auto;
+  .corp_info {
+    background-color: #6269f5;
+    padding: 40px;
+    .corp_name {
+      color: #fafafa;
+      line-height: 34px;
+    }
+    .corp_location {
+      margin-top: 5px;
+      color: #fafafa;
+    }
+    .hashtag {
+      margin-top: 8px;
+      color: #fafafa;
+    }
+  }
+}

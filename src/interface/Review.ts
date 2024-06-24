@@ -22,13 +22,14 @@ export type ReviewWorkingDto = Review & {
 };
 
 export type ReviewTrainingDto = Review & {
-  year: Date;
+  year: string;
   season: string;
-  cost: string;
-  number_of_parcitipants: string;
-  duration: string;
+  cost: number;
+  number_of_participants: number;
+  duration: number;
   growth_score: number;
   worth_score: number;
   recommend_score: number;
   supervisor_score: number;
+  [key: string]: string | number | null | any[];
 };

@@ -1,12 +1,33 @@
 @charset "utf-8";
-
+select {
+  color: #aaa;
+  border: #aaa solid 1px;
+  background-color: #efefef;
+}
 .invalid {
+  color: #222;
   border: 1px solid #ff4444 !important;
   background-color: #fff !important;
 }
 .valid {
+  color: #222;
   background-color: #ffffff !important;
   border: #6269f5 solid 1px !important;
+}
+.input_with_unit_container {
+  position: relative;
+  .input_with_unit {
+    padding-right: 50px !important;
+    text-align: end;
+  }
+  .unit {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #222;
+  }
 }
 
 .write_training_wrap {
@@ -59,8 +80,8 @@
       border-radius: 3px;
     }
     .multiple_choice {
-      .work_info_wrap {
-        .work_info_content {
+      .training_info_wrap {
+        .training_info_content {
           display: flex;
           flex-direction: column;
           gap: 40px;
@@ -73,23 +94,8 @@
           .period {
             .label {
               height: 20px;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              & > div:nth-of-type(2) {
-                input {
-                  width: 20px;
-                  height: 20px;
-                }
-                label {
-                  height: 20px;
-                  line-height: 20px;
-                  margin-left: 5px;
-                  vertical-align: top;
-                }
-              }
             }
-            .date_pickr {
+            .period_content {
               display: flex;
               flex-direction: row;
               flex-wrap: nowrap;
@@ -99,7 +105,7 @@
               }
             }
           }
-          .work_type {
+          .cost {
             select {
               background-color: #efefef;
             }
@@ -172,6 +178,9 @@
       margin-top: 60px;
       display: flex;
       justify-content: center;
+      & > button {
+        width: 100%;
+      }
     }
   }
 }
@@ -266,11 +275,6 @@
               }
             }
           }
-          .work_type {
-            select {
-              background-color: #efefef;
-            }
-          }
           .keyword {
             .keyword_wrap {
               display: flex;
@@ -360,6 +364,9 @@
       margin-top: 60px;
       display: flex;
       justify-content: center;
+      & > button {
+        width: 100%;
+      }
     }
   }
 }
@@ -381,8 +388,8 @@
     .form_wrap {
       width: 100%;
       .multiple_choice {
-        .work_info_wrap {
-          .work_info_content {
+        .training_info_wrap {
+          .training_info_content {
             border: 1px solid #aaa;
             border-radius: 5px;
             background-color: #fff;
@@ -392,7 +399,19 @@
         .score_wrap {
           .score_content {
             padding: 40px;
+            .score_item {
+              .score_star {
+                & > div:nth-of-type(1) {
+                  line-height: 60px;
+                }
+              }
+            }
           }
+        }
+      }
+      .submit_btn {
+        & > button {
+          width: auto;
         }
       }
     }
@@ -422,7 +441,19 @@
         .score_wrap {
           .score_content {
             padding: 40px;
+            .score_item {
+              .score_star {
+                & > div:nth-of-type(1) {
+                  line-height: 60px;
+                }
+              }
+            }
           }
+        }
+      }
+      .submit_btn {
+        & > button {
+          width: auto;
         }
       }
     }
@@ -431,23 +462,28 @@
 
 @media screen and (min-width: 1280px) {
   .write_training_wrap {
-    width: 67%;
+    max-width: 1280px;
     .form_wrap {
       .multiple_choice {
-        height: 878px;
+        height: 100%;
         display: flex;
         flex-direction: row;
+        align-items: stretch;
         gap: 20px;
-        .work_info_wrap {
-          width: calc(50% - 10px);
-          height: 100%;
-          .work_info_content {
-            height: calc(100% - 24px);
+        & > div {
+          display: flex;
+          flex-direction: column;
+          & > div {
+            flex-grow: 1;
           }
+        }
+        .training_info_wrap {
+          width: calc(50% - 10px);
+          height: auto;
         }
         .score_wrap {
           width: calc(50% - 10px);
-          height: 100%;
+          height: auto;
           margin-top: 0px;
         }
       }
