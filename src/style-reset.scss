@@ -85,6 +85,7 @@ i {
 // font setting
 a,
 li,
+div,
 select,
 input,
 label,
@@ -96,23 +97,38 @@ button {
   font-size: 1.6rem;
   font-style: normal;
 }
+
+h1,
+.banner_title {
+  font-size: 2.7rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+h3 {
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+h4,
 .title {
   font-size: 1.8rem;
   font-weight: 700;
 }
+h5,
 .subtitle {
   font-size: 1.6rem;
   font-weight: 700;
 }
-.subtxt {
+.body1 {
+  font-size: 1.8rem;
+}
+.body2 {
   font-size: 1.4rem;
 }
-.banner_title {
-  font-size: 2.4rem;
-  font-weight: 700;
-}
-.banner_subtitle {
-  font-size: 1.8rem;
+.caption {
+  font-size: 1.4rem;
 }
 /* 테블릿 768 사이즈 반응형 */
 @media screen and (min-width: 768px) {
@@ -120,21 +136,31 @@ button {
     //default
     font-size: 1.8rem;
   }
+
+  h1,
+  .banner_title {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 3.4rem;
+  }
+  h3 {
+    font-size: 2.8rem;
+  }
+  h4,
   .title {
     font-size: 2rem;
   }
+  h5,
   .subtitle {
     font-size: 1.8rem;
   }
-  .subtxt {
-    font-size: 1.6rem;
-  }
-  .banner_title {
-    font-size: 4rem;
-    font-weight: 700;
-  }
+  .body1,
   .banner_subtitle {
     font-size: 2rem;
+  }
+  .body2 {
+    font-size: 1.6rem;
   }
 }
 

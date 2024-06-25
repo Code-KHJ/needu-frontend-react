@@ -183,11 +183,11 @@ const WriteTraining = () => {
   return (
     <div className={styles.write_training_wrap}>
       <div className={styles.corp_info}>
-        <h1 className={`banner_title ${styles.corp_name}`}>{corp.corp_name}</h1>
-        <p className={`banner_subtitle ${styles.corp_location}`}>
+        <h1 className={styles.corp_name}>{corp.corp_name}</h1>
+        <p className={`body1 ${styles.corp_location}`}>
           {corp.city} {corp.gugun}
         </p>
-        <p className={`banner_subtitle ${styles.corp_review_cnt}`}>
+        <p className={`body1 ${styles.corp_review_cnt}`}>
           이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong>개
           리뷰가 있어요!
         </p>
@@ -212,7 +212,7 @@ const WriteTraining = () => {
       <form className={styles.form_wrap}>
         <div className={styles.multiple_choice}>
           <div className={styles.training_info_wrap}>
-            <h1 className="title">실습정보</h1>
+            <h4>실습정보</h4>
             <div className={styles.training_info_content}>
               <div className={styles.period}>
                 <div className={styles.label}>
@@ -333,7 +333,7 @@ const WriteTraining = () => {
             </div>
           </div>
           <div className={styles.score_wrap}>
-            <h1 className="title">평가하기</h1>
+            <h4>평가하기</h4>
             <div className={styles.score_content}>
               {startList.map((item) => (
                 <div className={styles.score_item}>
@@ -357,7 +357,7 @@ const WriteTraining = () => {
           </div>
         </div>
         <div className={styles.total_score}>
-          <h1 className="title">총점</h1>
+          <h4>총점</h4>
           <ScoreStar
             name="total_score"
             readonly={true}
@@ -367,10 +367,10 @@ const WriteTraining = () => {
           <div className="banner_title">{values.total_score.toFixed(1)}</div>
         </div>
         <div className={styles.subjective}>
-          <h1 className="title">상세평가</h1>
+          <h4>상세평가</h4>
           <div className={styles.subjective_content}>
             <div className={styles.subjective_item}>
-              <h1 className="subtitle">한줄평</h1>
+              <h5>한줄평</h5>
               <textarea
                 className={`${
                   valid.highlight
@@ -388,7 +388,7 @@ const WriteTraining = () => {
               ></textarea>
             </div>
             <div className={styles.subjective_item}>
-              <h1 className="subtitle">실습기관 강점</h1>
+              <h5>실습기관 강점</h5>
               <textarea
                 name="pros"
                 className={`${styles.long_text} ${
@@ -409,13 +409,13 @@ const WriteTraining = () => {
                 style={{
                   color: values.pros !== '' && !valid.pros ? 'red' : '',
                 }}
-                className="subtxt"
+                className="body2"
               >
                 현재 글자수: {values.pros.length}자
               </p>
             </div>
             <div className={styles.subjective_item}>
-              <h1 className="subtitle">실습기관 약점</h1>
+              <h5>실습기관 약점</h5>
               <textarea
                 name="cons"
                 className={`${styles.long_text} ${
@@ -436,7 +436,7 @@ const WriteTraining = () => {
                 style={{
                   color: values.cons !== '' && !valid.cons ? 'red' : '',
                 }}
-                className="subtxt"
+                className="body2"
               >
                 현재 글자수: {values.cons.length}자
               </p>

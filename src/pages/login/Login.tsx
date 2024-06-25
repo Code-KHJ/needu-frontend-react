@@ -65,7 +65,7 @@ const Login = () => {
     <>
       <div className={styles.main_wrap}>
         <div className={styles.login_wrap}>
-          <h1 className="title">사회복지 커리어플랫폼 NEEDU</h1>
+          <h4>사회복지 커리어플랫폼 NEEDU</h4>
           <div className={styles.login_box} id="form_login_user">
             <div className={styles.login_input_wrap}>
               <form id="form_user">
@@ -74,7 +74,7 @@ const Login = () => {
                     type="text"
                     name="id"
                     id="userid"
-                    className={`subtxt ${styles.userid}`}
+                    className={`body2 ${styles.userid}`}
                     placeholder="아이디(이메일)를 입력하세요"
                     value={values.id}
                     onChange={handleChange}
@@ -84,7 +84,7 @@ const Login = () => {
                     type="password"
                     name="password"
                     id="userpw"
-                    className={`subtxt ${styles.userpw}`}
+                    className={`body2 ${styles.userpw}`}
                     autoComplete="off"
                     placeholder="비밀번호를 입력하세요"
                     value={values.password}
@@ -94,11 +94,11 @@ const Login = () => {
                 </fieldset>
               </form>
               <div className={styles.login_option}>
-                <Link to="/find/id" className="subtxt">
+                <Link to="/find/id" className="body2">
                   아이디 찾기
                 </Link>
                 <span>|</span>
-                <Link to="/find/pw" className="subtxt">
+                <Link to="/find/pw" className="body2">
                   비밀번호 찾기
                 </Link>
               </div>
@@ -111,9 +111,9 @@ const Login = () => {
               onClick={handleSubmit}
             />
           </div>
-          <div className={`subtxt ${styles.to_signup}`}>
+          <div className={`body2 ${styles.to_signup}`}>
             아직 회원이 아니신가요?
-            <Link to="/signup" className="subtxt">
+            <Link to="/signup" className="body2">
               회원가입
             </Link>
           </div>

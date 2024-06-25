@@ -183,9 +183,9 @@ const Findpw = () => {
       {authCode.status !== 'done' ? (
         <div className={`wrap ${styles.wrap}`}>
           <div className={styles.explanation}>
-            <h1 className="title">비밀번호 찾기</h1>
+            <h4>비밀번호 찾기</h4>
             <br />
-            <p className="subtxt">
+            <p className="body2">
               아이디(Email)로 발송된 인증번호를 확인해주세요.
             </p>
           </div>
@@ -208,7 +208,7 @@ const Findpw = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${'subtxt'} ${styles.checkmsg}`}>
+                <div className={`${'body2'} ${styles.checkmsg}`}>
                   {validMsg}
                 </div>
               </div>
@@ -235,7 +235,7 @@ const Findpw = () => {
                 required
               />
               <div className={styles.info}>
-                <span className="subtxt">인증번호가 오지 않는다면?</span>
+                <span className="body2">인증번호가 오지 않는다면?</span>
                 <i></i>
                 <span></span>
               </div>
@@ -253,9 +253,9 @@ const Findpw = () => {
       ) : (
         <div className={`wrap ${styles.wrap}`}>
           <div className={styles.explanation}>
-            <h1 className="title">비밀번호 재설정</h1>
+            <h4>비밀번호 재설정</h4>
             <br />
-            <p className="subtxt">비밀번호를 다시 설정해주세요.</p>
+            <p className="body2">비밀번호를 다시 설정해주세요.</p>
           </div>
           <form className={styles.search_form}>
             <div>
@@ -276,7 +276,7 @@ const Findpw = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${'subtxt'} ${styles.checkmsg}`}>
+                <div className={`${'body2'} ${styles.checkmsg}`}>
                   {pwValidMsg.password}
                 </div>
               </div>
@@ -303,7 +303,7 @@ const Findpw = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${'subtxt'} ${styles.checkmsg}`}>
+                <div className={`${'body2'} ${styles.checkmsg}`}>
                   {pwValidMsg.password2}
                 </div>
               </div>

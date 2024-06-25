@@ -18,4 +18,29 @@
       color: #fafafa;
     }
   }
+  section {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 80px;
+    .tab {
+      display: flex;
+      flex-direction: row;
+      & > div {
+        width: 130px;
+        height: 40px;
+        line-height: 22px;
+        padding: 8px 20px;
+        color: #aaa;
+        border: 1px solid #aaa;
+        border-radius: 5px 5px 0 0;
+        text-align: center;
+        cursor: pointer;
+      }
+      .current {
+        color: #fafafa;
+        background-color: #6269f5;
+        border: 1px solid #6269f5;
+      }
+    }
+  }
 }

@@ -97,10 +97,10 @@ const Findid = () => {
     <main>
       <div className={`wrap ${styles.wrap}`}>
         <div className={styles.explanation}>
-          <h1 className="title">아이디 찾기</h1>
+          <h4>아이디 찾기</h4>
           <p>회원 정보에 등록된 휴대전화번호로 인증</p>
           <br />
-          <p className="subtxt">
+          <p className="body2">
             회원정보에 등록한 휴대전화번호와 입력한 휴대전화번호가 일치하여야
             인증번호를 받을 수 있습니다.
           </p>
@@ -124,7 +124,7 @@ const Findid = () => {
                 placeholder=""
                 required
               />
-              <div className={`${'subtxt'} ${styles.checkmsg}`}>{validMsg}</div>
+              <div className={`${'body2'} ${styles.checkmsg}`}>{validMsg}</div>
             </div>
             <Button
               children="인증요청"
@@ -149,7 +149,7 @@ const Findid = () => {
               required
             />
             <div className={styles.info}>
-              <span className="subtxt">인증번호가 오지 않는다면?</span>
+              <span className="body2">인증번호가 오지 않는다면?</span>
               <i></i>
               <span></span>
             </div>
