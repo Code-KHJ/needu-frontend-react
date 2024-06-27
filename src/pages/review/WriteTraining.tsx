@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Write.module.scss';
 import ScoreStar from '@/components/ScoreStar';
 import Button from '@/components/elements/Button';
-import test from 'node:test';
 import { useUser } from '@/contexts/UserContext';
 import corpApi from '@/apis/corp';
 import { ReviewTrainingDto } from '@/interface/Review';
 import reviewApi from '@/apis/review';
+import { StarList } from '@/common/StarList';
 
 const WriteTraining = () => {
   const navigate = useNavigate();
@@ -25,12 +25,7 @@ const WriteTraining = () => {
     avg: null,
   });
 
-  const startList = [
-    { ko: '성장가능성', en: 'growth_score' },
-    { ko: '일 가치감', en: 'worth_score' },
-    { ko: '추천 의향', en: 'recommend_score' },
-    { ko: '수퍼바이징 만족도', en: 'supervisor_score' },
-  ];
+  const starList = StarList.training;
 
   useEffect(() => {
     if (!name) {
@@ -335,12 +330,13 @@ const WriteTraining = () => {
           <div className={styles.score_wrap}>
             <h4>평가하기</h4>
             <div className={styles.score_content}>
-              {startList.map((item) => (
+              {starList.map((item) => (
                 <div className={styles.score_item}>
                   <div className="subtitle">{item.ko}</div>
                   <div className={styles.score_star}>
                     <ScoreStar
                       name={item.en}
+                      tabsize="60px"
                       readonly={false}
                       value={values[item.en]}
                       onChange={(newValue) =>
@@ -360,6 +356,7 @@ const WriteTraining = () => {
           <h4>총점</h4>
           <ScoreStar
             name="total_score"
+            tabsize="60px"
             readonly={true}
             value={values.total_score}
             onChange={(newValue) => handleScoreChange('total_score', newValue)}

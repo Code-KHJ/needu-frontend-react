@@ -9,6 +9,7 @@ import sharedApi from '@/apis/shared';
 import { ReviewWorkingDto } from '@/interface/Review';
 import { useUser } from '@/contexts/UserContext';
 import reviewApi from '@/apis/review';
+import { StarList } from '@/common/StarList';
 
 const WriteWorking = () => {
   const location = useLocation();
@@ -30,14 +31,7 @@ const WriteWorking = () => {
     careerType: [],
     hashtagList: [],
   });
-  const starList = [
-    { ko: '성장가능성', en: 'growth_score' },
-    { ko: '리더십', en: 'leadership_score' },
-    { ko: '급여 및 복지', en: 'reward_score' },
-    { ko: '일 가치감', en: 'worth_score' },
-    { ko: '사내 문화', en: 'culture_score' },
-    { ko: '워라밸', en: 'worklife_score' },
-  ];
+  const starList = StarList.working;
 
   useEffect(() => {
     const getShared = async () => {
@@ -341,6 +335,7 @@ const WriteWorking = () => {
                   <div className={styles.score_star}>
                     <ScoreStar
                       name={item.en}
+                      tabsize="60px"
                       readonly={false}
                       value={values[item.en]}
                       onChange={(newValue) =>
@@ -360,6 +355,7 @@ const WriteWorking = () => {
           <h4>총점</h4>
           <ScoreStar
             name="total_score"
+            tabsize="60px"
             readonly={true}
             value={values.total_score}
             onChange={(newValue) => handleScoreChange('total_score', newValue)}
