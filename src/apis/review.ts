@@ -35,6 +35,22 @@ const reviewApi = {
     });
     return response;
   },
+  getTrainingScore: async (corpname: string) => {
+    const response = await customAxios.get(
+      `/review/training/score/${corpname}`
+    );
+    return response;
+  },
+  getTrainingReviews: async (corpname: string) => {
+    const response = await customAxios.get(`/review/training/${corpname}`);
+    return response;
+  },
+  deleteTrainingReview: async (deleteReviewDto: DeleteReviewDto) => {
+    const response = await customAxios.delete('/review/training', {
+      data: deleteReviewDto,
+    });
+    return response;
+  },
   likeReview: async (likeDto: LikeDto) => {
     const response = await customAxios.patch(`/review/like`, likeDto);
     return response;

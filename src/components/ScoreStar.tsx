@@ -50,7 +50,7 @@ const ScoreStar: React.FC<ScoreStarProps> = ({
       readOnly={readonly}
       defaultValue={0}
       precision={0.5}
-      value={value}
+      value={parseFloat(value)}
       onChange={!readonly ? handleRating : undefined}
     />
   );

@@ -298,7 +298,7 @@ const WriteWorking = () => {
                   value={values.career_type}
                   onChange={handleChange}
                 >
-                  <option value="" selected disabled hidden>
+                  <option value="" disabled hidden>
                     직종 선택
                   </option>
                   {shared.careerType.map((item) => (
@@ -330,7 +330,7 @@ const WriteWorking = () => {
             <h4>평가하기</h4>
             <div className={styles.score_content}>
               {starList.map((item) => (
-                <div className={styles.score_item}>
+                <div className={styles.score_item} key={item.en}>
                   <div className="subtitle">{item.ko}</div>
                   <div className={styles.score_star}>
                     <ScoreStar

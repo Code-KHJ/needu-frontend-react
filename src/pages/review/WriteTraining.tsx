@@ -34,7 +34,6 @@ const WriteTraining = () => {
     }
     const getCorp = async () => {
       const response: any = await corpApi.getWithTraining(name);
-      console.log(response);
       if (response.status !== 200) {
         navigate('/');
       }
@@ -115,9 +114,11 @@ const WriteTraining = () => {
       user_id: values.user_id !== '',
       year: values.year !== '',
       season: values.season !== '',
-      cost: values.cost > 0,
-      number_of_participants: values.number_of_participants > 0,
-      duration: values.duration > 0,
+      cost: values.cost != null && values.cost > 0,
+      number_of_participants:
+        values.number_of_participants != null &&
+        values.number_of_participants > 0,
+      duration: values.duration != null && values.duration > 0,
       total_score: values.total_score > 0,
       growth_score: values.growth_score > 0,
       worth_score: values.worth_score > 0,
@@ -165,7 +166,6 @@ const WriteTraining = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(typeof values.cost);
     const response = await reviewApi.createTraining(values);
     if (response.status !== 201) {
       alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
@@ -226,7 +226,7 @@ const WriteTraining = () => {
                     value={values.year}
                     onChange={handleChange}
                   >
-                    <option value="" selected disabled hidden>
+                    <option value="" disabled hidden>
                       실습연도
                     </option>
                     {years.map((year) => (
@@ -247,7 +247,7 @@ const WriteTraining = () => {
                     value={values.season}
                     onChange={handleChange}
                   >
-                    <option value="" selected disabled hidden>
+                    <option value="" disabled hidden>
                       실습시기
                     </option>
                     <option key="여름방학" value="여름방학">
@@ -279,7 +279,7 @@ const WriteTraining = () => {
                         : styles.invalid
                     }`}
                     placeholder="실습비를 적어주세요"
-                    value={values.cost}
+                    value={values.cost === null ? '' : values.cost}
                     onChange={handleChange}
                   ></input>
                   <span className={styles.unit}>원</span>
@@ -299,7 +299,11 @@ const WriteTraining = () => {
                         : styles.invalid
                     }`}
                     placeholder="함께 실습한 인원을 적어주세요"
-                    value={values.number_of_participants}
+                    value={
+                      values.number_of_participants === null
+                        ? ''
+                        : values.number_of_participants
+                    }
                     onChange={handleChange}
                   ></input>
                   <span className={styles.unit}>명</span>
@@ -319,7 +323,7 @@ const WriteTraining = () => {
                         : styles.invalid
                     }`}
                     placeholder="진행한 실습 시간을 적어주세요"
-                    value={values.duration}
+                    value={values.duration === null ? '' : values.duration}
                     onChange={handleChange}
                   ></input>
                   <span className={styles.unit}>시간</span>
@@ -331,7 +335,7 @@ const WriteTraining = () => {
             <h4>평가하기</h4>
             <div className={styles.score_content}>
               {starList.map((item) => (
-                <div className={styles.score_item}>
+                <div className={styles.score_item} key={item.en}>
                   <div className="subtitle">{item.ko}</div>
                   <div className={styles.score_star}>
                     <ScoreStar

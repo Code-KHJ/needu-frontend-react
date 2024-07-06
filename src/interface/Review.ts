@@ -26,9 +26,9 @@ export type ReviewWorkingDto = Review & {
 export type ReviewTrainingDto = Review & {
   year: string;
   season: string;
-  cost: number;
-  number_of_participants: number;
-  duration: number;
+  cost: number | null;
+  number_of_participants: number | null;
+  duration: number | null;
   growth_score: number;
   worth_score: number;
   recommend_score: number;
@@ -56,6 +56,29 @@ export interface ReviewContent {
   is_del: boolean | null;
   blind: number;
   userCareer: UserCareer;
+}
+
+export interface ReviewTrainingContent {
+  no: number;
+  user_id: string;
+  year: string;
+  season: string;
+  cost: number;
+  number_of_participants: number;
+  duration: number;
+  total_score: string;
+  growth_score: string;
+  worth_score: string;
+  recommend_score: string;
+  supervisor_score: string;
+  highlight: string;
+  pros: string;
+  cons: string;
+  created_date: string;
+  modified_date: string | null;
+  likes: number;
+  is_del: boolean | null;
+  blind: number;
 }
 
 export interface LikeDto {
