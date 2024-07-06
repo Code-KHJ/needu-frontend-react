@@ -48,12 +48,17 @@ const Login = () => {
       alert('일치하는 회원정보가 없습니다.');
       return;
     } else {
-      setUser({ id: response.data.id, nickname: response.data.nickname });
+      setUser({
+        id: response.data.id,
+        nickname: response.data.nickname,
+        authority: response.data.authority,
+      });
       localStorage.setItem(
         'userInfo',
         JSON.stringify({
           id: response.data.id,
           nickname: response.data.nickname,
+          authority: response.data.authority,
         })
       );
       alert(response.data.nickname + '님 환영합니다.');

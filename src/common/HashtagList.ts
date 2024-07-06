@@ -1,0 +1,20 @@
+export const HashtagList = {
+  working: [
+    { no: 1, content: '#역세권위치' },
+    { no: 2, content: '#시차출근제운영' },
+    { no: 3, content: '#성과급지급' },
+    { no: 4, content: '#재택근무운영' },
+    { no: 5, content: '#간식제공' },
+    { no: 6, content: '#자유로운휴가' },
+    { no: 7, content: '#반차/반반차운영' },
+    { no: 8, content: '#고급사양의업무장비' },
+    { no: 9, content: '#수평적호칭' },
+    { no: 10, content: '#편안한자율복장' },
+    { no: 11, content: '#생일축하금지급' },
+    { no: 12, content: '#팀회식비지원' },
+    { no: 13, content: '#사내동아리활동비지원' },
+    { no: 14, content: '#자기계발비지원' },
+    { no: 15, content: '#야근식대지원' },
+    { no: 16, content: '#야근택시비지원' },
+  ],
+};

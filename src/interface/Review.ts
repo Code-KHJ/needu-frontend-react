@@ -1,3 +1,5 @@
+import { UserCareer } from './User';
+
 export interface Review {
   corp_name: string;
   user_id: string;
@@ -33,3 +35,36 @@ export type ReviewTrainingDto = Review & {
   supervisor_score: number;
   [key: string]: string | number | null | any[];
 };
+
+export interface ReviewContent {
+  no: number;
+  user_id: string;
+  hashtag: number[];
+  total_score: string;
+  growth_score: string;
+  leadership_score: string;
+  reward_score: string;
+  worth_score: string;
+  culture_score: string;
+  worklife_score: string;
+  highlight: string;
+  pros: string;
+  cons: string;
+  created_date: string;
+  modified_date: string | null;
+  likes: number;
+  is_del: boolean | null;
+  blind: number;
+  userCareer: UserCareer;
+}
+
+export interface LikeDto {
+  review_no: number;
+  type: string;
+  action: string;
+}
+
+export interface DeleteReviewDto {
+  user_id: string;
+  review_no: number;
+}

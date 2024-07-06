@@ -14,3 +14,13 @@ export type SingupDto = User & {
 };
 
 export type LoginDto = Pick<User, 'id' | 'password'>;
+
+export interface UserCareer {
+  no: number;
+  user_id: string;
+  corp_name: string;
+  first_date: string;
+  last_date: string;
+  type: string;
+  review_no: number;
+}

@@ -14,7 +14,7 @@
       color: #fafafa;
     }
     .hashtag {
-      margin-top: 8px;
+      margin-top: 10px;
       color: #fafafa;
     }
   }
@@ -98,10 +98,144 @@
           border: 1px solid #aaa;
           border-radius: 3px;
           background-color: #fafafa;
-          color: #6269f5;
           cursor: pointer;
+          & > a {
+            color: #6269f5;
+          }
         }
       }
+    }
+    .review_wrap {
+      margin-top: 20px;
+      .review_item {
+        padding: 60px 0px;
+        .score_wrap {
+          position: relative;
+          .score_summary {
+            & > div:nth-of-type(1) {
+              display: flex;
+              align-items: center;
+              & > img {
+                width: 16px;
+                height: 8px;
+                margin-left: 8px;
+              }
+            }
+          }
+          .score_detail {
+            width: 220px;
+            position: absolute;
+            margin-top: 8px;
+            padding: 20px 16px;
+            border: 1px solid #eee;
+            background-color: #fff;
+            .item {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              height: 22px;
+              gap: 16px;
+            }
+          }
+        }
+        .content_wrap {
+          margin-top: 32px;
+          width: 100%;
+          div {
+            color: #222;
+          }
+
+          .title {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .kebab {
+              position: relative;
+              .kebab_list {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                position: absolute;
+                top: 20px;
+                right: 4px;
+                .kebab_item {
+                  width: 55px;
+                  padding: 6px 12px;
+                  background-color: #fff;
+                  border: 1px solid #aaa;
+                  border-radius: 5px;
+                  color: #222;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+          .info {
+            margin-top: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            & > img {
+              height: 16px;
+              margin-right: 5px;
+            }
+            & > span:not(:last-child)::after {
+              content: '·';
+              display: inline-block;
+              width: 17px;
+              margin-left: 4px;
+              margin-right: 4px;
+              text-align: center;
+            }
+          }
+          .content {
+            .pros,
+            .cons {
+              & > p {
+                margin-top: 8px;
+                white-space: pre-line;
+              }
+            }
+            .cons,
+            .hashtag {
+              margin-top: 40px;
+            }
+            .btn_like {
+              display: flex;
+              align-items: center;
+              margin-top: 20px;
+              padding: 8px;
+              border: 1px solid #6269f5;
+              border-radius: 5px;
+              & > img {
+                width: 18px;
+                height: 18px;
+                margin-right: 4px;
+              }
+              & > span {
+                margin-left: 4px;
+                color: #aaa;
+              }
+            }
+            .on {
+              background-color: #6269f5;
+              color: #fff;
+              & > span {
+                margin-left: 4px;
+                color: #efefef;
+              }
+            }
+          }
+        }
+      }
+    }
+    .btn_show {
+      width: 100%;
+      padding: 20px;
+      border: 1px solid #aaa;
+      color: #222;
     }
   }
 }
@@ -142,6 +276,36 @@
             }
           }
         }
+      }
+      .review_wrap {
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        background-color: #fff;
+        .review_item {
+          padding: 60px 48px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 32px;
+          .score_wrap {
+            min-width: 150px;
+            max-width: 220px;
+            flex-grow: 2;
+            flex-shrink: 0;
+          }
+          .content_wrap {
+            width: auto;
+            margin-top: 0px;
+            max-width: 900px;
+            flex-grow: 1;
+            flex-shrink: 1;
+          }
+        }
+      }
+      .btn_show {
+        background-color: #fff;
+        border-top: 0px;
+        border-radius: 5px;
       }
     }
   }

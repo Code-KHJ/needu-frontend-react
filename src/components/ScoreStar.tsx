@@ -5,29 +5,33 @@ import { styled } from '@mui/material/styles';
 interface ScoreStarProps {
   name: string;
   readonly: boolean;
+  mosize: string;
   tabsize: string;
   value: number | any;
   onChange: (newValue: number) => void;
 }
 
-const StyledRating = styled(Rating)<{ tabsize: string }>(({ tabsize }) => ({
-  '& .MuiRating-iconFilled': {
-    color: '#FFD338',
-    fontSize: '40px',
-    '@media (min-width: 768px)': {
-      fontSize: tabsize,
+const StyledRating = styled(Rating)<{ tabsize: string; mosize: string }>(
+  ({ tabsize, mosize }) => ({
+    '& .MuiRating-iconFilled': {
+      color: '#FFD338',
+      fontSize: mosize,
+      '@media (min-width: 768px)': {
+        fontSize: tabsize,
+      },
     },
-  },
-  '& .MuiRating-iconEmpty': {
-    fontSize: '40px',
-    '@media (min-width: 768px)': {
-      fontSize: tabsize,
+    '& .MuiRating-iconEmpty': {
+      fontSize: mosize,
+      '@media (min-width: 768px)': {
+        fontSize: tabsize,
+      },
     },
-  },
-}));
+  })
+);
 
 const ScoreStar: React.FC<ScoreStarProps> = ({
   name,
+  mosize,
   tabsize,
   readonly,
   value,
@@ -41,6 +45,7 @@ const ScoreStar: React.FC<ScoreStarProps> = ({
   return (
     <StyledRating
       name={name}
+      mosize={mosize}
       tabsize={tabsize}
       readOnly={readonly}
       defaultValue={0}

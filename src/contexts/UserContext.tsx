@@ -7,6 +7,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: null,
     nickname: null,
+    authority: null,
   });
   const [loading, setLoading] = useState(true);
 
@@ -16,20 +17,29 @@ export const UserProvider = ({ children }) => {
         const userInfo = localStorage.getItem('userInfo');
         if (userInfo !== null) {
           const userData = JSON.parse(userInfo);
-          setUser({ id: userData.id, nickname: userData.nickname });
+          setUser({
+            id: userData.id,
+            nickname: userData.nickname,
+            authority: userData.authority,
+          });
         } else {
           const response = await userApi.getMe();
           if (response.status == 200) {
-            setUser({ id: response.data.id, nickname: response.data.nickname });
+            setUser({
+              id: response.data.id,
+              nickname: response.data.nickname,
+              authority: response.data.authority,
+            });
             localStorage.setItem(
               'userInfo',
               JSON.stringify({
                 id: response.data.id,
                 nickname: response.data.nickname,
+                authority: response.data.authority,
               })
             );
           } else {
-            setUser({ id: null, nickname: null });
+            setUser({ id: null, nickname: null, authority: null });
           }
         }
       }

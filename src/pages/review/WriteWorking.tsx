@@ -335,6 +335,7 @@ const WriteWorking = () => {
                   <div className={styles.score_star}>
                     <ScoreStar
                       name={item.en}
+                      mosize="40px"
                       tabsize="60px"
                       readonly={false}
                       value={values[item.en]}
@@ -355,6 +356,7 @@ const WriteWorking = () => {
           <h4>총점</h4>
           <ScoreStar
             name="total_score"
+            mosize="40px"
             tabsize="60px"
             readonly={true}
             value={values.total_score}

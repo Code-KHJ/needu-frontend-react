@@ -17,14 +17,8 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
         path="/write/training"
         element={!isLogin ? <Navigate to="/" /> : <WriteTraining />}
       />
-      <Route
-        path="/detail/working"
-        element={!isLogin ? <Navigate to="/" /> : <DetailWorking />}
-      />
-      <Route
-        path="/detail/training"
-        element={!isLogin ? <Navigate to="/" /> : <WriteWorking />}
-      />
+      <Route path="/detail/working" element={<DetailWorking />} />
+      <Route path="/detail/training" element={<WriteWorking />} />
     </Routes>
   );
 };
