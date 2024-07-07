@@ -72,18 +72,34 @@ header {
       margin-bottom: 60px;
       margin-top: 60px;
     }
+    .gnb {
+      .parent {
+        & > a::after {
+          content: '';
+          display: inline-block;
+          width: 10px;
+          height: 5px;
+          margin-left: 12px;
+          vertical-align: middle;
+          background: url(@/assets/images/ico_arrow_down_gnb.png) no-repeat
+            center/contain;
+        }
+      }
+      .child {
+      }
+    }
     .gnb li a {
       display: block;
       width: 100%;
       height: fit-content;
       line-height: 1.8;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
     .gnb li a::after {
       content: '';
       display: inline-block;
-      width: 7px;
-      height: 14px;
+      width: 5px;
+      height: 10px;
       margin-left: 12px;
       background: url(@/assets/images/ico_arrow_R.png) no-repeat bottom/contain;
     }

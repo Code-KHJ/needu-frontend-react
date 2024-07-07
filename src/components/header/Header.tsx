@@ -51,10 +51,17 @@ const Header = () => {
         className={`${styles.bg_white} ${isMenuShow ? styles.show : ''}`}
       ></div>
       <div className={styles.header_wrap}>
-        <Link to="/" className={`blind ${styles.logo}`}>
+        <Link
+          to="/"
+          className={`blind ${styles.logo}`}
+          style={isMenuShow ? { width: '0px' } : {}}
+        >
           logo
         </Link>
-        <div className={styles.nav_wrap}>
+        <div
+          className={styles.nav_wrap}
+          style={isMenuShow ? { width: '100%' } : {}}
+        >
           <div className={`${styles.btn_ham_gnb} blind`} onClick={toggleMenu}>
             <span></span>
             <span></span>
@@ -63,15 +70,19 @@ const Header = () => {
           <nav className={`${isMenuShow ? styles.show : ''}`}>
             <div className={styles.gnb_wrap}>
               <ul className={styles.gnb}>
-                <li>
+                <li className={styles.parent}>
                   <Link to="/review/search">기관리뷰</Link>
+                  <div className={styles.child}>
+                    <Link to="/review">전현직리뷰</Link>
+                    <Link to="/review">실습리뷰</Link>
+                  </div>
                 </li>
-                <li>
-                  <Link to="/review/write">리뷰작성</Link>
+                <li className={styles.parent}>
+                  <Link to="/review/write">커뮤니티</Link>
                 </li>
                 <li className={styles.beta}>
                   <a href="https://needu.oopy.io">니쥬챗</a>
-                  <img src="src/assets/images/ico_beta.png" />
+                  <img src="/src/assets/images/ico_beta.png" />
                 </li>
                 <li>
                   <a

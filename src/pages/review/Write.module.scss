@@ -34,7 +34,7 @@ select {
   margin: 80px auto;
   .corp_info {
     background-color: #6269f5;
-    padding: 40px;
+    padding: 40px 10%;
     .corp_name {
       color: #fafafa;
       line-height: 34px;
@@ -189,7 +189,7 @@ select {
   margin: 80px auto;
   .corp_info {
     background-color: #6269f5;
-    padding: 40px;
+    padding: 40px 10%;
     .corp_name {
       color: #fafafa;
       line-height: 34px;
@@ -378,6 +378,8 @@ select {
   .write_training_wrap {
     width: 86%;
     .corp_info {
+      padding: 40px;
+      border-radius: 5px;
       .corp_name {
         line-height: 56px;
       }
@@ -420,6 +422,8 @@ select {
   .write_working_wrap {
     width: 86%;
     .corp_info {
+      padding: 40px;
+      border-radius: 5px;
       .corp_name {
         line-height: 56px;
       }

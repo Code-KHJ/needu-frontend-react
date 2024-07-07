@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
+import StarIcon from '@mui/icons-material/Star';
 
 interface ScoreStarProps {
   name: string;
@@ -52,6 +53,9 @@ const ScoreStar: React.FC<ScoreStarProps> = ({
       precision={0.5}
       value={parseFloat(value)}
       onChange={!readonly ? handleRating : undefined}
+      emptyIcon={
+        <StarIcon style={{ opacity: 1, color: '#d9d9d9' }} fontSize="inherit" />
+      }
     />
   );
 };
