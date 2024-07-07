@@ -3,6 +3,13 @@
 /* mobile */
 /* z-index (.modal : 10) (.nav-wrap : 11) */
 
+.mo {
+  display: block !important;
+}
+.pc {
+  display: none !important;
+}
+
 header {
   position: sticky;
   width: 100%;
@@ -55,6 +62,7 @@ header {
       width: 100%;
       height: 2px;
       margin-bottom: 8px;
+      margin-top: 8px;
       background-color: #000;
       border-radius: 4px;
     }
@@ -68,49 +76,50 @@ header {
       width: 100%;
       margin-right: 60px;
     }
-    .gnb li {
-      margin-bottom: 60px;
-      margin-top: 60px;
-    }
     .gnb {
-      .parent {
+      & > li {
+        margin-bottom: 40px;
+        & > a {
+          display: block;
+          width: 100%;
+          height: fit-content;
+          line-height: 1.8;
+        }
         & > a::after {
           content: '';
           display: inline-block;
-          width: 10px;
-          height: 5px;
+          width: 5px;
+          height: 10px;
           margin-left: 12px;
-          vertical-align: middle;
-          background: url(@/assets/images/ico_arrow_down_gnb.png) no-repeat
-            center/contain;
+          background: url(@/assets/images/ico_arrow_R.png) no-repeat
+            bottom/contain;
         }
       }
-      .child {
+      .parent {
+        cursor: pointer;
       }
-    }
-    .gnb li a {
-      display: block;
-      width: 100%;
-      height: fit-content;
-      line-height: 1.8;
-      font-size: 1.6rem;
-    }
-    .gnb li a::after {
-      content: '';
-      display: inline-block;
-      width: 5px;
-      height: 10px;
-      margin-left: 12px;
-      background: url(@/assets/images/ico_arrow_R.png) no-repeat bottom/contain;
-    }
-    .beta {
-      position: relative;
-    }
-    .beta > img {
-      position: absolute;
-      right: 120px;
-      top: -20px;
-      width: 35px;
+      .parent::after {
+        content: '';
+        display: inline-block;
+        width: 10px;
+        height: 5px;
+        margin-left: 12px;
+        vertical-align: middle;
+        background: url(@/assets/images/ico_arrow_down_gnb.png) no-repeat
+          center/contain;
+      }
+      .expand::after {
+        transform: rotate(180deg) !important;
+      }
+      .child {
+        display: flex;
+        flex-direction: column;
+        padding: 30px 28px;
+        gap: 20px;
+        & > div {
+          border-bottom: 1px solid #d9d9d9;
+        }
+      }
     }
   }
   .show {
@@ -123,7 +132,6 @@ header {
     & > a {
       display: block;
       line-height: 1.8;
-      font-size: 1.8rem;
     }
     .login::before {
       content: '';
@@ -143,9 +151,12 @@ header {
       margin-right: 3px;
       background: url(@/assets/images/ico_signup.png) no-repeat center/contain;
     }
+    .signup {
+      width: 45%;
+    }
     .nickname {
       display: inline-block !important;
-      width: calc(100% - 30px);
+      width: 50%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -170,6 +181,7 @@ header {
     }
     .logout {
       cursor: pointer;
+      width: 45%;
     }
   }
 }
@@ -177,10 +189,15 @@ header {
 /* mobile-end */
 
 @media screen and (min-width: 768px) {
+  .mo {
+    display: none !important;
+  }
+  .pc {
+    display: block !important;
+  }
   header {
     .header_wrap {
       width: 86%;
-
       .nav_wrap {
         width: 100%;
         flex: 1;
@@ -204,6 +221,22 @@ header {
       .gnb {
         display: flex;
         min-width: fit-content;
+        .parent_li {
+          position: relative;
+        }
+        .parent::after {
+          display: none;
+        }
+        .child {
+          display: flex;
+          position: absolute;
+          width: 120px;
+          background-color: #fafafa;
+          border: 1px solid #aaa;
+          border-radius: 5px;
+          padding: 10px 20px;
+          gap: 10px;
+        }
       }
       /* ul */
       .gnb li {
@@ -221,7 +254,8 @@ header {
 
     .usersign {
       margin: 0;
-      width: fit-content;
+      max-width: 180px;
+      flex-grow: 1;
       justify-content: space-around;
       & > a {
         margin: 0;
@@ -230,6 +264,9 @@ header {
         display: none;
       }
       .signup::before {
+        display: none;
+      }
+      .logout::before {
         display: none;
       }
       .nickname {
@@ -251,8 +288,10 @@ header {
   width:75%;
 } */
   nav {
-    .gnb li {
-      margin-left: 40px;
+    .gnb_wrap {
+      .gnb li {
+        margin-left: 60px;
+      }
     }
   }
   .usersign {
@@ -272,6 +311,13 @@ header {
   header {
     .header_wrap {
       max-width: 1280px;
+    }
+    nav {
+      .gnb_wrap {
+        .gnb {
+          margin-left: 100px;
+        }
+      }
     }
   }
 }

@@ -139,11 +139,15 @@ h5,
 }
 /* 테블릿 768 사이즈 반응형 */
 @media screen and (min-width: 768px) {
-  * {
-    //default
+  a,
+  li,
+  div,
+  select,
+  input,
+  label,
+  button {
     font-size: 1.8rem;
   }
-
   h1,
   .banner_title {
     font-size: 4rem;

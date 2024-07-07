@@ -11,6 +11,10 @@ const Header = () => {
 
   const toggleMenu = () => {
     setMenuShow(!isMenuShow);
+    setToggle({
+      review: false,
+      community: false,
+    });
   };
 
   const handleResize = () => {
@@ -45,6 +49,18 @@ const Header = () => {
     }
   };
 
+  const [toggle, setToggle] = useState({
+    review: false,
+    community: false,
+  });
+
+  const handleToggle = (type: string) => {
+    setToggle((prevState) => ({
+      ...prevState,
+      [type]: !prevState[type],
+    }));
+  };
+
   return (
     <header>
       <div
@@ -70,19 +86,64 @@ const Header = () => {
           <nav className={`${isMenuShow ? styles.show : ''}`}>
             <div className={styles.gnb_wrap}>
               <ul className={styles.gnb}>
-                <li className={styles.parent}>
-                  <Link to="/review/search">기관리뷰</Link>
-                  <div className={styles.child}>
+                <li
+                  className={styles.parent_li}
+                  onMouseEnter={() => handleToggle('review')}
+                  onMouseLeave={() => handleToggle('review')}
+                >
+                  <Link
+                    className={`${styles.pc} ${styles.parent}`}
+                    to="/review/search"
+                  >
+                    기관리뷰
+                  </Link>
+                  <div
+                    className={`${styles.mo} ${styles.parent} ${
+                      toggle.review ? styles.expand : ''
+                    }`}
+                    onClick={() => handleToggle('review')}
+                  >
+                    기관리뷰
+                  </div>
+                  <div
+                    className={styles.child}
+                    style={toggle.review ? {} : { display: 'none' }}
+                  >
                     <Link to="/review">전현직리뷰</Link>
+                    <div></div>
                     <Link to="/review">실습리뷰</Link>
                   </div>
                 </li>
-                <li className={styles.parent}>
-                  <Link to="/review/write">커뮤니티</Link>
+                <li
+                  className={styles.parent_li}
+                  onMouseEnter={() => handleToggle('community')}
+                  onMouseLeave={() => handleToggle('community')}
+                >
+                  <Link
+                    className={`${styles.pc} ${styles.parent}`}
+                    to="/review/write"
+                  >
+                    커뮤니티
+                  </Link>
+                  <div
+                    className={`${styles.mo} ${styles.parent} ${
+                      toggle.community ? styles.expand : ''
+                    }`}
+                    onClick={() => handleToggle('community')}
+                  >
+                    커뮤니티
+                  </div>
+                  <div
+                    className={styles.child}
+                    style={toggle.community ? {} : { display: 'none' }}
+                  >
+                    <Link to="/review">자유게시판</Link>
+                    <div></div>
+                    <Link to="/review">질문&답변</Link>
+                  </div>
                 </li>
-                <li className={styles.beta}>
+                <li>
                   <a href="https://needu.oopy.io">니쥬챗</a>
-                  <img src="/src/assets/images/ico_beta.png" />
                 </li>
                 <li>
                   <a
@@ -100,7 +161,9 @@ const Header = () => {
                   <Link to="/mypage/profile" className={styles.nickname}>
                     {user.nickname}님
                   </Link>
-                  <span className={styles.logout} onClick={logout}></span>
+                  <span className={styles.logout} onClick={logout}>
+                    로그아웃
+                  </span>
                 </>
               ) : (
                 <>
