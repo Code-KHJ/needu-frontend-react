@@ -6,6 +6,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: null,
+    user_id: null,
     nickname: null,
     authority: null,
   });
@@ -19,6 +20,7 @@ export const UserProvider = ({ children }) => {
           const userData = JSON.parse(userInfo);
           setUser({
             id: userData.id,
+            user_id: userData.user_id,
             nickname: userData.nickname,
             authority: userData.authority,
           });
@@ -27,6 +29,7 @@ export const UserProvider = ({ children }) => {
           if (response.status == 200) {
             setUser({
               id: response.data.id,
+              user_id: response.data.user_id,
               nickname: response.data.nickname,
               authority: response.data.authority,
             });
@@ -34,12 +37,18 @@ export const UserProvider = ({ children }) => {
               'userInfo',
               JSON.stringify({
                 id: response.data.id,
+                user_id: response.data.user_id,
                 nickname: response.data.nickname,
                 authority: response.data.authority,
               })
             );
           } else {
-            setUser({ id: null, nickname: null, authority: null });
+            setUser({
+              id: null,
+              user_id: null,
+              nickname: null,
+              authority: null,
+            });
           }
         }
       }

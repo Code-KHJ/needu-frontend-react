@@ -139,12 +139,12 @@ const DetailTraining = () => {
   };
 
   const deleteReview = async (index: number, review_no: number) => {
-    if (user.user.id != reviews[index].user_id) {
+    if (user.user.user_id != reviews[index].user_id) {
       alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
       return;
     }
     const deleteReviewDto: DeleteReviewDto = {
-      user_id: user.user.id,
+      user_id: user.user.user_id,
       review_no: review_no,
     };
     const confirmed = confirm(
@@ -326,7 +326,7 @@ const DetailTraining = () => {
                             alt="kebab"
                             onClick={() => handleKebab(index)}
                           />
-                          {user.user.id === review.user_id
+                          {user.user.user_id === review.user_id
                             ? showKebab[index] && (
                                 <div className={styles.kebab_list}>
                                   <div

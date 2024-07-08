@@ -74,6 +74,16 @@ const DetailWorking = () => {
         navigate('/');
       }
       setReviews(response.data);
+      response.data.forEach((review) => {
+        const isLiked = review.reviewLikes.some((like) => {
+          return like.user_id === user.user.id;
+        });
+
+        setIsLike((prevState) => ({
+          ...prevState,
+          [review.id]: isLiked,
+        }));
+      });
     };
     getCorp();
     getCorpScore();
@@ -139,16 +149,39 @@ const DetailWorking = () => {
         ...prevState,
         [review_no]: !prevState[review_no],
       }));
+      setReviews((prevReviews) =>
+        incrementLikeById(prevReviews, review_no, likeDto.action)
+      );
     }
   };
 
+  const incrementLikeById = (reviews, id, action) => {
+    return reviews.map((review) => {
+      if (review.id === id) {
+        if (action === 'plus') {
+          return {
+            ...review,
+            likes: review.likes + 1,
+          };
+        }
+        if (action === 'minus') {
+          return {
+            ...review,
+            likes: review.likes - 1,
+          };
+        }
+      }
+      return review;
+    });
+  };
+
   const deleteReview = async (index: number, review_no: number) => {
-    if (user.user.id != reviews[index].user_id) {
+    if (user.user.user_id != reviews[index].user_id) {
       alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
       return;
     }
     const deleteReviewDto: DeleteReviewDto = {
-      user_id: user.user.id,
+      user_id: user.user.user_id,
       review_no: review_no,
     };
     const confirmed = confirm(
@@ -323,7 +356,7 @@ const DetailWorking = () => {
                             alt="kebab"
                             onClick={() => handleKebab(index)}
                           />
-                          {user.user.id === review.user_id
+                          {user.user.user_id === review.user_id
                             ? showKebab[index] && (
                                 <div className={styles.kebab_list}>
                                   <div
@@ -335,7 +368,7 @@ const DetailWorking = () => {
                                   <div
                                     className={styles.kebab_item}
                                     onClick={() =>
-                                      deleteReview(index, review.no)
+                                      deleteReview(index, review.id)
                                     }
                                   >
                                     삭제
@@ -393,11 +426,11 @@ const DetailWorking = () => {
                           </div>
                           <button
                             className={`body2 ${styles.btn_like} ${
-                              isLike[review.no] ? styles.on : ''
+                              isLike[review.id] ? styles.on : ''
                             }`}
-                            onClick={() => like(review.no)}
+                            onClick={() => like(review.id)}
                           >
-                            {isLike[review.no] ? (
+                            {isLike[review.id] ? (
                               <img
                                 src="/src/assets/images/like_on.png"
                                 alt="좋아요"
@@ -409,13 +442,7 @@ const DetailWorking = () => {
                               />
                             )}
                             도움이 돼요
-                            <span>
-                              (
-                              {isLike[review.no]
-                                ? review.likes + 1
-                                : review.likes}
-                              )
-                            </span>
+                            <span>({review.likes})</span>
                           </button>
                         </div>
                       )}

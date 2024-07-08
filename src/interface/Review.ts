@@ -37,7 +37,7 @@ export type ReviewTrainingDto = Review & {
 };
 
 export interface ReviewContent {
-  no: number;
+  id: number;
   user_id: string;
   hashtag: number[];
   total_score: string;
@@ -59,7 +59,7 @@ export interface ReviewContent {
 }
 
 export interface ReviewTrainingContent {
-  no: number;
+  id: number;
   user_id: string;
   year: string;
   season: string;
