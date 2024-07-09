@@ -17,7 +17,7 @@ const WriteTraining = () => {
   const { user } = useUser();
 
   const [corp, setCorp] = useState({
-    no: null,
+    id: null,
     corp_name: null,
     city: null,
     gugun: null,
@@ -51,7 +51,7 @@ const WriteTraining = () => {
 
   const [values, setValues] = useState<ReviewTrainingDto>({
     corp_name: '',
-    user_id: user.id,
+    user_id: user.user_id,
     year: '',
     season: '',
     cost: null,

@@ -11,7 +11,7 @@ import Button from '@/components/elements/Button';
 const Signup = () => {
   //유효성 검사
   const [values, setValues] = useState<SingupDto>({
-    id: '',
+    user_id: '',
     password: '',
     password2: '',
     phonenumber: '',
@@ -23,7 +23,7 @@ const Signup = () => {
   });
 
   type ValidValues = {
-    id: boolean | null;
+    user_id: boolean | null;
     idAuth: boolean | null;
     password: boolean | null;
     password2: boolean | null;
@@ -33,7 +33,7 @@ const Signup = () => {
     personal_info: boolean | null;
   };
   const [validValues, setValidValues] = useState<ValidValues>({
-    id: null,
+    user_id: null,
     idAuth: null,
     password: null,
     password2: null,
@@ -44,7 +44,7 @@ const Signup = () => {
   });
 
   const [validMsg, setValidMsg] = useState({
-    id: '',
+    user_id: '',
     password: '',
     password2: '',
     phonenumber: '',
@@ -359,18 +359,18 @@ const Signup = () => {
             <div className={styles.write_wrap}>
               {/* <!-- 아이디 --> */}
               <div className={styles.item}>
-                <Label title="이메일(ID)" target="id" required={true} />
+                <Label title="이메일(ID)" target="user_id" required={true} />
                 <div>
                   <Input
-                    name="id"
+                    name="user_id"
                     className={`${
-                      validValues.id === null
+                      validValues.user_id === null
                         ? 'input_default'
-                        : validValues.id
+                        : validValues.user_id
                         ? 'input_done'
                         : 'input_wrong'
                     }`}
-                    value={values.id}
+                    value={values.user_id}
                     placeholder=""
                     onChange={handleChange}
                     readOnly={authBtn.confirmText == '인증완료'}
@@ -391,7 +391,7 @@ const Signup = () => {
                   className={`${'body2'} ${styles.checkmsg}`}
                   id="checkidmsg"
                 >
-                  {validMsg.id}
+                  {validMsg.user_id}
                 </div>
               </div>
               <div

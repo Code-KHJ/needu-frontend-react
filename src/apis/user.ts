@@ -4,7 +4,7 @@ import customAxios from './axios-config';
 const userApi = {
   login: async (userData: LoginDto) => {
     const userLoginDto = {
-      id: userData.id,
+      user_id: userData.user_id,
       password: userData.password,
     };
     try {

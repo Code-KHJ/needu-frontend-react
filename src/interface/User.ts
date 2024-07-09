@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  user_id: string;
   password: string;
   phonenumber: string;
   nickname: string;
@@ -13,10 +13,10 @@ export type SingupDto = User & {
   password2: string;
 };
 
-export type LoginDto = Pick<User, 'id' | 'password'>;
+export type LoginDto = Pick<User, 'user_id' | 'password'>;
 
 export interface UserCareer {
-  no: number;
+  id: number;
   user_id: string;
   corp_name: string;
   first_date: string;

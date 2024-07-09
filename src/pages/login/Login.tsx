@@ -11,7 +11,7 @@ import { useUser } from '@/contexts/UserContext';
 const Login = () => {
   // 입력폼 유효성검사
   const [values, setValues] = useState<LoginDto>({
-    id: '',
+    user_id: '',
     password: '',
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ const Login = () => {
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   useEffect(() => {
-    const isUseridValid = regEmail.test(values.id);
+    const isUseridValid = regEmail.test(values.user_id);
     const isUserpwValid = regPw.test(values.password);
     setIsSubmitDisabled(!(isUseridValid && isUserpwValid));
   }, [values]);
@@ -43,13 +43,13 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const response = await userApi.login(values);
-    console.log(response);
     if (response.status !== 200) {
       alert('일치하는 회원정보가 없습니다.');
       return;
     } else {
       setUser({
         id: response.data.id,
+        user_id: response.data.user_id,
         nickname: response.data.nickname,
         authority: response.data.authority,
       });
@@ -57,6 +57,7 @@ const Login = () => {
         'userInfo',
         JSON.stringify({
           id: response.data.id,
+          user_id: response.data.user_id,
           nickname: response.data.nickname,
           authority: response.data.authority,
         })
@@ -77,7 +78,7 @@ const Login = () => {
                 <fieldset>
                   <input
                     type="text"
-                    name="id"
+                    name="user_id"
                     id="userid"
                     className={`body2 ${styles.userid}`}
                     placeholder="아이디(이메일)를 입력하세요"

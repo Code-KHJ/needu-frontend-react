@@ -197,7 +197,7 @@ const Findid = () => {
                   <li className={styles.user_data}>
                     <div className={styles.user_data_id}>
                       <input type="radio" />
-                      <span>{user.id}</span>
+                      <span>{user.user_id}</span>
                     </div>
                     <div className={styles.user_data_created_date}>
                       <span>가입: </span>

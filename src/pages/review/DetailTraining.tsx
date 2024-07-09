@@ -76,6 +76,17 @@ const DetailTraining = () => {
         navigate('/');
       }
       setReviews(response.data);
+      response.data.forEach((review) => {
+        const isLiked =
+          Array.isArray(review.reviewTrianingLikes) &&
+          review.reviewTrianingLikes.some((like) => {
+            return like.user_id === user.user.id;
+          });
+        setIsLike((prevState) => ({
+          ...prevState,
+          [review.id]: isLiked,
+        }));
+      });
     };
     getCorp();
     getCorpScore();
@@ -135,7 +146,30 @@ const DetailTraining = () => {
         ...prevState,
         [review_no]: !prevState[review_no],
       }));
+      setReviews((prevReviews) =>
+        incrementLikeById(prevReviews, review_no, likeDto.action)
+      );
     }
+  };
+
+  const incrementLikeById = (reviews, id, action) => {
+    return reviews.map((review) => {
+      if (review.id === id) {
+        if (action === 'plus') {
+          return {
+            ...review,
+            likes: review.likes + 1,
+          };
+        }
+        if (action === 'minus') {
+          return {
+            ...review,
+            likes: review.likes - 1,
+          };
+        }
+      }
+      return review;
+    });
   };
 
   const deleteReview = async (index: number, review_no: number) => {
@@ -338,7 +372,7 @@ const DetailTraining = () => {
                                   <div
                                     className={styles.kebab_item}
                                     onClick={() =>
-                                      deleteReview(index, review.no)
+                                      deleteReview(index, review.id)
                                     }
                                   >
                                     삭제
@@ -377,11 +411,11 @@ const DetailTraining = () => {
                           </div>
                           <button
                             className={`body2 ${styles.btn_like} ${
-                              isLike[review.no] ? styles.on : ''
+                              isLike[review.id] ? styles.on : ''
                             }`}
-                            onClick={() => like(review.no)}
+                            onClick={() => like(review.id)}
                           >
-                            {isLike[review.no] ? (
+                            {isLike[review.id] ? (
                               <img
                                 src="/src/assets/images/like_on.png"
                                 alt="좋아요"
@@ -393,13 +427,7 @@ const DetailTraining = () => {
                               />
                             )}
                             도움이 돼요
-                            <span>
-                              (
-                              {isLike[review.no]
-                                ? review.likes + 1
-                                : review.likes}
-                              )
-                            </span>
+                            <span>({review.likes})</span>
                           </button>
                         </div>
                       )}

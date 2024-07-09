@@ -21,12 +21,12 @@ const Input: React.FC<InputProps> = ({
   required,
 }) => {
   switch (name) {
-    case 'id':
+    case 'user_id':
       return (
         <input
           type="email"
           className={`${styles.input} ${styles[className]}`}
-          name="id"
+          name="user_id"
           maxLength={40}
           autoCapitalize="off"
           autoComplete="on"

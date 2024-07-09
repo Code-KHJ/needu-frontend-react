@@ -19,7 +19,7 @@ const WriteWorking = () => {
   const { user, setUser } = useUser();
 
   const [corp, setCorp] = useState({
-    no: null,
+    id: null,
     corp_name: null,
     city: null,
     gugun: null,
@@ -72,7 +72,7 @@ const WriteWorking = () => {
 
   const [values, setValues] = useState<ReviewWorkingDto>({
     corp_name: '',
-    user_id: user.id,
+    user_id: user.user_id,
     start_date: '',
     end_date: '',
     career_type: '',
@@ -302,7 +302,7 @@ const WriteWorking = () => {
                     직종 선택
                   </option>
                   {shared.careerType.map((item) => (
-                    <option key={item.no} value={item.type}>
+                    <option key={item.id} value={item.type}>
                       {item.type}
                     </option>
                   ))}
@@ -313,13 +313,13 @@ const WriteWorking = () => {
                 <div className={styles.keyword_wrap}>
                   {shared.hashtagList.map((item) => (
                     <input
-                      key={item.no}
+                      key={item.id}
                       className={`${styles.keyword_item} ${
-                        values.hashtag.includes(item.no) ? styles.selected : ''
+                        values.hashtag.includes(item.id) ? styles.selected : ''
                       }`}
                       type="button"
                       value={item.content}
-                      onClick={() => selectHashtag(item.no)}
+                      onClick={() => selectHashtag(item.id)}
                     />
                   ))}
                 </div>
