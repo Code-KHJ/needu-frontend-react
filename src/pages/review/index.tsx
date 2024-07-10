@@ -1,8 +1,9 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import WriteWorking from './WriteWorking';
-import WriteTraining from './WriteTraining';
-import DetailWorking from './DetailWorking';
-import DetailTraining from './DetailTraining';
+import { Navigate, Route, Routes } from "react-router-dom";
+import WriteWorking from "./WriteWorking";
+import WriteTraining from "./WriteTraining";
+import DetailWorking from "./DetailWorking";
+import DetailTraining from "./DetailTraining";
+import SearchWorking from "./SearchWorking";
 
 interface ReviewRoutesProps {
   isLogin: boolean;
@@ -20,6 +21,7 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
       />
       <Route path="/detail/working" element={<DetailWorking />} />
       <Route path="/detail/training" element={<DetailTraining />} />
+      <Route path="/search/working" element={<SearchWorking />} />
     </Routes>
   );
 };
