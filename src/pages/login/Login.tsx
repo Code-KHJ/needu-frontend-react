@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { regEmail, regPw, validateInput } from '@/utils/validation';
-import styles from './Login.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import userApi from '@/apis/user';
-import { LoginDto } from '@/interface/User';
-import Button from '@/components/elements/Button';
-import SocialLogin from '@/components/IcoSocialLogin';
-import { useUser } from '@/contexts/UserContext';
+import React, { useEffect, useState } from "react";
+import { regEmail, regPw, validateInput } from "@/utils/validation";
+import styles from "./Login.module.scss";
+import { Link, useNavigate } from "react-router-dom";
+import userApi from "@/apis/user";
+import { LoginDto } from "@/interface/User";
+import Button from "@/components/elements/Button";
+import SocialLogin from "@/components/IcoSocialLogin";
+import { useUser } from "@/contexts/UserContext";
 
 const Login = () => {
   // 입력폼 유효성검사
   const [values, setValues] = useState<LoginDto>({
-    user_id: '',
-    password: '',
+    user_id: "",
+    password: "",
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -20,10 +20,10 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
     switch (e.target.name) {
-      case 'id':
+      case "id":
         validateInput(regEmail, e.target);
         break;
-      case 'password':
+      case "password":
         validateInput(regPw, e.target);
         break;
     }
@@ -40,11 +40,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   // 폼 제출
-  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     const response = await userApi.login(values);
     if (response.status !== 200) {
-      alert('일치하는 회원정보가 없습니다.');
+      alert("일치하는 회원정보가 없습니다.");
       return;
     } else {
       setUser({
@@ -54,7 +56,7 @@ const Login = () => {
         authority: response.data.authority,
       });
       localStorage.setItem(
-        'userInfo',
+        "userInfo",
         JSON.stringify({
           id: response.data.id,
           user_id: response.data.user_id,
@@ -62,8 +64,15 @@ const Login = () => {
           authority: response.data.authority,
         })
       );
-      alert(response.data.nickname + '님 환영합니다.');
-      navigate('/');
+      alert(response.data.nickname + "님 환영합니다.");
+      navigate("/");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter" && !isSubmitDisabled) {
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
 
@@ -74,7 +83,7 @@ const Login = () => {
           <h4>사회복지 커리어플랫폼 NEEDU</h4>
           <div className={styles.login_box} id="form_login_user">
             <div className={styles.login_input_wrap}>
-              <form id="form_user">
+              <form id="form_user" onKeyDown={handleKeyPress}>
                 <fieldset>
                   <input
                     type="text"
@@ -82,7 +91,7 @@ const Login = () => {
                     id="userid"
                     className={`body2 ${styles.userid}`}
                     placeholder="아이디(이메일)를 입력하세요"
-                    value={values.id}
+                    value={values.user_id}
                     onChange={handleChange}
                     required
                   />
@@ -112,7 +121,7 @@ const Login = () => {
             <Button
               children="로그인"
               className={`btn_condition_true`}
-              style={{ height: '60px' }}
+              style={{ height: "60px" }}
               isDisabled={isSubmitDisabled}
               onClick={handleSubmit}
             />
