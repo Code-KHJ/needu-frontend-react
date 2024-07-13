@@ -45,6 +45,10 @@ const DetailWorking = () => {
   const [reviews, setReviews] = useState<ReviewContent[]>([]);
 
   useEffect(() => {
+    if (user.loading) {
+      return;
+    }
+
     if (!corpName) {
       navigate('/');
       return;
@@ -75,9 +79,11 @@ const DetailWorking = () => {
       }
       setReviews(response.data);
       response.data.forEach((review) => {
-        const isLiked = review.reviewLikes.some((like) => {
-          return like.user_id === user.user.id;
-        });
+        const isLiked =
+          Array.isArray(review.reviewTrianingLikes) &&
+          review.reviewLikes.some((like) => {
+            return like.user_id === user.user.id;
+          });
 
         setIsLike((prevState) => ({
           ...prevState,
@@ -88,15 +94,8 @@ const DetailWorking = () => {
     getCorp();
     getCorpScore();
     getReviews();
-  }, [corpName]);
+  }, [corpName, user]);
 
-  const hideEmail = (email: string) => {
-    if (!email) return '';
-    const id = email.split('@')[0];
-    const hiddenPart = id.substring(1).replace(/./g, '*');
-
-    return id.charAt(0) + hiddenPart;
-  };
   const careerStatus = (lastdate) => {
     const today = new Date();
     const lastDate = new Date(lastdate);
@@ -180,7 +179,7 @@ const DetailWorking = () => {
   };
 
   const deleteReview = async (index: number, review_no: number) => {
-    if (user.user.user_id != reviews[index].user_id) {
+    if (user.user.id != reviews[index].user.id) {
       alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
       return;
     }
@@ -360,7 +359,7 @@ const DetailWorking = () => {
                             alt="kebab"
                             onClick={() => handleKebab(index)}
                           />
-                          {user.user.user_id === review.user_id
+                          {user.user.id === review.user.id
                             ? showKebab[index] && (
                                 <div className={styles.kebab_list}>
                                   <div
@@ -396,7 +395,7 @@ const DetailWorking = () => {
                           }
                         />
                         <span>{careerStatus(review.userCareer.last_date)}</span>
-                        <span>{hideEmail(review.user_id)}</span>
+                        <span>{review.user.user_id}</span>
                         <span>{review.userCareer.type}</span>
                         <span>
                           {review.created_date.slice(0, 10).replace(/-/g, '.')}

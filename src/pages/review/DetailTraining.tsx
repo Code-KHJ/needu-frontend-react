@@ -47,6 +47,10 @@ const DetailTraining = () => {
   const [reviews, setReviews] = useState<ReviewTrainingContent[]>([]);
 
   useEffect(() => {
+    if (user.loading) {
+      return;
+    }
+
     if (!corpName) {
       navigate('/');
       return;
@@ -78,8 +82,8 @@ const DetailTraining = () => {
       setReviews(response.data);
       response.data.forEach((review) => {
         const isLiked =
-          Array.isArray(review.reviewTrianingLikes) &&
-          review.reviewTrianingLikes.some((like) => {
+          Array.isArray(review.reviewLikes) &&
+          review.reviewLikes.some((like) => {
             return like.user_id === user.user.id;
           });
         setIsLike((prevState) => ({
@@ -91,15 +95,7 @@ const DetailTraining = () => {
     getCorp();
     getCorpScore();
     getReviews();
-  }, [corpName]);
-
-  const hideEmail = (email: string) => {
-    if (!email) return '';
-    const id = email.split('@')[0];
-    const hiddenPart = id.substring(1).replace(/./g, '*');
-
-    return id.charAt(0) + hiddenPart;
-  };
+  }, [corpName, user]);
 
   const [showToggle, setShowToggle] = useState<{ [key: number]: boolean }>({});
   const handleToggle = (index: number) => {
@@ -177,7 +173,7 @@ const DetailTraining = () => {
   };
 
   const deleteReview = async (index: number, review_no: number) => {
-    if (user.user.user_id != reviews[index].user_id) {
+    if (user.user.id != reviews[index].user.id) {
       alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
       return;
     }
@@ -364,7 +360,7 @@ const DetailTraining = () => {
                             alt="kebab"
                             onClick={() => handleKebab(index)}
                           />
-                          {user.user.user_id === review.user_id
+                          {user.user.id === review.user.id
                             ? showKebab[index] && (
                                 <div className={styles.kebab_list}>
                                   <div
@@ -391,7 +387,7 @@ const DetailTraining = () => {
                         </div>
                       </div>
                       <div className={styles.info}>
-                        <span>{hideEmail(review.user_id)}</span>
+                        <span>{review.user.user_id}</span>
                         <span>
                           {review.year} {review.season}
                         </span>
