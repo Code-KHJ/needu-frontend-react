@@ -182,6 +182,15 @@ select {
         width: 100%;
       }
     }
+    .submit_btn_edit {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      & > button {
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -368,6 +377,15 @@ select {
         width: 100%;
       }
     }
+    .submit_btn_edit {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      & > button {
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -416,6 +434,12 @@ select {
           width: auto;
         }
       }
+      .submit_btn_edit {
+        justify-content: center;
+        & > button {
+          width: 110px;
+        }
+      }
     }
   }
 
@@ -458,6 +482,12 @@ select {
       .submit_btn {
         & > button {
           width: auto;
+        }
+      }
+      .submit_btn_edit {
+        justify-content: center;
+        & > button {
+          width: 110px;
         }
       }
     }

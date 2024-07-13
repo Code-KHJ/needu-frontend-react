@@ -301,6 +301,15 @@
             max-width: 900px;
             flex-grow: 1;
             flex-shrink: 1;
+            .title {
+              .kebab {
+                .kebab_list {
+                  .kebab_item {
+                    width: 60px;
+                  }
+                }
+              }
+            }
           }
         }
       }

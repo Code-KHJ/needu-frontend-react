@@ -9,11 +9,11 @@ import { ReviewTrainingDto } from '@/interface/Review';
 import reviewApi from '@/apis/review';
 import { StarList } from '@/common/StarList';
 
-const WriteTraining = () => {
+const EditTraining = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get('name');
+  const no = queryParams.get('no');
   const { user } = useUser();
 
   const [corp, setCorp] = useState({
@@ -28,12 +28,12 @@ const WriteTraining = () => {
   const starList = StarList.training;
 
   useEffect(() => {
-    if (!name) {
+    if (!no) {
       navigate('/');
       return;
     }
-    const getCorp = async () => {
-      const response: any = await corpApi.getWithTraining(name);
+    const getCorp = async (corpName: string) => {
+      const response: any = await corpApi.getWithTraining(corpName);
       if (response.status !== 200) {
         navigate('/');
       }
@@ -41,13 +41,41 @@ const WriteTraining = () => {
         navigate('/');
       }
       setCorp(response.data);
-      setValues({
-        ...values,
+      setValues((prevValues) => ({
+        ...prevValues,
         corp_name: response.data.corp_name,
-      });
+      }));
     };
-    getCorp();
-  }, [name]);
+    const getReview = async () => {
+      const response = await reviewApi.getTrainingReview(no);
+      if (response.status === 403) {
+        alert('권한이 없습니다.');
+        window.history.back();
+      }
+      if (response.status !== 200) {
+        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        window.history.back();
+      }
+      getCorp(response.data.corp.corp_name);
+      setValues((prevValues) => ({
+        ...prevValues,
+        year: response.data.year,
+        season: response.data.season,
+        cost: response.data.cost,
+        number_of_participants: response.data.number_of_participants,
+        duration: response.data.duration,
+        total_score: parseFloat(response.data.total_score),
+        growth_score: parseFloat(response.data.growth_score),
+        worth_score: parseFloat(response.data.worth_score),
+        recommend_score: parseFloat(response.data.recommend_score),
+        supervisor_score: parseFloat(response.data.supervisor_score),
+        highlight: response.data.highlight,
+        pros: response.data.pros,
+        cons: response.data.cons,
+      }));
+    };
+    getReview();
+  }, [no]);
 
   const [values, setValues] = useState<ReviewTrainingDto>({
     corp_name: '',
@@ -166,13 +194,19 @@ const WriteTraining = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const response = await reviewApi.createTraining(values);
-    if (response.status !== 201) {
-      alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
-    } else {
-      alert('리뷰가 작성되었습니다.');
-      navigate(`/review/detail/training?name=${values.corp_name}`);
+    const confirmed = confirm('리뷰를 수정하시겠습니까?');
+    if (confirmed) {
+      const response = await reviewApi.updateTrainingReview(no, values);
+      if (response.status !== 200) {
+        alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+      } else {
+        alert('리뷰가 수정되었습니다.');
+        navigate(`/review/detail/training?name=${values.corp_name}`);
+      }
     }
+  };
+  const handleCancel = () => {
+    window.history.back();
   };
 
   return (
@@ -446,9 +480,16 @@ const WriteTraining = () => {
             </div>
           </div>
         </div>
-        <div className={styles.submit_btn}>
+        <div className={styles.submit_btn_edit}>
           <Button
-            children="제출"
+            children="취소"
+            className="btn_condition_false"
+            style={{ minWidth: '110px', height: '60px' }}
+            isDisabled={false}
+            onClick={handleCancel}
+          ></Button>
+          <Button
+            children="수정"
             className={`${
               isSubmitDisabled === false
                 ? 'btn_condition_true'
@@ -464,4 +505,4 @@ const WriteTraining = () => {
   );
 };
 
-export default WriteTraining;
+export default EditTraining;

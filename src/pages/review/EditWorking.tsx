@@ -11,11 +11,11 @@ import { useUser } from '@/contexts/UserContext';
 import reviewApi from '@/apis/review';
 import { StarList } from '@/common/StarList';
 
-const WriteWorking = () => {
+const EditWorking = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get('name');
+  const no = queryParams.get('no');
   const { user, setUser } = useUser();
 
   const [corp, setCorp] = useState({
@@ -32,43 +32,6 @@ const WriteWorking = () => {
     hashtagList: [],
   });
   const starList = StarList.working;
-
-  useEffect(() => {
-    const getShared = async () => {
-      const careerType: any = await sharedApi.getCareerType();
-      const hashtagList: any = await sharedApi.getHashtagList();
-
-      if (careerType.status === 200 && hashtagList.status === 200) {
-        setShared({
-          careerType: careerType.data,
-          hashtagList: hashtagList.data,
-        });
-      }
-    };
-    getShared();
-  }, []);
-
-  useEffect(() => {
-    if (!name) {
-      navigate('/');
-      return;
-    }
-    const getCorp = async () => {
-      const response: any = await corpApi.getWithWorking(name);
-      if (response.status !== 200) {
-        navigate('/');
-      }
-      if (!response.data.corp_name) {
-        navigate('/');
-      }
-      setCorp(response.data);
-      setValues({
-        ...values,
-        corp_name: response.data.corp_name,
-      });
-    };
-    getCorp();
-  }, [name]);
 
   const [values, setValues] = useState<ReviewWorkingDto>({
     corp_name: '',
@@ -88,6 +51,75 @@ const WriteWorking = () => {
     pros: '',
     cons: '',
   });
+
+  useEffect(() => {
+    const getShared = async () => {
+      const careerType: any = await sharedApi.getCareerType();
+      const hashtagList: any = await sharedApi.getHashtagList();
+
+      if (careerType.status === 200 && hashtagList.status === 200) {
+        setShared({
+          careerType: careerType.data,
+          hashtagList: hashtagList.data,
+        });
+      }
+    };
+    getShared();
+  }, []);
+
+  useEffect(() => {
+    if (!no) {
+      navigate('/');
+      return;
+    }
+    const getCorp = async (corpName: string) => {
+      const response: any = await corpApi.getWithWorking(corpName);
+      if (response.status !== 200) {
+        navigate('/');
+      }
+      if (!response.data.corp_name) {
+        navigate('/');
+      }
+      setCorp(response.data);
+      setValues((prevValues) => ({
+        ...prevValues,
+        corp_name: response.data.corp_name,
+      }));
+    };
+    const getReview = async () => {
+      const response = await reviewApi.getWorkingReview(no);
+      if (response.status === 403) {
+        alert('권한이 없습니다.');
+        window.history.back();
+      }
+      if (response.status !== 200) {
+        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        window.history.back();
+      }
+      getCorp(response.data.corp.corp_name);
+      setValues((prevValues) => ({
+        ...prevValues,
+        start_date: response.data.userCareer.first_date,
+        end_date: response.data.userCareer.last_date,
+        career_type: response.data.userCareer.type,
+        hashtag: response.data.hashtag,
+        total_score: parseFloat(response.data.total_score),
+        growth_score: parseFloat(response.data.growth_score),
+        leadership_score: parseFloat(response.data.leadership_score),
+        reward_score: parseFloat(response.data.reward_score),
+        worth_score: parseFloat(response.data.worth_score),
+        culture_score: parseFloat(response.data.culture_score),
+        worklife_score: parseFloat(response.data.worklife_score),
+        highlight: response.data.highlight,
+        pros: response.data.pros,
+        cons: response.data.cons,
+      }));
+      if (response.data.userCareer.last_date === '9999-12-31') {
+        setWorking(true);
+      }
+    };
+    getReview();
+  }, [no]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -199,14 +231,19 @@ const WriteWorking = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    const response = await reviewApi.createWorking(values);
-    if (response.status !== 201) {
-      alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
-    } else {
-      alert('리뷰가 작성되었습니다.');
-      navigate(`/review/detail/working?name=${values.corp_name}`);
+    const confirmed = confirm('리뷰를 수정하시겠습니까?');
+    if (confirmed) {
+      const response = await reviewApi.updateWorkingReview(no, values);
+      if (response.status !== 200) {
+        alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+      } else {
+        alert('리뷰가 수정되었습니다.');
+        navigate(`/review/detail/working?name=${values.corp_name}`);
+      }
     }
+  };
+  const handleCancel = () => {
+    window.history.back();
   };
 
   return (
@@ -441,9 +478,16 @@ const WriteWorking = () => {
             </div>
           </div>
         </div>
-        <div className={styles.submit_btn}>
+        <div className={styles.submit_btn_edit}>
           <Button
-            children="제출"
+            children="취소"
+            className="btn_condition_false"
+            style={{ minWidth: '110px', height: '60px' }}
+            isDisabled={false}
+            onClick={handleCancel}
+          ></Button>
+          <Button
+            children="수정"
             className={`${
               isSubmitDisabled === false
                 ? 'btn_condition_true'
@@ -459,4 +503,4 @@ const WriteWorking = () => {
   );
 };
 
-export default WriteWorking;
+export default EditWorking;

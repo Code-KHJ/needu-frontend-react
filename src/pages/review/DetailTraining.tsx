@@ -172,6 +172,10 @@ const DetailTraining = () => {
     });
   };
 
+  const editReview = (review_no: number) => {
+    navigate(`/review/edit/training?no=${review_no}`);
+  };
+
   const deleteReview = async (index: number, review_no: number) => {
     if (user.user.user_id != reviews[index].user_id) {
       alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
@@ -365,7 +369,7 @@ const DetailTraining = () => {
                                 <div className={styles.kebab_list}>
                                   <div
                                     className={styles.kebab_item}
-                                    onClick={() => index}
+                                    onClick={() => editReview(review.id)}
                                   >
                                     수정
                                   </div>

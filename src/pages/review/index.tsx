@@ -4,6 +4,8 @@ import WriteTraining from "./WriteTraining";
 import DetailWorking from "./DetailWorking";
 import DetailTraining from "./DetailTraining";
 import SearchWorking from "./SearchWorking";
+import EditWorking from './EditWorking';
+import EditTraining from './EditTraining';
 
 interface ReviewRoutesProps {
   isLogin: boolean;
@@ -18,6 +20,14 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
       <Route
         path="/write/training"
         element={!isLogin ? <Navigate to="/" /> : <WriteTraining />}
+      />
+      <Route
+        path="/edit/working"
+        element={!isLogin ? <Navigate to="/" /> : <EditWorking />}
+      />
+      <Route
+        path="/edit/training"
+        element={!isLogin ? <Navigate to="/" /> : <EditTraining />}
       />
       <Route path="/detail/working" element={<DetailWorking />} />
       <Route path="/detail/training" element={<DetailTraining />} />
