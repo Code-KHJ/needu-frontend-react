@@ -6,7 +6,6 @@ import userApi from '@/apis/user';
 
 const Header = () => {
   const { user, setUser } = useUser();
-
   const [isMenuShow, setMenuShow] = useState(false);
 
   const toggleMenu = () => {
@@ -88,8 +87,12 @@ const Header = () => {
               <ul className={styles.gnb}>
                 <li
                   className={styles.parent_li}
-                  onMouseEnter={() => handleToggle('review')}
-                  onMouseLeave={() => handleToggle('review')}
+                  onMouseEnter={() =>
+                    window.innerWidth >= 768 && handleToggle('review')
+                  }
+                  onMouseLeave={() =>
+                    window.innerWidth >= 768 && handleToggle('review')
+                  }
                 >
                   <Link
                     className={`${styles.pc} ${styles.parent}`}
@@ -116,8 +119,12 @@ const Header = () => {
                 </li>
                 <li
                   className={styles.parent_li}
-                  onMouseEnter={() => handleToggle('community')}
-                  onMouseLeave={() => handleToggle('community')}
+                  onMouseEnter={() =>
+                    window.innerWidth >= 768 && handleToggle('community')
+                  }
+                  onMouseLeave={() =>
+                    window.innerWidth >= 768 && handleToggle('community')
+                  }
                 >
                   <Link
                     className={`${styles.pc} ${styles.parent}`}
