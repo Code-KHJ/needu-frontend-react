@@ -5,6 +5,7 @@ import sharedApi from '@/apis/shared';
 import corpApi from '@/apis/corp';
 import { CorpDto } from '@/interface/Corp';
 import Pagination from '@/components/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 type Filters = {
   region: string;
@@ -16,6 +17,7 @@ type Filters = {
 };
 
 const SearchWorking = () => {
+  const navigate = useNavigate();
   const [corps, setCorps] = useState<CorpDto[]>([]);
   const [pages, setPages] = useState<number>();
 
@@ -127,6 +129,9 @@ const SearchWorking = () => {
       search();
     }
   };
+  const moveDetail = (corpName: string) => {
+    navigate(`/review/detail/working?name=${corpName}`);
+  };
 
   return (
     <div className={styles.search_wrap}>
@@ -234,51 +239,58 @@ const SearchWorking = () => {
           </div>
         </div>
       </div>
-      <div className={styles.content_wrap}>
-        <div className={styles.sort}>
-          <select name="order" value={filters.order} onChange={handleFilter}>
-            <option value="avg">별점 높은 순</option>
-            <option value="cnt">리뷰 많은 순</option>
-          </select>
-        </div>
-        <div className={styles.corp_list}>
-          <ul>
-            {corps.map((corp) => (
-              <li className={styles.corp_item} key={corp.no}>
-                <div className={styles.info}>
-                  <div className={`body2 ${styles.region}`}>
-                    <span>
-                      {RegionList.find((item) => item.name === corp.city)?.sido}
-                    </span>
-                    <span>{corp.gugun}</span>
-                  </div>
-                  <div className={styles.corp}>
-                    <h4>{corp.corpname}</h4>
-                    <div className={styles.hashtag}>
-                      {corp.hashtag !== null && corp.hashtag !== undefined
-                        ? corp.hashtag.map((id) => (
-                            <span className="body2" key={id}>
-                              {
-                                shared.hashtagList.find(
-                                  (item) => item.id === id
-                                )?.content
-                              }
-                            </span>
-                          ))
-                        : ''}
+      {corps.length > 0 && (
+        <div className={styles.content_wrap}>
+          <div className={styles.sort}>
+            <select name="order" value={filters.order} onChange={handleFilter}>
+              <option value="avg">별점 높은 순</option>
+              <option value="cnt">리뷰 많은 순</option>
+            </select>
+          </div>
+          <div className={styles.corp_list}>
+            <ul>
+              {corps.map((corp) => (
+                <li className={styles.corp_item} key={corp.no}>
+                  <div className={styles.info}>
+                    <div className={`body2 ${styles.region}`}>
+                      <span>
+                        {
+                          RegionList.find((item) => item.name === corp.city)
+                            ?.sido
+                        }
+                      </span>
+                      <span>{corp.gugun}</span>
+                    </div>
+                    <div className={styles.corp}>
+                      <h4 onClick={() => moveDetail(corp.corpname)}>
+                        {corp.corpname}
+                      </h4>
+                      <div className={styles.hashtag}>
+                        {corp.hashtag !== null && corp.hashtag !== undefined
+                          ? corp.hashtag.map((id) => (
+                              <span className="body2" key={id}>
+                                {
+                                  shared.hashtagList.find(
+                                    (item) => item.id === id
+                                  )?.content
+                                }
+                              </span>
+                            ))
+                          : ''}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className={styles.star}>
-                  <img src="/src/assets/images/Star_1.png" alt="star" />
-                  <h4>{corp.avg}</h4>
-                  <span className="body2">({corp.cnt})</span>
-                </div>
-              </li>
-            ))}
-          </ul>
+                  <div className={styles.star}>
+                    <img src="/src/assets/images/Star_1.png" alt="star" />
+                    <h4>{corp.avg}</h4>
+                    <span className="body2">({corp.cnt})</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.pagination}>
         <Pagination
           currentPage={filters.page}
