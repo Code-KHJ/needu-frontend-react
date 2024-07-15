@@ -10,6 +10,15 @@ const corpApi = {
       return error;
     }
   },
+  getListWithWorking: async (queryParams: string) => {
+    try {
+      const response = await customAxios.get(`/corp/working${queryParams}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   getWithTraining: async (name: string) => {
     try {
       const response = await customAxios.get(`/corp/training/${name}`);
