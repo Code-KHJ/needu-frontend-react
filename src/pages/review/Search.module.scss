@@ -83,8 +83,38 @@
           gap: 40px;
         }
         & > div:nth-of-type(2) {
-          .item:nth-last-child(1) {
+          .item:not(:first-child) {
             margin-top: 40px;
+          }
+          .people::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 4px;
+            vertical-align: sub;
+            background: url(@/assets/images/ico_people.png) no-repeat
+              center/contain;
+          }
+          .cost::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 4px;
+            vertical-align: sub;
+            background: url(@/assets/images/ico_money.png) no-repeat
+              center/contain;
+          }
+          .duration::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 4px;
+            vertical-align: sub;
+            background: url(@/assets/images/ico_clock.png) no-repeat
+              center/contain;
           }
         }
       }
@@ -162,6 +192,23 @@
                 white-space: nowrap;
               }
             }
+            .detail_info {
+              display: -webkit-box;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              & > span {
+                margin-right: 8px;
+                white-space: nowrap;
+                & > img {
+                  width: 20px;
+                  height: 20px;
+                  margin-right: 2px;
+                  vertical-align: sub;
+                }
+              }
+            }
           }
         }
         .star {
@@ -229,6 +276,14 @@
             }
             & > div:nth-of-type(2) {
               flex-grow: 1;
+            }
+          }
+          & > div:nth-of-type(2) {
+            .people::after,
+            .cost::after,
+            .duration::after {
+              width: 24px;
+              height: 24px;
             }
           }
         }

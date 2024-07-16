@@ -112,9 +112,9 @@ const Header = () => {
                     className={styles.child}
                     style={toggle.review ? {} : { display: 'none' }}
                   >
-                    <Link to="/review">전현직리뷰</Link>
+                    <Link to="/review/search/working">전현직리뷰</Link>
                     <div></div>
-                    <Link to="/review">실습리뷰</Link>
+                    <Link to="/review/search/training">실습리뷰</Link>
                   </div>
                 </li>
                 <li

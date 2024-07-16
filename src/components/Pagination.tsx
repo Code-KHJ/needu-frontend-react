@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface PaginationProps {
   currentPage: number;
@@ -11,23 +11,40 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const [pagesPerGroup, setPagesPerGroup] = useState(10);
+  useEffect(() => {
+    const updatePagesPerGroup = () => {
+      if (window.innerWidth < 768) {
+        setPagesPerGroup(4);
+      } else {
+        setPagesPerGroup(10);
+      }
+    };
+    updatePagesPerGroup();
+    window.addEventListener('resize', updatePagesPerGroup);
+    return () => {
+      window.addEventListener('resize', updatePagesPerGroup);
+    };
+  }, []);
+
   if (totalPages === undefined || totalPages === 0) {
     return <div style={{ width: '100%' }}>검색 결과가 없습니다.</div>;
   }
 
-  const startPage = Math.floor((currentPage - 1) / 10) * 10 + 1;
-  const endPage = Math.min(startPage + 9, totalPages);
+  const startPage =
+    Math.floor((currentPage - 1) / pagesPerGroup) * pagesPerGroup + 1;
+  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
   const isFirstGroup = startPage === 1;
   const isLastGroup = endPage === totalPages;
 
   const handlePreviousGroup = () => {
     if (!isFirstGroup) {
-      onPageChange(startPage - 10);
+      onPageChange(startPage - pagesPerGroup);
     }
   };
   const handleNextGroup = () => {
     if (!isLastGroup) {
-      onPageChange(startPage + 10);
+      onPageChange(startPage + pagesPerGroup);
     }
   };
 

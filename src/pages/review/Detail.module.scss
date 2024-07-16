@@ -99,6 +99,7 @@
           border-radius: 3px;
           background-color: #fafafa;
           cursor: pointer;
+          white-space: nowrap;
           & > a {
             color: #6269f5;
           }
@@ -324,5 +325,8 @@
 @media screen and (min-width: 1490px) {
   .summary_wrap {
     flex-direction: row !important;
+  }
+  .write_review {
+    max-width: 294px !important;
   }
 }

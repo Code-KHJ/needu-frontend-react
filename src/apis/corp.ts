@@ -28,6 +28,15 @@ const corpApi = {
       return error;
     }
   },
+  getListWithTraining: async (queryParams: string) => {
+    try {
+      const response = await customAxios.get(`/corp/training${queryParams}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default corpApi;

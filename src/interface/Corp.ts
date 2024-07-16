@@ -11,3 +11,9 @@ export type CorpDto = Corp & {
   avg: number;
   [key: string]: string | number | null | any[];
 };
+
+export type CorpWithTrainingDto = CorpDto & {
+  number_of_participants: number;
+  cost: number;
+  duration: number;
+};

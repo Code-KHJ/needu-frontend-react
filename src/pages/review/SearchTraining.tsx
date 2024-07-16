@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Search.module.scss';
 import { RegionList } from '@/common/Region';
-import sharedApi from '@/apis/shared';
 import corpApi from '@/apis/corp';
-import { CorpDto } from '@/interface/Corp';
+import { CorpWithTrainingDto } from '@/interface/Corp';
 import Pagination from '@/components/Pagination';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -11,32 +10,40 @@ type Filters = {
   region: string;
   corp_name: string;
   score: number[];
-  hashtags: number[];
+  number_of_participants: number[];
+  cost: number[];
+  duration: number[];
   order: string;
   page: number;
 };
 
-const SearchWorking = () => {
+const SearchTraining = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const resultRef = useRef<HTMLDivElement>(null);
-  const [corps, setCorps] = useState<CorpDto[]>([]);
+  const [corps, setCorps] = useState<CorpWithTrainingDto[]>([]);
   const [pages, setPages] = useState<number>();
+  const options = {
+    number_of_participants: ['1-3명', '4-6명', '7-9명', '10-12명', '13명 이상'],
+    cost: ['10만원 미만', '10-15만원', '15-20만원', '20만원 이상'],
+    duration: ['160시간 미만', '160-200시간', '200시간 이상'],
+  };
   const queryParams = new URLSearchParams(location.search);
-
   if (!queryParams.toString()) {
     const defaultFilters = {
       region: '',
       corp_name: '',
       score: [],
-      hashtags: [],
+      number_of_participants: [],
+      cost: [],
+      duration: [],
       order: 'avg',
       page: 1,
     };
     const defaultQueryParams = new URLSearchParams(
       defaultFilters as any
     ).toString();
-    window.location.replace(`/review/search/working?${defaultQueryParams}`);
+    window.location.replace(`/review/search/training?${defaultQueryParams}`);
   }
 
   const [filters, setFilters] = useState<Filters>({
@@ -48,9 +55,21 @@ const SearchWorking = () => {
         ?.split(',')
         .filter((item) => item !== '')
         .map(Number) || [],
-    hashtags:
+    number_of_participants:
       queryParams
-        .get('hashtags')
+        .get('number_of_participants')
+        ?.split(',')
+        .filter((item) => item !== '')
+        .map(Number) || [],
+    cost:
+      queryParams
+        .get('cost')
+        ?.split(',')
+        .filter((item) => item !== '')
+        .map(Number) || [],
+    duration:
+      queryParams
+        .get('duration')
         ?.split(',')
         .filter((item) => item !== '')
         .map(Number) || [],
@@ -69,12 +88,15 @@ const SearchWorking = () => {
   };
   const handleList = (name: keyof Filters, value: number) => {
     setFilters((prevFilters) => {
-      const currentValues = prevFilters[name] as number[];
-      const filter = currentValues.includes(value)
-        ? currentValues.filter((item) => item !== value)
-        : [...currentValues, value];
+      const currentValues = prevFilters[name];
+      if (Array.isArray(currentValues)) {
+        const filter = currentValues.includes(value)
+          ? currentValues.filter((item) => item !== value)
+          : [...currentValues, value];
 
-      return { ...prevFilters, [name]: filter };
+        return { ...prevFilters, [name]: filter };
+      }
+      return prevFilters;
     });
   };
   const handlePage = (value: number) => {
@@ -106,28 +128,15 @@ const SearchWorking = () => {
     };
   }, []);
 
-  //해시태그
-  const [shared, setShared] = useState({
-    hashtagList: [],
-  });
   useEffect(() => {
-    const getShared = async () => {
-      const hashtagList: any = await sharedApi.getHashtagList();
-      if (hashtagList.status === 200) {
-        setShared({
-          hashtagList: hashtagList.data,
-        });
-      }
-    };
     const getCorps = async () => {
       const queryParams = new URLSearchParams(filters as any);
-      const response = await corpApi.getListWithWorking(
+      const response = await corpApi.getListWithTraining(
         `?${queryParams.toString()}`
       );
       setCorps(response.data.result);
       setPages(response.data.totalPages);
     };
-    getShared();
     getCorps();
   }, [location.search]);
 
@@ -136,14 +145,16 @@ const SearchWorking = () => {
       region: '',
       corp_name: '',
       score: [],
-      hashtags: [],
+      number_of_participants: [],
+      cost: [],
+      duration: [],
       order: 'avg',
       page: 1,
     });
   };
   const handleSearch = () => {
     const queryParams = new URLSearchParams(filters as any);
-    navigate(`/review/search/working?${queryParams.toString()}`);
+    navigate(`/review/search/training?${queryParams.toString()}`);
   };
 
   useEffect(() => {
@@ -170,7 +181,7 @@ const SearchWorking = () => {
     }
   };
   const moveDetail = (corpName: string) => {
-    navigate(`/review/detail/working?name=${corpName}`);
+    navigate(`/review/detail/training?name=${corpName}`);
   };
 
   return (
@@ -249,20 +260,58 @@ const SearchWorking = () => {
               </div>
               <div className={styles.item}>
                 <label>
-                  <h5>해시태그</h5>
+                  <h5 className={styles.people}>실습인원</h5>
                 </label>
                 <div className={styles.list}>
-                  {shared.hashtagList.map((item) => (
+                  {options.number_of_participants.map((item, index) => (
                     <span
                       className={`${styles.list_item} ${
-                        filters.hashtags.includes(item.id)
+                        filters.number_of_participants.includes(index)
                           ? styles.selected
                           : ''
                       }`}
-                      key={item.id}
-                      onClick={() => handleList('hashtags', item.id)}
+                      key={index}
+                      onClick={() =>
+                        handleList('number_of_participants', index)
+                      }
                     >
-                      {item.content}
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.item}>
+                <label>
+                  <h5 className={styles.cost}>실습비</h5>
+                </label>
+                <div className={styles.list}>
+                  {options.cost.map((item, index) => (
+                    <span
+                      className={`${styles.list_item} ${
+                        filters.cost.includes(index) ? styles.selected : ''
+                      }`}
+                      key={index}
+                      onClick={() => handleList('cost', index)}
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.item}>
+                <label>
+                  <h5 className={styles.duration}>실습기간</h5>
+                </label>
+                <div className={styles.list}>
+                  {options.duration.map((item, index) => (
+                    <span
+                      className={`${styles.list_item} ${
+                        filters.duration.includes(index) ? styles.selected : ''
+                      }`}
+                      key={index}
+                      onClick={() => handleList('duration', index)}
+                    >
+                      {item}
                     </span>
                   ))}
                 </div>
@@ -305,18 +354,31 @@ const SearchWorking = () => {
                       <h4 onClick={() => moveDetail(corp.corpname)}>
                         {corp.corpname}
                       </h4>
-                      <div className={styles.hashtag}>
-                        {corp.hashtag !== null && corp.hashtag !== undefined
-                          ? corp.hashtag.map((id) => (
-                              <span className="body2" key={id}>
-                                {
-                                  shared.hashtagList.find(
-                                    (item) => item.id === id
-                                  )?.content
-                                }
-                              </span>
-                            ))
-                          : ''}
+                      <div className={styles.detail_info}>
+                        <span className="body2">
+                          <img
+                            src="/src/assets/images/ico_people.png"
+                            alt="실습인원"
+                          />
+                          {corp.number_of_participants > 0
+                            ? corp.number_of_participants
+                            : '0'}
+                          명
+                        </span>
+                        <span className="body2">
+                          <img
+                            src="/src/assets/images/ico_money.png"
+                            alt="실습비"
+                          />
+                          {corp.cost > 0 ? corp.cost : '0'}만원
+                        </span>
+                        <span className="body2">
+                          <img
+                            src="/src/assets/images/ico_clock.png"
+                            alt="실습시간"
+                          />
+                          {corp.duration > 0 ? corp.duration : '0'}시간
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -342,4 +404,4 @@ const SearchWorking = () => {
   );
 };
 
-export default SearchWorking;
+export default SearchTraining;
