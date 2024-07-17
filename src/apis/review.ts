@@ -72,7 +72,6 @@ const reviewApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
     }
   },
   updateTrainingReview: async (no: string, reviewData: ReviewTrainingDto) => {

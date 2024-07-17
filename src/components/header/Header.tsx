@@ -41,6 +41,7 @@ const Header = () => {
     localStorage.removeItem('userInfo');
     const response = await userApi.logout();
     if (response.status == 200) {
+      alert('로그아웃 되었습니다.');
       window.location.href = '/';
     } else {
       alert('문제가 발생했습니다. 다시 시도해주세요.');
