@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ModalComponent from "./Modal";
 import styles from "./Modal.module.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import sharedApi from "@/apis/shared";
 
 const ReportModal = () => {
   const [reportStep, setReportStep] = useState(0);
@@ -20,9 +21,9 @@ const ReportModal = () => {
 
   const [values, setValues] = useState({
     target: "",
-    targetId: "",
-    userId: "",
-    reportType: "",
+    target_id: 0,
+    user_id: 0,
+    report_type: "",
     comment: "",
   });
   const handleValues = (e) => {
@@ -34,6 +35,7 @@ const ReportModal = () => {
   };
   const handleSubmit = async (e) => {
     handleStep(2);
+    const response = await sharedApi.createReport(values);
     console.log(values);
   };
 

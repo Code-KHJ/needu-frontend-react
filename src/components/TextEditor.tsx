@@ -4,22 +4,24 @@ import { Editor } from "@toast-ui/react-editor";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
+import communityApi from "@/apis/community";
 
 interface TextEditorProps {
-  // editorRef: React.RefObject<Editor> | null;
-  // handleImage?: () => void;
+  editorRef: React.RefObject<Editor> | null;
   initialValue?: string;
   placeholder?: string;
   height?: string;
+  // handleImage?: () => void;
   // onChangeEditor: () => void;
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({
-  // editorRef,
-  // handleImage,
+  editorRef,
   placeholder = "안내내용",
   initialValue = "",
   height = "300px",
+  // handleImage,
   // onChangeEditor,
 }) => {
   const toolbarItems = [
@@ -29,6 +31,34 @@ const TextEditor: React.FC<TextEditorProps> = ({
     ["table", "image", "link"],
     ["code", "codeblock"],
   ];
+  const colorSyntaxOptions = {
+    preset: [
+      "#181818",
+      "#282828",
+      "#383838",
+      "#585858",
+      "#b8b8b8",
+      "#d8d8d8",
+      "#e8e8e8",
+      "#f8f8f8",
+      "#df200f",
+      "#f76e0a",
+      "#ffd400",
+      "#3d9512",
+      "#2424e1",
+      "#1f1f99",
+      "#6b24b3",
+      "#994910",
+    ],
+  };
+
+  const onUploadImage = async (blob: Blob, callback: HookCallback) => {
+    const formData = new FormData();
+    formData.append("image", blob);
+
+    const response = await communityApi.uploadImage(formData);
+    callback(response.data.imageUrl, "image");
+  };
 
   return (
     <Editor
@@ -36,12 +66,15 @@ const TextEditor: React.FC<TextEditorProps> = ({
       initialEditType="wysiwyg"
       useCommandShortcut={true}
       hideModeSwitch={true}
-      plugins={[colorSyntax]}
+      plugins={[[colorSyntax, colorSyntaxOptions]]}
       toolbarItems={toolbarItems}
-      // ref={editorRef}
+      ref={editorRef}
       initialValue={initialValue}
       placeholder={placeholder}
       height={height}
+      hooks={{
+        addImageBlobHook: onUploadImage,
+      }}
       // onChange={onChangeEditor}
     />
   );
