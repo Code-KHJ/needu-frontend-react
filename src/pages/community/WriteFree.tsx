@@ -24,7 +24,7 @@ const WriteFree = () => {
 
       const response = await communityApi.uploadImage(formData);
       console.log(response);
-      if (response.data.status !== 201) {
+      if (response.status !== 201) {
         alert('오류가 발생했습니다.');
         return;
       }
