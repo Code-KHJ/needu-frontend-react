@@ -1,5 +1,5 @@
-@charset "utf-8";
-@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css');
+@charset "UTF-8";
+@import url("https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css");
 /* font-family: 
 'NanumSquareLight';
 'NanumSquare';
@@ -9,7 +9,6 @@
 'NanumSquareAceb';
 'NanumSquareAcl';
 'NanumSquareAcr'; */
-
 * {
   margin: 0;
   padding: 0;
@@ -21,26 +20,32 @@ body {
   width: 100%;
   height: 100%;
 }
+
 html {
   color: #333333;
   font-size: 0.625rem;
 }
+
 a {
   text-decoration: none;
   color: inherit;
 }
+
 li {
   list-style: none;
 }
+
 fieldset {
   border: none;
 }
+
 button {
   cursor: pointer;
-  &:disabled {
-    cursor: not-allowed;
-  }
 }
+button:disabled {
+  cursor: not-allowed;
+}
+
 button {
   background: inherit;
   border: none;
@@ -55,21 +60,26 @@ input,
 select {
   color: #333333;
 }
+
 input:focus {
   outline: none;
 }
+
 .screen_out {
   position: absolute;
   left: -9999px;
 }
+
 .blind {
   text-indent: -9999px;
 }
+
 .clearfix::after {
-  content: '';
+  content: "";
   display: block;
   clear: both;
 }
+
 i {
   font-style: normal;
 }
@@ -77,19 +87,19 @@ i {
 .invalid {
   border: 1px solid red !important;
 }
+
 .valid {
   background-color: #fff !important;
   border: 1px solid #6269f5 !important;
 }
+
 .blur {
   filter: blur(10px);
   -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
+  -moz-user-select: none; /* Firefox */ /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 }
 
-// font setting
 a,
 li,
 div,
@@ -98,10 +108,8 @@ input,
 label,
 button,
 textarea {
-  //default
   color: #222;
-  font-family: 'Pretendard-Regular';
-  // src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-family: "Pretendard-Regular";
   font-size: 1.6rem;
   font-style: normal;
   line-height: 140%;
@@ -113,40 +121,48 @@ h1,
   font-weight: 700;
   line-height: 140%;
 }
+
 h2 {
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 140%;
 }
+
 h3 {
   font-size: 2.1rem;
   font-weight: 700;
   line-height: 140%;
 }
+
 h4,
 .title {
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 140%;
 }
+
 h5,
 .subtitle {
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 140%;
 }
+
 .body1 {
   font-size: 1.8rem;
   line-height: 140%;
 }
+
 .body2 {
   font-size: 1.4rem;
   line-height: 140%;
 }
+
 .caption {
   font-size: 1.4rem;
   line-height: 140%;
 }
+
 .toastui-editor-contents {
   z-index: 5 !important;
 }
@@ -189,5 +205,4 @@ h5,
     font-size: 1.6rem;
   }
 }
-
 /* reset-end */

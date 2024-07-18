@@ -11,6 +11,12 @@ export const UserProvider = ({ children }) => {
     authority: null,
   });
   const [loading, setLoading] = useState(true);
+  function getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+  const accessToken = getCookie('accessToken');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +29,13 @@ export const UserProvider = ({ children }) => {
             user_id: userData.user_id,
             nickname: userData.nickname,
             authority: userData.authority,
+          });
+        } else if (!accessToken) {
+          setUser({
+            id: null,
+            user_id: null,
+            nickname: null,
+            authority: null,
           });
         } else {
           const response = await userApi.getMe();
