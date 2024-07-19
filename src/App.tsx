@@ -17,10 +17,14 @@ import CommunityRoutes from "./pages/community";
 function App() {
   const { user, loading } = useUser();
   const isLogin = user.id !== null;
-
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
+
+  const [modalOpen, setModalOpen] = useState(true);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <BrowserRouter>
@@ -49,6 +53,13 @@ function App() {
           element={<CommunityRoutes isLogin={isLogin} />}
         />
       </Routes>
+      <ReportModal
+        target="전현직리뷰"
+        target_id={3}
+        modalOpen={modalOpen}
+        closeModal={closeModal}
+      />
+      <button onClick={() => setModalOpen(true)}>click</button>
       <Footer />
     </BrowserRouter>
   );

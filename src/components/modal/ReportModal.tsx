@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalComponent from "./Modal";
 import styles from "./Modal.module.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import sharedApi from "@/apis/shared";
+import { useUser } from "@/contexts/UserContext";
 
-const ReportModal = () => {
+interface ReportModalProps {
+  target: string;
+  target_id: number;
+  modalOpen: boolean;
+  closeModal: () => void;
+}
+
+const ReportModal: React.FC<ReportModalProps> = ({
+  target,
+  target_id,
+  modalOpen,
+  closeModal,
+}) => {
+  const { user } = useUser();
+
   const [reportStep, setReportStep] = useState(0);
   const handleStep = (step: number) => {
     setReportStep(step);
@@ -26,6 +41,36 @@ const ReportModal = () => {
     report_type: "",
     comment: "",
   });
+
+  useEffect(() => {
+    if (user && user.id) {
+      setValues((prevValues) => ({
+        ...prevValues,
+        user_id: user.id,
+      }));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!modalOpen) {
+      setValues({
+        target: "",
+        target_id: 0,
+        user_id: 0,
+        report_type: "",
+        comment: "",
+      });
+    } else {
+      setValues({
+        target: target,
+        target_id: target_id,
+        user_id: user.id,
+        report_type: "",
+        comment: "",
+      });
+    }
+  }, [modalOpen]);
+
   const handleValues = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -34,16 +79,30 @@ const ReportModal = () => {
     });
   };
   const handleSubmit = async (e) => {
-    handleStep(2);
     const response = await sharedApi.createReport(values);
-    console.log(values);
+    if (response.status !== 201) {
+      alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+    handleStep(2);
+    setValues({
+      target: "",
+      target_id: 0,
+      user_id: 0,
+      report_type: "",
+      comment: "",
+    });
   };
 
   return (
     <>
       {/* 신고종류 선택 */}
       {reportStep === 0 && (
-        <ModalComponent title="신고" modalOpen={reportStep === 0}>
+        <ModalComponent
+          title="신고"
+          modalOpen={reportStep === 0 ? modalOpen : false}
+          closeModal={closeModal}
+        >
           <div>
             <div style={{ padding: "8px" }}>
               <h4 style={{ cursor: "pointer" }} onClick={() => handleStep(1)}>
@@ -109,14 +168,18 @@ const ReportModal = () => {
       )}
       {/* 일반신고 접수 */}
       {reportStep === 1 && (
-        <ModalComponent title="신고" modalOpen={reportStep === 1}>
+        <ModalComponent
+          title="신고"
+          modalOpen={reportStep === 1 ? modalOpen : false}
+          closeModal={closeModal}
+        >
           <div>
             <div>
               <h4>신고유형</h4>
               <div style={{ marginTop: "20px" }}>
                 <RadioGroup
-                  name="reportType"
-                  value={values.reportType}
+                  name="report_type"
+                  value={values.report_type}
                   onChange={handleValues}
                 >
                   {reportType.map((item) => (
@@ -190,7 +253,11 @@ const ReportModal = () => {
       )}
       {/* 신고완료 */}
       {reportStep === 2 && (
-        <ModalComponent title="신고" modalOpen={reportStep === 2}>
+        <ModalComponent
+          title="신고"
+          modalOpen={reportStep === 2 ? modalOpen : false}
+          closeModal={closeModal}
+        >
           <div>
             <div style={{ padding: "8px" }}>
               <h4>신고가 접수되었습니다.</h4>

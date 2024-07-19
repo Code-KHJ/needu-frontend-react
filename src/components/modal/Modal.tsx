@@ -6,6 +6,7 @@ interface ModalProps {
   modalOpen: boolean;
   title: string;
   children: React.ReactNode;
+  closeModal: () => void;
 }
 
 Modal.setAppElement("#root");
@@ -14,6 +15,7 @@ const ModalComponent: React.FC<ModalProps> = ({
   modalOpen,
   title,
   children,
+  closeModal,
 }) => {
   // react-modal 스타일
   const customStyles = {
@@ -37,14 +39,8 @@ const ModalComponent: React.FC<ModalProps> = ({
     },
   };
 
-  const [isOpen, setIsOpen] = useState(modalOpen);
-
   useEffect(() => {
-    setIsOpen(modalOpen);
-  }, [modalOpen]);
-
-  useEffect(() => {
-    if (isOpen) {
+    if (modalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
@@ -53,15 +49,11 @@ const ModalComponent: React.FC<ModalProps> = ({
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isOpen]);
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  }, [modalOpen]);
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={modalOpen}
       onRequestClose={closeModal}
       style={customStyles}
       className={styles.modal_wrap}
