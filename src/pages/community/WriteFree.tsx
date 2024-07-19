@@ -1,9 +1,9 @@
-import React, { useCallback, useRef } from 'react';
-import styles from './Write.module.scss';
-import TextEditor from '@/components/TextEditor';
-import type { Editor } from '@toast-ui/react-editor';
-import communityApi from '@/apis/community';
-import { HookCallback } from 'node_modules/@toast-ui/editor/types/editor';
+import React, { useCallback, useRef } from "react";
+import styles from "./Write.module.scss";
+import TextEditor from "@/components/TextEditor";
+import type { Editor } from "@toast-ui/react-editor";
+import communityApi from "@/apis/community";
+import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 
 const WriteFree = () => {
   const editorRef = useRef<Editor>(null);
@@ -20,22 +20,27 @@ const WriteFree = () => {
   const handleImage = useCallback(
     async (blob: Blob, callback: HookCallback) => {
       const formData = new FormData();
-      formData.append('image', blob);
+      formData.append("image", blob);
 
       const response = await communityApi.uploadImage(formData);
-      console.log(response);
+
       if (response.status !== 201) {
-        alert('오류가 발생했습니다.');
-        return;
+        if (response.status === 413) {
+          alert("파일 용량이 5MB를 초과하여 업로드에 실패하였습니다.");
+          return;
+        } else {
+          alert("오류가 발생했습니다.");
+          return;
+        }
       }
       const imageUrl = response.data.imageUrl;
-      callback(imageUrl, 'image');
+      callback(imageUrl, "image");
     },
     []
   );
   return (
     <>
-      <div style={{ width: '80%', margin: '50px auto' }}>
+      <div style={{ width: "80%", margin: "50px auto" }}>
         <div className={styles.write_wrap}>WriteFree</div>
         <TextEditor
           editorRef={editorRef}
