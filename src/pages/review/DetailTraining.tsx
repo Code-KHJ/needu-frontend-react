@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Detail.module.scss";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import ScoreStar from "@/components/ScoreStar";
-import { StarList } from "@/common/StarList";
-import ScoreBar from "@/components/ScoreBar";
-import corpApi from "@/apis/corp";
-import reviewApi from "@/apis/review";
+import React, { useEffect, useState } from 'react';
+import styles from './Detail.module.scss';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import ScoreStar from '@/components/ScoreStar';
+import { StarList } from '@/common/StarList';
+import ScoreBar from '@/components/ScoreBar';
+import corpApi from '@/apis/corp';
+import reviewApi from '@/apis/review';
 import {
   DeleteReviewDto,
   LikeDto,
   ReviewTrainingContent,
-} from "@/interface/Review";
-import Hashtag from "@/components/Hashtag";
-import { useUser } from "@/contexts/UserContext";
-import BlindComment from "@/components/BlindComment";
+} from '@/interface/Review';
+import Hashtag from '@/components/Hashtag';
+import { useUser } from '@/contexts/UserContext';
+import BlindComment from '@/components/BlindComment';
+import ReportModal from '@/components/modal/ReportModal';
 
 const DetailTraining = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const corpName = queryParams.get("name");
+  const corpName = queryParams.get('name');
   const navigate = useNavigate();
   const user = useUser();
   const starList = StarList.training;
@@ -52,16 +53,16 @@ const DetailTraining = () => {
     }
 
     if (!corpName) {
-      navigate("/");
+      navigate('/');
       return;
     }
     const getCorp = async () => {
       const response: any = await corpApi.getWithTraining(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        navigate('/');
       }
       if (!response.data.corp_name) {
-        navigate("/");
+        navigate('/');
       }
       setCorp(response.data);
     };
@@ -69,7 +70,7 @@ const DetailTraining = () => {
     const getCorpScore = async () => {
       const response: any = await reviewApi.getTrainingScore(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        navigate('/');
       }
       setCorpScore(response.data);
     };
@@ -77,7 +78,7 @@ const DetailTraining = () => {
     const getReviews = async () => {
       const response = await reviewApi.getTrainingReviews(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        navigate('/');
       }
       setReviews(response.data);
       response.data.forEach((review) => {
@@ -119,24 +120,24 @@ const DetailTraining = () => {
       setShowAll(true);
       return;
     }
-    alert("더 많은 리뷰를 보려면 리뷰를 작성해주세요.");
+    alert('더 많은 리뷰를 보려면 리뷰를 작성해주세요.');
   };
 
   const [isLike, setIsLike] = useState<{ [key: number]: boolean }>({});
 
   const like = async (review_no: number) => {
     if (!user || user.user.id === null) {
-      alert("로그인 후 이용이 가능합니다.");
+      alert('로그인 후 이용이 가능합니다.');
       return;
     }
     const likeDto: LikeDto = {
       review_no: review_no,
-      type: "training",
-      action: !isLike[review_no] ? "plus" : "minus",
+      type: 'training',
+      action: !isLike[review_no] ? 'plus' : 'minus',
     };
     const response = await reviewApi.likeReview(likeDto);
     if (response.status !== 200) {
-      alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
     } else {
       setIsLike((prevState) => ({
         ...prevState,
@@ -151,13 +152,13 @@ const DetailTraining = () => {
   const incrementLikeById = (reviews, id, action) => {
     return reviews.map((review) => {
       if (review.id === id) {
-        if (action === "plus") {
+        if (action === 'plus') {
           return {
             ...review,
             likes: review.likes + 1,
           };
         }
-        if (action === "minus") {
+        if (action === 'minus') {
           return {
             ...review,
             likes: review.likes - 1,
@@ -174,7 +175,7 @@ const DetailTraining = () => {
 
   const deleteReview = async (index: number, review_no: number) => {
     if (user.user.id != reviews[index].user.id) {
-      alert("본인이 작성한 리뷰만 삭제가 가능합니다.");
+      alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
       return;
     }
     const deleteReviewDto: DeleteReviewDto = {
@@ -182,16 +183,36 @@ const DetailTraining = () => {
       review_no: review_no,
     };
     const confirmed = confirm(
-      "삭제한 리뷰는 복구할 수 없습니다. 정말로 리뷰를 삭제하시겠습니까?"
+      '삭제한 리뷰는 복구할 수 없습니다. 정말로 리뷰를 삭제하시겠습니까?'
     );
     if (confirmed) {
       const response = await reviewApi.deleteTrainingReview(deleteReviewDto);
       if (response.status !== 200) {
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
       }
-      alert("리뷰가 삭제되었습니다.");
+      alert('리뷰가 삭제되었습니다.');
       window.location.reload();
     }
+  };
+
+  //report
+  const [modal, setModal] = useState({
+    isOpen: false,
+    target: '실습리뷰',
+    target_id: 0,
+  });
+  const handleModalTarget = (target_id: number) => {
+    setModal({
+      ...modal,
+      isOpen: true,
+      target_id: target_id,
+    });
+  };
+  const closeModal = () => {
+    setModal({
+      ...modal,
+      isOpen: false,
+    });
   };
 
   return (
@@ -207,9 +228,9 @@ const DetailTraining = () => {
             Hashtag(corp.hashtag).map((item) => (
               <span
                 style={{
-                  marginRight: "8px",
-                  marginBottom: "8px",
-                  display: "inline-block",
+                  marginRight: '8px',
+                  marginBottom: '8px',
+                  display: 'inline-block',
                 }}
                 key={item}
               >
@@ -222,21 +243,21 @@ const DetailTraining = () => {
         <div className={styles.tab}>
           <div
             className={`${
-              location.pathname == "/review/detail/working"
+              location.pathname == '/review/detail/working'
                 ? styles.current
-                : ""
+                : ''
             }`}
-            onClick={() => clickTab("working")}
+            onClick={() => clickTab('working')}
           >
             <h4>전현직리뷰</h4>
           </div>
           <div
             className={`${
-              location.pathname == "/review/detail/training"
+              location.pathname == '/review/detail/training'
                 ? styles.current
-                : ""
+                : ''
             }`}
-            onClick={() => clickTab("training")}
+            onClick={() => clickTab('training')}
           >
             <h4>실습리뷰</h4>
           </div>
@@ -262,14 +283,14 @@ const DetailTraining = () => {
                   <div className={styles.score_score}>
                     <p>
                       {isNaN(parseFloat(corpScore[item.en]))
-                        ? "0.0"
+                        ? '0.0'
                         : parseFloat(corpScore[item.en]).toFixed(1)}
                     </p>
                     <ScoreBar
                       width="160px"
                       value={
                         isNaN(parseFloat(corpScore[item.en]))
-                          ? "0.0"
+                          ? '0.0'
                           : parseFloat(corpScore[item.en]).toFixed(1)
                       }
                     ></ScoreBar>
@@ -295,11 +316,11 @@ const DetailTraining = () => {
                   <div
                     className={styles.review_item}
                     key={index}
-                    style={showAll ? { borderBottom: "1px solid #d9d9d9" } : {}}
+                    style={showAll ? { borderBottom: '1px solid #d9d9d9' } : {}}
                   >
                     <div
                       className={`${styles.score_wrap} ${
-                        review.blind != 1 ? "blur" : ""
+                        review.blind != 1 ? 'blur' : ''
                       }`}
                     >
                       <div className={styles.score_summary}>
@@ -315,7 +336,7 @@ const DetailTraining = () => {
                           ></ScoreStar>
                           <img
                             src="/src/assets/images/ico_arrow_down.png"
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             alt="arrow"
                             onClick={() => handleToggle(index)}
                           />
@@ -327,7 +348,7 @@ const DetailTraining = () => {
                             <div
                               className={styles.item}
                               key={item.en}
-                              style={{ alignItems: "flex-start" }}
+                              style={{ alignItems: 'flex-start' }}
                             >
                               <ScoreStar
                                 name="total_score"
@@ -339,7 +360,7 @@ const DetailTraining = () => {
                               ></ScoreStar>
                               <span
                                 className="body2"
-                                style={{ color: "#aaa", wordBreak: "keep-all" }}
+                                style={{ color: '#aaa', wordBreak: 'keep-all' }}
                               >
                                 {item.ko}
                               </span>
@@ -350,13 +371,13 @@ const DetailTraining = () => {
                     </div>
                     <div className={styles.content_wrap}>
                       <div className={styles.title}>
-                        <h3 className={review.blind != 1 ? "blur" : ""}>
+                        <h3 className={review.blind != 1 ? 'blur' : ''}>
                           {review.highlight}
                         </h3>
                         <div className={styles.kebab}>
                           <img
                             src="/src/assets/images/btn_kebab.png"
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             alt="kebab"
                             onClick={() => handleKebab(index)}
                           />
@@ -381,7 +402,12 @@ const DetailTraining = () => {
                               )
                             : showKebab[index] && (
                                 <div className={styles.kebab_list}>
-                                  <div className={styles.kebab_item}>신고</div>
+                                  <div
+                                    className={styles.kebab_item}
+                                    onClick={() => handleModalTarget(review.id)}
+                                  >
+                                    신고
+                                  </div>
                                 </div>
                               )}
                         </div>
@@ -394,7 +420,7 @@ const DetailTraining = () => {
                         <span>{review.number_of_participants}명</span>
                         <span>{review.cost.toLocaleString()}원</span>
                         <span>
-                          {review.created_date.slice(0, 10).replace(/-/g, ".")}
+                          {review.created_date.slice(0, 10).replace(/-/g, '.')}
                         </span>
                       </div>
                       {review.blind != 1 ? (
@@ -411,7 +437,7 @@ const DetailTraining = () => {
                           </div>
                           <button
                             className={`body2 ${styles.btn_like} ${
-                              isLike[review.id] ? styles.on : ""
+                              isLike[review.id] ? styles.on : ''
                             }`}
                             onClick={() => like(review.id)}
                           >
@@ -448,7 +474,7 @@ const DetailTraining = () => {
                 리뷰 전체 보기
                 <img
                   src="/src/assets/images/ico_arrow_R.png"
-                  style={{ height: "12px", marginLeft: "8px" }}
+                  style={{ height: '12px', marginLeft: '8px' }}
                 />
               </button>
             )}
@@ -456,13 +482,19 @@ const DetailTraining = () => {
         ) : (
           <>
             <div className={styles.review_wrap}>
-              <div className={styles.review_item} style={{ color: "#222" }}>
+              <div className={styles.review_item} style={{ color: '#222' }}>
                 아직 작성된 리뷰가 없습니다.
               </div>
             </div>
           </>
         )}
       </section>
+      <ReportModal
+        target={modal.target}
+        target_id={modal.target_id}
+        modalOpen={modal.isOpen}
+        closeModal={closeModal}
+      />
     </div>
   );
 };
