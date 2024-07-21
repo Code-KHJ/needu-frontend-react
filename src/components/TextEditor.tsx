@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import 'tui-color-picker/dist/tui-color-picker.css';
@@ -10,19 +10,16 @@ interface TextEditorProps {
   editorRef: React.RefObject<Editor> | null;
   initialValue?: string;
   placeholder?: string;
-  height?: string;
   handleImage?: (blob: Blob, callback: HookCallback) => Promise<void>;
-
-  // onChangeEditor: () => void;
+  onChange: () => void;
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({
   editorRef,
-  placeholder = '안내내용',
+  placeholder = '안내 내용',
   initialValue = '',
-  height = '300px',
   handleImage,
-  // onChangeEditor,
+  onChange,
 }) => {
   const toolbarItems = [
     ['heading', 'bold', 'italic', 'strike'],
@@ -51,6 +48,10 @@ const TextEditor: React.FC<TextEditorProps> = ({
       '#994910',
     ],
   };
+  let height = '350px';
+  if (window.innerWidth >= 1280) {
+    height = '650px';
+  }
 
   return (
     <Editor
@@ -63,11 +64,12 @@ const TextEditor: React.FC<TextEditorProps> = ({
       ref={editorRef}
       initialValue={initialValue}
       placeholder={placeholder}
-      height={height}
       hooks={{
         addImageBlobHook: handleImage,
       }}
-      // onChange={onChangeEditor}
+      onChange={onChange}
+      height={height}
+      autofocus={false}
     />
   );
 };

@@ -1,0 +1,107 @@
+select {
+  color: #aaa;
+  border: #aaa solid 1px;
+  background-color: #efefef;
+}
+
+.valid {
+  color: #222;
+  background-color: #ffffff !important;
+  border: #6269f5 solid 1px !important;
+}
+
+.write_wrap {
+  margin: 80px auto;
+}
+.write_wrap .info {
+  background-color: #fff;
+  padding: 40px 10%;
+}
+.write_wrap .form_wrap {
+  margin-top: 60px;
+  padding: 40px 10%;
+}
+.write_wrap .form_wrap .content_title .title > input {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 0 16px;
+  margin-top: 8px;
+}
+.write_wrap .form_wrap .content_title .topic {
+  margin-top: 80px;
+}
+.write_wrap .form_wrap .content_title .topic > select {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 0 16px;
+  margin-top: 8px;
+}
+.write_wrap .form_wrap .content {
+  margin-top: 60px;
+}
+.write_wrap .form_wrap .content .guide {
+  display: block;
+  text-align: end;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.write_wrap .form_wrap .btn_wrap {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.write_wrap .form_wrap .btn_wrap > button {
+  height: 60px;
+  border-radius: 3px;
+  width: calc(50% - 10px);
+  color: #fff;
+  white-space: nowrap;
+}
+.write_wrap .form_wrap .btn_wrap .cancel {
+  background-color: #aaa;
+}
+.write_wrap .form_wrap .btn_wrap .submit {
+  background-color: #6269f5;
+}
+
+/* main end */
+/* mobile-end */
+@media screen and (min-width: 768px) {
+  .write_wrap {
+    width: 86%;
+  }
+  .write_wrap .info {
+    border-radius: 5px;
+    padding: 40px;
+    border: 1px solid #aaa;
+  }
+  .write_wrap .form_wrap {
+    width: 100%;
+    padding: 0px;
+  }
+  .write_wrap .form_wrap .content_title {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 40px;
+  }
+  .write_wrap .form_wrap .btn_wrap {
+    justify-content: center;
+  }
+  .write_wrap .form_wrap .btn_wrap > button {
+    width: 110px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .write_wrap .form_wrap .btn_wrap {
+    justify-content: center;
+  }
+  .write_wrap .form_wrap .btn_wrap > button {
+    width: 110px;
+  }
+}

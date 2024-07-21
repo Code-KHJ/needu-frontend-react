@@ -81,7 +81,7 @@ const DetailWorking = () => {
       setReviews(response.data);
       response.data.forEach((review) => {
         const isLiked =
-          Array.isArray(review.reviewTrianingLikes) &&
+          Array.isArray(review.reviewLikes) &&
           review.reviewLikes.some((like) => {
             return like.user_id === user.user.id;
           });
