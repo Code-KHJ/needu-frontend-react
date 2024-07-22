@@ -1,18 +1,27 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styles from './Write.module.scss';
-import TextEditor from '@/components/TextEditor';
-import type { Editor } from '@toast-ui/react-editor';
-import communityApi from '@/apis/community';
-import { HookCallback } from 'node_modules/@toast-ui/editor/types/editor';
-import { CommunityCreateDto } from '@/interface/Community';
-import { useUser } from '@/contexts/UserContext';
-import Button from '@/components/elements/Button';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styles from "./Write.module.scss";
+import TextEditor from "@/components/TextEditor";
+import type { Editor } from "@toast-ui/react-editor";
+import communityApi from "@/apis/community";
+import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
+import { CommunityCreateDto } from "@/interface/Community";
+import { useUser } from "@/contexts/UserContext";
+import Button from "@/components/elements/Button";
+import { useNavigate } from "react-router-dom";
 
 const WritePost = ({ type }) => {
   const { user } = useUser();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
+
+  const placeholder = {
+    free: `오늘의 소소한 생각부터 소중한 경험까지, NeedU와 나누면 모두의 지혜가 됩니다.
+    자유롭게 작성해주세요.
+    
+    특정인을 향한 비방, 욕설은 법적인 문제가 발생할 수 있습니다.`,
+    question: `실무부터 커리어 고민까지, 어떤 질문이라도 NeedU의 집단지성이 함께 합니다.
+    자유롭게 작성해주세요.`,
+  };
 
   const [topics, setTopics] = useState([]);
   useEffect(() => {
@@ -31,16 +40,16 @@ const WritePost = ({ type }) => {
 
   const [values, setValues] = useState<CommunityCreateDto>({
     user_id: 0,
-    title: '',
-    markdown: '',
-    html: '',
+    title: "",
+    markdown: "",
+    html: "",
     topic_id: 0,
   });
   const handleValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    if (name === 'topic_id') {
+    if (name === "topic_id") {
       setValues({
         ...values,
         [name]: parseFloat(value),
@@ -64,21 +73,21 @@ const WritePost = ({ type }) => {
   const handleImage = useCallback(
     async (blob: Blob, callback: HookCallback) => {
       const formData = new FormData();
-      formData.append('image', blob);
+      formData.append("image", blob);
 
       const response = await communityApi.uploadImage(formData);
 
       if (response.status !== 201) {
         if (response.status === 413) {
-          alert('파일 용량이 5MB를 초과하여 업로드에 실패하였습니다.');
+          alert("파일 용량이 5MB를 초과하여 업로드에 실패하였습니다.");
           return;
         } else {
-          alert('오류가 발생했습니다.');
+          alert("오류가 발생했습니다.");
           return;
         }
       }
       const imageUrl = response.data.imageUrl;
-      callback(imageUrl, 'image');
+      callback(imageUrl, "image");
     },
     []
   );
@@ -93,9 +102,9 @@ const WritePost = ({ type }) => {
   useEffect(() => {
     setValid({
       user_id: values.user_id > 0,
-      title: values.title !== '',
-      markdown: values.markdown !== '',
-      html: values.html !== '',
+      title: values.title !== "",
+      markdown: values.markdown !== "",
+      html: values.html !== "",
       topic_id: values.topic_id > 0,
     });
   }, [values]);
@@ -108,29 +117,29 @@ const WritePost = ({ type }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm('게시물을 등록하시겠습니까?');
+    const confirmed = confirm("게시물을 등록하시겠습니까?");
     if (confirmed) {
       const response = await communityApi.createPost(values);
       if (response.status !== 201) {
-        if (response.status === 400 && response.data.msg === 'Invalid title') {
+        if (response.status === 400 && response.data.msg === "Invalid title") {
           alert(
-            '제목에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요.'
+            "제목에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
           );
           return;
         }
         if (
           response.status === 400 &&
-          response.data.msg === 'Invalid content'
+          response.data.msg === "Invalid content"
         ) {
           alert(
-            '내용에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요.'
+            "내용에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
           );
           return;
         }
-        alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+        alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
         return;
       }
-      alert('게시글이 작성되었습니다.');
+      alert("게시글이 작성되었습니다.");
       if (type === 1) {
         navigate(`/community/free/${response.data.post.id}`);
       }
@@ -147,7 +156,7 @@ const WritePost = ({ type }) => {
   return (
     <div className={styles.write_wrap}>
       <div className={styles.info}>
-        <h1>{type === 1 ? '자유게시판' : type === 2 ? '질문&답변' : ''}</h1>
+        <h1>{type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}</h1>
         <p className="body1">
           NEEDU 커뮤니티에서 지역과 기관을 넘는 집단지성을 경험해보세요.
         </p>
@@ -159,7 +168,7 @@ const WritePost = ({ type }) => {
             <input
               name="title"
               type="text"
-              className={`${valid.title ? styles.valid : ''}`}
+              className={`${valid.title ? styles.valid : ""}`}
               placeholder="제목을 입력해주세요."
               value={values.title}
               onChange={handleValue}
@@ -169,7 +178,7 @@ const WritePost = ({ type }) => {
             <h4>토픽</h4>
             <select
               name="topic_id"
-              className={`${valid.topic_id ? styles.valid : ''}`}
+              className={`${valid.topic_id ? styles.valid : ""}`}
               value={values.topic_id}
               onChange={handleValue}
             >
@@ -194,16 +203,16 @@ const WritePost = ({ type }) => {
             <img
               src="/src/assets/images/ico_ext.png"
               style={{
-                width: '17px',
-                verticalAlign: 'bottom',
-                marginLeft: '10px',
+                width: "17px",
+                verticalAlign: "bottom",
+                marginLeft: "10px",
               }}
             />
           </a>
           <TextEditor
             editorRef={editorRef}
-            placeholder="테스트"
-            initialValue="테스트밸류"
+            placeholder={type === 1 ? placeholder.free : placeholder.question}
+            initialValue=""
             handleImage={handleImage}
             onChange={handleEditor}
           />
@@ -216,10 +225,10 @@ const WritePost = ({ type }) => {
             children="등록"
             className={`${
               isSubmitDisabled === false
-                ? 'btn_condition_true'
-                : 'btn_condition_false'
+                ? "btn_condition_true"
+                : "btn_condition_false"
             }`}
-            style={{ minWidth: '110px', height: '60px' }}
+            style={{ minWidth: "110px", height: "60px" }}
             isDisabled={isSubmitDisabled}
             onClick={handleSubmit}
           ></Button>
