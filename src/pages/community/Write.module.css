@@ -47,6 +47,8 @@ select {
   display: block;
   text-align: end;
   margin-bottom: 4px;
+}
+.write_wrap .form_wrap .content .guide > a {
   cursor: pointer;
 }
 .write_wrap .form_wrap .btn_wrap {

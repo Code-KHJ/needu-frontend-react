@@ -16,8 +16,8 @@ interface TextEditorProps {
 
 const TextEditor: React.FC<TextEditorProps> = ({
   editorRef,
-  placeholder = '안내 내용',
-  initialValue = '',
+  placeholder = '',
+  initialValue = ' ',
   handleImage,
   onChange,
 }) => {
@@ -55,7 +55,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
 
   return (
     <Editor
-      previewStyle="vertical"
       initialEditType="wysiwyg"
       useCommandShortcut={true}
       hideModeSwitch={true}

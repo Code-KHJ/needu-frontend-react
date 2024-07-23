@@ -1,10 +1,31 @@
-import { CommunityCreateDto } from '@/interface/Community';
+import { CommunityCreateDto, CommunityEditDto } from '@/interface/Community';
 import customAxios from './axios-config';
 
 const communityApi = {
   createPost: async (createDto: CommunityCreateDto) => {
     try {
       const response = await customAxios.post('/community/post', createDto);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  getPostForEdit: async (postId: number) => {
+    try {
+      const response = await customAxios.get(`/community/post/edit/${postId}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  updatePost: async (editDto: CommunityEditDto) => {
+    try {
+      const response = await customAxios.patch(
+        `/community/post/edit/${editDto.id}`,
+        editDto
+      );
       return response;
     } catch (error) {
       console.error(error);

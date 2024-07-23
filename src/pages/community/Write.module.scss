@@ -48,7 +48,9 @@ select {
         display: block;
         text-align: end;
         margin-bottom: 4px;
-        cursor: pointer;
+        & > a {
+          cursor: pointer;
+        }
       }
     }
     .btn_wrap {

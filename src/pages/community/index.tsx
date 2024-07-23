@@ -1,9 +1,9 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import SearchWorking from "../review/SearchWorking";
-import SearchTraining from "../review/SearchTraining";
-import WritePost from "./WritePost";
-import EditPost from "./EditPost";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import SearchWorking from '../review/SearchWorking';
+import SearchTraining from '../review/SearchTraining';
+import WritePost from './WritePost';
+import EditPost from './EditPost';
 
 interface CummunityRoutesProps {
   isLogin: boolean;
