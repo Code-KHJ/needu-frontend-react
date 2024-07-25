@@ -1,0 +1,121 @@
+@charset "utf-8";
+@charset "utf-8";
+select {
+  color: #aaa;
+  border: #aaa solid 1px;
+  background-color: #efefef;
+}
+.valid {
+  color: #222;
+  background-color: #ffffff !important;
+  border: #6269f5 solid 1px !important;
+}
+
+.write_wrap {
+  margin: 80px auto;
+  .info {
+    background-color: #fff;
+    padding: 40px 10%;
+  }
+  .form_wrap {
+    margin-top: 60px;
+    padding: 40px 10%;
+    .content_title {
+      .title {
+        & > input {
+          width: 100%;
+          height: 60px;
+          border: 1px solid #aaa;
+          border-radius: 3px;
+          padding: 0 16px;
+          margin-top: 8px;
+        }
+      }
+      .is_show {
+        margin-top: 80px;
+        & > div {
+          margin-top: 8px;
+          & > input {
+            width: 20px;
+            height: 20px;
+            vertical-align: sub;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    .content {
+      margin-top: 60px;
+      .guide {
+        display: block;
+        text-align: end;
+        margin-bottom: 4px;
+        & > a {
+          cursor: pointer;
+        }
+      }
+    }
+    .btn_wrap {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      & > button {
+        height: 60px;
+        border-radius: 3px;
+        width: calc(50% - 10px);
+        color: #fff;
+        white-space: nowrap;
+      }
+      .cancel {
+        background-color: #aaa;
+      }
+      .submit {
+        background-color: #6269f5;
+      }
+    }
+  }
+}
+
+/* main end */
+/* mobile-end */
+
+@media screen and (min-width: 768px) {
+  .write_wrap {
+    width: 86%;
+    .info {
+      border-radius: 5px;
+      padding: 40px;
+      border: 1px solid #aaa;
+    }
+    .form_wrap {
+      width: 100%;
+      padding: 0px;
+      .content_title {
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 40px;
+      }
+      .btn_wrap {
+        justify-content: center;
+        & > button {
+          width: 110px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .write_wrap {
+    .form_wrap {
+      .btn_wrap {
+        justify-content: center;
+        & > button {
+          width: 110px;
+        }
+      }
+    }
+  }
+}

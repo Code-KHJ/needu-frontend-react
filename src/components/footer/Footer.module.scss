@@ -65,14 +65,14 @@ footer {
       font-size: 1.4rem;
     }
     & > span:not(:last-child)::after {
-      content: '|';
+      content: "|";
       color: #888;
       margin-left: 10px;
       margin-right: 10px;
     }
     .contact_email,
     .contact_phone {
-      height: 16px;
+      // height: 16px;
       & > img {
         margin-right: 5px;
         width: 15px;

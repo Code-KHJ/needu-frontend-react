@@ -1,25 +1,27 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
-import './App.css';
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
-import Login from './pages/login/Login';
-import Signup from './pages/signup/Signup';
-import Findid from './pages/findIdPw/Findid';
-import Findpw from './pages/findIdPw/Findpw';
-import ScrollToTop from './components/ScrollToTop';
-import { useUser } from './contexts/UserContext';
-import { useEffect, useState } from 'react';
-import ReviewRoutes from './pages/review';
-import ReportModal from './components/modal/ReportModal';
-import CommunityRoutes from './pages/community';
+import "./App.css";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import Login from "./pages/login/Login";
+import Signup from "./pages/signup/Signup";
+import Findid from "./pages/findIdPw/Findid";
+import Findpw from "./pages/findIdPw/Findpw";
+import ScrollToTop from "./components/ScrollToTop";
+import { useUser } from "./contexts/UserContext";
+import { useEffect, useState } from "react";
+import ReviewRoutes from "./pages/review";
+import ReportModal from "./components/modal/ReportModal";
+import CommunityRoutes from "./pages/community";
+import NoticeRoutes from "./pages/notice";
 
 function App() {
   const { user, loading } = useUser();
   const isLogin = user.id !== null;
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  const isAdmin = user.authority === 100;
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <BrowserRouter>
@@ -47,6 +49,7 @@ function App() {
           path="/community/*"
           element={<CommunityRoutes isLogin={isLogin} />}
         />
+        <Route path="/notice/*" element={<NoticeRoutes isAdmin={isAdmin} />} />
       </Routes>
       <Footer />
     </BrowserRouter>

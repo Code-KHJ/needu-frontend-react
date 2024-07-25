@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css');
+@import url("https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css");
 /* font-family: 
 'NanumSquareLight';
 'NanumSquare';
@@ -66,7 +66,7 @@ input:focus {
   text-indent: -9999px;
 }
 .clearfix::after {
-  content: '';
+  content: "";
   display: block;
   clear: both;
 }
@@ -100,11 +100,12 @@ button,
 textarea {
   //default
   color: #222;
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
   // src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
   font-size: 1.6rem;
   font-style: normal;
   line-height: 140%;
+  letter-spacing: -0.04em;
 }
 
 h1,
@@ -117,35 +118,42 @@ h2 {
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 140%;
+  letter-spacing: -0.02em;
 }
 h3 {
   font-size: 2.1rem;
   font-weight: 700;
   line-height: 140%;
+  letter-spacing: -0.02em;
 }
 h4,
 .title {
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 140%;
+  letter-spacing: -0.02em;
 }
 h5,
 .subtitle {
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 140%;
+  letter-spacing: -0.02em;
 }
 .body1 {
   font-size: 1.8rem;
   line-height: 140%;
+  letter-spacing: -0.02em;
 }
 .body2 {
   font-size: 1.4rem;
   line-height: 140%;
+  letter-spacing: -0.04em;
 }
 .caption {
   font-size: 1.4rem;
   line-height: 140%;
+  letter-spacing: -0.04em;
 }
 .toastui-editor-contents {
   z-index: 5 !important;

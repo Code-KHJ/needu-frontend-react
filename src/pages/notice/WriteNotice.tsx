@@ -3,84 +3,51 @@ import styles from "./Write.module.scss";
 import TextEditor from "@/components/TextEditor";
 import type { Editor } from "@toast-ui/react-editor";
 import communityApi from "@/apis/community";
-import Button from "@/components/elements/Button";
-import { useUser } from "@/contexts/UserContext";
-import { useLocation, useNavigate } from "react-router-dom";
-import { CommunityEditDto } from "@/interface/Community";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
-import { type } from "../../interface/User";
+import { useUser } from "@/contexts/UserContext";
+import Button from "@/components/elements/Button";
+import { useNavigate } from "react-router-dom";
+import { NoticeCreateDto } from "@/interface/Notice";
+import noticeApi from "@/apis/notice";
 
-const EditPost = ({ type }) => {
-  const pathname = useLocation().pathname.split("/");
-  const postId = parseFloat(pathname[pathname.length - 1]);
+const WriteNotice = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
-  const [topics, setTopics] = useState([]);
-  const [values, setValues] = useState<CommunityEditDto>({
-    id: 0,
+  useEffect(() => {
+    if (user.authority !== 100) {
+      navigate("/");
+    }
+    setValues({
+      ...values,
+      user_id: user.id,
+    });
+  }, [user]);
+
+  const [values, setValues] = useState<NoticeCreateDto>({
     user_id: 0,
     title: "",
     markdown: "",
     html: "",
-    topic_id: 0,
+    is_show: false,
   });
-  const [initialValue, setInitialValue] = useState<string>("");
-  useEffect(() => {
-    if (!postId) {
-      navigate("/");
-      return;
-    }
-    const getTopic = async () => {
-      const response = await communityApi.getTopic(type);
-      if (response.status === 200) {
-        setTopics(response.data);
-      }
-    };
-    const getPost = async (postId: number) => {
-      const response = await communityApi.getPostForEdit(postId);
-      if (response.status !== 200) {
-        navigate("/");
-      }
-      if (type !== response.data.type) {
-        alert("존재하지 않는 게시글입니다.");
-        navigate("/");
-      }
-
-      setValues({
-        ...values,
-        id: response.data.post_id,
-        user_id: response.data.user_id,
-        title: response.data.title,
-        topic_id: response.data.topic_id,
-      });
-      setInitialValue(response.data.content);
-    };
-
-    getTopic();
-    getPost(postId);
-  }, [user, postId]);
-
   const handleValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    if (name === "topic_id") {
+    const { name, value, checked } = e.target;
+    if (name == "is_show") {
       setValues({
         ...values,
-        [name]: parseFloat(value),
+        [name]: checked,
       });
-      return;
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
     }
-    setValues({
-      ...values,
-      [name]: value,
-    });
   };
-  useEffect(() => {
-    handleEditor();
-  }, [initialValue]);
   const handleEditor = () => {
     const markdown = editorRef.current?.getInstance().getMarkdown();
     const html = editorRef.current?.getInstance().getHTML();
@@ -111,12 +78,12 @@ const EditPost = ({ type }) => {
     },
     []
   );
+
   const [valid, setValid] = useState({
     user_id: false,
     title: false,
     markdown: false,
     html: false,
-    topic_id: false,
   });
   useEffect(() => {
     setValid({
@@ -124,7 +91,6 @@ const EditPost = ({ type }) => {
       title: values.title !== "",
       markdown: values.markdown !== "",
       html: values.html !== "",
-      topic_id: values.topic_id > 0,
     });
   }, [values]);
 
@@ -136,37 +102,18 @@ const EditPost = ({ type }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm("게시물을 수정하시겠습니까?");
+    const confirmed = confirm("공지사항을 등록하시겠습니까?");
     if (confirmed) {
-      const response = await communityApi.updatePost(values);
-      if (response.status !== 200) {
-        if (response.status === 400 && response.data.msg === "Invalid title") {
-          alert(
-            "제목에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
-          );
-          return;
-        }
-        if (
-          response.status === 400 &&
-          response.data.msg === "Invalid content"
-        ) {
-          alert(
-            "내용에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
-          );
-          return;
-        }
+      const response = await noticeApi.createNotice(values);
+      if (response.status !== 201) {
         alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
         return;
       }
-      alert("게시글이 수정되었습니다.");
-      if (type === 1) {
-        navigate(`/community/free/${response.data.post.id}`);
-      }
-      if (type === 2) {
-        navigate(`/community/question/${response.data.post.id}`);
-      }
+      alert("공지사항이 작성되었습니다.");
+      navigate(`/notice/${response.data.notice.id}`);
     }
   };
+
   const handleCancel = () => {
     window.history.back();
   };
@@ -174,10 +121,8 @@ const EditPost = ({ type }) => {
   return (
     <div className={styles.write_wrap}>
       <div className={styles.info}>
-        <h1>{type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}</h1>
-        <p className="body1">
-          NEEDU 커뮤니티에서 지역과 기관을 넘는 집단지성을 경험해보세요.
-        </p>
+        <h1>공지사항</h1>
+        <p className="body1">NEEDU 공지사항을 작성해주세요.</p>
       </div>
       <form className={styles.form_wrap}>
         <div className={styles.content_title}>
@@ -192,23 +137,17 @@ const EditPost = ({ type }) => {
               onChange={handleValue}
             ></input>
           </div>
-          <div className={styles.topic}>
-            <h4>토픽</h4>
-            <select
-              name="topic_id"
-              className={`${valid.topic_id ? styles.valid : ""}`}
-              value={values.topic_id}
-              onChange={handleValue}
-            >
-              <option value={0} disabled hidden>
-                토픽을 선택해주세요.
-              </option>
-              {topics.map((topic) => (
-                <option value={parseFloat(topic.id)} key={topic.id}>
-                  {topic.topic} | {topic.description}
-                </option>
-              ))}
-            </select>
+          <div className={styles.is_show}>
+            <h4>공개</h4>
+            <div>
+              <input
+                name="is_show"
+                type="checkbox"
+                checked={values.is_show}
+                onChange={handleValue}
+              ></input>
+              <label>지금부터 노출합니다.</label>
+            </div>
           </div>
         </div>
         <div className={styles.content}>
@@ -228,22 +167,20 @@ const EditPost = ({ type }) => {
               />
             </a>
           </div>
-          {initialValue && (
-            <TextEditor
-              editorRef={editorRef}
-              placeholder=" "
-              initialValue={initialValue}
-              handleImage={handleImage}
-              onChange={handleEditor}
-            />
-          )}
+          <TextEditor
+            editorRef={editorRef}
+            placeholder="공지사항을 작성해주세요."
+            initialValue=" "
+            handleImage={handleImage}
+            onChange={handleEditor}
+          />
         </div>
         <div className={styles.btn_wrap}>
           <button className={styles.cancel} onClick={handleCancel}>
             취소
           </button>
           <Button
-            children="수정"
+            children="등록"
             className={`${
               isSubmitDisabled === false
                 ? "btn_condition_true"
@@ -259,4 +196,4 @@ const EditPost = ({ type }) => {
   );
 };
 
-export default EditPost;
+export default WriteNotice;
