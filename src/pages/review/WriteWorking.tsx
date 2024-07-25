@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './Write.module.scss';
-import InputDate from '@/components/elements/InputDate';
-import ScoreStar from '@/components/ScoreStar';
-import Button from '@/components/elements/Button';
-import corpApi from '@/apis/corp';
-import sharedApi from '@/apis/shared';
-import { ReviewWorkingDto } from '@/interface/Review';
-import { useUser } from '@/contexts/UserContext';
-import reviewApi from '@/apis/review';
-import { StarList } from '@/common/StarList';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Write.module.scss";
+import InputDate from "@/components/elements/InputDate";
+import ScoreStar from "@/components/ScoreStar";
+import Button from "@/components/elements/Button";
+import corpApi from "@/apis/corp";
+import sharedApi from "@/apis/shared";
+import { ReviewWorkingDto } from "@/interface/Review";
+import { useUser } from "@/contexts/UserContext";
+import reviewApi from "@/apis/review";
+import { StarList } from "@/common/StarList";
 
 const WriteWorking = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get('name');
-  const { user, setUser } = useUser();
+  const name = queryParams.get("name");
+  //@ts-ignore
+  const { user } = useUser();
 
   const [corp, setCorp] = useState({
     id: null,
@@ -27,11 +28,24 @@ const WriteWorking = () => {
     cnt: null,
     avg: null,
   });
-  const [shared, setShared] = useState({
+
+  interface Hashtag {
+    id: string;
+    content: string;
+  }
+  interface CareerType {
+    id: string;
+    type: string;
+  }
+  interface Shared {
+    careerType: CareerType[];
+    hashtagList: Hashtag[];
+  }
+  const [shared, setShared] = useState<Shared>({
     careerType: [],
     hashtagList: [],
   });
-  const starList = StarList.working;
+  const starList: any = StarList.working;
 
   useEffect(() => {
     const getShared = async () => {
@@ -50,16 +64,16 @@ const WriteWorking = () => {
 
   useEffect(() => {
     if (!name) {
-      navigate('/');
+      navigate("/");
       return;
     }
     const getCorp = async () => {
       const response: any = await corpApi.getWithWorking(name);
       if (response.status !== 200) {
-        navigate('/');
+        navigate("/");
       }
       if (!response.data.corp_name) {
-        navigate('/');
+        navigate("/");
       }
       setCorp(response.data);
       setValues({
@@ -71,11 +85,11 @@ const WriteWorking = () => {
   }, [name]);
 
   const [values, setValues] = useState<ReviewWorkingDto>({
-    corp_name: '',
+    corp_name: "",
     user_id: user.user_id,
-    start_date: '',
-    end_date: '',
-    career_type: '',
+    start_date: "",
+    end_date: "",
+    career_type: "",
     hashtag: [],
     total_score: 0,
     growth_score: 0,
@@ -84,9 +98,9 @@ const WriteWorking = () => {
     worth_score: 0,
     culture_score: 0,
     worklife_score: 0,
-    highlight: '',
-    pros: '',
-    cons: '',
+    highlight: "",
+    pros: "",
+    cons: "",
   });
 
   const handleChange = (
@@ -121,11 +135,11 @@ const WriteWorking = () => {
 
   useEffect(() => {
     setValid({
-      corp_name: values.corp_name !== '',
-      user_id: values.user_id !== '',
-      start_date: values.start_date !== '',
-      end_date: values.end_date !== '',
-      career_type: values.career_type !== '',
+      corp_name: values.corp_name !== "",
+      user_id: values.user_id !== "",
+      start_date: values.start_date !== "",
+      end_date: values.end_date !== "",
+      career_type: values.career_type !== "",
       total_score: values.total_score > 0,
       growth_score: values.growth_score > 0,
       leadership_score: values.leadership_score > 0,
@@ -144,12 +158,12 @@ const WriteWorking = () => {
     if (working) {
       setValues({
         ...values,
-        end_date: '9999-12-31',
+        end_date: "9999-12-31",
       });
     } else {
       setValues({
         ...values,
-        end_date: '',
+        end_date: "",
       });
     }
   }, [working]);
@@ -200,11 +214,11 @@ const WriteWorking = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const response = await reviewApi.createWorking(values);
+    const response: any = await reviewApi.createWorking(values);
     if (response.status !== 201) {
-      alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+      alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
     } else {
-      alert('리뷰가 작성되었습니다.');
+      alert("리뷰가 작성되었습니다.");
       navigate(`/review/detail/working?name=${values.corp_name}`);
     }
   };
@@ -224,7 +238,7 @@ const WriteWorking = () => {
       <div className={styles.guide}>
         <p>입력하신 모든 정보는 익명으로 처리됩니다.</p>
         <p>
-          NEEDU{' '}
+          NEEDU{" "}
           <a
             href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-d7cb722b6a6247d38594aff27c31c036?pvs=4"
             target="_blank"
@@ -291,8 +305,8 @@ const WriteWorking = () => {
                   className={`${
                     valid.career_type
                       ? styles.valid
-                      : values.career_type == ''
-                      ? ''
+                      : values.career_type == ""
+                      ? ""
                       : styles.invalid
                   }`}
                   value={values.career_type}
@@ -315,7 +329,7 @@ const WriteWorking = () => {
                     <input
                       key={item.id}
                       className={`${styles.keyword_item} ${
-                        values.hashtag.includes(item.id) ? styles.selected : ''
+                        values.hashtag.includes(item.id) ? styles.selected : ""
                       }`}
                       type="button"
                       value={item.content}
@@ -329,7 +343,7 @@ const WriteWorking = () => {
           <div className={styles.score_wrap}>
             <h4>평가하기</h4>
             <div className={styles.score_content}>
-              {starList.map((item) => (
+              {starList.map((item: any) => (
                 <div className={styles.score_item} key={item.en}>
                   <div className="subtitle">{item.ko}</div>
                   <div className={styles.score_star}>
@@ -344,7 +358,7 @@ const WriteWorking = () => {
                       }
                     ></ScoreStar>
                     <div className="banner_title">
-                      {values[item.en].toFixed(1)}
+                      {(values[item.en] as number).toFixed(1)}
                     </div>
                   </div>
                 </div>
@@ -360,7 +374,7 @@ const WriteWorking = () => {
             tabsize="60px"
             readonly={true}
             value={values.total_score}
-            onChange={(newValue) => handleScoreChange('total_score', newValue)}
+            onChange={(newValue) => handleScoreChange("total_score", newValue)}
           ></ScoreStar>
           <div className="banner_title">{values.total_score.toFixed(1)}</div>
         </div>
@@ -373,8 +387,8 @@ const WriteWorking = () => {
                 className={`${
                   valid.highlight
                     ? styles.valid
-                    : values.highlight == ''
-                    ? ''
+                    : values.highlight == ""
+                    ? ""
                     : styles.invalid
                 }`}
                 name="highlight"
@@ -392,8 +406,8 @@ const WriteWorking = () => {
                 className={`${styles.long_text} ${
                   valid.pros
                     ? styles.valid
-                    : values.pros == ''
-                    ? ''
+                    : values.pros == ""
+                    ? ""
                     : styles.invalid
                 }`}
                 rows={10}
@@ -405,7 +419,7 @@ const WriteWorking = () => {
               ></textarea>
               <p
                 style={{
-                  color: values.pros !== '' && !valid.pros ? 'red' : '',
+                  color: values.pros !== "" && !valid.pros ? "red" : "",
                 }}
                 className="body2"
               >
@@ -419,8 +433,8 @@ const WriteWorking = () => {
                 className={`${styles.long_text} ${
                   valid.cons
                     ? styles.valid
-                    : values.cons == ''
-                    ? ''
+                    : values.cons == ""
+                    ? ""
                     : styles.invalid
                 }`}
                 rows={10}
@@ -432,7 +446,7 @@ const WriteWorking = () => {
               ></textarea>
               <p
                 style={{
-                  color: values.cons !== '' && !valid.cons ? 'red' : '',
+                  color: values.cons !== "" && !valid.cons ? "red" : "",
                 }}
                 className="body2"
               >
@@ -446,10 +460,10 @@ const WriteWorking = () => {
             children="제출"
             className={`${
               isSubmitDisabled === false
-                ? 'btn_condition_true'
-                : 'btn_condition_false'
+                ? "btn_condition_true"
+                : "btn_condition_false"
             }`}
-            style={{ minWidth: '110px', height: '60px' }}
+            style={{ minWidth: "110px", height: "60px" }}
             isDisabled={isSubmitDisabled}
             onClick={handleSubmit}
           ></Button>

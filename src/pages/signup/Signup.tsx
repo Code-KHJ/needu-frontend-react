@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styles from './Signup.module.scss';
-import { regEmail, regNickname, regPhone, regPw } from '@/utils/validation';
-import userApi from '@/apis/user';
-import _ from 'lodash';
-import { SingupDto } from '@/interface/User';
-import Input from '@/components/elements/Input';
-import Label from '@/components/elements/Label';
-import Button from '@/components/elements/Button';
+import React, { useCallback, useEffect, useState } from "react";
+import styles from "./Signup.module.scss";
+import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
+import userApi from "@/apis/user";
+import _ from "lodash";
+import { SingupDto } from "@/interface/User";
+import Input from "@/components/elements/Input";
+import Label from "@/components/elements/Label";
+import Button from "@/components/elements/Button";
 
 const Signup = () => {
   //유효성 검사
   const [values, setValues] = useState<SingupDto>({
-    user_id: '',
-    password: '',
-    password2: '',
-    phonenumber: '',
-    nickname: '',
+    user_id: "",
+    password: "",
+    password2: "",
+    phonenumber: "",
+    nickname: "",
     policy: false,
     personal_info: false,
     marketing_email: false,
@@ -44,23 +44,23 @@ const Signup = () => {
   });
 
   const [validMsg, setValidMsg] = useState({
-    user_id: '',
-    password: '',
-    password2: '',
-    phonenumber: '',
-    nickname: '',
+    user_id: "",
+    password: "",
+    password2: "",
+    phonenumber: "",
+    nickname: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === 'checkbox' ? checked : value;
+    const inputValue = type === "checkbox" ? checked : value;
     setValues({
       ...values,
       [name]: inputValue,
     });
 
     switch (name) {
-      case 'id': {
+      case "user_id": {
         //이메일 유효성검사
         if (!regEmail.test(value)) {
           setValidValues({
@@ -69,7 +69,7 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: '이메일 형식이 올바르지 않습니다.',
+            [name]: "이메일 형식이 올바르지 않습니다.",
           });
           setAuthBtn({
             ...authBtn,
@@ -79,14 +79,14 @@ const Signup = () => {
         } else {
           setValidMsg({
             ...validMsg,
-            [name]: '',
+            [name]: "",
           });
 
           debounceId(e);
           break;
         }
       }
-      case 'password':
+      case "password":
         if (!regPw.test(value)) {
           setValidValues({
             ...validValues,
@@ -96,7 +96,7 @@ const Signup = () => {
           setValidMsg({
             ...validMsg,
             [name]:
-              '비밀번호는 영문, 숫자, 특수문자만 사용가능하며, 반드시 영문, 숫자 조합이 필요합니다.',
+              "비밀번호는 영문, 숫자, 특수문자만 사용가능하며, 반드시 영문, 숫자 조합이 필요합니다.",
           });
           break;
         }
@@ -115,12 +115,12 @@ const Signup = () => {
         }
         setValidMsg({
           ...validMsg,
-          [name]: '',
-          password2: '',
+          [name]: "",
+          password2: "",
         });
 
         break;
-      case 'password2':
+      case "password2":
         if (value !== values.password) {
           setValidValues({
             ...validValues,
@@ -128,7 +128,7 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: '비밀번호가 일치하지 않습니다.',
+            [name]: "비밀번호가 일치하지 않습니다.",
           });
           break;
         }
@@ -138,10 +138,10 @@ const Signup = () => {
         });
         setValidMsg({
           ...validMsg,
-          [name]: '',
+          [name]: "",
         });
         break;
-      case 'phonenumber':
+      case "phonenumber":
         if (!regPhone.test(value)) {
           setValidValues({
             ...validValues,
@@ -149,7 +149,7 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: '연락처 형식이 올바르지 않습니다.',
+            [name]: "연락처 형식이 올바르지 않습니다.",
           });
           break;
         }
@@ -159,10 +159,10 @@ const Signup = () => {
         });
         setValidMsg({
           ...validMsg,
-          [name]: '',
+          [name]: "",
         });
         break;
-      case 'nickname': {
+      case "nickname": {
         //닉네임 유효성검사
         if (!regNickname.test(value)) {
           setValidValues({
@@ -171,20 +171,20 @@ const Signup = () => {
           });
           setValidMsg({
             ...validMsg,
-            [name]: '닉네임은 영어, 한글, 숫자만 사용이 가능합니다.',
+            [name]: "닉네임은 영어, 한글, 숫자만 사용이 가능합니다.",
           });
           break;
         }
         debounceNick(e);
         break;
       }
-      case 'policy':
+      case "policy":
         setValidValues({
           ...validValues,
           [name]: checked,
         });
         break;
-      case 'personal_info':
+      case "personal_info":
         setValidValues({
           ...validValues,
           [name]: checked,
@@ -205,7 +205,7 @@ const Signup = () => {
         if (!isDuplic) {
           setValidMsg({
             ...validMsg,
-            [name]: '이미 사용중인 이메일입니다.',
+            [name]: "이미 사용중인 이메일입니다.",
           });
           setAuthBtn({
             ...authBtn,
@@ -219,7 +219,7 @@ const Signup = () => {
         }
         setValidMsg({
           ...validMsg,
-          [name]: '',
+          [name]: "",
         });
         setAuthBtn({
           ...authBtn,
@@ -243,7 +243,7 @@ const Signup = () => {
         if (!isDuplic) {
           setValidMsg({
             ...validMsg,
-            [name]: '이미 사용중인 닉네임입니다.',
+            [name]: "이미 사용중인 닉네임입니다.",
           });
           return {
             ...prevValidValues,
@@ -252,7 +252,7 @@ const Signup = () => {
         }
         setValidMsg({
           ...validMsg,
-          [name]: '',
+          [name]: "",
         });
         return {
           ...prevValidValues,
@@ -264,28 +264,28 @@ const Signup = () => {
   );
 
   ///////////인증번호 요청///////////////
-  const [createdAuthCode, setCreatedAuthCode] = useState('');
-  const [authCode, setAuthCode] = useState('');
+  const [createdAuthCode, setCreatedAuthCode] = useState("");
+  const [authCode, setAuthCode] = useState("");
   const [authBtn, setAuthBtn] = useState({
     req: false,
     confirm: false,
-    confirmText: '',
+    confirmText: "",
   });
 
   const reqAuthMail = async () => {
     setAuthBtn({
       ...authBtn,
-      confirmText: '확인',
+      confirmText: "확인",
     });
     ///////////인증메일 발송 api
-    const response = await userApi.verifyEmail(values.id);
-    if (response.data.status !== 'completed') {
-      alert('에러발생 다시 시도해주세요.');
+    const response = await userApi.verifyEmail(values.user_id);
+    if (response.data.status !== "completed") {
+      alert("에러발생 다시 시도해주세요.");
       return;
     }
     console.log(response.data.authNum);
     setCreatedAuthCode(response.data.authNum);
-    alert('인증번호가 전송되었습니다. 이메일을 확인해주세요.');
+    alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
   };
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuthCode(e.target.value);
@@ -297,15 +297,15 @@ const Signup = () => {
   const confirmAuthCode = () => {
     if (createdAuthCode !== authCode) {
       alert(
-        '인증번호가 틀렸습니다. 재발송을 원하시면 인증요청 버튼을 다시 클릭해주세요.'
+        "인증번호가 틀렸습니다. 재발송을 원하시면 인증요청 버튼을 다시 클릭해주세요."
       );
       return;
     }
-    alert('이메일이 인증되었습니다.');
+    alert("이메일이 인증되었습니다.");
     setAuthBtn({
       req: false,
       confirm: false,
-      confirmText: '인증완료',
+      confirmText: "인증완료",
     });
     setValidValues({
       ...validValues,
@@ -342,10 +342,10 @@ const Signup = () => {
     e.preventDefault();
     const response = await userApi.signup(values);
     if (response.status == 201) {
-      alert('회원가입이 완료되었습니다. 로그인 후 서비스를 이용해주세요.');
-      window.location.href = '/login';
+      alert("회원가입이 완료되었습니다. 로그인 후 서비스를 이용해주세요.");
+      window.location.href = "/login";
     } else {
-      alert('회원가입이 실패했습니다. 잠시 후 다시 시도해주세요.');
+      alert("회원가입이 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -365,30 +365,30 @@ const Signup = () => {
                     name="user_id"
                     className={`${
                       validValues.user_id === null
-                        ? 'input_default'
+                        ? "input_default"
                         : validValues.user_id
-                        ? 'input_done'
-                        : 'input_wrong'
+                        ? "input_done"
+                        : "input_wrong"
                     }`}
                     value={values.user_id}
                     placeholder=""
                     onChange={handleChange}
-                    readOnly={authBtn.confirmText == '인증완료'}
+                    readOnly={authBtn.confirmText == "인증완료"}
                     required
                   />
                   <Button
                     children="인증요청"
                     className={`${
                       authBtn.req === true
-                        ? 'btn_condition_true'
-                        : 'btn_condition_false'
+                        ? "btn_condition_true"
+                        : "btn_condition_false"
                     }`}
                     isDisabled={!authBtn.req}
                     onClick={reqAuthMail}
                   />
                 </div>
                 <div
-                  className={`${'body2'} ${styles.checkmsg}`}
+                  className={`${"body2"} ${styles.checkmsg}`}
                   id="checkidmsg"
                 >
                   {validMsg.user_id}
@@ -396,29 +396,29 @@ const Signup = () => {
               </div>
               <div
                 className={`${styles.item} ${
-                  authBtn.confirmText.length > 0 ? '' : styles.checkEmail
+                  authBtn.confirmText.length > 0 ? "" : styles.checkEmail
                 }`}
               >
                 <div>
                   <Input
                     name="authNum"
                     className={`${
-                      authBtn.confirmText == '인증완료'
-                        ? 'input_done'
-                        : 'input_default'
+                      authBtn.confirmText == "인증완료"
+                        ? "input_done"
+                        : "input_default"
                     }`}
                     placeholder="인증번호를 입력해주세요."
                     onChange={handleAuth}
                     value={authCode}
-                    readOnly={authBtn.confirmText == '인증완료'}
+                    readOnly={authBtn.confirmText == "인증완료"}
                     required
                   />
                   <Button
                     children={authBtn.confirmText}
                     className={`${
                       authBtn.confirm === true
-                        ? 'btn_condition_true'
-                        : 'btn_condition_false'
+                        ? "btn_condition_true"
+                        : "btn_condition_false"
                     }`}
                     isDisabled={!authBtn.confirm}
                     onClick={confirmAuthCode}
@@ -432,10 +432,10 @@ const Signup = () => {
                   name="password"
                   className={`${
                     validValues.password === null
-                      ? 'input_default'
+                      ? "input_default"
                       : validValues.password
-                      ? 'input_done'
-                      : 'input_wrong'
+                      ? "input_done"
+                      : "input_wrong"
                   }`}
                   value={values.password}
                   onChange={handleChange}
@@ -443,7 +443,7 @@ const Signup = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${'body2'} ${styles.checkmsg}`}>
+                <div className={`${"body2"} ${styles.checkmsg}`}>
                   {validMsg.password}
                 </div>
               </div>
@@ -458,10 +458,10 @@ const Signup = () => {
                   name="password2"
                   className={`${
                     validValues.password2 === null
-                      ? 'input_default'
+                      ? "input_default"
                       : validValues.password2
-                      ? 'input_done'
-                      : 'input_wrong'
+                      ? "input_done"
+                      : "input_wrong"
                   }`}
                   value={values.password2}
                   onChange={handleChange}
@@ -470,7 +470,7 @@ const Signup = () => {
                   required
                 />
                 <div
-                  className={`${'body2'} ${styles.checkmsg}`}
+                  className={`${"body2"} ${styles.checkmsg}`}
                   id="checkpw2msg"
                 >
                   {validMsg.password2}
@@ -487,10 +487,10 @@ const Signup = () => {
                   name="phone"
                   className={`${
                     validValues.phonenumber === null
-                      ? 'input_default'
+                      ? "input_default"
                       : validValues.phonenumber
-                      ? 'input_done'
-                      : 'input_wrong'
+                      ? "input_done"
+                      : "input_wrong"
                   }`}
                   value={values.phonenumber}
                   onChange={handleChange}
@@ -498,7 +498,7 @@ const Signup = () => {
                   placeholder=""
                   required
                 />
-                <div className={`${'body2'} ${styles.checkmsg}`}>
+                <div className={`${"body2"} ${styles.checkmsg}`}>
                   {validMsg.phonenumber}
                 </div>
               </div>
@@ -509,10 +509,10 @@ const Signup = () => {
                   name="nickname"
                   className={`${
                     validValues.nickname === null
-                      ? 'input_default'
+                      ? "input_default"
                       : validValues.nickname
-                      ? 'input_done'
-                      : 'input_wrong'
+                      ? "input_done"
+                      : "input_wrong"
                   }`}
                   value={values.nickname}
                   onChange={handleChange}
@@ -521,7 +521,7 @@ const Signup = () => {
                   required
                 />
                 <div
-                  className={`${'body2'} ${styles.checkmsg}`}
+                  className={`${"body2"} ${styles.checkmsg}`}
                   id="checknmmsg"
                 >
                   {validMsg.nickname}
@@ -626,8 +626,8 @@ const Signup = () => {
                 children="회원가입 완료"
                 className={`${
                   isSubmitDisabled === false
-                    ? 'btn_condition_true'
-                    : 'btn_condition_false'
+                    ? "btn_condition_true"
+                    : "btn_condition_false"
                 }`}
                 isDisabled={isSubmitDisabled}
                 onClick={handleSubmit}

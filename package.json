@@ -19,6 +19,7 @@
     "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
     "@toast-ui/react-editor": "^3.2.3",
     "@types/lodash": "^4.14.202",
+    "@types/react-flatpickr": "^3.8.11",
     "@types/react-modal": "^3.16.3",
     "axios": "^1.6.2",
     "lodash": "^4.17.21",

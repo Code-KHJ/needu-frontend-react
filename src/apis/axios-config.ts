@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 const customAxios: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
@@ -20,7 +20,12 @@ customAxios.interceptors.response.use(
     function getCookie(name: string) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
+      if (parts.length === 2) {
+        const part = parts.pop();
+        if (part) {
+          return part.split(";").shift();
+        }
+      }
     }
     const refreshToken = getCookie("refreshToken");
 

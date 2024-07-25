@@ -1,8 +1,9 @@
 import userApi from "@/apis/user";
-import React, { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
+//@ts-ignore
 const UserContext = createContext();
-
+//@ts-ignore
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: null,
@@ -14,7 +15,12 @@ export const UserProvider = ({ children }) => {
   function getCookie(name: string) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
+    if (parts.length === 2) {
+      const part = parts.pop();
+      if (part) {
+        return part.split(";").shift();
+      }
+    }
   }
   const accessToken = getCookie("accessToken");
 
@@ -32,7 +38,7 @@ export const UserProvider = ({ children }) => {
               authority: userData.authority,
             });
           } else {
-            const response = await userApi.getMe();
+            const response: any = await userApi.getMe();
             if (response.status == 200) {
               setUser({
                 id: response.data.id,

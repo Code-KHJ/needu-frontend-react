@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './Search.module.scss';
-import { RegionList } from '@/common/Region';
-import corpApi from '@/apis/corp';
-import { CorpWithTrainingDto } from '@/interface/Corp';
-import Pagination from '@/components/Pagination';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./Search.module.scss";
+import { RegionList } from "@/common/Region";
+import corpApi from "@/apis/corp";
+import { CorpWithTrainingDto } from "@/interface/Corp";
+import Pagination from "@/components/Pagination";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Filters = {
   region: string;
@@ -24,20 +24,20 @@ const SearchTraining = () => {
   const [corps, setCorps] = useState<CorpWithTrainingDto[]>([]);
   const [pages, setPages] = useState<number>();
   const options = {
-    number_of_participants: ['1-3명', '4-6명', '7-9명', '10-12명', '13명 이상'],
-    cost: ['10만원 미만', '10-15만원', '15-20만원', '20만원 이상'],
-    duration: ['160시간 미만', '160-200시간', '200시간 이상'],
+    number_of_participants: ["1-3명", "4-6명", "7-9명", "10-12명", "13명 이상"],
+    cost: ["10만원 미만", "10-15만원", "15-20만원", "20만원 이상"],
+    duration: ["160시간 미만", "160-200시간", "200시간 이상"],
   };
   const queryParams = new URLSearchParams(location.search);
   if (!queryParams.toString()) {
     const defaultFilters = {
-      region: '',
-      corp_name: '',
+      region: "",
+      corp_name: "",
       score: [],
       number_of_participants: [],
       cost: [],
       duration: [],
-      order: 'avg',
+      order: "avg",
       page: 1,
     };
     const defaultQueryParams = new URLSearchParams(
@@ -47,34 +47,34 @@ const SearchTraining = () => {
   }
 
   const [filters, setFilters] = useState<Filters>({
-    region: queryParams.get('region') || '',
-    corp_name: queryParams.get('corp_name') || '',
+    region: queryParams.get("region") || "",
+    corp_name: queryParams.get("corp_name") || "",
     score:
       queryParams
-        .get('score')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("score")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
     number_of_participants:
       queryParams
-        .get('number_of_participants')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("number_of_participants")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
     cost:
       queryParams
-        .get('cost')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("cost")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
     duration:
       queryParams
-        .get('duration')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("duration")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
-    order: queryParams.get('order') || 'avg',
-    page: Number(queryParams.get('page')) || 1,
+    order: queryParams.get("order") || "avg",
+    page: Number(queryParams.get("page")) || 1,
   });
 
   const handleFilter = (
@@ -105,7 +105,7 @@ const SearchTraining = () => {
       page: value,
     });
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -122,16 +122,16 @@ const SearchTraining = () => {
     }
   };
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   useEffect(() => {
     const getCorps = async () => {
       const queryParams = new URLSearchParams(filters as any);
-      const response = await corpApi.getListWithTraining(
+      const response: any = await corpApi.getListWithTraining(
         `?${queryParams.toString()}`
       );
       setCorps(response.data.result);
@@ -142,13 +142,13 @@ const SearchTraining = () => {
 
   const resetFilters = () => {
     setFilters({
-      region: '',
-      corp_name: '',
+      region: "",
+      corp_name: "",
       score: [],
       number_of_participants: [],
       cost: [],
       duration: [],
-      order: 'avg',
+      order: "avg",
       page: 1,
     });
   };
@@ -171,11 +171,11 @@ const SearchTraining = () => {
       });
     }
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       search();
     }
@@ -231,10 +231,10 @@ const SearchTraining = () => {
             <div
               style={
                 window.innerWidth >= 768
-                  ? { display: 'block' }
+                  ? { display: "block" }
                   : filterBtn
-                  ? { display: 'block' }
-                  : { display: 'none' }
+                  ? { display: "block" }
+                  : { display: "none" }
               }
             >
               <div className={styles.item}>
@@ -245,10 +245,10 @@ const SearchTraining = () => {
                   {[1, 2, 3, 4, 5].map((score) => (
                     <span
                       className={`${styles.list_item} ${
-                        filters.score.includes(score) ? styles.selected : ''
+                        filters.score.includes(score) ? styles.selected : ""
                       }`}
                       key={score}
-                      onClick={() => handleList('score', score)}
+                      onClick={() => handleList("score", score)}
                     >
                       <img
                         src={`/src/assets/images/Star_${score}.png`}
@@ -268,11 +268,11 @@ const SearchTraining = () => {
                       className={`${styles.list_item} ${
                         filters.number_of_participants.includes(index)
                           ? styles.selected
-                          : ''
+                          : ""
                       }`}
                       key={index}
                       onClick={() =>
-                        handleList('number_of_participants', index)
+                        handleList("number_of_participants", index)
                       }
                     >
                       {item}
@@ -288,10 +288,10 @@ const SearchTraining = () => {
                   {options.cost.map((item, index) => (
                     <span
                       className={`${styles.list_item} ${
-                        filters.cost.includes(index) ? styles.selected : ''
+                        filters.cost.includes(index) ? styles.selected : ""
                       }`}
                       key={index}
-                      onClick={() => handleList('cost', index)}
+                      onClick={() => handleList("cost", index)}
                     >
                       {item}
                     </span>
@@ -306,10 +306,10 @@ const SearchTraining = () => {
                   {options.duration.map((item, index) => (
                     <span
                       className={`${styles.list_item} ${
-                        filters.duration.includes(index) ? styles.selected : ''
+                        filters.duration.includes(index) ? styles.selected : ""
                       }`}
                       key={index}
-                      onClick={() => handleList('duration', index)}
+                      onClick={() => handleList("duration", index)}
                     >
                       {item}
                     </span>
@@ -362,7 +362,7 @@ const SearchTraining = () => {
                           />
                           {corp.number_of_participants > 0
                             ? corp.number_of_participants
-                            : '0'}
+                            : "0"}
                           명
                         </span>
                         <span className="body2">
@@ -370,14 +370,14 @@ const SearchTraining = () => {
                             src="/src/assets/images/ico_money.png"
                             alt="실습비"
                           />
-                          {corp.cost > 0 ? corp.cost : '0'}만원
+                          {corp.cost > 0 ? corp.cost : "0"}만원
                         </span>
                         <span className="body2">
                           <img
                             src="/src/assets/images/ico_clock.png"
                             alt="실습시간"
                           />
-                          {corp.duration > 0 ? corp.duration : '0'}시간
+                          {corp.duration > 0 ? corp.duration : "0"}시간
                         </span>
                       </div>
                     </div>

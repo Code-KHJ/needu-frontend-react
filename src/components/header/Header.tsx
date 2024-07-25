@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Header.module.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useUser } from '@/contexts/UserContext';
-import userApi from '@/apis/user';
+import { useEffect, useState } from "react";
+import styles from "./Header.module.scss";
+import { Link, useLocation } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
+import userApi from "@/apis/user";
 
 const Header = () => {
-  const { user, setUser } = useUser();
+  //@ts-ignore
+  const { user } = useUser();
   const [isMenuShow, setMenuShow] = useState(false);
 
   const toggleMenu = () => {
@@ -23,10 +24,10 @@ const Header = () => {
     }
   };
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -35,26 +36,27 @@ const Header = () => {
     setMenuShow(false);
   }, [location.pathname]);
 
-  const navigate = useNavigate();
-
   const logout = async () => {
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem("userInfo");
     const response = await userApi.logout();
-    if (response.status == 200) {
-      alert('로그아웃 되었습니다.');
-      window.location.href = '/';
+    if (response?.status == 200) {
+      alert("로그아웃 되었습니다.");
+      window.location.href = "/";
     } else {
-      alert('문제가 발생했습니다. 다시 시도해주세요.');
+      alert("문제가 발생했습니다. 다시 시도해주세요.");
       return;
     }
   };
 
-  const [toggle, setToggle] = useState({
-    review: false,
-    community: false,
-  });
+  const [toggle, setToggle] = useState<{ review: boolean; community: boolean }>(
+    {
+      review: false,
+      community: false,
+    }
+  );
+  type ToggleType = "review" | "community";
 
-  const handleToggle = (type: string) => {
+  const handleToggle = (type: ToggleType) => {
     setToggle((prevState) => ({
       ...prevState,
       [type]: !prevState[type],
@@ -64,35 +66,35 @@ const Header = () => {
   return (
     <header>
       <div
-        className={`${styles.bg_white} ${isMenuShow ? styles.show : ''}`}
+        className={`${styles.bg_white} ${isMenuShow ? styles.show : ""}`}
       ></div>
       <div className={styles.header_wrap}>
         <Link
           to="/"
           className={`blind ${styles.logo}`}
-          style={isMenuShow ? { width: '0px' } : {}}
+          style={isMenuShow ? { width: "0px" } : {}}
         >
           logo
         </Link>
         <div
           className={styles.nav_wrap}
-          style={isMenuShow ? { width: '100%' } : {}}
+          style={isMenuShow ? { width: "100%" } : {}}
         >
           <div className={`${styles.btn_ham_gnb} blind`} onClick={toggleMenu}>
             <span></span>
             <span></span>
             <span></span>
           </div>
-          <nav className={`${isMenuShow ? styles.show : ''}`}>
+          <nav className={`${isMenuShow ? styles.show : ""}`}>
             <div className={styles.gnb_wrap}>
               <ul className={styles.gnb}>
                 <li
                   className={styles.parent_li}
                   onMouseEnter={() =>
-                    window.innerWidth >= 768 && handleToggle('review')
+                    window.innerWidth >= 768 && handleToggle("review")
                   }
                   onMouseLeave={() =>
-                    window.innerWidth >= 768 && handleToggle('review')
+                    window.innerWidth >= 768 && handleToggle("review")
                   }
                 >
                   <Link
@@ -103,15 +105,15 @@ const Header = () => {
                   </Link>
                   <div
                     className={`${styles.mo} ${styles.parent} ${
-                      toggle.review ? styles.expand : ''
+                      toggle.review ? styles.expand : ""
                     }`}
-                    onClick={() => handleToggle('review')}
+                    onClick={() => handleToggle("review")}
                   >
                     기관리뷰
                   </div>
                   <div
                     className={styles.child}
-                    style={toggle.review ? {} : { display: 'none' }}
+                    style={toggle.review ? {} : { display: "none" }}
                   >
                     <Link to="/review/search/working">전현직리뷰</Link>
                     <div></div>
@@ -121,10 +123,10 @@ const Header = () => {
                 <li
                   className={styles.parent_li}
                   onMouseEnter={() =>
-                    window.innerWidth >= 768 && handleToggle('community')
+                    window.innerWidth >= 768 && handleToggle("community")
                   }
                   onMouseLeave={() =>
-                    window.innerWidth >= 768 && handleToggle('community')
+                    window.innerWidth >= 768 && handleToggle("community")
                   }
                 >
                   <Link
@@ -135,15 +137,15 @@ const Header = () => {
                   </Link>
                   <div
                     className={`${styles.mo} ${styles.parent} ${
-                      toggle.community ? styles.expand : ''
+                      toggle.community ? styles.expand : ""
                     }`}
-                    onClick={() => handleToggle('community')}
+                    onClick={() => handleToggle("community")}
                   >
                     커뮤니티
                   </div>
                   <div
                     className={styles.child}
-                    style={toggle.community ? {} : { display: 'none' }}
+                    style={toggle.community ? {} : { display: "none" }}
                   >
                     <Link to="/community/free/write">자유게시판</Link>
                     <div></div>

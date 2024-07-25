@@ -36,6 +36,7 @@ const Login = () => {
     setIsSubmitDisabled(!(isUseridValid && isUserpwValid));
   }, [values]);
 
+  //@ts-ignore
   const { user, setUser } = useUser();
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const Login = () => {
     e: React.FormEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    const response = await userApi.login(values);
+    const response: any = await userApi.login(values);
     if (response.status !== 200) {
       alert("일치하는 회원정보가 없습니다.");
       return;

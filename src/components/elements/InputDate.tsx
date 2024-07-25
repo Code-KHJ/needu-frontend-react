@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import styles from './Element.module.scss';
-import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect/index';
-import Flatpickr from 'react-flatpickr';
-import { Korean } from 'flatpickr/dist/l10n/ko';
-import 'flatpickr/dist/flatpickr.css';
-import 'flatpickr/dist/plugins/monthSelect/style.css';
-import formattedDate from '@/utils/formattedDate';
+import React, { useMemo, useRef } from "react";
+import styles from "./Element.module.scss";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect/index";
+import Flatpickr from "react-flatpickr";
+import { Korean } from "flatpickr/dist/l10n/ko";
+import "flatpickr/dist/flatpickr.css";
+import "flatpickr/dist/plugins/monthSelect/style.css";
+import formattedDate from "@/utils/formattedDate";
 
 interface InputProps {
   name: string;
@@ -31,7 +31,8 @@ const InputDate: React.FC<InputProps> = ({
       minDate: minDate,
       maxDate: today,
       disableMobile: true,
-      plugins: [new monthSelectPlugin({ shorthand: true, dateFormat: 'Y-m' })],
+      //@ts-ignore
+      plugins: [new monthSelectPlugin({ shorthand: true, dateFormat: "Y-m" })],
       onChange: (selectedDates: Date[]) => {
         const Date = formattedDate(selectedDates[0]);
         const event = {
@@ -47,7 +48,7 @@ const InputDate: React.FC<InputProps> = ({
   );
 
   switch (name) {
-    case 'start_date':
+    case "start_date":
       return (
         <Flatpickr
           name={name}
@@ -58,7 +59,7 @@ const InputDate: React.FC<InputProps> = ({
           placeholder="입사일"
         />
       );
-    case 'end_date':
+    case "end_date":
       if (working) {
         return (
           <Flatpickr

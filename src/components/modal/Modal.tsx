@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./Modal.module.scss";
 
@@ -18,7 +18,7 @@ const ModalComponent: React.FC<ModalProps> = ({
   closeModal,
 }) => {
   // react-modal 스타일
-  const customStyles = {
+  const customStyles: Modal.Styles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       zIndex: 11,

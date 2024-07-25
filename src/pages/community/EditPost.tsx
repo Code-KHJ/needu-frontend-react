@@ -8,16 +8,23 @@ import { useUser } from "@/contexts/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CommunityEditDto } from "@/interface/Community";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
-import { type } from "../../interface/User";
 
+interface Topic {
+  id: string;
+  topic: string;
+  description: string;
+}
+
+//@ts-ignore
 const EditPost = ({ type }) => {
   const pathname = useLocation().pathname.split("/");
   const postId = parseFloat(pathname[pathname.length - 1]);
+  //@ts-ignore
   const { user } = useUser();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState<Topic[]>([]);
   const [values, setValues] = useState<CommunityEditDto>({
     id: 0,
     user_id: 0,
@@ -33,13 +40,13 @@ const EditPost = ({ type }) => {
       return;
     }
     const getTopic = async () => {
-      const response = await communityApi.getTopic(type);
+      const response: any = await communityApi.getTopic(type);
       if (response.status === 200) {
         setTopics(response.data);
       }
     };
     const getPost = async (postId: number) => {
-      const response = await communityApi.getPostForEdit(postId);
+      const response: any = await communityApi.getPostForEdit(postId);
       if (response.status !== 200) {
         navigate("/");
       }
@@ -95,7 +102,7 @@ const EditPost = ({ type }) => {
       const formData = new FormData();
       formData.append("image", blob);
 
-      const response = await communityApi.uploadImage(formData);
+      const response: any = await communityApi.uploadImage(formData);
 
       if (response.status !== 201) {
         if (response.status === 413) {
@@ -138,7 +145,7 @@ const EditPost = ({ type }) => {
     e.preventDefault();
     const confirmed = confirm("게시물을 수정하시겠습니까?");
     if (confirmed) {
-      const response = await communityApi.updatePost(values);
+      const response: any = await communityApi.updatePost(values);
       if (response.status !== 200) {
         if (response.status === 400 && response.data.msg === "Invalid title") {
           alert(

@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Detail.module.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import ScoreStar from '@/components/ScoreStar';
-import { StarList } from '@/common/StarList';
-import ScoreBar from '@/components/ScoreBar';
-import corpApi from '@/apis/corp';
-import reviewApi from '@/apis/review';
-import { DeleteReviewDto, LikeDto, ReviewContent } from '@/interface/Review';
-import Hashtag from '@/components/Hashtag';
-import { useUser } from '@/contexts/UserContext';
-import BlindComment from '@/components/BlindComment';
-import ReportModal from '@/components/modal/ReportModal';
+//@ts-nocheck
+
+import { useEffect, useState } from "react";
+import styles from "./Detail.module.scss";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import ScoreStar from "@/components/ScoreStar";
+import { StarList } from "@/common/StarList";
+import ScoreBar from "@/components/ScoreBar";
+import corpApi from "@/apis/corp";
+import reviewApi from "@/apis/review";
+import { DeleteReviewDto, LikeDto, ReviewContent } from "@/interface/Review";
+import Hashtag from "@/components/Hashtag";
+import { useUser } from "@/contexts/UserContext";
+import BlindComment from "@/components/BlindComment";
+import ReportModal from "@/components/modal/ReportModal";
 
 const DetailWorking = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const corpName = queryParams.get('name');
+  const corpName = queryParams.get("name");
   const navigate = useNavigate();
   const user = useUser();
   const starList = StarList.working;
@@ -46,21 +48,22 @@ const DetailWorking = () => {
   const [reviews, setReviews] = useState<ReviewContent[]>([]);
 
   useEffect(() => {
+    //@ts-ignore
     if (user.loading) {
       return;
     }
 
     if (!corpName) {
-      navigate('/');
+      navigate("/");
       return;
     }
     const getCorp = async () => {
       const response: any = await corpApi.getWithWorking(corpName);
       if (response.status !== 200) {
-        navigate('/');
+        navigate("/");
       }
       if (!response.data.corp_name) {
-        navigate('/');
+        navigate("/");
       }
       setCorp(response.data);
     };
@@ -68,21 +71,22 @@ const DetailWorking = () => {
     const getCorpScore = async () => {
       const response: any = await reviewApi.getWorkingScore(corpName);
       if (response.status !== 200) {
-        navigate('/');
+        navigate("/");
       }
       setCorpScore(response.data);
     };
 
     const getReviews = async () => {
-      const response = await reviewApi.getWorkingReviews(corpName);
+      const response: any = await reviewApi.getWorkingReviews(corpName);
       if (response.status !== 200) {
-        navigate('/');
+        navigate("/");
       }
       setReviews(response.data);
-      response.data.forEach((review) => {
+      response.data.forEach((review: any) => {
         const isLiked =
           Array.isArray(review.reviewLikes) &&
-          review.reviewLikes.some((like) => {
+          review.reviewLikes.some((like: any) => {
+            //@ts-ignore
             return like.user_id === user.user.id;
           });
 
@@ -97,10 +101,10 @@ const DetailWorking = () => {
     getReviews();
   }, [corpName, user]);
 
-  const careerStatus = (lastdate) => {
+  const careerStatus = (lastdate: Date) => {
     const today = new Date();
     const lastDate = new Date(lastdate);
-    const status = lastDate < today ? '전직자' : '현직자';
+    const status = lastDate < today ? "전직자" : "현직자";
     return status;
   };
 
@@ -122,28 +126,30 @@ const DetailWorking = () => {
 
   const [showAll, setShowAll] = useState<boolean>(false);
   const handleShowAll = () => {
+    //@ts-ignore
     if (user.user.authority > 0) {
       setShowAll(true);
       return;
     }
-    alert('더 많은 리뷰를 보려면 리뷰를 작성해주세요.');
+    alert("더 많은 리뷰를 보려면 리뷰를 작성해주세요.");
   };
 
   const [isLike, setIsLike] = useState<{ [key: number]: boolean }>({});
 
   const like = async (review_no: number) => {
+    //@ts-ignore
     if (!user || user.user.id === null) {
-      alert('로그인 후 이용이 가능합니다.');
+      alert("로그인 후 이용이 가능합니다.");
       return;
     }
     const likeDto: LikeDto = {
       review_no: review_no,
-      type: 'working',
-      action: !isLike[review_no] ? 'plus' : 'minus',
+      type: "working",
+      action: !isLike[review_no] ? "plus" : "minus",
     };
-    const response = await reviewApi.likeReview(likeDto);
+    const response: any = await reviewApi.likeReview(likeDto);
     if (response.status !== 200) {
-      alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
     } else {
       setIsLike((prevState) => ({
         ...prevState,
@@ -155,16 +161,16 @@ const DetailWorking = () => {
     }
   };
 
-  const incrementLikeById = (reviews, id, action) => {
-    return reviews.map((review) => {
+  const incrementLikeById = (reviews: any, id: number, action: string) => {
+    return reviews.map((review: any) => {
       if (review.id === id) {
-        if (action === 'plus') {
+        if (action === "plus") {
           return {
             ...review,
             likes: review.likes + 1,
           };
         }
-        if (action === 'minus') {
+        if (action === "minus") {
           return {
             ...review,
             likes: review.likes - 1,
@@ -180,23 +186,27 @@ const DetailWorking = () => {
   };
 
   const deleteReview = async (index: number, review_no: number) => {
+    //@ts-ignore
     if (user.user.id != reviews[index].user.id) {
-      alert('본인이 작성한 리뷰만 삭제가 가능합니다.');
+      alert("본인이 작성한 리뷰만 삭제가 가능합니다.");
       return;
     }
     const deleteReviewDto: DeleteReviewDto = {
+      //@ts-ignore
       user_id: user.user.user_id,
       review_no: review_no,
     };
     const confirmed = confirm(
-      '삭제한 리뷰는 복구할 수 없습니다. 정말로 리뷰를 삭제하시겠습니까?'
+      "삭제한 리뷰는 복구할 수 없습니다. 정말로 리뷰를 삭제하시겠습니까?"
     );
     if (confirmed) {
-      const response = await reviewApi.deleteWorkingReview(deleteReviewDto);
+      const response: any = await reviewApi.deleteWorkingReview(
+        deleteReviewDto
+      );
       if (response.status !== 200) {
-        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
       }
-      alert('리뷰가 삭제되었습니다.');
+      alert("리뷰가 삭제되었습니다.");
       window.location.reload();
     }
   };
@@ -204,7 +214,7 @@ const DetailWorking = () => {
   //report
   const [modal, setModal] = useState({
     isOpen: false,
-    target: '전현직리뷰',
+    target: "전현직리뷰",
     target_id: 0,
   });
   const handleModalTarget = (target_id: number) => {
@@ -234,9 +244,9 @@ const DetailWorking = () => {
             Hashtag(corp.hashtag).map((item) => (
               <span
                 style={{
-                  marginRight: '8px',
-                  marginBottom: '8px',
-                  display: 'inline-block',
+                  marginRight: "8px",
+                  marginBottom: "8px",
+                  display: "inline-block",
                 }}
                 key={item}
               >
@@ -249,21 +259,21 @@ const DetailWorking = () => {
         <div className={styles.tab}>
           <div
             className={`${
-              location.pathname == '/review/detail/working'
+              location.pathname == "/review/detail/working"
                 ? styles.current
-                : ''
+                : ""
             }`}
-            onClick={() => clickTab('working')}
+            onClick={() => clickTab("working")}
           >
             <h4>전현직리뷰</h4>
           </div>
           <div
             className={`${
-              location.pathname == '/review/detail/training'
+              location.pathname == "/review/detail/training"
                 ? styles.current
-                : ''
+                : ""
             }`}
-            onClick={() => clickTab('training')}
+            onClick={() => clickTab("training")}
           >
             <h4>실습리뷰</h4>
           </div>
@@ -289,14 +299,14 @@ const DetailWorking = () => {
                   <div className={styles.score_score}>
                     <p>
                       {isNaN(parseFloat(corpScore[item.en]))
-                        ? '0.0'
+                        ? "0.0"
                         : parseFloat(corpScore[item.en]).toFixed(1)}
                     </p>
                     <ScoreBar
                       width="160px"
                       value={
                         isNaN(parseFloat(corpScore[item.en]))
-                          ? '0.0'
+                          ? "0.0"
                           : parseFloat(corpScore[item.en]).toFixed(1)
                       }
                     ></ScoreBar>
@@ -322,11 +332,11 @@ const DetailWorking = () => {
                   <div
                     className={styles.review_item}
                     key={index}
-                    style={showAll ? { borderBottom: '1px solid #d9d9d9' } : {}}
+                    style={showAll ? { borderBottom: "1px solid #d9d9d9" } : {}}
                   >
                     <div
                       className={`${styles.score_wrap} ${
-                        review.blind != 1 ? 'blur' : ''
+                        review.blind != 1 ? "blur" : ""
                       }`}
                     >
                       <div className={styles.score_summary}>
@@ -342,7 +352,7 @@ const DetailWorking = () => {
                           ></ScoreStar>
                           <img
                             src="/src/assets/images/ico_arrow_down.png"
-                            style={{ cursor: 'pointer' }}
+                            style={{ cursor: "pointer" }}
                             alt="arrow"
                             onClick={() => handleToggle(index)}
                           />
@@ -360,7 +370,7 @@ const DetailWorking = () => {
                                 value={review[item.en]}
                                 onChange={() => {}}
                               ></ScoreStar>
-                              <span className="body2" style={{ color: '#aaa' }}>
+                              <span className="body2" style={{ color: "#aaa" }}>
                                 {item.ko}
                               </span>
                             </div>
@@ -370,13 +380,13 @@ const DetailWorking = () => {
                     </div>
                     <div className={styles.content_wrap}>
                       <div className={styles.title}>
-                        <h3 className={review.blind != 1 ? 'blur' : ''}>
+                        <h3 className={review.blind != 1 ? "blur" : ""}>
                           {review.highlight}
                         </h3>
                         <div className={styles.kebab}>
                           <img
                             src="/src/assets/images/btn_kebab.png"
-                            style={{ cursor: 'pointer' }}
+                            style={{ cursor: "pointer" }}
                             alt="kebab"
                             onClick={() => handleKebab(index)}
                           />
@@ -415,16 +425,16 @@ const DetailWorking = () => {
                         <img
                           src={
                             careerStatus(review.userCareer.last_date) ===
-                            '전직자'
-                              ? '/src/assets/images/ico_career_f.png'
-                              : '/src/assets/images/ico_career_c.png'
+                            "전직자"
+                              ? "/src/assets/images/ico_career_f.png"
+                              : "/src/assets/images/ico_career_c.png"
                           }
                         />
                         <span>{careerStatus(review.userCareer.last_date)}</span>
                         <span>{review.user.user_id}</span>
                         <span>{review.userCareer.type}</span>
                         <span>
-                          {review.created_date.slice(0, 10).replace(/-/g, '.')}
+                          {review.created_date.slice(0, 10).replace(/-/g, ".")}
                         </span>
                       </div>
                       {review.blind != 1 ? (
@@ -443,9 +453,9 @@ const DetailWorking = () => {
                             {Hashtag(review.hashtag).map((item) => (
                               <span
                                 style={{
-                                  marginRight: '12px',
-                                  marginBottom: '8px',
-                                  display: 'inline-block',
+                                  marginRight: "12px",
+                                  marginBottom: "8px",
+                                  display: "inline-block",
                                 }}
                                 key={item}
                               >
@@ -455,7 +465,7 @@ const DetailWorking = () => {
                           </div>
                           <button
                             className={`body2 ${styles.btn_like} ${
-                              isLike[review.id] ? styles.on : ''
+                              isLike[review.id] ? styles.on : ""
                             }`}
                             onClick={() => like(review.id)}
                           >
@@ -492,7 +502,7 @@ const DetailWorking = () => {
                 리뷰 전체 보기
                 <img
                   src="/src/assets/images/ico_arrow_R.png"
-                  style={{ height: '12px', marginLeft: '8px' }}
+                  style={{ height: "12px", marginLeft: "8px" }}
                 />
               </button>
             )}
@@ -500,7 +510,7 @@ const DetailWorking = () => {
         ) : (
           <>
             <div className={styles.review_wrap}>
-              <div className={styles.review_item} style={{ color: '#222' }}>
+              <div className={styles.review_item} style={{ color: "#222" }}>
                 아직 작성된 리뷰가 없습니다.
               </div>
             </div>

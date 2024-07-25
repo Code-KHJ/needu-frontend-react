@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './Write.module.scss';
-import ScoreStar from '@/components/ScoreStar';
-import Button from '@/components/elements/Button';
-import { useUser } from '@/contexts/UserContext';
-import corpApi from '@/apis/corp';
-import { ReviewTrainingDto } from '@/interface/Review';
-import reviewApi from '@/apis/review';
-import { StarList } from '@/common/StarList';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Write.module.scss";
+import ScoreStar from "@/components/ScoreStar";
+import Button from "@/components/elements/Button";
+import { useUser } from "@/contexts/UserContext";
+import corpApi from "@/apis/corp";
+import { ReviewTrainingDto } from "@/interface/Review";
+import reviewApi from "@/apis/review";
+import { StarList } from "@/common/StarList";
 
 const EditTraining = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const no = queryParams.get('no');
+  const no = queryParams.get("no");
+  //@ts-ignore
   const { user } = useUser();
 
   const [corp, setCorp] = useState({
@@ -29,16 +30,16 @@ const EditTraining = () => {
 
   useEffect(() => {
     if (!no) {
-      navigate('/');
+      navigate("/");
       return;
     }
     const getCorp = async (corpName: string) => {
       const response: any = await corpApi.getWithTraining(corpName);
       if (response.status !== 200) {
-        navigate('/');
+        navigate("/");
       }
       if (!response.data.corp_name) {
-        navigate('/');
+        navigate("/");
       }
       setCorp(response.data);
       setValues((prevValues) => ({
@@ -47,13 +48,13 @@ const EditTraining = () => {
       }));
     };
     const getReview = async () => {
-      const response = await reviewApi.getTrainingReview(no);
+      const response: any = await reviewApi.getTrainingReview(no);
       if (response.status === 403) {
-        alert('권한이 없습니다.');
+        alert("권한이 없습니다.");
         window.history.back();
       }
       if (response.status !== 200) {
-        alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         window.history.back();
       }
       getCorp(response.data.corp.corp_name);
@@ -78,10 +79,10 @@ const EditTraining = () => {
   }, [no]);
 
   const [values, setValues] = useState<ReviewTrainingDto>({
-    corp_name: '',
+    corp_name: "",
     user_id: user.user_id,
-    year: '',
-    season: '',
+    year: "",
+    season: "",
     cost: null,
     number_of_participants: null,
     duration: null,
@@ -90,9 +91,9 @@ const EditTraining = () => {
     worth_score: 0,
     recommend_score: 0,
     supervisor_score: 0,
-    highlight: '',
-    pros: '',
-    cons: '',
+    highlight: "",
+    pros: "",
+    cons: "",
   });
 
   const handleChange = (
@@ -102,9 +103,9 @@ const EditTraining = () => {
   ) => {
     const { name, value } = e.target;
     if (
-      name == 'cost' ||
-      name == 'number_of_participants' ||
-      name == 'duration'
+      name == "cost" ||
+      name == "number_of_participants" ||
+      name == "duration"
     ) {
       setValues({
         ...values,
@@ -138,10 +139,10 @@ const EditTraining = () => {
 
   useEffect(() => {
     setValid({
-      corp_name: values.corp_name !== '',
-      user_id: values.user_id !== '',
-      year: values.year !== '',
-      season: values.season !== '',
+      corp_name: values.corp_name !== "",
+      user_id: values.user_id !== "",
+      year: values.year !== "",
+      season: values.season !== "",
       cost: values.cost != null && values.cost > 0,
       number_of_participants:
         values.number_of_participants != null &&
@@ -194,13 +195,16 @@ const EditTraining = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm('리뷰를 수정하시겠습니까?');
+    const confirmed = confirm("리뷰를 수정하시겠습니까?");
     if (confirmed) {
-      const response = await reviewApi.updateTrainingReview(no, values);
+      const response: any = await reviewApi.updateTrainingReview(
+        no as string,
+        values
+      );
       if (response.status !== 200) {
-        alert('오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
+        alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
       } else {
-        alert('리뷰가 수정되었습니다.');
+        alert("리뷰가 수정되었습니다.");
         navigate(`/review/detail/training?name=${values.corp_name}`);
       }
     }
@@ -224,7 +228,7 @@ const EditTraining = () => {
       <div className={styles.guide}>
         <p>입력하신 모든 정보는 익명으로 처리됩니다.</p>
         <p>
-          NEEDU{' '}
+          NEEDU{" "}
           <a
             href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-d7cb722b6a6247d38594aff27c31c036?pvs=4"
             target="_blank"
@@ -253,8 +257,8 @@ const EditTraining = () => {
                     className={`${
                       valid.year
                         ? styles.valid
-                        : values.year == ''
-                        ? ''
+                        : values.year == ""
+                        ? ""
                         : styles.invalid
                     }`}
                     value={values.year}
@@ -274,8 +278,8 @@ const EditTraining = () => {
                     className={`${
                       valid.season
                         ? styles.valid
-                        : values.season == ''
-                        ? ''
+                        : values.season == ""
+                        ? ""
                         : styles.invalid
                     }`}
                     value={values.season}
@@ -309,11 +313,11 @@ const EditTraining = () => {
                       valid.cost
                         ? styles.valid
                         : values.cost == null
-                        ? ''
+                        ? ""
                         : styles.invalid
                     }`}
                     placeholder="실습비를 적어주세요"
-                    value={values.cost === null ? '' : values.cost}
+                    value={values.cost === null ? "" : values.cost}
                     onChange={handleChange}
                   ></input>
                   <span className={styles.unit}>원</span>
@@ -329,13 +333,13 @@ const EditTraining = () => {
                       valid.number_of_participants
                         ? styles.valid
                         : values.number_of_participants == null
-                        ? ''
+                        ? ""
                         : styles.invalid
                     }`}
                     placeholder="함께 실습한 인원을 적어주세요"
                     value={
                       values.number_of_participants === null
-                        ? ''
+                        ? ""
                         : values.number_of_participants
                     }
                     onChange={handleChange}
@@ -353,11 +357,11 @@ const EditTraining = () => {
                       valid.duration
                         ? styles.valid
                         : values.duration == null
-                        ? ''
+                        ? ""
                         : styles.invalid
                     }`}
                     placeholder="진행한 실습 시간을 적어주세요"
-                    value={values.duration === null ? '' : values.duration}
+                    value={values.duration === null ? "" : values.duration}
                     onChange={handleChange}
                   ></input>
                   <span className={styles.unit}>시간</span>
@@ -383,7 +387,7 @@ const EditTraining = () => {
                       }
                     ></ScoreStar>
                     <div className="banner_title">
-                      {values[item.en].toFixed(1)}
+                      {(values[item.en] as number).toFixed(1)}
                     </div>
                   </div>
                 </div>
@@ -399,7 +403,7 @@ const EditTraining = () => {
             tabsize="60px"
             readonly={true}
             value={values.total_score}
-            onChange={(newValue) => handleScoreChange('total_score', newValue)}
+            onChange={(newValue) => handleScoreChange("total_score", newValue)}
           ></ScoreStar>
           <div className="banner_title">{values.total_score.toFixed(1)}</div>
         </div>
@@ -412,8 +416,8 @@ const EditTraining = () => {
                 className={`${
                   valid.highlight
                     ? styles.valid
-                    : values.highlight == ''
-                    ? ''
+                    : values.highlight == ""
+                    ? ""
                     : styles.invalid
                 }`}
                 name="highlight"
@@ -431,8 +435,8 @@ const EditTraining = () => {
                 className={`${styles.long_text} ${
                   valid.pros
                     ? styles.valid
-                    : values.pros == ''
-                    ? ''
+                    : values.pros == ""
+                    ? ""
                     : styles.invalid
                 }`}
                 rows={10}
@@ -444,7 +448,7 @@ const EditTraining = () => {
               ></textarea>
               <p
                 style={{
-                  color: values.pros !== '' && !valid.pros ? 'red' : '',
+                  color: values.pros !== "" && !valid.pros ? "red" : "",
                 }}
                 className="body2"
               >
@@ -458,8 +462,8 @@ const EditTraining = () => {
                 className={`${styles.long_text} ${
                   valid.cons
                     ? styles.valid
-                    : values.cons == ''
-                    ? ''
+                    : values.cons == ""
+                    ? ""
                     : styles.invalid
                 }`}
                 rows={10}
@@ -471,7 +475,7 @@ const EditTraining = () => {
               ></textarea>
               <p
                 style={{
-                  color: values.cons !== '' && !valid.cons ? 'red' : '',
+                  color: values.cons !== "" && !valid.cons ? "red" : "",
                 }}
                 className="body2"
               >
@@ -484,7 +488,7 @@ const EditTraining = () => {
           <Button
             children="취소"
             className="btn_condition_false"
-            style={{ minWidth: '110px', height: '60px' }}
+            style={{ minWidth: "110px", height: "60px" }}
             isDisabled={false}
             onClick={handleCancel}
           ></Button>
@@ -492,10 +496,10 @@ const EditTraining = () => {
             children="수정"
             className={`${
               isSubmitDisabled === false
-                ? 'btn_condition_true'
-                : 'btn_condition_false'
+                ? "btn_condition_true"
+                : "btn_condition_false"
             }`}
-            style={{ minWidth: '110px', height: '60px' }}
+            style={{ minWidth: "110px", height: "60px" }}
             isDisabled={isSubmitDisabled}
             onClick={handleSubmit}
           ></Button>

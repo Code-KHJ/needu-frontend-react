@@ -13,6 +13,7 @@ import noticeApi from "@/apis/notice";
 const EditNotice = () => {
   const pathname = useLocation().pathname.split("/");
   const noticeId = parseFloat(pathname[pathname.length - 1]);
+  //@ts-ignore
   const { user } = useUser();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
@@ -36,7 +37,7 @@ const EditNotice = () => {
       navigate("/");
     }
     const getNotice = async (noticeId: number) => {
-      const response = await noticeApi.getNoticeForEdit(noticeId);
+      const response: any = await noticeApi.getNoticeForEdit(noticeId);
       if (response.status !== 200) {
         navigate("/");
       }
@@ -57,6 +58,7 @@ const EditNotice = () => {
   const handleValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    //@ts-ignore
     const { name, value, checked } = e.target;
     if (name == "is_show") {
       setValues({
@@ -87,7 +89,7 @@ const EditNotice = () => {
       const formData = new FormData();
       formData.append("image", blob);
 
-      const response = await communityApi.uploadImage(formData);
+      const response: any = await communityApi.uploadImage(formData);
 
       if (response.status !== 201) {
         if (response.status === 413) {
@@ -128,7 +130,7 @@ const EditNotice = () => {
     e.preventDefault();
     const confirmed = confirm("공지사항을 수정하시겠습니까?");
     if (confirmed) {
-      const response = await noticeApi.updateNotice(values);
+      const response: any = await noticeApi.updateNotice(values);
       if (response.status !== 200) {
         alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
         return;

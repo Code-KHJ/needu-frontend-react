@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './Search.module.scss';
-import { RegionList } from '@/common/Region';
-import sharedApi from '@/apis/shared';
-import corpApi from '@/apis/corp';
-import { CorpDto } from '@/interface/Corp';
-import Pagination from '@/components/Pagination';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./Search.module.scss";
+import { RegionList } from "@/common/Region";
+import sharedApi from "@/apis/shared";
+import corpApi from "@/apis/corp";
+import { CorpDto } from "@/interface/Corp";
+import Pagination from "@/components/Pagination";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Filters = {
   region: string;
@@ -26,11 +26,11 @@ const SearchWorking = () => {
 
   if (!queryParams.toString()) {
     const defaultFilters = {
-      region: '',
-      corp_name: '',
+      region: "",
+      corp_name: "",
       score: [],
       hashtags: [],
-      order: 'avg',
+      order: "avg",
       page: 1,
     };
     const defaultQueryParams = new URLSearchParams(
@@ -40,22 +40,22 @@ const SearchWorking = () => {
   }
 
   const [filters, setFilters] = useState<Filters>({
-    region: queryParams.get('region') || '',
-    corp_name: queryParams.get('corp_name') || '',
+    region: queryParams.get("region") || "",
+    corp_name: queryParams.get("corp_name") || "",
     score:
       queryParams
-        .get('score')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("score")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
     hashtags:
       queryParams
-        .get('hashtags')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("hashtags")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
-    order: queryParams.get('order') || 'avg',
-    page: Number(queryParams.get('page')) || 1,
+    order: queryParams.get("order") || "avg",
+    page: Number(queryParams.get("page")) || 1,
   });
 
   const handleFilter = (
@@ -83,7 +83,7 @@ const SearchWorking = () => {
       page: value,
     });
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -100,14 +100,21 @@ const SearchWorking = () => {
     }
   };
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  interface Hashtag {
+    id: number;
+    content: string;
+  }
+  interface Shared {
+    hashtagList: Hashtag[];
+  }
   //해시태그
-  const [shared, setShared] = useState({
+  const [shared, setShared] = useState<Shared>({
     hashtagList: [],
   });
   useEffect(() => {
@@ -121,7 +128,7 @@ const SearchWorking = () => {
     };
     const getCorps = async () => {
       const queryParams = new URLSearchParams(filters as any);
-      const response = await corpApi.getListWithWorking(
+      const response: any = await corpApi.getListWithWorking(
         `?${queryParams.toString()}`
       );
       setCorps(response.data.result);
@@ -133,11 +140,11 @@ const SearchWorking = () => {
 
   const resetFilters = () => {
     setFilters({
-      region: '',
-      corp_name: '',
+      region: "",
+      corp_name: "",
       score: [],
       hashtags: [],
-      order: 'avg',
+      order: "avg",
       page: 1,
     });
   };
@@ -160,11 +167,11 @@ const SearchWorking = () => {
       });
     }
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       search();
     }
@@ -220,10 +227,10 @@ const SearchWorking = () => {
             <div
               style={
                 window.innerWidth >= 768
-                  ? { display: 'block' }
+                  ? { display: "block" }
                   : filterBtn
-                  ? { display: 'block' }
-                  : { display: 'none' }
+                  ? { display: "block" }
+                  : { display: "none" }
               }
             >
               <div className={styles.item}>
@@ -234,10 +241,10 @@ const SearchWorking = () => {
                   {[1, 2, 3, 4, 5].map((score) => (
                     <span
                       className={`${styles.list_item} ${
-                        filters.score.includes(score) ? styles.selected : ''
+                        filters.score.includes(score) ? styles.selected : ""
                       }`}
                       key={score}
-                      onClick={() => handleList('score', score)}
+                      onClick={() => handleList("score", score)}
                     >
                       <img
                         src={`/src/assets/images/Star_${score}.png`}
@@ -257,10 +264,10 @@ const SearchWorking = () => {
                       className={`${styles.list_item} ${
                         filters.hashtags.includes(item.id)
                           ? styles.selected
-                          : ''
+                          : ""
                       }`}
                       key={item.id}
-                      onClick={() => handleList('hashtags', item.id)}
+                      onClick={() => handleList("hashtags", item.id)}
                     >
                       {item.content}
                     </span>
@@ -316,7 +323,7 @@ const SearchWorking = () => {
                                 }
                               </span>
                             ))
-                          : ''}
+                          : ""}
                       </div>
                     </div>
                   </div>

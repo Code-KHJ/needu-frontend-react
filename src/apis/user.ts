@@ -1,5 +1,6 @@
-import { LoginDto, SingupDto } from '@/interface/User';
-import customAxios from './axios-config';
+import { LoginDto, SingupDto } from "@/interface/User";
+import customAxios from "./axios-config";
+import { AxiosError } from "axios";
 
 const userApi = {
   login: async (userData: LoginDto) => {
@@ -8,29 +9,29 @@ const userApi = {
       password: userData.password,
     };
     try {
-      const response = await customAxios.post('/auth/login', userLoginDto);
+      const response = await customAxios.post("/auth/login", userLoginDto);
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
+      return (error as AxiosError).response;
     }
   },
   getMe: async () => {
     try {
-      const response = await customAxios.get('/auth/me');
+      const response = await customAxios.get("/auth/me");
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
+      return (error as AxiosError).response;
     }
   },
   logout: async () => {
     try {
-      const response = await customAxios.post('/auth/logout');
+      const response = await customAxios.post("/auth/logout");
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
+      return (error as AxiosError).response;
     }
   },
   duplic: async (type: string, value: string) => {
@@ -38,7 +39,7 @@ const userApi = {
       item: type,
       value: value,
     };
-    const response = await customAxios.post('/user/duplic', userDuplicDto);
+    const response = await customAxios.post("/user/duplic", userDuplicDto);
     if (response.data) {
       return true;
     } else {
@@ -50,7 +51,7 @@ const userApi = {
       email: email,
     };
     const response = await customAxios.post(
-      '/user/verifyemail',
+      "/user/verifyemail",
       verifyEmailDto
     );
     return response;
@@ -60,24 +61,24 @@ const userApi = {
       phone: phone,
     };
     const response = await customAxios.post(
-      '/user/verifyphone',
+      "/user/verifyphone",
       verifyPhoneDto
     );
     return response;
   },
   findUser: async (field: string, value: string) => {
-    const response = await customAxios.post('/user/find/user', {
+    const response = await customAxios.post("/user/find/user", {
       field: field,
       value: value,
     });
     return response;
   },
   signup: async (userData: SingupDto) => {
-    const response = await customAxios.post('/user/signup', userData);
+    const response = await customAxios.post("/user/signup", userData);
     return response;
   },
   updatePw: async (userData: object) => {
-    const response = await customAxios.put('/user/update/pw', userData);
+    const response = await customAxios.put("/user/update/pw", userData);
     return response;
   },
 };

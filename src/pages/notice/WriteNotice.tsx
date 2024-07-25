@@ -11,6 +11,7 @@ import { NoticeCreateDto } from "@/interface/Notice";
 import noticeApi from "@/apis/notice";
 
 const WriteNotice = () => {
+  //@ts-ignore
   const { user } = useUser();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
@@ -35,6 +36,7 @@ const WriteNotice = () => {
   const handleValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    //@ts-ignore
     const { name, value, checked } = e.target;
     if (name == "is_show") {
       setValues({
@@ -62,7 +64,7 @@ const WriteNotice = () => {
       const formData = new FormData();
       formData.append("image", blob);
 
-      const response = await communityApi.uploadImage(formData);
+      const response: any = await communityApi.uploadImage(formData);
 
       if (response.status !== 201) {
         if (response.status === 413) {
@@ -104,7 +106,7 @@ const WriteNotice = () => {
     e.preventDefault();
     const confirmed = confirm("공지사항을 등록하시겠습니까?");
     if (confirmed) {
-      const response = await noticeApi.createNotice(values);
+      const response: any = await noticeApi.createNotice(values);
       if (response.status !== 201) {
         alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
         return;

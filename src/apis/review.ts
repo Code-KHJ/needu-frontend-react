@@ -2,25 +2,43 @@ import {
   DeleteReviewDto,
   ReviewTrainingDto,
   ReviewWorkingDto,
-} from '@/interface/Review';
-import customAxios from './axios-config';
-import { LikeDto } from '../interface/Review';
+} from "@/interface/Review";
+import customAxios from "./axios-config";
+import { LikeDto } from "../interface/Review";
+import { AxiosError } from "axios";
 
 const reviewApi = {
   createWorking: async (reviewData: ReviewWorkingDto) => {
-    const response = await customAxios.post(
-      `/review/working/${reviewData.corp_name}`,
-      reviewData
-    );
-    return response;
+    try {
+      const response = await customAxios.post(
+        `/review/working/${reviewData.corp_name}`,
+        reviewData
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   getWorkingScore: async (corpname: string) => {
-    const response = await customAxios.get(`/review/working/score/${corpname}`);
-    return response;
+    try {
+      const response = await customAxios.get(
+        `/review/working/score/${corpname}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   getWorkingReviews: async (corpname: string) => {
-    const response = await customAxios.get(`/review/working/${corpname}`);
-    return response;
+    try {
+      const response = await customAxios.get(`/review/working/${corpname}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   getWorkingReview: async (no: string) => {
     try {
@@ -28,7 +46,7 @@ const reviewApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
+      return (error as AxiosError).response;
     }
   },
   updateWorkingReview: async (no: string, reviewData: ReviewWorkingDto) => {
@@ -40,31 +58,51 @@ const reviewApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
+      return (error as AxiosError).response;
     }
   },
   deleteWorkingReview: async (deleteReviewDto: DeleteReviewDto) => {
-    const response = await customAxios.delete('/review/working', {
-      data: deleteReviewDto,
-    });
-    return response;
+    try {
+      const response = await customAxios.delete("/review/working", {
+        data: deleteReviewDto,
+      });
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   createTraining: async (reviewData: ReviewTrainingDto) => {
-    const response = await customAxios.post(
-      `/review/training/${reviewData.corp_name}`,
-      reviewData
-    );
-    return response;
+    try {
+      const response = await customAxios.post(
+        `/review/training/${reviewData.corp_name}`,
+        reviewData
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   getTrainingScore: async (corpname: string) => {
-    const response = await customAxios.get(
-      `/review/training/score/${corpname}`
-    );
-    return response;
+    try {
+      const response = await customAxios.get(
+        `/review/training/score/${corpname}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   getTrainingReviews: async (corpname: string) => {
-    const response = await customAxios.get(`/review/training/${corpname}`);
-    return response;
+    try {
+      const response = await customAxios.get(`/review/training/${corpname}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   getTrainingReview: async (no: string) => {
     try {
@@ -72,6 +110,7 @@ const reviewApi = {
       return response;
     } catch (error) {
       console.error(error);
+      return (error as AxiosError).response;
     }
   },
   updateTrainingReview: async (no: string, reviewData: ReviewTrainingDto) => {
@@ -83,18 +122,28 @@ const reviewApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return error.response;
+      return (error as AxiosError).response;
     }
   },
   deleteTrainingReview: async (deleteReviewDto: DeleteReviewDto) => {
-    const response = await customAxios.delete('/review/training', {
-      data: deleteReviewDto,
-    });
-    return response;
+    try {
+      const response = await customAxios.delete("/review/training", {
+        data: deleteReviewDto,
+      });
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
   likeReview: async (likeDto: LikeDto) => {
-    const response = await customAxios.patch(`/review/like`, likeDto);
-    return response;
+    try {
+      const response = await customAxios.patch(`/review/like`, likeDto);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
   },
 };
 

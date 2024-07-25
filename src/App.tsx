@@ -9,13 +9,12 @@ import Findid from "./pages/findIdPw/Findid";
 import Findpw from "./pages/findIdPw/Findpw";
 import ScrollToTop from "./components/ScrollToTop";
 import { useUser } from "./contexts/UserContext";
-import { useEffect, useState } from "react";
 import ReviewRoutes from "./pages/review";
-import ReportModal from "./components/modal/ReportModal";
 import CommunityRoutes from "./pages/community";
 import NoticeRoutes from "./pages/notice";
 
 function App() {
+  //@ts-ignore
   const { user, loading } = useUser();
   const isLogin = user.id !== null;
   const isAdmin = user.authority === 100;
