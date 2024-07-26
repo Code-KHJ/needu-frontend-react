@@ -9,6 +9,7 @@ import Button from "@/components/elements/Button";
 import { useNavigate } from "react-router-dom";
 import { NoticeCreateDto } from "@/interface/Notice";
 import noticeApi from "@/apis/notice";
+import ico_ext from "@/assets/images/ico_ext.png";
 
 const WriteNotice = () => {
   //@ts-ignore
@@ -160,7 +161,7 @@ const WriteNotice = () => {
             >
               커뮤니티 가이드 보기
               <img
-                src="/src/assets/images/ico_ext.png"
+                src={ico_ext}
                 style={{
                   width: "17px",
                   verticalAlign: "bottom",

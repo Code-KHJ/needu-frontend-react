@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import arrow_right from "@/assets/images/arrow_right.png";
 
 interface PaginationProps {
   currentPage: number;
@@ -21,14 +22,14 @@ const Pagination: React.FC<PaginationProps> = ({
       }
     };
     updatePagesPerGroup();
-    window.addEventListener('resize', updatePagesPerGroup);
+    window.addEventListener("resize", updatePagesPerGroup);
     return () => {
-      window.addEventListener('resize', updatePagesPerGroup);
+      window.addEventListener("resize", updatePagesPerGroup);
     };
   }, []);
 
   if (totalPages === undefined || totalPages === 0) {
-    return <div style={{ width: '100%' }}>검색 결과가 없습니다.</div>;
+    return <div style={{ width: "100%" }}>검색 결과가 없습니다.</div>;
   }
 
   const startPage =
@@ -53,11 +54,11 @@ const Pagination: React.FC<PaginationProps> = ({
       {!isFirstGroup && (
         <div onClick={handlePreviousGroup}>
           <img
-            src="/src/assets/images/arrow_right.png"
+            src={arrow_right}
             style={{
-              width: '7px',
-              height: '14px',
-              transform: 'rotate(180deg)',
+              width: "7px",
+              height: "14px",
+              transform: "rotate(180deg)",
             }}
             alt="left"
           />
@@ -68,10 +69,10 @@ const Pagination: React.FC<PaginationProps> = ({
           style={
             currentPage === startPage + index
               ? {
-                  border: '1px solid #aaa',
-                  borderRadius: '5px',
-                  color: '#222',
-                  backgroundColor: '#fff',
+                  border: "1px solid #aaa",
+                  borderRadius: "5px",
+                  color: "#222",
+                  backgroundColor: "#fff",
                 }
               : {}
           }
@@ -84,10 +85,10 @@ const Pagination: React.FC<PaginationProps> = ({
       {!isLastGroup && (
         <div onClick={handleNextGroup}>
           <img
-            src="/src/assets/images/arrow_right.png"
+            src={arrow_right}
             style={{
-              width: '7px',
-              height: '14px',
+              width: "7px",
+              height: "14px",
             }}
             alt="right"
           />

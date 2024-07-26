@@ -13,6 +13,13 @@ import Hashtag from "@/components/Hashtag";
 import { useUser } from "@/contexts/UserContext";
 import BlindComment from "@/components/BlindComment";
 import ReportModal from "@/components/modal/ReportModal";
+import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
+import btn_kebab from "@/assets/images/btn_kebab.png";
+import ico_career_f from "@/assets/images/ico_career_f.png";
+import ico_career_c from "@/assets/images/ico_career_c.png";
+import like_on from "@/assets/images/like_on.png";
+import like_off from "@/assets/images/like.png";
+import ico_arrow_R from "@/assets/images/ico_arrow_R.png";
 
 const DetailWorking = () => {
   const location = useLocation();
@@ -351,7 +358,7 @@ const DetailWorking = () => {
                             onChange={() => {}}
                           ></ScoreStar>
                           <img
-                            src="/src/assets/images/ico_arrow_down.png"
+                            src={ico_arrow_down}
                             style={{ cursor: "pointer" }}
                             alt="arrow"
                             onClick={() => handleToggle(index)}
@@ -385,7 +392,7 @@ const DetailWorking = () => {
                         </h3>
                         <div className={styles.kebab}>
                           <img
-                            src="/src/assets/images/btn_kebab.png"
+                            src={btn_kebab}
                             style={{ cursor: "pointer" }}
                             alt="kebab"
                             onClick={() => handleKebab(index)}
@@ -426,8 +433,8 @@ const DetailWorking = () => {
                           src={
                             careerStatus(review.userCareer.last_date) ===
                             "전직자"
-                              ? "/src/assets/images/ico_career_f.png"
-                              : "/src/assets/images/ico_career_c.png"
+                              ? { ico_career_f }
+                              : { ico_career_c }
                           }
                         />
                         <span>{careerStatus(review.userCareer.last_date)}</span>
@@ -470,15 +477,9 @@ const DetailWorking = () => {
                             onClick={() => like(review.id)}
                           >
                             {isLike[review.id] ? (
-                              <img
-                                src="/src/assets/images/like_on.png"
-                                alt="좋아요"
-                              />
+                              <img src={like_on} alt="좋아요" />
                             ) : (
-                              <img
-                                src="/src/assets/images/like.png"
-                                alt="좋아요"
-                              />
+                              <img src={like_off} alt="좋아요" />
                             )}
                             도움이 돼요
                             <span>({review.likes})</span>
@@ -501,7 +502,7 @@ const DetailWorking = () => {
               >
                 리뷰 전체 보기
                 <img
-                  src="/src/assets/images/ico_arrow_R.png"
+                  src={ico_arrow_R}
                   style={{ height: "12px", marginLeft: "8px" }}
                 />
               </button>

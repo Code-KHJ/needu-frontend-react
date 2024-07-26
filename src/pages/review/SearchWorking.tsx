@@ -6,6 +6,11 @@ import corpApi from "@/apis/corp";
 import { CorpDto } from "@/interface/Corp";
 import Pagination from "@/components/Pagination";
 import { useLocation, useNavigate } from "react-router-dom";
+import Star_1 from "@/assets/images/Star_1.png";
+import Star_2 from "@/assets/images/Star_2.png";
+import Star_3 from "@/assets/images/Star_3.png";
+import Star_4 from "@/assets/images/Star_4.png";
+import Star_5 from "@/assets/images/Star_5.png";
 
 type Filters = {
   region: string;
@@ -23,6 +28,14 @@ const SearchWorking = () => {
   const [corps, setCorps] = useState<CorpDto[]>([]);
   const [pages, setPages] = useState<number>();
   const queryParams = new URLSearchParams(location.search);
+
+  const starImages: { [key: string]: string } = {
+    1: Star_1,
+    2: Star_2,
+    3: Star_3,
+    4: Star_4,
+    5: Star_5,
+  };
 
   if (!queryParams.toString()) {
     const defaultFilters = {
@@ -246,10 +259,7 @@ const SearchWorking = () => {
                       key={score}
                       onClick={() => handleList("score", score)}
                     >
-                      <img
-                        src={`/src/assets/images/Star_${score}.png`}
-                        alt={`score ${score}`}
-                      />
+                      <img src={starImages[score]} alt={`score ${score}`} />
                     </span>
                   ))}
                 </div>
@@ -328,7 +338,7 @@ const SearchWorking = () => {
                     </div>
                   </div>
                   <div className={styles.star}>
-                    <img src="/src/assets/images/Star_1.png" alt="star" />
+                    <img src={Star_1} alt="star" />
                     <h4>{corp.avg}</h4>
                     <span className="body2">({corp.cnt})</span>
                   </div>

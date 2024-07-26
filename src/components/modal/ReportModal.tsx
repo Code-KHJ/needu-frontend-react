@@ -4,6 +4,8 @@ import styles from "./Modal.module.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import sharedApi from "@/apis/shared";
 import { useUser } from "@/contexts/UserContext";
+import arrow_right from "@/assets/images/arrow_right.png";
+import ico_ext from "@/assets/images/ico_ext.png";
 
 interface ReportModalProps {
   target: string;
@@ -114,7 +116,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
               <h4 style={{ cursor: "pointer" }} onClick={() => handleStep(1)}>
                 일반신고
                 <img
-                  src="/src/assets/images/arrow_right.png"
+                  src={arrow_right}
                   alt="일반신고"
                   style={{ width: "8px", marginLeft: "8px" }}
                 />
@@ -146,7 +148,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
               >
                 권리침해 신고
                 <img
-                  src="/src/assets/images/ico_ext.png"
+                  src={ico_ext}
                   alt="권리침해 신고"
                   style={{
                     width: "17px",

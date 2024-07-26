@@ -8,6 +8,7 @@ import { CommunityCreateDto } from "@/interface/Community";
 import { useUser } from "@/contexts/UserContext";
 import Button from "@/components/elements/Button";
 import { useNavigate } from "react-router-dom";
+import ico_ext from "@/assets/images/ico_ext.png";
 
 interface Topic {
   id: string;
@@ -208,7 +209,7 @@ const WritePost = ({ type }) => {
             >
               커뮤니티 가이드 보기
               <img
-                src="/src/assets/images/ico_ext.png"
+                src={ico_ext}
                 style={{
                   width: "17px",
                   verticalAlign: "bottom",

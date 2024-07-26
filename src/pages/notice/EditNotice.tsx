@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { NoticeEditDto } from "@/interface/Notice";
 import noticeApi from "@/apis/notice";
+import ico_ext from "@/assets/images/ico_ext.png";
 
 const EditNotice = () => {
   const pathname = useLocation().pathname.split("/");
@@ -183,7 +184,7 @@ const EditNotice = () => {
             >
               커뮤니티 가이드 보기
               <img
-                src="/src/assets/images/ico_ext.png"
+                src={ico_ext}
                 style={{
                   width: "17px",
                   verticalAlign: "bottom",

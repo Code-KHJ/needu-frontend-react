@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./Modal.module.scss";
+import ico_cancel from "@/assets/images/ico_cancel.png";
 
 interface ModalProps {
   modalOpen: boolean;
@@ -61,7 +62,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       <div className={styles.modal_title}>
         <h4>{title}</h4>
         <button className={styles.btn_close} type="reset" onClick={closeModal}>
-          <img src="/src/assets/images/cancel.png" alt="닫기" />
+          <img src={ico_cancel} alt="닫기" />
         </button>
       </div>
       <div className={styles.modal_content}>{children}</div>

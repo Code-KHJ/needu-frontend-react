@@ -8,6 +8,7 @@ import { useUser } from "@/contexts/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CommunityEditDto } from "@/interface/Community";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
+import ico_ext from "@/assets/images/ico_ext.png";
 
 interface Topic {
   id: string;
@@ -226,7 +227,7 @@ const EditPost = ({ type }) => {
             >
               커뮤니티 가이드 보기
               <img
-                src="/src/assets/images/ico_ext.png"
+                src={ico_ext}
                 style={{
                   width: "17px",
                   verticalAlign: "bottom",
