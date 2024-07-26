@@ -433,8 +433,8 @@ const DetailWorking = () => {
                           src={
                             careerStatus(review.userCareer.last_date) ===
                             "전직자"
-                              ? { ico_career_f }
-                              : { ico_career_c }
+                              ? ico_career_f
+                              : ico_career_c
                           }
                         />
                         <span>{careerStatus(review.userCareer.last_date)}</span>
