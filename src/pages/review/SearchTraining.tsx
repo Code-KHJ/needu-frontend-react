@@ -159,6 +159,7 @@ const SearchTraining = () => {
       setPages(response.data.totalPages);
     };
     getCorps();
+    isLoading.current = true;
   }, [location.search]);
 
   const resetFilters = () => {
@@ -204,7 +205,7 @@ const SearchTraining = () => {
   const moveDetail = (corpName: string) => {
     navigate(`/review/detail/training?name=${corpName}`);
   };
-  
+
   if (!isLoading.current) {
     return <div>로딩중...</div>;
   }
