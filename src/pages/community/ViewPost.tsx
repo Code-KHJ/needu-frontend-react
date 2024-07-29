@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./View.module.scss";
 import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_level from "@/assets/images/ico_level_default.png";
@@ -12,27 +12,100 @@ import ico_url from "@/assets/images/ico_url.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_arrow_down from "@/assets/images/ico_arrow_down_gnb.png";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
+import communityApi from "@/apis/community";
+import { LikePostDto, PostContent } from "@/interface/Community";
+import dompurify from "@/utils/dompurify";
 
 const ViewPost = () => {
+  const pathname = useLocation().pathname.split("/");
+  const postType = pathname[pathname.length - 2];
+  const postId = parseFloat(pathname[pathname.length - 1]);
+  //@ts-ignore
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  const [post, setPost] = useState<PostContent>();
+
+  useEffect(() => {
+    if (!postId) {
+      navigate("/");
+      return;
+    }
+    const getPost = async (postId: number) => {
+      const response: any = await communityApi.getPost(postId);
+      if (response.status !== 200) {
+        if (response.status === 404) {
+          alert("존재하지 않는 게시글입니다.");
+        }
+        navigate("/");
+      }
+      if (response.data.msg) {
+        alert(response.data.msg);
+        return;
+      }
+      if (postType === "free") {
+        if (response.data.postType !== "자유게시판") {
+          alert("존재하지 않는 게시글입니다.");
+          navigate("/");
+        }
+      }
+      if (postType === "question") {
+        if (response.data.postType !== "질문&답변") {
+          alert("존재하지 않는 게시글입니다.");
+          navigate("/");
+        }
+      }
+      setPost(response.data);
+    };
+    const updateView = async (postId: number) => {
+      const response: any = await communityApi.updateView(postId);
+      if (response.status !== 200) {
+        if (response.status === 404) {
+          alert("존재하지 않는 게시글입니다.");
+        }
+        navigate("/");
+      }
+    };
+    getPost(postId);
+    updateView(postId);
+    console.log(post);
+  }, [user, postId]);
+
+  console.log(user);
+  const likePost = async (type: string) => {
+    if (!user || user.id === null) {
+      alert("로그인 후 이용이 가능합니다.");
+      return;
+    }
+    const likeDto: LikePostDto = {
+      post_id: postId,
+      user_id: user.id,
+      type: type,
+    };
+    const response: any = await communityApi.updatePostLike(likeDto);
+  };
+
   return (
     <div className={styles.view_wrap}>
       <div className={styles.topic}>
         <h4>
-          <span className={styles.gray}>자유게시판</span>
+          <span className={styles.gray}>{post?.postType}</span>
           <span className={styles.gray}>|</span>
-          <span>이슈</span>
+          <span>{post?.topicType}</span>
         </h4>
       </div>
       <div className={styles.content_wrap}>
         <div className={styles.post_wrap}>
           <div className={styles.post_header}>
-            <h3>제목입니다제목입니다제목입니다제목입니다.</h3>
+            <h3>{post?.title}</h3>
             <div className={styles.post_header_info}>
               <div className={styles.writer_info}>
                 <img src={ico_profile} alt="profile_image" />
                 <div>
                   <div className="body2">
-                    <span>홍길동</span>
+                    <span>{post?.writer.nickname}</span>
                     <img
                       src={ico_level}
                       alt="레벨"
@@ -55,7 +128,7 @@ const ViewPost = () => {
                         marginRight: "4px",
                       }}
                     />
-                    <span>5,000</span>
+                    <span>{post?.view}</span>
                   </div>
                 </div>
               </div>
@@ -104,19 +177,18 @@ const ViewPost = () => {
               </div>
             </div>
           </div>
-          <div className={styles.post_content}>
-            게시글 본문입니다.게시글 본문입니다. 게시글 본문입니다. 게시글
-            본문입니다.게시글 본문입니다.게시글 본문입니다.게시글
-            본문입니다.게시글 본문입니다.게시글 본문입니다. 게시글
-            본문입니다.게시글 본문입니다.게시글 본문입니다. 게시글
-            본문입니다.게시글 본문입니다.
-          </div>
+          <div
+            className={styles.post_content}
+            dangerouslySetInnerHTML={{
+              __html: dompurify(post?.content as string),
+            }}
+          ></div>
           <div className={styles.likes}>
-            <button>
+            <button onClick={() => likePost("like")}>
               <img src={ico_like} alt="좋아요" />
               <span>0</span>
             </button>
-            <button>
+            <button onClick={() => likePost("dislike")}>
               <img src={ico_dislike} alt="싫어요" />
               <span>0</span>
             </button>

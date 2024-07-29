@@ -1,10 +1,14 @@
-import { CommunityCreateDto, CommunityEditDto } from '@/interface/Community';
-import customAxios from './axios-config';
+import {
+  CommunityCreateDto,
+  CommunityEditDto,
+  LikePostDto,
+} from "@/interface/Community";
+import customAxios from "./axios-config";
 
 const communityApi = {
   createPost: async (createDto: CommunityCreateDto) => {
     try {
-      const response = await customAxios.post('/community/post', createDto);
+      const response = await customAxios.post("/community/post", createDto);
       return response;
     } catch (error) {
       console.error(error);
@@ -14,6 +18,15 @@ const communityApi = {
   getPostForEdit: async (postId: number) => {
     try {
       const response = await customAxios.get(`/community/post/edit/${postId}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  getPost: async (postId: number) => {
+    try {
+      const response = await customAxios.get(`/community/post/${postId}`);
       return response;
     } catch (error) {
       console.error(error);
@@ -32,11 +45,32 @@ const communityApi = {
       return error;
     }
   },
-
+  updateView: async (postId: number) => {
+    try {
+      const response = await customAxios.patch(
+        `/community/post/view/${postId}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  updatePostLike: async (likeDto: LikePostDto) => {
+    try {
+      const response = await customAxios.patch(
+        `community/post/like/${likeDto.post_id}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   uploadImage: async (formData: FormData) => {
     try {
-      const response = await customAxios.post('/community/image', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await customAxios.post("/community/image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       return response;
     } catch (error) {
