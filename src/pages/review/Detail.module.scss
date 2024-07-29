@@ -162,6 +162,7 @@
                 .kebab_item {
                   width: 55px;
                   padding: 6px 12px;
+                  white-space: nowrap;
                   background-color: #fff;
                   border: 1px solid #aaa;
                   border-radius: 5px;
@@ -183,7 +184,7 @@
               margin-right: 5px;
             }
             & > span:not(:last-child)::after {
-              content: '·';
+              content: "·";
               display: inline-block;
               width: 17px;
               margin-left: 4px;
