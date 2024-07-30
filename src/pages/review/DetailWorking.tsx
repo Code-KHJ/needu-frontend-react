@@ -143,28 +143,38 @@ const DetailWorking = () => {
 
   const [isLike, setIsLike] = useState<{ [key: number]: boolean }>({});
 
+  let isProcessingLike = false;
   const like = async (review_no: number) => {
-    //@ts-ignore
-    if (!user || user.user.id === null) {
-      alert("로그인 후 이용이 가능합니다.");
-      return;
-    }
-    const likeDto: LikeDto = {
-      review_no: review_no,
-      type: "working",
-      action: !isLike[review_no] ? "plus" : "minus",
-    };
-    const response: any = await reviewApi.likeReview(likeDto);
-    if (response.status !== 200) {
+    if (isProcessingLike) return alert("이전 요청을 처리중입니다.");
+    isProcessingLike = true;
+
+    try {
+      //@ts-ignore
+      if (!user || user.user.id === null) {
+        alert("로그인 후 이용이 가능합니다.");
+        return;
+      }
+      const likeDto: LikeDto = {
+        review_no: review_no,
+        type: "working",
+        action: !isLike[review_no] ? "plus" : "minus",
+      };
+      const response: any = await reviewApi.likeReview(likeDto);
+      if (response.status !== 200) {
+        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      } else {
+        setIsLike((prevState) => ({
+          ...prevState,
+          [review_no]: !prevState[review_no],
+        }));
+        setReviews((prevReviews) =>
+          incrementLikeById(prevReviews, review_no, likeDto.action)
+        );
+      }
+    } catch (error) {
       alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
-    } else {
-      setIsLike((prevState) => ({
-        ...prevState,
-        [review_no]: !prevState[review_no],
-      }));
-      setReviews((prevReviews) =>
-        incrementLikeById(prevReviews, review_no, likeDto.action)
-      );
+    } finally {
+      isProcessingLike = false;
     }
   };
 
@@ -212,6 +222,7 @@ const DetailWorking = () => {
       );
       if (response.status !== 200) {
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        return;
       }
       alert("리뷰가 삭제되었습니다.");
       window.location.reload();

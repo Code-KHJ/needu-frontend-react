@@ -109,6 +109,16 @@
             line-height: 20px;
           }
         }
+        .like_on {
+          background-color: #6269f5;
+          border: #6269f5;
+          color: #fff;
+        }
+        .dislike_on {
+          background-color: #aaa;
+          border: #aaa;
+          color: #fff;
+        }
       }
     }
     .comment_wrap {
@@ -153,13 +163,20 @@
             align-items: end;
             .user_info {
               display: flex;
-              height: 44px;
+              flex-direction: row;
+              align-items: center;
+              height: 40px;
               .profile {
                 padding: 8px 10px;
                 & > img {
                   width: 28px;
                   height: 28px;
                 }
+              }
+              & > div:nth-of-type(2) > div {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
               }
             }
           }

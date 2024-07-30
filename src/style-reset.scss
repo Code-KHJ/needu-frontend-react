@@ -70,6 +70,16 @@ input:focus {
   display: block;
   clear: both;
 }
+/* 모달의 스크롤바 숨기기 */
+.ReactModal__Content {
+  overflow: auto; /* 스크롤 기능 유지 */
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+}
+
+.ReactModal__Content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari에서 스크롤바 숨기기 */
+}
+
 i {
   font-style: normal;
 }

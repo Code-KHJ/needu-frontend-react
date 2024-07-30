@@ -1,4 +1,5 @@
 import {
+  CommentCreateDto,
   CommunityCreateDto,
   CommunityEditDto,
   LikePostDto,
@@ -45,6 +46,15 @@ const communityApi = {
       return error;
     }
   },
+  deletePost: async (postId: number) => {
+    try {
+      const response = await customAxios.delete(`/community/post/${postId}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   updateView: async (postId: number) => {
     try {
       const response = await customAxios.patch(
@@ -59,7 +69,8 @@ const communityApi = {
   updatePostLike: async (likeDto: LikePostDto) => {
     try {
       const response = await customAxios.patch(
-        `community/post/like/${likeDto.post_id}`
+        `community/post/like/${likeDto.post_id}`,
+        likeDto
       );
       return response;
     } catch (error) {
@@ -67,6 +78,25 @@ const communityApi = {
       return error;
     }
   },
+  createComment: async (createDto: CommentCreateDto) => {
+    try {
+      const response = await customAxios.post("community/comment", createDto);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  getComments: async (postId: number) => {
+    try {
+      const response = await customAxios.get(`community/comment/${postId}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+
   uploadImage: async (formData: FormData) => {
     try {
       const response = await customAxios.post("/community/image", formData, {
