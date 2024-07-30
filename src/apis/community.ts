@@ -2,14 +2,15 @@ import {
   CommentCreateDto,
   CommunityCreateDto,
   CommunityEditDto,
+  LikeCommentDto,
   LikePostDto,
-} from "@/interface/Community";
-import customAxios from "./axios-config";
+} from '@/interface/Community';
+import customAxios from './axios-config';
 
 const communityApi = {
   createPost: async (createDto: CommunityCreateDto) => {
     try {
-      const response = await customAxios.post("/community/post", createDto);
+      const response = await customAxios.post('/community/post', createDto);
       return response;
     } catch (error) {
       console.error(error);
@@ -80,7 +81,7 @@ const communityApi = {
   },
   createComment: async (createDto: CommentCreateDto) => {
     try {
-      const response = await customAxios.post("community/comment", createDto);
+      const response = await customAxios.post('community/comment', createDto);
       return response;
     } catch (error) {
       console.error(error);
@@ -96,11 +97,23 @@ const communityApi = {
       return error;
     }
   },
+  updateCommentLike: async (likeDto: LikeCommentDto) => {
+    try {
+      const response = await customAxios.patch(
+        `community/comment/like/${likeDto.comment_id}`,
+        likeDto
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 
   uploadImage: async (formData: FormData) => {
     try {
-      const response = await customAxios.post("/community/image", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await customAxios.post('/community/image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response;
     } catch (error) {

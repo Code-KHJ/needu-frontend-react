@@ -52,6 +52,12 @@ export interface LikePostDto {
   type: string;
 }
 
+export interface LikeCommentDto {
+  comment_id: number;
+  user_id: number;
+  type: string;
+}
+
 export type CommentCreateDto = {
   post_id: number;
   user_id: number;

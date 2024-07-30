@@ -1,0 +1,327 @@
+.view_wrap {
+  margin: 80px auto;
+}
+.view_wrap .topic {
+  padding: 20px 10%;
+}
+.view_wrap .topic .gray {
+  color: #aaa;
+}
+.view_wrap .topic > h4 > span:nth-of-type(1), .view_wrap .topic > h4 > span:nth-of-type(3) {
+  cursor: pointer;
+}
+.view_wrap .topic > h4 > span:nth-of-type(2) {
+  margin: 0 8px;
+}
+.view_wrap .content_wrap {
+  margin: 20px 0;
+  padding: 40px 10%;
+}
+.view_wrap .content_wrap .post_wrap .post_header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #efefef;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .writer_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  height: 40px;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .writer_info > img {
+  width: 34px;
+  height: 34px;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .writer_info > div > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .share,
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .kebab {
+  position: relative;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .share .share_list,
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .share .kebab_list,
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .kebab .share_list,
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .kebab .kebab_list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 20px;
+  right: 4px;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .share .share_list > div,
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .kebab .share_list > div {
+  display: flex;
+  align-items: center;
+  width: 106px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  color: #222;
+  cursor: pointer;
+}
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .share .share_list > div > img,
+.view_wrap .content_wrap .post_wrap .post_header .post_header_info .options .kebab .share_list > div > img {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+.view_wrap .content_wrap .post_wrap .post_content {
+  margin-top: 20px;
+}
+.view_wrap .content_wrap .post_wrap .likes {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #efefef;
+}
+.view_wrap .content_wrap .post_wrap .likes > button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  color: #aaa;
+}
+.view_wrap .content_wrap .post_wrap .likes > button > img {
+  width: 16px;
+  height: 16px;
+}
+.view_wrap .content_wrap .post_wrap .likes > button > span {
+  line-height: 20px;
+}
+.view_wrap .content_wrap .post_wrap .likes .like_on {
+  background-color: #6269f5;
+  border: #6269f5;
+  color: #fff;
+}
+.view_wrap .content_wrap .post_wrap .likes .dislike_on {
+  background-color: #aaa;
+  border: #aaa;
+  color: #fff;
+}
+.view_wrap .content_wrap .comment_wrap {
+  margin-top: 20px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write > img {
+  width: 28px;
+  height: 28px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write > input {
+  padding: 17px 16px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write > input::-moz-placeholder {
+  color: #aaa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write > input::placeholder {
+  color: #aaa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write > button {
+  height: 60px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  color: #6269f5;
+  background-color: #fafafa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_write > button:hover {
+  background: #6269f5;
+  color: #fafafa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list {
+  margin-top: 40px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item {
+  margin-top: 20px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_header .user_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_header .user_info .profile {
+  padding: 8px 10px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_header .user_info .profile > img {
+  width: 28px;
+  height: 28px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_header .user_info > div:nth-of-type(2) > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body {
+  margin-top: 12px;
+  margin-left: 48px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .likes {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .likes > button {
+  display: flex;
+  align-items: center;
+  color: #aaa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .likes > button > img {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap {
+  margin-top: 20px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item {
+  margin-top: 10px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_header .user_info {
+  display: flex;
+  height: 44px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_header .user_info .profile {
+  padding: 8px 10px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_header .user_info .profile > img {
+  width: 28px;
+  height: 28px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_body {
+  margin-top: 12px;
+  margin-left: 48px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_body .likes {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_body .likes > button {
+  display: flex;
+  align-items: center;
+  color: #aaa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .child_wrap .child_list .child_item .child_body .likes > button > img {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child {
+  margin-top: 20px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form > img {
+  width: 28px;
+  height: 28px;
+  margin: 0px 10px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form > input {
+  padding: 17px 16px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form > input::-moz-placeholder {
+  color: #aaa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form > input::placeholder {
+  color: #aaa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form > button {
+  height: 60px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  color: #6269f5;
+  background-color: #fafafa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child .form > button:hover {
+  background: #6269f5;
+  color: #fafafa;
+}
+.view_wrap .content_wrap .comment_wrap .comment_list .comment_item .comment_body .write_child > button {
+  display: block;
+  margin: 20px auto 0;
+}
+
+/* main end */
+/* mobile-end */
+@media screen and (min-width: 768px) {
+  .view_wrap {
+    width: 86%;
+  }
+  .view_wrap .topic {
+    padding: 20px 40px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  .view_wrap .content_wrap {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 40px;
+  }
+  .view_wrap .content_wrap .comment_wrap .comment_write {
+    flex-direction: row;
+    align-items: center;
+  }
+  .view_wrap .content_wrap .comment_wrap .comment_write > input {
+    flex: 1;
+  }
+  .view_wrap .content_wrap .comment_wrap .comment_write > button {
+    min-width: 110px;
+  }
+  .view_wrap .content_wrap .comment_wrap .comment_list {
+    margin-left: 20px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .view_wrap {
+    max-width: 1280px;
+  }
+}
