@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./Modal.module.scss";
-import ico_cancel from "@/assets/images/ico_cancel.png";
+import ico_cancel from "@/assets/images/ico_cancel_white.png";
 
 interface ModalProps {
   modalOpen: boolean;

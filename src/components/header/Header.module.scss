@@ -112,6 +112,7 @@ header {
         transform: rotate(180deg) !important;
       }
       .child {
+        white-space: nowrap;
         display: flex;
         flex-direction: column;
         padding: 30px 28px;
@@ -232,7 +233,6 @@ header {
         .child {
           display: flex;
           position: absolute;
-          width: 120px;
           background-color: #fafafa;
           border: 1px solid #aaa;
           border-radius: 5px;

@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import btn_kebab from "@/assets/images/btn_kebab.png";
-import { useNavigate } from "react-router-dom";
-import communityApi from "@/apis/community";
 import ReportModal from "./modal/ReportModal";
 
 interface KebabCommentProps {
@@ -10,37 +8,19 @@ interface KebabCommentProps {
   target_writer: number;
   user_id: number;
   onEditClick: () => void;
+  onDeleteClick: () => void;
 }
 
 const KebabComment: React.FC<KebabCommentProps> = ({
   target_id,
-  target_parent_id,
   target_writer,
   user_id,
   onEditClick,
+  onDeleteClick,
 }) => {
   const [showKebab, setShowKebab] = useState(false);
   const handleKebab = () => {
     setShowKebab(!showKebab);
-  };
-
-  const deleteContent = async () => {
-    if (target_writer !== user_id) {
-      alert("본인이 작성한 댓글만 삭제가 가능합니다.");
-      return;
-    }
-    const confirmed = confirm(
-      "삭제한 댓글은 복구할 수 없습니다. 정말로 댓글을 삭제하시겠습니까?"
-    );
-    if (confirmed) {
-      // const response: any = await communityApi.deletePost(target_id);
-      // if (response.status !== 200) {
-      //   alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      //   return;
-      // }
-      alert("댓글이 삭제되었습니다.");
-      window.location.reload();
-    }
   };
 
   const [modal, setModal] = useState({
@@ -61,6 +41,23 @@ const KebabComment: React.FC<KebabCommentProps> = ({
     });
   };
 
+  const kebabRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        !modal.isOpen &&
+        kebabRef.current &&
+        !kebabRef.current.contains(e.target as Node)
+      ) {
+        setShowKebab(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [kebabRef, modal]);
+
   return (
     <div style={{ position: "relative" }}>
       <img
@@ -79,10 +76,10 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                 position: "absolute",
                 right: "4px",
               }}
+              ref={kebabRef}
             >
               <div
                 style={{
-                  width: "55px",
                   padding: "6px 12px",
                   whiteSpace: "nowrap",
                   backgroundColor: "#fff",
@@ -97,7 +94,6 @@ const KebabComment: React.FC<KebabCommentProps> = ({
               </div>
               <div
                 style={{
-                  width: "55px",
                   padding: "6px 12px",
                   whiteSpace: "nowrap",
                   backgroundColor: "#fff",
@@ -106,7 +102,7 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                   color: "#222",
                   cursor: "pointer",
                 }}
-                onClick={() => deleteContent()}
+                onClick={() => onDeleteClick()}
               >
                 삭제
               </div>
@@ -121,10 +117,10 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                 position: "absolute",
                 right: "4px",
               }}
+              ref={kebabRef}
             >
               <div
                 style={{
-                  width: "55px",
                   padding: "6px 12px",
                   whiteSpace: "nowrap",
                   backgroundColor: "#fff",

@@ -27,6 +27,7 @@ export interface PostContent {
   topicType: string;
   commentAccepted: number | null;
   postLikes: PostLike[];
+  comment_cnt: number;
   writer: {
     id: number;
     nickname: string;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import btn_kebab from "@/assets/images/btn_kebab.png";
 import { useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
@@ -9,6 +9,7 @@ interface KebabPostProps {
   target_id: number;
   target_writer: number;
   user_id: number;
+  isDeletable: boolean;
 }
 
 const KebabPost: React.FC<KebabPostProps> = ({
@@ -16,6 +17,7 @@ const KebabPost: React.FC<KebabPostProps> = ({
   target_id,
   target_writer,
   user_id,
+  isDeletable,
 }) => {
   const navigate = useNavigate();
 
@@ -31,6 +33,10 @@ const KebabPost: React.FC<KebabPostProps> = ({
   const deleteContent = async () => {
     if (target_writer !== user_id) {
       alert("본인이 작성한 게시글만 삭제가 가능합니다.");
+      return;
+    }
+    if (isDeletable === false) {
+      alert("댓글이 존재하는 게시물은 삭제할 수 없습니다.");
       return;
     }
     const confirmed = confirm(
@@ -70,6 +76,23 @@ const KebabPost: React.FC<KebabPostProps> = ({
     });
   };
 
+  const kebabRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        !modal.isOpen &&
+        kebabRef.current &&
+        !kebabRef.current.contains(e.target as Node)
+      ) {
+        setShowKebab(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [kebabRef, modal]);
+
   return (
     <div style={{ position: "relative" }}>
       <img
@@ -88,10 +111,10 @@ const KebabPost: React.FC<KebabPostProps> = ({
                 position: "absolute",
                 right: "4px",
               }}
+              ref={kebabRef}
             >
               <div
                 style={{
-                  width: "55px",
                   padding: "6px 12px",
                   whiteSpace: "nowrap",
                   backgroundColor: "#fff",
@@ -106,7 +129,6 @@ const KebabPost: React.FC<KebabPostProps> = ({
               </div>
               <div
                 style={{
-                  width: "55px",
                   padding: "6px 12px",
                   whiteSpace: "nowrap",
                   backgroundColor: "#fff",
@@ -130,10 +152,10 @@ const KebabPost: React.FC<KebabPostProps> = ({
                 position: "absolute",
                 right: "4px",
               }}
+              ref={kebabRef}
             >
               <div
                 style={{
-                  width: "55px",
                   padding: "6px 12px",
                   whiteSpace: "nowrap",
                   backgroundColor: "#fff",

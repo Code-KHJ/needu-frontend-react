@@ -4,13 +4,13 @@ import {
   CommunityEditDto,
   LikeCommentDto,
   LikePostDto,
-} from '@/interface/Community';
-import customAxios from './axios-config';
+} from "@/interface/Community";
+import customAxios from "./axios-config";
 
 const communityApi = {
   createPost: async (createDto: CommunityCreateDto) => {
     try {
-      const response = await customAxios.post('/community/post', createDto);
+      const response = await customAxios.post("/community/post", createDto);
       return response;
     } catch (error) {
       console.error(error);
@@ -81,7 +81,7 @@ const communityApi = {
   },
   createComment: async (createDto: CommentCreateDto) => {
     try {
-      const response = await customAxios.post('community/comment', createDto);
+      const response = await customAxios.post("community/comment", createDto);
       return response;
     } catch (error) {
       console.error(error);
@@ -91,6 +91,17 @@ const communityApi = {
   getComments: async (postId: number) => {
     try {
       const response = await customAxios.get(`community/comment/${postId}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  deleteComment: async (commentId: number) => {
+    try {
+      const response = await customAxios.delete(
+        `/community/comment/${commentId}`
+      );
       return response;
     } catch (error) {
       console.error(error);
@@ -112,8 +123,8 @@ const communityApi = {
 
   uploadImage: async (formData: FormData) => {
     try {
-      const response = await customAxios.post('/community/image', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await customAxios.post("/community/image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       return response;
     } catch (error) {
