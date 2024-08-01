@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { regEmail, regPw, validateInput } from "@/utils/validation";
 import styles from "./Login.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import userApi from "@/apis/user";
 import { LoginDto } from "@/interface/User";
 import Button from "@/components/elements/Button";
@@ -9,6 +9,7 @@ import SocialLogin from "@/components/IcoSocialLogin";
 import { useUser } from "@/contexts/UserContext";
 
 const Login = () => {
+  const location = useLocation();
   // 입력폼 유효성검사
   const [values, setValues] = useState<LoginDto>({
     user_id: "",
@@ -66,7 +67,8 @@ const Login = () => {
         })
       );
       alert(response.data.nickname + "님 환영합니다.");
-      navigate("/");
+      const from = location.state?.from || "/";
+      navigate(from);
     }
   };
 

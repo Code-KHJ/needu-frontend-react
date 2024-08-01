@@ -177,7 +177,11 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/login" className={styles.login}>
+                  <Link
+                    to="/login"
+                    className={styles.login}
+                    state={{ from: location.pathname }}
+                  >
                     로그인
                   </Link>
                   <Link to="/signup" className={styles.signup}>
