@@ -7,6 +7,7 @@ import { useUser } from "@/contexts/UserContext";
 import { CommentContent, CommentCreateDto } from "@/interface/Community";
 import communityApi from "@/apis/community";
 import Comment from "./Comment";
+import noticeApi from "@/apis/notice";
 
 interface CommentsProps {
   postId: number;
@@ -25,7 +26,9 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
     if (!postId) return;
     const getComments = async (postId: number) => {
       const response: any =
-        type === "notice" ? "" : await communityApi.getComments(postId);
+        type === "notice"
+          ? await noticeApi.getComments(postId)
+          : await communityApi.getComments(postId);
       if (response.status !== 200) {
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         return;
@@ -80,7 +83,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
     if (confirmed) {
       const response: any =
         type === "notice"
-          ? ""
+          ? await noticeApi.createComment(commentValues)
           : await communityApi.createComment(commentValues);
       if (response.status !== 201) {
         if (response.data.msg === "Invalid content") {
@@ -161,7 +164,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
     if (confirmed) {
       const response: any =
         type === "notice"
-          ? ""
+          ? await noticeApi.createComment(childCommentValues[parent_id])
           : await communityApi.createComment(childCommentValues[parent_id]);
       if (response.status !== 201) {
         if (response.data.msg === "Invalid content") {
@@ -219,6 +222,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
               return (
                 <div className={styles.comment} key={comment.id}>
                   <Comment
+                    postType={type}
                     parent_id={comment.id}
                     comment={comment}
                     onAction={refreshComments}
@@ -268,6 +272,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                           return (
                             <div className={styles.child_list} key={child.id}>
                               <Comment
+                                postType={type}
                                 parent_id={comment.id}
                                 comment={child}
                                 onAction={refreshComments}

@@ -14,35 +14,34 @@ import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_on from "@/assets/images/ico_dislike_on.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
-import communityApi from "@/apis/community";
-import { LikePostDto, PostContent } from "@/interface/Community";
 import dompurify from "@/utils/dompurify";
-import KebabPost from "@/components/KebabPost";
 import agoDate from "@/utils/agoDate";
 import Comments from "@/components/comments/Comments";
+import noticeApi from "@/apis/notice";
+import { LikeNoticeDto, NoticeContent } from "@/interface/Notice";
+import KebabNotice from "@/components/KebabNotice";
 
-const ViewPost = () => {
+const ViewNotice = () => {
   const isLoading = useRef(false);
   const pathname = useLocation().pathname.split("/");
-  const postType = pathname[pathname.length - 2];
-  const postId = parseFloat(pathname[pathname.length - 1]);
+  const noticeId = parseFloat(pathname[pathname.length - 1]);
   //@ts-ignore
   const { user } = useUser();
   const navigate = useNavigate();
 
-  const [post, setPost] = useState<PostContent>();
+  const [notice, setNotice] = useState<NoticeContent>();
   const [likes, setLikes] = useState({
     like: 0,
     dislike: 0,
   });
 
   useEffect(() => {
-    if (!postId) {
+    if (!noticeId) {
       navigate("/");
       return;
     }
-    const getPost = async (postId: number) => {
-      const response: any = await communityApi.getPost(postId);
+    const getNotice = async (noticeId: number) => {
+      const response: any = await noticeApi.getNotice(noticeId);
       if (response.status !== 200) {
         if (response.status === 404) {
           alert("존재하지 않는 게시글입니다.");
@@ -54,37 +53,25 @@ const ViewPost = () => {
         navigate("/");
         return;
       }
-      if (postType === "free") {
-        if (response.data.postType !== "자유게시판") {
-          alert("존재하지 않는 게시글입니다.");
-          navigate("/");
-        }
-      }
-      if (postType === "question") {
-        if (response.data.postType !== "질문&답변") {
-          alert("존재하지 않는 게시글입니다.");
-          navigate("/");
-        }
-      }
-      setPost(response.data);
+      setNotice(response.data);
       setLikes({
-        like: response.data.postLikes?.filter((item: any) => item.type === 1)
+        like: response.data.noticeLikes?.filter((item: any) => item.type === 1)
           .length,
-        dislike: response.data.postLikes?.filter(
+        dislike: response.data.noticeLikes?.filter(
           (item: any) => item.type === -1
         ).length,
       });
       setIsLike({
-        like: response.data.postLikes?.some(
+        like: response.data.noticeLikes?.some(
           (item: any) => item.user_id === user.id && item.type === 1
         ),
-        dislike: response.data.postLikes?.some(
+        dislike: response.data.noticeLikes?.some(
           (item: any) => item.user_id === user.id && item.type === -1
         ),
       });
     };
-    const updateView = async (postId: number) => {
-      const response: any = await communityApi.updateView(postId);
+    const updateView = async (noticeId: number) => {
+      const response: any = await noticeApi.updateView(noticeId);
       if (response.status !== 200) {
         if (response.status === 404) {
           alert("존재하지 않는 게시글입니다.");
@@ -92,17 +79,17 @@ const ViewPost = () => {
         navigate("/");
       }
     };
-    getPost(postId);
-    updateView(postId);
+    getNotice(noticeId);
+    updateView(noticeId);
     isLoading.current = true;
-  }, [user, postId]);
+  }, [user, noticeId]);
 
   const [isLike, setIsLike] = useState({
     like: false,
     dislike: false,
   });
   let isProcessingLike = false;
-  const likePost = async (type: string) => {
+  const likeNotice = async (type: string) => {
     if (isProcessingLike) return alert("이전 요청을 처리중입니다.");
     isProcessingLike = true;
 
@@ -119,12 +106,13 @@ const ViewPost = () => {
         alert("이미 리액션을 하셨습니다. 리액션을 취소 후 다시 시도해주세요.");
         return;
       }
-      const likeDto: LikePostDto = {
-        post_id: postId,
+      const likeDto: LikeNoticeDto = {
+        notice_id: noticeId,
         user_id: user.id,
         type: type,
       };
-      const response: any = await communityApi.updatePostLike(likeDto);
+      console.log(likeDto);
+      const response: any = await noticeApi.updateNoticeLike(likeDto);
       if (response.status !== 200) {
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         return;
@@ -170,6 +158,7 @@ const ViewPost = () => {
   const handleShare = () => {
     setShowShare(!showShare);
   };
+
   const shareRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -191,21 +180,21 @@ const ViewPost = () => {
     <div className={styles.view_wrap}>
       <div className={styles.topic}>
         <h4>
-          <span className={styles.gray}>{post?.postType}</span>
+          <span className={styles.gray}>공지사항</span>
           <span className={styles.gray}>|</span>
-          <span>{post?.topicType}</span>
+          <span>공지사항</span>
         </h4>
       </div>
       <div className={styles.content_wrap}>
         <div className={styles.post_wrap}>
           <div className={styles.post_header}>
-            <h3>{post?.title}</h3>
+            <h3>{notice?.title}</h3>
             <div className={styles.post_header_info}>
               <div className={styles.writer_info}>
                 <img src={ico_profile} alt="profile_image" />
                 <div>
                   <div className="body2">
-                    <span>{post?.writer.nickname}</span>
+                    <span>{notice?.writer.nickname}</span>
                     <img
                       src={ico_level}
                       alt="레벨"
@@ -217,7 +206,7 @@ const ViewPost = () => {
                     />
                   </div>
                   <div className="caption" style={{ color: "#aaa" }}>
-                    <span>{agoDate(post?.created_at as Date)}</span>
+                    <span>{agoDate(notice?.created_at as Date)}</span>
                     <img
                       src={ico_view}
                       alt="views"
@@ -228,7 +217,7 @@ const ViewPost = () => {
                         marginRight: "4px",
                       }}
                     />
-                    <span>{post?.view}</span>
+                    <span>{notice?.view}</span>
                   </div>
                 </div>
               </div>
@@ -262,33 +251,27 @@ const ViewPost = () => {
                     </div>
                   </div>
                 </div>
-                <KebabPost
-                  target={postType}
-                  target_id={post?.id as number}
-                  target_writer={post?.writer.id as number}
-                  user_id={user.id}
-                  isDeletable={!post?.comment_cnt}
-                ></KebabPost>
+                <KebabNotice target_id={notice?.id as number}></KebabNotice>
               </div>
             </div>
           </div>
           <div
             className={styles.post_content}
             dangerouslySetInnerHTML={{
-              __html: dompurify(post?.content as string),
+              __html: dompurify(notice?.content as string),
             }}
           ></div>
           <div className={styles.likes}>
             <button
               className={isLike.like ? styles.like_on : ""}
-              onClick={() => likePost("like")}
+              onClick={() => likeNotice("like")}
             >
               <img src={isLike.like ? ico_like_on : ico_like} alt="좋아요" />
               <span className="body2">{likes.like}</span>
             </button>
             <button
               className={isLike.dislike ? styles.dislike_on : ""}
-              onClick={() => likePost("dislike")}
+              onClick={() => likeNotice("dislike")}
             >
               <img
                 src={isLike.dislike ? ico_dislike_on : ico_dislike}
@@ -298,11 +281,11 @@ const ViewPost = () => {
             </button>
           </div>
         </div>
-        <Comments postId={post?.id as number} type="free" />
+        <Comments postId={notice?.id as number} type="notice" />
       </div>
       <div>페이지네이션</div>
     </div>
   );
 };
 
-export default ViewPost;
+export default ViewNotice;

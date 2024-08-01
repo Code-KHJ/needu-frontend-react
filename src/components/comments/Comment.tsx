@@ -12,8 +12,10 @@ import KebabComment from "@/components/KebabComment";
 import { useUser } from "@/contexts/UserContext";
 import { CommentContent, LikeCommentDto } from "@/interface/Community";
 import communityApi from "@/apis/community";
+import noticeApi from "@/apis/notice";
 
 interface CommentProps {
+  postType: string;
   parent_id: number;
   comment: CommentContent;
   onAction: () => void;
@@ -26,6 +28,7 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({
+  postType,
   parent_id,
   comment,
   onAction,
@@ -90,7 +93,9 @@ const Comment: React.FC<CommentProps> = ({
         type: type,
       };
       const response: any =
-        type === "notice" ? "" : await communityApi.updateCommentLike(likeDto);
+        postType === "notice"
+          ? await noticeApi.updateCommentLike(likeDto)
+          : await communityApi.updateCommentLike(likeDto);
       if (response.status !== 200) {
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         return;
@@ -153,7 +158,10 @@ const Comment: React.FC<CommentProps> = ({
       "삭제한 댓글은 복구할 수 없습니다. 정말로 댓글을 삭제하시겠습니까?"
     );
     if (confirmed) {
-      const response: any = await communityApi.deleteComment(comment.id);
+      const response: any =
+        postType === "notice"
+          ? await noticeApi.deleteComment(comment.id)
+          : await communityApi.deleteComment(comment.id);
       if (response.status !== 200) {
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         return;
@@ -191,6 +199,7 @@ const Comment: React.FC<CommentProps> = ({
           </div>
         </div>
         <KebabComment
+          postType={postType}
           target_id={comment.id}
           target_parent_id={comment.parent_id}
           target_writer={comment.writer.id}

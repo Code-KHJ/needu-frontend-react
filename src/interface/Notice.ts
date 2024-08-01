@@ -15,6 +15,33 @@ export type NoticeEditDto = {
   is_show: boolean;
 };
 
+export interface NoticeContent {
+  id: number;
+  title: string;
+  content: string;
+  created_at: Date;
+  is_del: boolean;
+  view: number;
+  noticeLikes: NoticeLike[];
+  writer: {
+    id: number;
+    nickname: string;
+    // @IsString()
+    // user_profile: string; url??
+
+    // @IsString()
+    // user_level: string;
+  };
+}
+
+export interface NoticeLike {
+  id: number;
+  notice_id: number;
+  user_id: number;
+  type: number;
+  created_at: Date;
+}
+
 export interface LikeNoticeDto {
   notice_id: number;
   user_id: number;
@@ -22,7 +49,7 @@ export interface LikeNoticeDto {
 }
 
 export type NoticeCommentCreateDto = {
-  notice_id: number;
+  post_id: number;
   user_id: number;
   content: string;
   parent_id: number | null;

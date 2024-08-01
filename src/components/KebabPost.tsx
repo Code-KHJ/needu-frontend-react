@@ -3,6 +3,7 @@ import btn_kebab from "@/assets/images/btn_kebab.png";
 import { useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
 import ReportModal from "./modal/ReportModal";
+import { useUser } from "@/contexts/UserContext";
 
 interface KebabPostProps {
   target: string;
@@ -19,6 +20,8 @@ const KebabPost: React.FC<KebabPostProps> = ({
   user_id,
   isDeletable,
 }) => {
+  //@ts-ignore
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const [showKebab, setShowKebab] = useState(false);
@@ -94,89 +97,95 @@ const KebabPost: React.FC<KebabPostProps> = ({
   }, [kebabRef, modal]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <img
-        src={btn_kebab}
-        style={{ cursor: "pointer" }}
-        alt="kebab"
-        onClick={() => handleKebab()}
-      />
-      {user_id === target_writer
-        ? showKebab && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                position: "absolute",
-                right: "4px",
-              }}
-              ref={kebabRef}
-            >
-              <div
-                style={{
-                  padding: "6px 12px",
-                  whiteSpace: "nowrap",
-                  backgroundColor: "#fff",
-                  border: "1px solid #aaa",
-                  borderRadius: "5px",
-                  color: "#222",
-                  cursor: "pointer",
-                }}
-                onClick={() => editContent()}
-              >
-                수정
-              </div>
-              <div
-                style={{
-                  padding: "6px 12px",
-                  whiteSpace: "nowrap",
-                  backgroundColor: "#fff",
-                  border: "1px solid #aaa",
-                  borderRadius: "5px",
-                  color: "#222",
-                  cursor: "pointer",
-                }}
-                onClick={() => deleteContent()}
-              >
-                삭제
-              </div>
-            </div>
-          )
-        : showKebab && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                position: "absolute",
-                right: "4px",
-              }}
-              ref={kebabRef}
-            >
-              <div
-                style={{
-                  padding: "6px 12px",
-                  whiteSpace: "nowrap",
-                  backgroundColor: "#fff",
-                  border: "1px solid #aaa",
-                  borderRadius: "5px",
-                  color: "#222",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleModalTarget()}
-              >
-                신고
-              </div>
-              <ReportModal
-                target={modal.target}
-                target_id={modal.target_id}
-                modalOpen={modal.isOpen}
-                closeModal={closeModal}
-              />
-            </div>
-          )}
-    </div>
+    <>
+      {user.id ? (
+        <div style={{ position: "relative" }}>
+          <img
+            src={btn_kebab}
+            style={{ cursor: "pointer" }}
+            alt="kebab"
+            onClick={() => handleKebab()}
+          />
+          {user_id === target_writer
+            ? showKebab && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    position: "absolute",
+                    right: "4px",
+                  }}
+                  ref={kebabRef}
+                >
+                  <div
+                    style={{
+                      padding: "6px 12px",
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#fff",
+                      border: "1px solid #aaa",
+                      borderRadius: "5px",
+                      color: "#222",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => editContent()}
+                  >
+                    수정
+                  </div>
+                  <div
+                    style={{
+                      padding: "6px 12px",
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#fff",
+                      border: "1px solid #aaa",
+                      borderRadius: "5px",
+                      color: "#222",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => deleteContent()}
+                  >
+                    삭제
+                  </div>
+                </div>
+              )
+            : showKebab && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    position: "absolute",
+                    right: "4px",
+                  }}
+                  ref={kebabRef}
+                >
+                  <div
+                    style={{
+                      padding: "6px 12px",
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#fff",
+                      border: "1px solid #aaa",
+                      borderRadius: "5px",
+                      color: "#222",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleModalTarget()}
+                  >
+                    신고
+                  </div>
+                  <ReportModal
+                    target={modal.target}
+                    target_id={modal.target_id}
+                    modalOpen={modal.isOpen}
+                    closeModal={closeModal}
+                  />
+                </div>
+              )}
+        </div>
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 

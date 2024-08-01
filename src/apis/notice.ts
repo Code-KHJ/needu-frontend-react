@@ -68,7 +68,8 @@ const noticeApi = {
   updateNoticeLike: async (likeDto: LikeNoticeDto) => {
     try {
       const response = await customAxios.patch(
-        `/notice/like/${likeDto.notice_id}`
+        `/notice/like/${likeDto.notice_id}`,
+        likeDto
       );
       return response;
     } catch (error) {
