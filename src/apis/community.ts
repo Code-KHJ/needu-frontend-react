@@ -90,7 +90,9 @@ const communityApi = {
   },
   getComments: async (postId: number) => {
     try {
-      const response = await customAxios.get(`community/comment/${postId}`);
+      const response = await customAxios.get(
+        `community/post/${postId}/comments`
+      );
       return response;
     } catch (error) {
       console.error(error);

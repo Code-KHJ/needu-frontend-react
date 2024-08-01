@@ -158,6 +158,10 @@ const Comment: React.FC<CommentProps> = ({
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         return;
       }
+      if (response.data.msg === "대댓글 존재") {
+        alert("댓글이 존재하는 게시물은 삭제할 수 없습니다.");
+        return;
+      }
       alert("댓글이 삭제되었습니다.");
       onAction();
     }
