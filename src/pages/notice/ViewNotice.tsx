@@ -14,7 +14,7 @@ import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_on from "@/assets/images/ico_dislike_on.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
-import dompurify from "@/utils/dompurify";
+import { dompurify } from "@/utils/dompurify";
 import agoDate from "@/utils/agoDate";
 import Comments from "@/components/comments/Comments";
 import noticeApi from "@/apis/notice";

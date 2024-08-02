@@ -16,10 +16,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
 import communityApi from "@/apis/community";
 import { LikePostDto, PostContent } from "@/interface/Community";
-import dompurify from "@/utils/dompurify";
+import { dompurify, extractTextFromHTML } from "@/utils/dompurify";
 import KebabPost from "@/components/KebabPost";
 import agoDate from "@/utils/agoDate";
 import Comments from "@/components/comments/Comments";
+import { copyClipboard, fbShare, kakaoShare, xShare } from "@/utils/snsShare";
 
 const ViewPost = () => {
   const isLoading = useRef(false);
@@ -245,19 +246,39 @@ const ViewPost = () => {
                     className={styles.share_list}
                     style={showShare ? {} : { display: "none" }}
                   >
-                    <div className="body2">
+                    <div
+                      className="body2"
+                      onClick={() => fbShare(window.location.href)}
+                    >
                       <img src={ico_facebook} alt="facebook" />
                       Facebook
                     </div>
-                    <div className="body2">
+                    <div
+                      className="body2"
+                      onClick={() => xShare(window.location.href)}
+                    >
                       <img src={ico_X} alt="X(Twitter)" />
                       X(Twitter)
                     </div>
-                    <div className="body2">
+                    <div
+                      className="body2"
+                      onClick={() =>
+                        kakaoShare(
+                          post?.title as string,
+                          extractTextFromHTML(post?.content as string),
+                          window.location.href,
+                          likes.like,
+                          post?.comment_cnt as number
+                        )
+                      }
+                    >
                       <img src={ico_kakao} alt="KakaoTalk" />
                       KakaoTalk
                     </div>
-                    <div className="body2">
+                    <div
+                      className="body2"
+                      onClick={() => copyClipboard(window.location.href)}
+                    >
                       <img src={ico_url} alt="Copy URL" />
                       Copy URL
                     </div>

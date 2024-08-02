@@ -6,7 +6,7 @@ import ico_like from "@/assets/images/ico_like.png";
 import ico_like_on from "@/assets/images/like_on.png";
 import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_gray from "@/assets/images/ico_dislike_gray.png";
-import dompurify from "@/utils/dompurify";
+import { dompurify } from "@/utils/dompurify";
 import agoDate from "@/utils/agoDate";
 import KebabComment from "@/components/KebabComment";
 import { useUser } from "@/contexts/UserContext";

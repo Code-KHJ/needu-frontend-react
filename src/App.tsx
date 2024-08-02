@@ -13,6 +13,12 @@ import ReviewRoutes from "./pages/review";
 import CommunityRoutes from "./pages/community";
 import NoticeRoutes from "./pages/notice";
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 function App() {
   //@ts-ignore
   const { user, loading } = useUser();
@@ -21,6 +27,9 @@ function App() {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  window.Kakao.init(import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY);
+  window.Kakao.isInitialized();
 
   return (
     <BrowserRouter>
