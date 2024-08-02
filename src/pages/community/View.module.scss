@@ -131,6 +131,20 @@
       }
     }
   }
+  .btn_list {
+    margin: 20px 10%;
+    text-align: center;
+    & > button {
+      width: 100%;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      height: 60px;
+    }
+    & > button:hover {
+      background: #6269f5;
+      color: #fafafa;
+    }
+  }
 }
 
 /* main end */
@@ -153,6 +167,13 @@
       border-radius: 5px;
       background-color: #fff;
       padding: 40px;
+    }
+    .btn_list {
+      margin: 20px auto;
+
+      & > button {
+        width: 232px;
+      }
     }
   }
 }

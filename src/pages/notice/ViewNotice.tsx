@@ -205,7 +205,7 @@ const ViewNotice = () => {
                       }}
                     />
                   </div>
-                  <div className="caption" style={{ color: "#aaa" }}>
+                  <div className="body2" style={{ color: "#aaa" }}>
                     <span>{agoDate(notice?.created_at as Date)}</span>
                     <img
                       src={ico_view}
@@ -283,7 +283,6 @@ const ViewNotice = () => {
         </div>
         <Comments postId={notice?.id as number} type="notice" />
       </div>
-      <div>페이지네이션</div>
     </div>
   );
 };

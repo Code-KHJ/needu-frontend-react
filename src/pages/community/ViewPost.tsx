@@ -23,6 +23,7 @@ import Comments from "@/components/comments/Comments";
 
 const ViewPost = () => {
   const isLoading = useRef(false);
+  const previousPage = useLocation().state;
   const pathname = useLocation().pathname.split("/");
   const postType = pathname[pathname.length - 2];
   const postId = parseFloat(pathname[pathname.length - 1]);
@@ -216,7 +217,7 @@ const ViewPost = () => {
                       }}
                     />
                   </div>
-                  <div className="caption" style={{ color: "#aaa" }}>
+                  <div className="body2" style={{ color: "#aaa" }}>
                     <span>{agoDate(post?.created_at as Date)}</span>
                     <img
                       src={ico_view}
@@ -300,7 +301,17 @@ const ViewPost = () => {
         </div>
         <Comments postId={post?.id as number} type="free" />
       </div>
-      <div>페이지네이션</div>
+      <div className={styles.btn_list}>
+        <button
+          onClick={() =>
+            previousPage
+              ? navigate(previousPage)
+              : navigate(`/community/${postType}`)
+          }
+        >
+          목록
+        </button>
+      </div>
     </div>
   );
 };

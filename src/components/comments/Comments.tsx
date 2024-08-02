@@ -21,7 +21,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
   const refreshComments = () => {
     setFetch(!fetch);
   };
-  const [comments, setComments] = useState<CommentContent[]>({});
+  const [comments, setComments] = useState<CommentContent[]>([]);
   useEffect(() => {
     if (!postId) return;
     const getComments = async (postId: number) => {
@@ -181,7 +181,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
         ...prevValues,
         [parent_id]: {
           ...prevValues[parent_id],
-          conetent: "",
+          content: "",
         },
       }));
       refreshComments();
@@ -201,8 +201,8 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
           }
           multiline
           fullWidth
-          minRows={2}
-          maxRows={4}
+          minRows={1}
+          maxRows={6}
           value={commentValues.content}
           onChange={handleComment}
           disabled={user.id ? false : true}
@@ -266,10 +266,17 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                       }
                       개
                     </button>
-                    {childCommentShow[comment.id]?.list !== false &&
-                      comments.map((child) => {
-                        if (child.parent_id === comment.id) {
-                          return (
+                    {childCommentShow[comment.id]?.list !== false && (
+                      <>
+                        {comments
+                          .filter((child) => child.parent_id === comment.id)
+                          .slice(
+                            0,
+                            childCommentShow[comment.id]?.expand
+                              ? comments.length
+                              : 4
+                          )
+                          .map((child) => (
                             <div className={styles.child_list} key={child.id}>
                               <Comment
                                 postType={type}
@@ -280,9 +287,68 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                                 handleChildCommentShow={handleChildCommentShow}
                               />
                             </div>
-                          );
-                        }
-                      })}
+                          ))}
+                        {comments.filter(
+                          (child) => child.parent_id === comment.id
+                        ).length > 4 && (
+                          <button
+                            style={{
+                              width: "100%",
+                              marginTop: "10px",
+                            }}
+                            name="expand"
+                            type="button"
+                            onClick={(e) =>
+                              handleChildCommentShow(
+                                e,
+                                comment.id,
+                                childCommentShow[comment.id]?.expand !== true
+                                  ? true
+                                  : false
+                              )
+                            }
+                          >
+                            {childCommentShow[comment.id]?.expand ? (
+                              <>
+                                <img
+                                  src={ico_arrow_down}
+                                  alt="arrow"
+                                  style={{
+                                    width: "16px",
+                                    height: "8px",
+                                    marginRight: "8px",
+                                    transform:
+                                      childCommentShow[comment.id]?.expand !==
+                                      true
+                                        ? "rotate(0deg)"
+                                        : "rotate(180deg)",
+                                  }}
+                                />
+                                숨기기
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={ico_arrow_down}
+                                  alt="arrow"
+                                  style={{
+                                    width: "16px",
+                                    height: "8px",
+                                    marginRight: "8px",
+                                    transform:
+                                      childCommentShow[comment.id]?.expand !==
+                                      true
+                                        ? "rotate(0deg)"
+                                        : "rotate(180deg)",
+                                  }}
+                                />
+                                더보기
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </>
+                    )}
                   </div>
                   {childCommentShow[comment.id]?.form ? (
                     <div className={styles.write_child}>
@@ -296,7 +362,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                           }
                           multiline
                           fullWidth
-                          minRows={2}
+                          minRows={1}
                           maxRows={4}
                           value={childCommentValues[comment.id]?.content || ""}
                           onChange={(e) => handleChildComment(e, comment.id)}

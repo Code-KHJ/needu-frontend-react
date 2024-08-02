@@ -271,8 +271,8 @@ const ReportModal: React.FC<ReportModalProps> = ({
               <h4>신고가 접수되었습니다.</h4>
               <div style={{ marginTop: "20px", padding: "0 8px" }}>
                 <p>
-                  접수된 일자로부터 영업일 기준 3일 이내 확인 후 조치될
-                  예정입니다. 어쩌구 저쩌구 문의는 메일로 부탁드립니다.
+                  접수일로부터 영업일 기준 3일 이내 확인 후 조치됩니다. 자세한
+                  문의는 needu.sw@gmail.com로 부탁드립니다.
                 </p>
               </div>
             </div>

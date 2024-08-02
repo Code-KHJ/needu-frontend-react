@@ -195,7 +195,9 @@ const Comment: React.FC<CommentProps> = ({
                 }}
               />
             </div>
-            <div style={{ color: "#aaa" }}>{agoDate(comment.created_at)}</div>
+            <div className="body2" style={{ color: "#aaa" }}>
+              {agoDate(comment.created_at)}
+            </div>
           </div>
         </div>
         <KebabComment
