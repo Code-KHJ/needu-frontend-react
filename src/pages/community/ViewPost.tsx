@@ -31,6 +31,10 @@ const ViewPost = () => {
   //@ts-ignore
   const { user } = useUser();
   const navigate = useNavigate();
+  const [fetch, setFetch] = useState(false);
+  const refreshPost = () => {
+    setFetch(!fetch);
+  };
 
   const [post, setPost] = useState<PostContent>();
   const [likes, setLikes] = useState({
@@ -97,7 +101,7 @@ const ViewPost = () => {
     getPost(postId);
     updateView(postId);
     isLoading.current = true;
-  }, [user, postId]);
+  }, [user, postId, fetch]);
 
   const [isLike, setIsLike] = useState({
     like: false,
@@ -206,7 +210,7 @@ const ViewPost = () => {
               <div className={styles.writer_info}>
                 <img src={ico_profile} alt="profile_image" />
                 <div>
-                  <div className="body2">
+                  <div>
                     <span>{post?.writer.nickname}</span>
                     <img
                       src={ico_level}
@@ -320,7 +324,14 @@ const ViewPost = () => {
             </button>
           </div>
         </div>
-        <Comments postId={post?.id as number} type="free" />
+        <Comments
+          postId={post?.id as number}
+          type={postType}
+          accepted_id={
+            user.id === post?.writer.id ? post?.commentAccepted : null
+          }
+          refresh={refreshPost}
+        />
       </div>
       <div className={styles.btn_list}>
         <button

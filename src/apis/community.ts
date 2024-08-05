@@ -1,11 +1,14 @@
 import {
+  CommentAcceptDto,
   CommentCreateDto,
+  CommentUpdateDto,
   CommunityCreateDto,
   CommunityEditDto,
   LikeCommentDto,
   LikePostDto,
 } from "@/interface/Community";
 import customAxios from "./axios-config";
+import { ErrorOutline } from "@mui/icons-material";
 
 const communityApi = {
   createPost: async (createDto: CommunityCreateDto) => {
@@ -99,6 +102,18 @@ const communityApi = {
       return error;
     }
   },
+  updateComment: async (updateDto: CommentUpdateDto) => {
+    try {
+      const response = await customAxios.patch(
+        `community/comment/edit/${updateDto.comment_id}`,
+        updateDto
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   deleteComment: async (commentId: number) => {
     try {
       const response = await customAxios.delete(
@@ -122,7 +137,29 @@ const communityApi = {
       return error;
     }
   },
-
+  acceptComment: async (acceptDto: CommentAcceptDto) => {
+    try {
+      const response = await customAxios.post(
+        "community/comment/accept",
+        acceptDto
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return ErrorOutline;
+    }
+  },
+  unacceptComment: async (accepted_id: number) => {
+    try {
+      const response = await customAxios.delete(
+        `community/comment/accept/${accepted_id}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   uploadImage: async (formData: FormData) => {
     try {
       const response = await customAxios.post("/community/image", formData, {

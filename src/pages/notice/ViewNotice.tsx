@@ -193,7 +193,7 @@ const ViewNotice = () => {
               <div className={styles.writer_info}>
                 <img src={ico_profile} alt="profile_image" />
                 <div>
-                  <div className="body2">
+                  <div>
                     <span>{notice?.writer.nickname}</span>
                     <img
                       src={ico_level}

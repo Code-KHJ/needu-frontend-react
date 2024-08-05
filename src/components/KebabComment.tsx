@@ -89,6 +89,7 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                     gap: "8px",
                     position: "absolute",
                     right: "4px",
+                    zIndex: 6,
                   }}
                   ref={kebabRef}
                 >
@@ -102,7 +103,10 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                       color: "#222",
                       cursor: "pointer",
                     }}
-                    onClick={() => onEditClick()}
+                    onClick={() => {
+                      onEditClick();
+                      setShowKebab(false);
+                    }}
                   >
                     수정
                   </div>
@@ -116,7 +120,10 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                       color: "#222",
                       cursor: "pointer",
                     }}
-                    onClick={() => onDeleteClick()}
+                    onClick={() => {
+                      onDeleteClick();
+                      setShowKebab(false);
+                    }}
                   >
                     삭제
                   </div>
@@ -130,6 +137,7 @@ const KebabComment: React.FC<KebabCommentProps> = ({
                     gap: "8px",
                     position: "absolute",
                     right: "4px",
+                    zIndex: 6,
                   }}
                   ref={kebabRef}
                 >

@@ -66,6 +66,12 @@ export type CommentCreateDto = {
   parent_id: number | null;
 };
 
+export type CommentUpdateDto = {
+  comment_id: number;
+  user_id: number;
+  content: string;
+};
+
 export interface CommentContent {
   id: number;
   content: string;
@@ -91,4 +97,9 @@ export interface CommentLike {
   user_id: number;
   type: number;
   created_at: Date;
+}
+
+export interface CommentAcceptDto {
+  post_id: number;
+  comment_id: number;
 }

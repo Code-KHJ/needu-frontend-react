@@ -6,6 +6,8 @@ import ico_like from "@/assets/images/ico_like.png";
 import ico_like_on from "@/assets/images/like_on.png";
 import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_gray from "@/assets/images/ico_dislike_gray.png";
+import ico_unchecked from "@/assets/images/ico_unchecked.png";
+import ico_checked from "@/assets/images/ico_checked.png";
 import { dompurify } from "@/utils/dompurify";
 import agoDate from "@/utils/agoDate";
 import KebabComment from "@/components/KebabComment";
@@ -13,6 +15,7 @@ import { useUser } from "@/contexts/UserContext";
 import { CommentContent, LikeCommentDto } from "@/interface/Community";
 import communityApi from "@/apis/community";
 import noticeApi from "@/apis/notice";
+import { TextField } from "@mui/material";
 
 interface CommentProps {
   postType: string;
@@ -20,11 +23,13 @@ interface CommentProps {
   comment: CommentContent;
   onAction: () => void;
   isDeletable: boolean;
+  isAccepted: boolean | null;
   handleChildCommentShow: (
     e: React.MouseEvent<HTMLButtonElement>,
     parent_id: number,
     value: boolean
   ) => void;
+  handleAccept: (comment_id: number) => void;
 }
 
 const Comment: React.FC<CommentProps> = ({
@@ -33,7 +38,9 @@ const Comment: React.FC<CommentProps> = ({
   comment,
   onAction,
   isDeletable,
+  isAccepted,
   handleChildCommentShow,
+  handleAccept,
 }) => {
   //@ts-ignore
   const { user } = useUser();
@@ -61,8 +68,14 @@ const Comment: React.FC<CommentProps> = ({
       }
     });
     setCommentLikeState(likeState);
+    setEditCommentValues({
+      comment_id: comment.id,
+      user_id: user.id,
+      content: comment.content,
+    });
   }, [comment]);
 
+  //댓글 좋아요
   const [commentLikeState, setCommentLikeState] = useState({
     like: 0,
     dislike: 0,
@@ -134,14 +147,52 @@ const Comment: React.FC<CommentProps> = ({
   };
 
   //댓글 수정
-  const [isEditComment, setIsEditComment] = useState<{
-    [key: number]: boolean;
-  }>({});
-  const handleIsEditComment = (comment_id: number) => {
-    setIsEditComment((prevState) => ({
-      ...prevState,
-      [comment_id]: !prevState[comment_id],
-    }));
+  const [isEditComment, setIsEditComment] = useState(false);
+  const handleIsEditComment = () => {
+    setIsEditComment((prevState) => !prevState);
+  };
+
+  const [editCommentValues, setEditCommentValues] = useState({
+    comment_id: 0,
+    user_id: 0,
+    content: "",
+  });
+  const handleEditComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setEditCommentValues({
+      ...editCommentValues,
+      content: value,
+    });
+  };
+  const handleSubmitEditComment = async () => {
+    if (!user || user.id === null) {
+      alert("로그인 후 이용이 가능합니다.");
+      return;
+    }
+    if (editCommentValues.content === "") {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+    const confirmed = confirm("댓글을 수정하시겠습니까?");
+    if (confirmed) {
+      const response: any =
+        postType === "notice"
+          ? await noticeApi.updateComment(editCommentValues)
+          : await communityApi.updateComment(editCommentValues);
+      if (response.status !== 200) {
+        if (response.data.msg === "Invalid content") {
+          alert(
+            "댓글에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
+          );
+          return;
+        }
+        alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+      alert("댓글이 수정되었습니다.");
+      setIsEditComment(false);
+      onAction();
+    }
   };
 
   //댓글 삭제
@@ -176,14 +227,18 @@ const Comment: React.FC<CommentProps> = ({
   };
 
   return (
-    <div className={styles.comment_item}>
+    <div
+      className={`${styles.comment_item} ${
+        isAccepted ? styles.comment_is_accepted : ""
+      }`}
+    >
       <div className={styles.comment_header}>
         <div className={styles.user_info}>
           <div className={styles.profile}>
             <img src={ico_profile} alt="profile" />
           </div>
           <div>
-            <div className="body2">
+            <div>
               <span>{comment.writer.nickname}</span>
               <img
                 src={ico_level}
@@ -199,6 +254,22 @@ const Comment: React.FC<CommentProps> = ({
               {agoDate(comment.created_at)}
             </div>
           </div>
+          {isAccepted === null ? (
+            <></>
+          ) : (
+            <button
+              className={`body2 ${styles.btn_accept} ${
+                isAccepted ? styles.accepted : ""
+              }`}
+              onClick={() => handleAccept(comment.id)}
+            >
+              <img
+                src={isAccepted ? ico_checked : ico_unchecked}
+                alt="unchecked"
+              />
+              답변채택
+            </button>
+          )}
         </div>
         <KebabComment
           postType={postType}
@@ -206,18 +277,48 @@ const Comment: React.FC<CommentProps> = ({
           target_parent_id={comment.parent_id}
           target_writer={comment.writer.id}
           user_id={user.id}
-          onEditClick={() => handleIsEditComment(comment.id)}
+          onEditClick={() => handleIsEditComment()}
           onDeleteClick={deleteContent}
         />
       </div>
       <div className={styles.comment_body}>
-        {isEditComment[comment.id] ? (
-          <div
-            className={styles.comment_content}
-            dangerouslySetInnerHTML={{
-              __html: dompurify(comment.content),
-            }}
-          ></div>
+        {isEditComment ? (
+          <>
+            <TextField
+              placeholder={
+                user.id ? "댓글을 작성해주세요." : "로그인 후 이용해주세요."
+              }
+              multiline
+              fullWidth
+              minRows={1}
+              maxRows={4}
+              value={editCommentValues.content || ""}
+              onChange={handleEditComment}
+              disabled={user.id ? false : true}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#aaa",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#6269F5",
+                    borderWidth: "1px",
+                  },
+                },
+              }}
+            />
+            <div className={styles.btn_wrap}>
+              <button
+                className={styles.cancel}
+                onClick={() => setIsEditComment(false)}
+              >
+                취소
+              </button>
+              <button className={styles.edit} onClick={handleSubmitEditComment}>
+                수정
+              </button>
+            </div>
+          </>
         ) : (
           <div
             className={styles.comment_content}

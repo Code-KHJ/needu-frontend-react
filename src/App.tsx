@@ -28,8 +28,11 @@ function App() {
     return <div>Loading...</div>;
   }
 
-  window.Kakao.init(import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY);
-  window.Kakao.isInitialized();
+  if (window.Kakao) {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY);
+    }
+  }
 
   return (
     <BrowserRouter>

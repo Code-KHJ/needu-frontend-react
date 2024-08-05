@@ -55,6 +55,12 @@ export type NoticeCommentCreateDto = {
   parent_id: number | null;
 };
 
+export type NoticeCommentUpdateDto = {
+  comment_id: number;
+  user_id: number;
+  content: string;
+};
+
 export type LikeNoticeCommentDto = {
   comment_id: number;
   user_id: number;

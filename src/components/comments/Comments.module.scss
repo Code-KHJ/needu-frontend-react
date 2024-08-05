@@ -33,6 +33,7 @@
       margin-top: 20px;
       .comment_item {
         margin-top: 10px;
+        padding: 10px;
         .comment_header {
           display: flex;
           flex-direction: row;
@@ -55,11 +56,62 @@
               flex-direction: row;
               align-items: center;
             }
+            .btn_accept {
+              display: flex;
+              align-items: center;
+              margin-left: 20px;
+              padding: 0px 12px;
+              height: 36px;
+              border: 1px solid #aaa;
+              border-radius: 5px;
+              color: #aaa;
+              & > img {
+                width: 18px;
+                height: 18px;
+                margin-right: 4px;
+              }
+            }
+            .accepted {
+              border: 1px solid #6269f5;
+              background-color: #6269f5;
+              color: #fafafa;
+            }
           }
         }
         .comment_body {
           margin-top: 12px;
           margin-left: 48px;
+          & > div:nth-of-type(1) > div {
+            padding: 17px 16px;
+            min-height: 60px;
+          }
+          .btn_wrap {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 20px;
+            margin-top: 15px;
+            & > button {
+              min-width: 110px;
+              height: 60px;
+              border: 1px solid;
+              border-radius: 3px;
+            }
+            .cancel {
+              border-color: #aaa;
+              background-color: #aaa;
+              color: #fafafa;
+            }
+            .edit {
+              border-color: #aaa;
+              background-color: #fafafa;
+              color: #6269f5;
+            }
+            .edit:hover {
+              background: #6269f5;
+              color: #fafafa;
+            }
+          }
           .likes {
             margin-top: 4px;
             display: flex;
@@ -80,6 +132,11 @@
             }
           }
         }
+      }
+      .comment_is_accepted {
+        border: 1px solid #6269f5;
+        border-radius: 5px;
+        background-color: #eeefff;
       }
       .child_wrap {
         margin-top: 20px;

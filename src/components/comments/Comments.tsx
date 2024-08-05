@@ -12,9 +12,16 @@ import noticeApi from "@/apis/notice";
 interface CommentsProps {
   postId: number;
   type: string;
+  accepted_id: number | null | undefined;
+  refresh?: () => void;
 }
 
-const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
+const Comments: React.FC<CommentsProps> = ({
+  postId,
+  type,
+  accepted_id,
+  refresh,
+}) => {
   //@ts-ignore
   const { user } = useUser();
   const [fetch, setFetch] = useState(false);
@@ -189,6 +196,44 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
     }
   };
 
+  //댓글 채택
+  const acceptComment = async (commentId: number) => {
+    if (accepted_id === null) {
+      alert("답변을 채택할 수 없습니다. 잠시 후 다시 시도해주세요.");
+      return window.location.reload();
+    }
+    if (accepted_id === commentId) {
+      const confirmed = confirm("답변 채택을 취소하시겠습니까?");
+      if (confirmed) {
+        const response: any = await communityApi.unacceptComment(accepted_id);
+        if (response.status !== 200) {
+          alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+          return;
+        }
+        alert("답변 채택이 취소되었습니다.");
+        refresh?.();
+        return;
+      }
+    }
+    if (accepted_id !== commentId) {
+      const confirmed = confirm("답변을 채택하시겠습니까?");
+      if (confirmed) {
+        const accpetDto = {
+          post_id: postId,
+          comment_id: commentId,
+        };
+        const response: any = await communityApi.acceptComment(accpetDto);
+        if (response.status !== 201) {
+          alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+          return;
+        }
+        alert("답변 채택되었습니다.");
+        refresh?.();
+        return;
+      }
+    }
+  };
+
   return (
     <div className={styles.comment_wrap}>
       <p>댓글 {comments.length}</p>
@@ -241,6 +286,16 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                       !comments.filter((item) => item.parent_id === comment.id)
                         .length
                     }
+                    isAccepted={
+                      type === "question"
+                        ? accepted_id === undefined
+                          ? false
+                          : accepted_id === comment.id
+                          ? true
+                          : null
+                        : null
+                    }
+                    handleAccept={acceptComment}
                     handleChildCommentShow={handleChildCommentShow}
                   />
                   <div className={styles.child_wrap}>
@@ -295,6 +350,16 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                                 comment={child}
                                 onAction={refreshComments}
                                 isDeletable={true}
+                                isAccepted={
+                                  type === "question"
+                                    ? accepted_id === undefined
+                                      ? false
+                                      : accepted_id === child.id
+                                      ? true
+                                      : null
+                                    : null
+                                }
+                                handleAccept={acceptComment}
                                 handleChildCommentShow={handleChildCommentShow}
                               />
                             </div>

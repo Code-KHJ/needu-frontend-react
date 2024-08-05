@@ -76,6 +76,7 @@ const KebabNotice: React.FC<KebabNoticeProps> = ({ target_id }) => {
                 gap: "8px",
                 position: "absolute",
                 right: "4px",
+                zIndex: 6,
               }}
               ref={kebabRef}
             >

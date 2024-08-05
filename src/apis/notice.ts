@@ -2,6 +2,7 @@ import {
   LikeNoticeCommentDto,
   LikeNoticeDto,
   NoticeCommentCreateDto,
+  NoticeCommentUpdateDto,
   NoticeCreateDto,
   NoticeEditDto,
 } from "@/interface/Notice";
@@ -89,6 +90,18 @@ const noticeApi = {
   getComments: async (noticeId: number) => {
     try {
       const response = await customAxios.get(`/notice/${noticeId}/comments`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  updateComment: async (updateDto: NoticeCommentUpdateDto) => {
+    try {
+      const response = await customAxios.patch(
+        `/notice/comment/edit/${updateDto.comment_id}`,
+        updateDto
+      );
       return response;
     } catch (error) {
       console.error(error);

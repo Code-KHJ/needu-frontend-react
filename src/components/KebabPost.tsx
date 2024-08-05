@@ -115,6 +115,7 @@ const KebabPost: React.FC<KebabPostProps> = ({
                     gap: "8px",
                     position: "absolute",
                     right: "4px",
+                    zIndex: 6,
                   }}
                   ref={kebabRef}
                 >
@@ -156,6 +157,7 @@ const KebabPost: React.FC<KebabPostProps> = ({
                     gap: "8px",
                     position: "absolute",
                     right: "4px",
+                    zIndex: 6,
                   }}
                   ref={kebabRef}
                 >
