@@ -195,7 +195,8 @@ const WritePost = ({ type }) => {
               </option>
               {topics.map((topic) => (
                 <option value={parseFloat(topic.id)} key={topic.id}>
-                  {topic.topic} | {topic.description}
+                  {topic.topic}
+                  <span> | {topic.description}</span>
                 </option>
               ))}
             </select>

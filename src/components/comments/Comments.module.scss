@@ -16,7 +16,7 @@
       min-height: 60px;
     }
     & > button {
-      height: 60px;
+      min-height: 60px;
       border: 1px solid #aaa;
       border-radius: 3px;
       color: #6269f5;
@@ -75,7 +75,7 @@
                 margin-right: 4px;
               }
             }
-            & > button:hover {
+            & > button:nth-of-type(3):hover {
               color: #222;
             }
           }
@@ -98,7 +98,7 @@
             margin: 0px 10px;
           }
           & > button {
-            height: 60px;
+            min-height: 60px;
             border: 1px solid #aaa;
             border-radius: 3px;
             color: #6269f5;
@@ -128,6 +128,7 @@
       align-items: center;
       & > button {
         min-width: 110px;
+        align-self: stretch;
       }
     }
     .comment_list {
@@ -140,6 +141,7 @@
             align-items: center;
             & > button {
               min-width: 110px;
+              align-self: stretch;
             }
           }
           & > button {

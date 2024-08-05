@@ -206,6 +206,17 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
           value={commentValues.content}
           onChange={handleComment}
           disabled={user.id ? false : true}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#aaa",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#6269F5",
+                borderWidth: "1px",
+              },
+            },
+          }}
         />
         <button
           type="button"
@@ -309,23 +320,7 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                             }
                           >
                             {childCommentShow[comment.id]?.expand ? (
-                              <>
-                                <img
-                                  src={ico_arrow_down}
-                                  alt="arrow"
-                                  style={{
-                                    width: "16px",
-                                    height: "8px",
-                                    marginRight: "8px",
-                                    transform:
-                                      childCommentShow[comment.id]?.expand !==
-                                      true
-                                        ? "rotate(0deg)"
-                                        : "rotate(180deg)",
-                                  }}
-                                />
-                                숨기기
-                              </>
+                              <></>
                             ) : (
                               <>
                                 <img
@@ -367,6 +362,17 @@ const Comments: React.FC<CommentsProps> = ({ postId, type }) => {
                           value={childCommentValues[comment.id]?.content || ""}
                           onChange={(e) => handleChildComment(e, comment.id)}
                           disabled={user.id ? false : true}
+                          sx={{
+                            "& .MuiOutlinedInput-root": {
+                              "& fieldset": {
+                                borderColor: "#aaa",
+                              },
+                              "&.Mui-focused fieldset": {
+                                borderColor: "#6269F5",
+                                borderWidth: "1px",
+                              },
+                            },
+                          }}
                         />
                         <button
                           type="button"

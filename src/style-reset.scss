@@ -168,6 +168,12 @@ h5,
 .toastui-editor-contents {
   z-index: 5 !important;
 }
+.toastui-editor-contents {
+  .placeholder {
+    color: #aaa !important;
+    font-size: 1.6rem !important;
+  }
+}
 
 /* 테블릿 768 사이즈 반응형 */
 @media screen and (min-width: 768px) {
@@ -205,6 +211,11 @@ h5,
   }
   .body2 {
     font-size: 1.6rem;
+  }
+  .toastui-editor-contents {
+    .placeholder {
+      font-size: 1.8rem !important;
+    }
   }
 }
 
