@@ -127,13 +127,26 @@ const Comments: React.FC<CommentsProps> = ({
     value: boolean
   ) => {
     const { name } = e.target as HTMLButtonElement;
-    setChildCommentShow((prevState) => ({
-      ...prevState,
-      [parent_id]: {
-        ...prevState[parent_id],
-        [name]: value,
-      },
-    }));
+
+    setChildCommentShow((prevState) => {
+      const newState = { ...prevState };
+      if (name === "form") {
+        Object.keys(newState).forEach((key) => {
+          newState[Number(key)] = {
+            ...newState[Number(key)],
+            form: false,
+          };
+        });
+      }
+
+      return {
+        ...newState,
+        [parent_id]: {
+          ...newState[parent_id],
+          [name]: value,
+        },
+      };
+    });
   };
 
   //대댓글 작성
