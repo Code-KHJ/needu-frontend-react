@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 const fbShare = (url: string) => {
   return window.open(
     `https://www.facebook.com/sharer/sharer.php?u=${url}`,

@@ -281,7 +281,11 @@ const ViewNotice = () => {
             </button>
           </div>
         </div>
-        <Comments postId={notice?.id as number} type="notice" />
+        <Comments
+          postId={notice?.id as number}
+          type="notice"
+          accepted_id={null}
+        />
       </div>
     </div>
   );
