@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CommunityEditDto } from "@/interface/Community";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import ico_ext from "@/assets/images/ico_ext.png";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface Topic {
   id: string;
@@ -22,6 +23,7 @@ const EditPost = ({ type }) => {
   const postId = parseFloat(pathname[pathname.length - 1]);
   //@ts-ignore
   const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
@@ -144,7 +146,7 @@ const EditPost = ({ type }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm("게시물을 수정하시겠습니까?");
+    const confirmed = await customConfirm("게시물을 수정하시겠습니까?");
     if (confirmed) {
       const response: any = await communityApi.updatePost(values);
       if (response.status !== 200) {

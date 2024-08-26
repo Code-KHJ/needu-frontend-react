@@ -3,6 +3,7 @@ import btn_kebab from "@/assets/images/btn_kebab.png";
 import { useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
 import { useUser } from "@/contexts/UserContext";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface KebabNoticeProps {
   target_id: number;
@@ -11,6 +12,7 @@ interface KebabNoticeProps {
 const KebabNotice: React.FC<KebabNoticeProps> = ({ target_id }) => {
   //@ts-ignore
   const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const navigate = useNavigate();
 
   const [showKebab, setShowKebab] = useState(false);
@@ -31,7 +33,7 @@ const KebabNotice: React.FC<KebabNoticeProps> = ({ target_id }) => {
       alert("권한이 없습니다.");
       return;
     }
-    const confirmed = confirm(
+    const confirmed = await customConfirm(
       "삭제한 게시글은 복구할 수 없습니다. 정말로 게시글을 삭제하시겠습니까?"
     );
     if (confirmed) {

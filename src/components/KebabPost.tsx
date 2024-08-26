@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
 import ReportModal from "./modal/ReportModal";
 import { useUser } from "@/contexts/UserContext";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface KebabPostProps {
   target: string;
@@ -22,6 +23,7 @@ const KebabPost: React.FC<KebabPostProps> = ({
 }) => {
   //@ts-ignore
   const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const navigate = useNavigate();
 
   const [showKebab, setShowKebab] = useState(false);
@@ -42,7 +44,7 @@ const KebabPost: React.FC<KebabPostProps> = ({
       alert("댓글이 존재하는 게시물은 삭제할 수 없습니다.");
       return;
     }
-    const confirmed = confirm(
+    const confirmed = await customConfirm(
       "삭제한 게시글은 복구할 수 없습니다. 정말로 게시글을 삭제하시겠습니까?"
     );
     if (confirmed) {

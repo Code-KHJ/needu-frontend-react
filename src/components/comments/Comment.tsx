@@ -16,6 +16,7 @@ import { CommentContent, LikeCommentDto } from "@/interface/Community";
 import communityApi from "@/apis/community";
 import noticeApi from "@/apis/notice";
 import { TextField } from "@mui/material";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface CommentProps {
   postType: string;
@@ -44,7 +45,7 @@ const Comment: React.FC<CommentProps> = ({
 }) => {
   //@ts-ignore
   const { user } = useUser();
-
+  const { customConfirm } = useConfirm();
   useEffect(() => {
     if (!comment) return;
     const likeState = {
@@ -173,7 +174,7 @@ const Comment: React.FC<CommentProps> = ({
       alert("내용을 입력해주세요.");
       return;
     }
-    const confirmed = confirm("댓글을 수정하시겠습니까?");
+    const confirmed = await customConfirm("댓글을 수정하시겠습니까?");
     if (confirmed) {
       const response: any =
         postType === "notice"
@@ -205,7 +206,7 @@ const Comment: React.FC<CommentProps> = ({
       alert("댓글이 존재하는 게시물은 삭제할 수 없습니다.");
       return;
     }
-    const confirmed = confirm(
+    const confirmed = await customConfirm(
       "삭제한 댓글은 복구할 수 없습니다. 정말로 댓글을 삭제하시겠습니까?"
     );
     if (confirmed) {

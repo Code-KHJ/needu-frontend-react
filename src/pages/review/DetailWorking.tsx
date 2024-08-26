@@ -20,8 +20,10 @@ import ico_career_c from "@/assets/images/ico_career_c.png";
 import like_on from "@/assets/images/like_on.png";
 import like_off from "@/assets/images/like.png";
 import ico_arrow_R from "@/assets/images/ico_arrow_R.png";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 const DetailWorking = () => {
+  const { customConfirm } = useConfirm();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const corpName = queryParams.get("name");
@@ -213,7 +215,7 @@ const DetailWorking = () => {
       user_id: user.user.user_id,
       review_no: review_no,
     };
-    const confirmed = confirm(
+    const confirmed = await customConfirm(
       "삭제한 리뷰는 복구할 수 없습니다. 정말로 리뷰를 삭제하시겠습니까?"
     );
     if (confirmed) {

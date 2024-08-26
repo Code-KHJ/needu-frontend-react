@@ -12,6 +12,7 @@ import { useUser } from "./contexts/UserContext";
 import ReviewRoutes from "./pages/review";
 import CommunityRoutes from "./pages/community";
 import NoticeRoutes from "./pages/notice";
+import { useConfirm } from "./contexts/ConfirmContext";
 
 declare global {
   interface Window {
@@ -22,6 +23,7 @@ declare global {
 function App() {
   //@ts-ignore
   const { user, loading } = useUser();
+
   const isLogin = user.id !== null;
   const isAdmin = user.authority === 100;
   if (loading) {

@@ -9,6 +9,7 @@ import { useUser } from "@/contexts/UserContext";
 import Button from "@/components/elements/Button";
 import { useNavigate } from "react-router-dom";
 import ico_ext from "@/assets/images/ico_ext.png";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface Topic {
   id: string;
@@ -20,6 +21,7 @@ interface Topic {
 const WritePost = ({ type }) => {
   //@ts-ignore
   const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
@@ -125,7 +127,7 @@ const WritePost = ({ type }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm("게시물을 등록하시겠습니까?");
+    const confirmed = await customConfirm("게시물을 등록하시겠습니까?");
     if (confirmed) {
       const response: any = await communityApi.createPost(values);
       if (response.status !== 201) {

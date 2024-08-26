@@ -10,12 +10,14 @@ import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { NoticeEditDto } from "@/interface/Notice";
 import noticeApi from "@/apis/notice";
 import ico_ext from "@/assets/images/ico_ext.png";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 const EditNotice = () => {
   const pathname = useLocation().pathname.split("/");
   const noticeId = parseFloat(pathname[pathname.length - 1]);
   //@ts-ignore
   const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
 
@@ -129,7 +131,7 @@ const EditNotice = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm("공지사항을 수정하시겠습니까?");
+    const confirmed = await customConfirm("공지사항을 수정하시겠습니까?");
     if (confirmed) {
       const response: any = await noticeApi.updateNotice(values);
       if (response.status !== 200) {

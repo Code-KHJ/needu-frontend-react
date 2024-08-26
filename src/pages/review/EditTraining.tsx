@@ -8,8 +8,10 @@ import corpApi from "@/apis/corp";
 import { ReviewTrainingDto } from "@/interface/Review";
 import reviewApi from "@/apis/review";
 import { StarList } from "@/common/StarList";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 const EditTraining = () => {
+  const { customConfirm } = useConfirm();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -195,7 +197,7 @@ const EditTraining = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const confirmed = confirm("리뷰를 수정하시겠습니까?");
+    const confirmed = await customConfirm("리뷰를 수정하시겠습니까?");
     if (confirmed) {
       const response: any = await reviewApi.updateTrainingReview(
         no as string,

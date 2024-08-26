@@ -8,6 +8,7 @@ import { CommentContent, CommentCreateDto } from "@/interface/Community";
 import communityApi from "@/apis/community";
 import Comment from "./Comment";
 import noticeApi from "@/apis/notice";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface CommentsProps {
   postId: number;
@@ -24,6 +25,7 @@ const Comments: React.FC<CommentsProps> = ({
 }) => {
   //@ts-ignore
   const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const [fetch, setFetch] = useState(false);
   const refreshComments = () => {
     setFetch(!fetch);
@@ -86,7 +88,7 @@ const Comments: React.FC<CommentsProps> = ({
       alert("로그인 후 이용이 가능합니다.");
       return;
     }
-    const confirmed = confirm("댓글을 등록하시겠습니까?");
+    const confirmed = await customConfirm("댓글을 등록하시겠습니까?");
     if (confirmed) {
       const response: any =
         type === "notice"
@@ -180,7 +182,7 @@ const Comments: React.FC<CommentsProps> = ({
       alert("내용을 입력해주세요.");
       return;
     }
-    const confirmed = confirm("댓글을 등록하시겠습니까?");
+    const confirmed = await customConfirm("댓글을 등록하시겠습니까?");
     if (confirmed) {
       const response: any =
         type === "notice"
@@ -216,7 +218,7 @@ const Comments: React.FC<CommentsProps> = ({
       return window.location.reload();
     }
     if (accepted_id === commentId) {
-      const confirmed = confirm("답변 채택을 취소하시겠습니까?");
+      const confirmed = await customConfirm("답변 채택을 취소하시겠습니까?");
       if (confirmed) {
         const response: any = await communityApi.unacceptComment(accepted_id);
         if (response.status !== 200) {
@@ -229,7 +231,7 @@ const Comments: React.FC<CommentsProps> = ({
       }
     }
     if (accepted_id !== commentId) {
-      const confirmed = confirm("답변을 채택하시겠습니까?");
+      const confirmed = await customConfirm("답변을 채택하시겠습니까?");
       if (confirmed) {
         const accpetDto = {
           post_id: postId,
