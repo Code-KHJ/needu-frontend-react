@@ -29,6 +29,7 @@ const Comments: React.FC<CommentsProps> = ({
   const [fetch, setFetch] = useState(false);
   const refreshComments = () => {
     setFetch(!fetch);
+    refresh?.();
   };
   const [comments, setComments] = useState<CommentContent[]>([]);
   useEffect(() => {
