@@ -13,7 +13,7 @@ const userApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return (error as AxiosError).response;
+      return error;
     }
   },
   getMe: async () => {
@@ -22,7 +22,7 @@ const userApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return (error as AxiosError).response;
+      return error;
     }
   },
   logout: async () => {
@@ -31,7 +31,7 @@ const userApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return (error as AxiosError).response;
+      return error;
     }
   },
   duplic: async (type: string, value: string) => {

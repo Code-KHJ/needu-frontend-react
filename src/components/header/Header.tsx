@@ -131,7 +131,7 @@ const Header = () => {
                 >
                   <Link
                     className={`${styles.pc} ${styles.parent}`}
-                    to="/review/write"
+                    to="/community"
                   >
                     커뮤니티
                   </Link>
@@ -147,9 +147,9 @@ const Header = () => {
                     className={styles.child}
                     style={toggle.community ? {} : { display: "none" }}
                   >
-                    <Link to="/community/free/write">자유게시판</Link>
+                    <Link to="/community/free">자유게시판</Link>
                     <div></div>
-                    <Link to="/community/question/write">질문&답변</Link>
+                    <Link to="/community/question">질문&답변</Link>
                   </div>
                 </li>
                 <li>

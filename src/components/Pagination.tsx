@@ -4,7 +4,7 @@ import dbl_arrow_right from "@/assets/images/dbl_arrow_right.png";
 
 interface PaginationProps {
   currentPage: number;
-  totalPages: number;
+  totalPages: number | undefined;
   onPageChange: (pageNumber: number) => void;
 }
 

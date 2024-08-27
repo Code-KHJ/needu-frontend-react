@@ -146,7 +146,7 @@ const communityApi = {
       return response;
     } catch (error) {
       console.error(error);
-      return ErrorOutline;
+      return error;
     }
   },
   unacceptComment: async (accepted_id: number) => {

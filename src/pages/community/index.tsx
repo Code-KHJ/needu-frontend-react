@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import SearchWorking from "../review/SearchWorking";
 import WritePost from "./WritePost";
 import EditPost from "./EditPost";
 import ViewPost from "./ViewPost";
+import SearchPost from "./SearchPost";
 
 interface CummunityRoutesProps {
   isLogin: boolean;
@@ -12,7 +12,8 @@ interface CummunityRoutesProps {
 const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
   return (
     <Routes>
-      <Route path="/free" element={<SearchWorking />} />
+      <Route path="/free" element={<SearchPost type={1} />} />
+      <Route path="/question" element={<SearchPost type={2} />} />
       <Route
         path="/free/write"
         element={!isLogin ? <Navigate to="/" /> : <WritePost type={1} />}
