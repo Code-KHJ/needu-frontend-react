@@ -10,12 +10,7 @@ import Button from "@/components/elements/Button";
 import { useNavigate } from "react-router-dom";
 import ico_ext from "@/assets/images/ico_ext.png";
 import { useConfirm } from "@/contexts/ConfirmContext";
-
-interface Topic {
-  id: string;
-  topic: string;
-  description: string;
-}
+import { Topic } from "@/interface/Topic";
 
 //@ts-ignore
 const WritePost = ({ type }) => {

@@ -36,6 +36,15 @@ const noticeApi = {
       return error;
     }
   },
+  getPublicNotice: async () => {
+    try {
+      const response = await customAxios.get("/notice/list/public");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   updateNotice: async (editDto: NoticeEditDto) => {
     try {
       const response = await customAxios.patch(

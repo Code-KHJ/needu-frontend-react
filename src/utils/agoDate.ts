@@ -1,6 +1,7 @@
 const agoDate = (date: Date) => {
   const today = new Date();
   const then = new Date(date);
+  then.setHours(then.getHours() + 9);
 
   const diffInMinutes = Math.floor((today.getTime() - then.getTime()) / 60000);
   if (diffInMinutes < 60) {

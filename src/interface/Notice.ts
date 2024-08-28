@@ -34,6 +34,26 @@ export interface NoticeContent {
   };
 }
 
+export interface PublicNotice {
+  id: number;
+  title: string;
+  content: string;
+  created_at: Date;
+  is_del: boolean;
+  view: number;
+  like_cnt: number;
+  comment_cnt: number;
+  writer: {
+    id: number;
+    nickname: string;
+    // @IsString()
+    // user_profile: string; url??
+
+    // @IsString()
+    // user_level: string;
+  };
+}
+
 export interface NoticeLike {
   id: number;
   notice_id: number;

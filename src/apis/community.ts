@@ -38,6 +38,17 @@ const communityApi = {
       return error;
     }
   },
+  getPostList: async (queryParams: string) => {
+    try {
+      const response = await customAxios.get(
+        `/community/post/list${queryParams}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   updatePost: async (editDto: CommunityEditDto) => {
     try {
       const response = await customAxios.patch(
