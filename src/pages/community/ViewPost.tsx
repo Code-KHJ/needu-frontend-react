@@ -21,10 +21,12 @@ import KebabPost from "@/components/KebabPost";
 import agoDate from "@/utils/agoDate";
 import Comments from "@/components/comments/Comments";
 import { copyClipboard, fbShare, kakaoShare, xShare } from "@/utils/snsShare";
+import { Topic } from "@/interface/Topic";
 
-const ViewPost = () => {
+//@ts-ignore
+const ViewPost = ({ type }) => {
   const isLoading = useRef(false);
-  const previousPage = useLocation().state;
+  const previousPage = useLocation().state.previous;
   const pathname = useLocation().pathname.split("/");
   const postType = pathname[pathname.length - 2];
   const postId = parseFloat(pathname[pathname.length - 1]);
@@ -36,6 +38,7 @@ const ViewPost = () => {
     setFetch(!fetch);
   };
 
+  const [topics, setTopics] = useState<Topic>();
   const [post, setPost] = useState<PostContent>();
   const [likes, setLikes] = useState({
     like: 0,
@@ -47,6 +50,7 @@ const ViewPost = () => {
       navigate("/");
       return;
     }
+
     const getPost = async (postId: number) => {
       const response: any = await communityApi.getPost(postId);
       if (response.status !== 200) {
@@ -102,6 +106,18 @@ const ViewPost = () => {
     updateView(postId);
     isLoading.current = true;
   }, [user, postId, fetch]);
+  useEffect(() => {
+    const getTopic = async () => {
+      const response: any = await communityApi.getTopic(type);
+      if (response.status === 200) {
+        const topic = response.data.find((topic: any) => {
+          return topic.topic === post?.topicType;
+        });
+        setTopics(topic);
+      }
+    };
+    getTopic();
+  }, [post]);
 
   const [isLike, setIsLike] = useState({
     like: false,
@@ -197,9 +213,20 @@ const ViewPost = () => {
     <div className={styles.view_wrap}>
       <div className={styles.topic}>
         <h4>
-          <span className={styles.gray}>{post?.postType}</span>
+          <span
+            className={styles.gray}
+            onClick={() => navigate(`/community/${postType}`)}
+          >
+            {post?.postType}
+          </span>
           <span className={styles.gray}>|</span>
-          <span>{post?.topicType}</span>
+          <span
+            onClick={() => {
+              navigate(`/community/${postType}?topic=${topics?.id}`);
+            }}
+          >
+            {post?.topicType}
+          </span>
         </h4>
       </div>
       <div className={styles.content_wrap}>

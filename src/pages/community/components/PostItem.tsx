@@ -5,14 +5,26 @@ import ico_level from "@/assets/images/ico_level_default.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
+import ico_reply_accepted from "@/assets/images/ico_reply_accepted.png";
+import { PostListItemContent } from "@/interface/Community";
+import agoDate from "@/utils/agoDate";
+import stripHtml from "@/utils/stripHtml";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Search } from "@mui/icons-material";
 
-const PostItem = () => {
+interface PostItemProps {
+  post: PostListItemContent;
+}
+
+const PostItem: React.FC<PostItemProps> = ({ post }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <div className={styles.post_content}>
       <div className={styles.info}>
         <img src={ico_profile} alt="profile_image" />
         <span className={`body2`}>
-          닉네임
+          {post.writer.nickname}
           <img
             src={ico_level}
             alt="레벨"
@@ -20,7 +32,7 @@ const PostItem = () => {
           />
         </span>
         <span className={`caption`} style={{ color: "#aaa" }}>
-          30분전
+          {agoDate(post.created_at)}
         </span>
         <span className={`caption`} style={{ color: "#aaa" }}>
           <img
@@ -32,22 +44,37 @@ const PostItem = () => {
               marginRight: "2px",
             }}
           />
-          5,000
+          {post.view}
         </span>
       </div>
-      <h5 className={styles.title}>
-        이영역은 제목입니다. 최대 30자로 예상합니다.
+      <h5
+        className={styles.title}
+        onClick={() =>
+          navigate(`${location.pathname}/${post.id}`, {
+            state: { previous: location.pathname + location.search },
+          })
+        }
+      >
+        {post.title}
       </h5>
-      <div className={styles.content}>
-        이 영역은 본문글입니다. 최대 2줄까지만 노출하려고 합니다. 최대 2줄까지만
-        노출하려고 합니다.
-      </div>
+      <div className={styles.content}>{stripHtml(post.content)}</div>
       <div className={styles.reaction}>
         <span className={`body2`} style={{ color: "#aaa" }}>
-          <img src={ico_like} alt="like" style={{ width: "16px" }} />0
+          <img src={ico_like} alt="like" style={{ width: "16px" }} />
+          {post.like_cnt}
         </span>
-        <span className={`body2`} style={{ color: "#aaa" }}>
-          <img src={ico_reply} alt="reply" style={{ width: "20px" }} />0
+        <span
+          className={`body2`}
+          style={
+            post.commentAccepted ? { color: "#6269F5" } : { color: "#aaa" }
+          }
+        >
+          <img
+            src={post.commentAccepted ? ico_reply_accepted : ico_reply}
+            alt="reply"
+            style={{ width: "20px" }}
+          />
+          {post.comment_cnt}
         </span>
       </div>
     </div>

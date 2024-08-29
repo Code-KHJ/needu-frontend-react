@@ -15,7 +15,6 @@ import { PublicNotice } from "@/interface/Notice";
 import agoDate from "@/utils/agoDate";
 import stripHtml from "@/utils/stripHtml";
 import Pagination from "@/components/Pagination";
-import { result } from "lodash";
 
 interface SearchPostProps {
   type: number;
@@ -32,7 +31,7 @@ type Filters = {
 const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const navitage = useNavigate();
+  const navigate = useNavigate();
 
   // 페이지 init
   if (!queryParams.toString()) {
@@ -81,6 +80,9 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
+  useEffect(() => {
+    setSearchValue(filters.search);
+  }, [filters.search]);
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -92,7 +94,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
   useEffect(() => {
     const handleSearch = () => {
       const queryParams = new URLSearchParams(filters as any);
-      navitage(`${location.pathname}?${queryParams.toString()}`);
+      navigate(`${location.pathname}?${queryParams.toString()}`);
     };
     handleSearch();
   }, [filters]);
@@ -124,7 +126,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
       );
       if (response.status !== 200) {
         alert("오류가 발생하였습니다");
-        navitage("/");
+        navigate("/");
       }
       setPostList(response.data);
     };
@@ -132,7 +134,6 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
     getNotice();
     getPostList();
   }, [location]);
-  console.log(postList);
 
   return (
     <div className={styles.wrap}>
@@ -254,7 +255,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
             </div>
             <h5
               className={styles.title}
-              onClick={() => navitage(`/notice/${notice[0]?.id}`)}
+              onClick={() => navigate(`/notice/${notice[0]?.id}`)}
             >
               {notice[0]?.title}
             </h5>
@@ -274,12 +275,11 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
           </div>
         </div>
         <ul className={styles.post_list}>
-          <li className={styles.post_item}>
-            <PostItem />
-          </li>
-          <li className={styles.post_item}>
-            <PostItem />
-          </li>
+          {postList.result.map((post, index) => (
+            <li className={styles.post_item} key={index}>
+              <PostItem post={post} />
+            </li>
+          ))}
         </ul>
       </div>
       <div className={styles.pagination}>

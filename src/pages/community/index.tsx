@@ -30,8 +30,8 @@ const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
         path="/question/edit/:no"
         element={!isLogin ? <Navigate to="/" /> : <EditPost type={2} />}
       />
-      <Route path="/free/:no" element={<ViewPost />} />
-      <Route path="/question/:no" element={<ViewPost />} />
+      <Route path="/free/:no" element={<ViewPost type={1} />} />
+      <Route path="/question/:no" element={<ViewPost type={2} />} />
     </Routes>
   );
 };

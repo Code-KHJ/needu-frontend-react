@@ -172,6 +172,10 @@
           & > h5 {
             margin-top: 12px;
             margin-bottom: 4px;
+            cursor: pointer;
+          }
+          & > h5:hover {
+            color: #6269f5;
           }
           .content {
             display: -webkit-box;
