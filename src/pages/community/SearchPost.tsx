@@ -140,7 +140,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
       <div className={styles.header}>
         <div className={styles.topic_wrap}>
           <div className={styles.post_type}>
-            <h5>커뮤니티 &gt; </h5>
+            <h5 onClick={() => navigate("/community")}>커뮤니티 &gt; </h5>
             <h5>{type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}</h5>
           </div>
           <div className={styles.post_topic}>

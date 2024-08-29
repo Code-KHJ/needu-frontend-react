@@ -4,6 +4,7 @@ import WritePost from "./WritePost";
 import EditPost from "./EditPost";
 import ViewPost from "./ViewPost";
 import SearchPost from "./SearchPost";
+import Community from "./Community";
 
 interface CummunityRoutesProps {
   isLogin: boolean;
@@ -12,6 +13,7 @@ interface CummunityRoutesProps {
 const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
   return (
     <Routes>
+      <Route path="/" element={<Community />} />
       <Route path="/free" element={<SearchPost type={1} />} />
       <Route path="/question" element={<SearchPost type={2} />} />
       <Route
