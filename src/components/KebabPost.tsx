@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import btn_kebab from "@/assets/images/btn_kebab.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
 import ReportModal from "./modal/ReportModal";
 import { useUser } from "@/contexts/UserContext";
@@ -31,8 +31,11 @@ const KebabPost: React.FC<KebabPostProps> = ({
     setShowKebab(!showKebab);
   };
 
+  const location = useLocation();
   const editContent = () => {
-    navigate(`/community/${target}/edit/${target_id}`);
+    navigate(`/community/${target}/edit/${target_id}`, {
+      state: { previous: location.pathname + location.search },
+    });
   };
 
   const deleteContent = async () => {

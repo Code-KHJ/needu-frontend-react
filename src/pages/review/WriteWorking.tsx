@@ -10,8 +10,10 @@ import { ReviewWorkingDto } from "@/interface/Review";
 import { useUser } from "@/contexts/UserContext";
 import reviewApi from "@/apis/review";
 import { StarList } from "@/common/StarList";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const WriteWorking = () => {
+  const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -67,6 +69,7 @@ const WriteWorking = () => {
       navigate("/");
       return;
     }
+    showLoading();
     const getCorp = async () => {
       const response: any = await corpApi.getWithWorking(name);
       if (response.status !== 200) {
@@ -82,6 +85,7 @@ const WriteWorking = () => {
       });
     };
     getCorp();
+    hideLoading();
   }, [name]);
 
   const [values, setValues] = useState<ReviewWorkingDto>({
@@ -213,8 +217,9 @@ const WriteWorking = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
+    showLoading();
     const response: any = await reviewApi.createWorking(values);
+    hideLoading();
     if (response.status !== 201) {
       alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
     } else {

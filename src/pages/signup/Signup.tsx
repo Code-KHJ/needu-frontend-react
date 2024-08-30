@@ -7,8 +7,10 @@ import { SingupDto } from "@/interface/User";
 import Input from "@/components/elements/Input";
 import Label from "@/components/elements/Label";
 import Button from "@/components/elements/Button";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const Signup = () => {
+  const { showLoading, hideLoading } = useLoading();
   //유효성 검사
   const [values, setValues] = useState<SingupDto>({
     user_id: "",
@@ -340,7 +342,9 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    showLoading();
     const response = await userApi.signup(values);
+    hideLoading();
     if (response.status == 201) {
       alert("회원가입이 완료되었습니다. 로그인 후 서비스를 이용해주세요.");
       window.location.href = "/login";

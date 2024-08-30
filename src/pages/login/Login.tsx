@@ -7,9 +7,11 @@ import { LoginDto } from "@/interface/User";
 import Button from "@/components/elements/Button";
 import SocialLogin from "@/components/IcoSocialLogin";
 import { useUser } from "@/contexts/UserContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const Login = () => {
   const location = useLocation();
+  const { showLoading, hideLoading } = useLoading();
   // 입력폼 유효성검사
   const [values, setValues] = useState<LoginDto>({
     user_id: "",
@@ -46,7 +48,9 @@ const Login = () => {
     e: React.FormEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
+    showLoading();
     const response: any = await userApi.login(values);
+    hideLoading();
     if (response.status !== 200) {
       alert("일치하는 회원정보가 없습니다.");
       return;

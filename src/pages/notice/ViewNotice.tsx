@@ -20,9 +20,11 @@ import Comments from "@/components/comments/Comments";
 import noticeApi from "@/apis/notice";
 import { LikeNoticeDto, NoticeContent } from "@/interface/Notice";
 import KebabNotice from "@/components/KebabNotice";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const ViewNotice = () => {
   const isLoading = useRef(false);
+  const { showLoading, hideLoading } = useLoading();
   const pathname = useLocation().pathname.split("/");
   const noticeId = parseFloat(pathname[pathname.length - 1]);
   //@ts-ignore
@@ -40,6 +42,7 @@ const ViewNotice = () => {
       navigate("/");
       return;
     }
+    showLoading();
     const getNotice = async (noticeId: number) => {
       const response: any = await noticeApi.getNotice(noticeId);
       if (response.status !== 200) {
@@ -81,8 +84,8 @@ const ViewNotice = () => {
     };
     getNotice(noticeId);
     updateView(noticeId);
-    isLoading.current = true;
-  }, [user, noticeId]);
+    hideLoading();
+  }, [noticeId]);
 
   const [isLike, setIsLike] = useState({
     like: false,
@@ -111,7 +114,6 @@ const ViewNotice = () => {
         user_id: user.id,
         type: type,
       };
-      console.log(likeDto);
       const response: any = await noticeApi.updateNoticeLike(likeDto);
       if (response.status !== 200) {
         alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -171,10 +173,6 @@ const ViewNotice = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [shareRef]);
-
-  if (!isLoading.current) {
-    return <div>로딩중...</div>;
-  }
 
   return (
     <div className={styles.view_wrap}>

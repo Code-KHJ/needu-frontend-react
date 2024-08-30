@@ -8,8 +8,10 @@ import corpApi from "@/apis/corp";
 import { ReviewTrainingDto } from "@/interface/Review";
 import reviewApi from "@/apis/review";
 import { StarList } from "@/common/StarList";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const WriteTraining = () => {
+  const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -33,6 +35,7 @@ const WriteTraining = () => {
       navigate("/");
       return;
     }
+    showLoading();
     const getCorp = async () => {
       const response: any = await corpApi.getWithTraining(name);
       if (response.status !== 200) {
@@ -48,6 +51,7 @@ const WriteTraining = () => {
       });
     };
     getCorp();
+    hideLoading();
   }, [name]);
 
   const [values, setValues] = useState<ReviewTrainingDto>({
@@ -167,7 +171,9 @@ const WriteTraining = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    showLoading();
     const response: any = await reviewApi.createTraining(values);
+    hideLoading();
     if (response.status !== 201) {
       alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
     } else {

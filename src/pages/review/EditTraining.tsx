@@ -9,9 +9,11 @@ import { ReviewTrainingDto } from "@/interface/Review";
 import reviewApi from "@/apis/review";
 import { StarList } from "@/common/StarList";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const EditTraining = () => {
   const { customConfirm } = useConfirm();
+  const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -35,6 +37,7 @@ const EditTraining = () => {
       navigate("/");
       return;
     }
+    showLoading();
     const getCorp = async (corpName: string) => {
       const response: any = await corpApi.getWithTraining(corpName);
       if (response.status !== 200) {
@@ -78,6 +81,7 @@ const EditTraining = () => {
       }));
     };
     getReview();
+    hideLoading();
   }, [no]);
 
   const [values, setValues] = useState<ReviewTrainingDto>({

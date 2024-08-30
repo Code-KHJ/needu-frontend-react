@@ -21,9 +21,11 @@ import like_on from "@/assets/images/like_on.png";
 import like_off from "@/assets/images/like.png";
 import ico_arrow_R from "@/assets/images/ico_arrow_R.png";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const DetailWorking = () => {
   const { customConfirm } = useConfirm();
+  const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const corpName = queryParams.get("name");
@@ -57,11 +59,7 @@ const DetailWorking = () => {
   const [reviews, setReviews] = useState<ReviewContent[]>([]);
 
   useEffect(() => {
-    //@ts-ignore
-    if (user.loading) {
-      return;
-    }
-
+    showLoading();
     if (!corpName) {
       navigate("/");
       return;
@@ -108,7 +106,8 @@ const DetailWorking = () => {
     getCorp();
     getCorpScore();
     getReviews();
-  }, [corpName, user]);
+    hideLoading();
+  }, [corpName]);
 
   const careerStatus = (lastdate: Date) => {
     const today = new Date();

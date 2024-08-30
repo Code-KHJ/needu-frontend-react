@@ -38,8 +38,8 @@ const Header = () => {
 
   const logout = async () => {
     localStorage.removeItem("userInfo");
-    const response = await userApi.logout();
-    if (response?.status == 200) {
+    const response: any = await userApi.logout();
+    if (response.status == 200) {
       alert("로그아웃 되었습니다.");
       window.location.href = "/";
     } else {
@@ -54,6 +54,9 @@ const Header = () => {
       community: false,
     }
   );
+  useEffect(() => {
+    setToggle({ review: false, community: false });
+  }, []);
   type ToggleType = "review" | "community";
 
   const handleToggle = (type: ToggleType) => {
@@ -99,7 +102,7 @@ const Header = () => {
                 >
                   <Link
                     className={`${styles.pc} ${styles.parent}`}
-                    to="/review/search/working"
+                    to="/review/search/working?region=&corp_name=&score=&hashtags=&order=avg&page=1"
                   >
                     기관리뷰
                   </Link>
@@ -115,9 +118,13 @@ const Header = () => {
                     className={styles.child}
                     style={toggle.review ? {} : { display: "none" }}
                   >
-                    <Link to="/review/search/working">전현직리뷰</Link>
+                    <Link to="/review/search/working?region=&corp_name=&score=&hashtags=&order=avg&page=1">
+                      전현직리뷰
+                    </Link>
                     <div></div>
-                    <Link to="/review/search/training">실습리뷰</Link>
+                    <Link to="review/search/training?region=&corp_name=&score=&number_of_participants=&cost=&duration=&order=avg&page=1">
+                      실습리뷰
+                    </Link>
                   </div>
                 </li>
                 <li
@@ -147,9 +154,13 @@ const Header = () => {
                     className={styles.child}
                     style={toggle.community ? {} : { display: "none" }}
                   >
-                    <Link to="/community/free">자유게시판</Link>
+                    <Link to="/community/free?type=1&topic=0&search=&order=recent&page=1">
+                      자유게시판
+                    </Link>
                     <div></div>
-                    <Link to="/community/question">질문&답변</Link>
+                    <Link to="/community/question?type=2&topic=0&search=&order=recent&page=1">
+                      질문&답변
+                    </Link>
                   </div>
                 </li>
                 <li>

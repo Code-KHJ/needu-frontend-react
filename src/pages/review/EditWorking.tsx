@@ -11,9 +11,11 @@ import { useUser } from "@/contexts/UserContext";
 import reviewApi from "@/apis/review";
 import { StarList } from "@/common/StarList";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const EditWorking = () => {
   const { customConfirm } = useConfirm();
+  const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -87,6 +89,7 @@ const EditWorking = () => {
       navigate("/");
       return;
     }
+    showLoading();
     const getCorp = async (corpName: string) => {
       const response: any = await corpApi.getWithWorking(corpName);
       if (response.status !== 200) {
@@ -134,6 +137,7 @@ const EditWorking = () => {
       }
     };
     getReview();
+    hideLoading();
   }, [no]);
 
   const handleChange = (

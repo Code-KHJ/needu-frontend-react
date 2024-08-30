@@ -1,5 +1,6 @@
 import userApi from "@/apis/user";
 import { createContext, useState, useContext, useEffect } from "react";
+import { useLoading } from "./LoadingContext";
 
 //@ts-ignore
 const UserContext = createContext();
@@ -11,7 +12,7 @@ export const UserProvider = ({ children }) => {
     nickname: null,
     authority: null,
   });
-  const [loading, setLoading] = useState(true);
+  const { showLoading, hideLoading } = useLoading();
   function getCookie(name: string) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -26,6 +27,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      showLoading();
       if (user.id == null) {
         if (accessToken) {
           const userInfo = localStorage.getItem("userInfo");
@@ -73,13 +75,13 @@ export const UserProvider = ({ children }) => {
           });
         }
       }
-      setLoading(false);
+      hideLoading();
     };
     fetchData();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, loading }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

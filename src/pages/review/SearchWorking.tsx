@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './Search.module.scss';
-import { RegionList } from '@/common/Region';
-import sharedApi from '@/apis/shared';
-import corpApi from '@/apis/corp';
-import { CorpDto } from '@/interface/Corp';
-import Pagination from '@/components/Pagination';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Star_1 from '@/assets/images/Star_1.png';
-import Star_2 from '@/assets/images/Star_2.png';
-import Star_3 from '@/assets/images/Star_3.png';
-import Star_4 from '@/assets/images/Star_4.png';
-import Star_5 from '@/assets/images/Star_5.png';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./Search.module.scss";
+import { RegionList } from "@/common/Region";
+import sharedApi from "@/apis/shared";
+import corpApi from "@/apis/corp";
+import { CorpDto } from "@/interface/Corp";
+import Pagination from "@/components/Pagination";
+import { useLocation, useNavigate } from "react-router-dom";
+import Star_1 from "@/assets/images/Star_1.png";
+import Star_2 from "@/assets/images/Star_2.png";
+import Star_3 from "@/assets/images/Star_3.png";
+import Star_4 from "@/assets/images/Star_4.png";
+import Star_5 from "@/assets/images/Star_5.png";
+import { useLoading } from "@/contexts/LoadingContext";
 
 type Filters = {
   region: string;
@@ -22,7 +23,7 @@ type Filters = {
 };
 
 const SearchWorking = () => {
-  const isLoading = useRef(false);
+  const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
   const navigate = useNavigate();
   const resultRef = useRef<HTMLDivElement>(null);
@@ -40,11 +41,11 @@ const SearchWorking = () => {
 
   if (!queryParams.toString()) {
     const defaultFilters = {
-      region: '',
-      corp_name: '',
+      region: "",
+      corp_name: "",
       score: [],
       hashtags: [],
-      order: 'avg',
+      order: "avg",
       page: 1,
     };
     const defaultQueryParams = new URLSearchParams(
@@ -54,22 +55,22 @@ const SearchWorking = () => {
   }
 
   const [filters, setFilters] = useState<Filters>({
-    region: queryParams.get('region') || '',
-    corp_name: queryParams.get('corp_name') || '',
+    region: queryParams.get("region") || "",
+    corp_name: queryParams.get("corp_name") || "",
     score:
       queryParams
-        .get('score')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("score")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
     hashtags:
       queryParams
-        .get('hashtags')
-        ?.split(',')
-        .filter((item) => item !== '')
+        .get("hashtags")
+        ?.split(",")
+        .filter((item) => item !== "")
         .map(Number) || [],
-    order: queryParams.get('order') || 'avg',
-    page: Number(queryParams.get('page')) || 1,
+    order: queryParams.get("order") || "avg",
+    page: Number(queryParams.get("page")) || 1,
   });
 
   const handleFilter = (
@@ -97,7 +98,7 @@ const SearchWorking = () => {
       page: value,
     });
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -119,9 +120,9 @@ const SearchWorking = () => {
     }
   };
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -137,6 +138,7 @@ const SearchWorking = () => {
     hashtagList: [],
   });
   useEffect(() => {
+    showLoading();
     const getShared = async () => {
       const hashtagList: any = await sharedApi.getHashtagList();
       if (hashtagList.status === 200) {
@@ -155,16 +157,16 @@ const SearchWorking = () => {
     };
     getShared();
     getCorps();
-    isLoading.current = true;
+    hideLoading();
   }, [location.search]);
 
   const resetFilters = () => {
     setFilters({
-      region: '',
-      corp_name: '',
+      region: "",
+      corp_name: "",
       score: [],
       hashtags: [],
-      order: 'avg',
+      order: "avg",
       page: 1,
     });
   };
@@ -187,11 +189,11 @@ const SearchWorking = () => {
       });
     }
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       search();
     }
@@ -199,10 +201,6 @@ const SearchWorking = () => {
   const moveDetail = (corpName: string) => {
     navigate(`/review/detail/working?name=${corpName}`);
   };
-
-  if (!isLoading.current) {
-    return <div>로딩중...</div>;
-  }
 
   return (
     <div className={styles.search_wrap}>
@@ -251,10 +249,10 @@ const SearchWorking = () => {
             <div
               style={
                 window.innerWidth >= 768
-                  ? { display: 'block' }
+                  ? { display: "block" }
                   : filterBtn
-                  ? { display: 'block' }
-                  : { display: 'none' }
+                  ? { display: "block" }
+                  : { display: "none" }
               }
             >
               <div className={styles.item}>
@@ -265,10 +263,10 @@ const SearchWorking = () => {
                   {[1, 2, 3, 4, 5].map((score) => (
                     <span
                       className={`${styles.list_item} ${
-                        filters.score.includes(score) ? styles.selected : ''
+                        filters.score.includes(score) ? styles.selected : ""
                       }`}
                       key={score}
-                      onClick={() => handleList('score', score)}
+                      onClick={() => handleList("score", score)}
                     >
                       <img src={starImages[score]} alt={`score ${score}`} />
                     </span>
@@ -285,10 +283,10 @@ const SearchWorking = () => {
                       className={`${styles.list_item} ${
                         filters.hashtags.includes(item.id)
                           ? styles.selected
-                          : ''
+                          : ""
                       }`}
                       key={item.id}
-                      onClick={() => handleList('hashtags', item.id)}
+                      onClick={() => handleList("hashtags", item.id)}
                     >
                       {item.content}
                     </span>
@@ -344,7 +342,7 @@ const SearchWorking = () => {
                                 }
                               </span>
                             ))
-                          : ''}
+                          : ""}
                       </div>
                     </div>
                   </div>
@@ -357,6 +355,11 @@ const SearchWorking = () => {
               ))}
             </ul>
           </div>
+        </div>
+      )}
+      {corps.length === 0 && (
+        <div style={{ marginTop: "120px", textAlign: "center", color: "#888" }}>
+          찾으시는 기관이 없나요? 기관 등록하기
         </div>
       )}
       <div className={styles.pagination}>

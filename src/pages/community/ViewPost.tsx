@@ -22,11 +22,12 @@ import agoDate from "@/utils/agoDate";
 import Comments from "@/components/comments/Comments";
 import { copyClipboard, fbShare, kakaoShare, xShare } from "@/utils/snsShare";
 import { Topic } from "@/interface/Topic";
+import { useLoading } from "@/contexts/LoadingContext";
 
 //@ts-ignore
 const ViewPost = ({ type }) => {
-  const isLoading = useRef(false);
-  const previousPage = useLocation().state.previous;
+  const { showLoading, hideLoading } = useLoading();
+  const previousPage = useLocation().state?.previous;
   const pathname = useLocation().pathname.split("/");
   const postType = pathname[pathname.length - 2];
   const postId = parseFloat(pathname[pathname.length - 1]);
@@ -50,7 +51,7 @@ const ViewPost = ({ type }) => {
       navigate("/");
       return;
     }
-
+    showLoading();
     const getPost = async (postId: number) => {
       const response: any = await communityApi.getPost(postId);
       if (response.status !== 200) {
@@ -104,8 +105,8 @@ const ViewPost = ({ type }) => {
     };
     getPost(postId);
     updateView(postId);
-    isLoading.current = true;
-  }, [user, postId, fetch]);
+    hideLoading();
+  }, [postId, fetch]);
   useEffect(() => {
     const getTopic = async () => {
       const response: any = await communityApi.getTopic(type);
@@ -204,10 +205,6 @@ const ViewPost = ({ type }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [shareRef]);
-
-  if (!isLoading.current) {
-    return <div>로딩중...</div>;
-  }
 
   return (
     <div className={styles.view_wrap}>

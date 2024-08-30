@@ -23,9 +23,11 @@ import like_on from "@/assets/images/like_on.png";
 import like_off from "@/assets/images/like.png";
 import ico_arrow_R from "@/assets/images/ico_arrow_R.png";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const DetailTraining = () => {
   const { customConfirm } = useConfirm();
+  const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const corpName = queryParams.get("name");
@@ -57,11 +59,7 @@ const DetailTraining = () => {
   const [reviews, setReviews] = useState<ReviewTrainingContent[]>([]);
 
   useEffect(() => {
-    //@ts-ignore
-    if (user.loading) {
-      return;
-    }
-
+    showLoading();
     if (!corpName) {
       navigate("/");
       return;
@@ -107,7 +105,8 @@ const DetailTraining = () => {
     getCorp();
     getCorpScore();
     getReviews();
-  }, [corpName, user]);
+    hideLoading();
+  }, [corpName]);
 
   const [showToggle, setShowToggle] = useState<{ [key: number]: boolean }>({});
   const handleToggle = (index: number) => {

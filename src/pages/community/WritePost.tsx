@@ -7,15 +7,17 @@ import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { CommunityCreateDto } from "@/interface/Community";
 import { useUser } from "@/contexts/UserContext";
 import Button from "@/components/elements/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ico_ext from "@/assets/images/ico_ext.png";
 import { useConfirm } from "@/contexts/ConfirmContext";
 import { Topic } from "@/interface/Topic";
+import { useLoading } from "@/contexts/LoadingContext";
 
 //@ts-ignore
 const WritePost = ({ type }) => {
   //@ts-ignore
   const { user } = useUser();
+  const { showLoading, hideLoading } = useLoading();
   const { customConfirm } = useConfirm();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
@@ -30,6 +32,7 @@ const WritePost = ({ type }) => {
 
   const [topics, setTopics] = useState<Topic[]>([]);
   useEffect(() => {
+    showLoading();
     const getTopic = async () => {
       const response: any = await communityApi.getTopic(type);
       if (response.status === 200) {
@@ -41,7 +44,8 @@ const WritePost = ({ type }) => {
       ...values,
       user_id: user.id,
     });
-  }, [user]);
+    hideLoading();
+  }, []);
 
   const [values, setValues] = useState<CommunityCreateDto>({
     user_id: 0,
@@ -124,7 +128,9 @@ const WritePost = ({ type }) => {
     e.preventDefault();
     const confirmed = await customConfirm("게시물을 등록하시겠습니까?");
     if (confirmed) {
+      showLoading();
       const response: any = await communityApi.createPost(values);
+      hideLoading();
       if (response.status !== 201) {
         if (response.status === 400 && response.data.msg === "Invalid title") {
           alert(
@@ -154,8 +160,13 @@ const WritePost = ({ type }) => {
     }
   };
 
+  const previousPage = useLocation().state?.previous;
   const handleCancel = () => {
-    window.history.back();
+    if (previousPage) {
+      navigate(previousPage);
+    } else {
+      navigate(-1);
+    }
   };
 
   return (

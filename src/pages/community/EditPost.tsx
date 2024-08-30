@@ -10,6 +10,7 @@ import { CommunityEditDto } from "@/interface/Community";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import ico_ext from "@/assets/images/ico_ext.png";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
 
 interface Topic {
   id: string;
@@ -19,6 +20,7 @@ interface Topic {
 
 //@ts-ignore
 const EditPost = ({ type }) => {
+  const { showLoading, hideLoading } = useLoading();
   const pathname = useLocation().pathname.split("/");
   const postId = parseFloat(pathname[pathname.length - 1]);
   //@ts-ignore
@@ -42,6 +44,7 @@ const EditPost = ({ type }) => {
       navigate("/");
       return;
     }
+    showLoading();
     const getTopic = async () => {
       const response: any = await communityApi.getTopic(type);
       if (response.status === 200) {
@@ -70,6 +73,7 @@ const EditPost = ({ type }) => {
 
     getTopic();
     getPost(postId);
+    hideLoading();
   }, [user, postId]);
 
   const handleValue = (
@@ -148,7 +152,9 @@ const EditPost = ({ type }) => {
     e.preventDefault();
     const confirmed = await customConfirm("게시물을 수정하시겠습니까?");
     if (confirmed) {
+      showLoading();
       const response: any = await communityApi.updatePost(values);
+      hideLoading();
       if (response.status !== 200) {
         if (response.status === 400 && response.data.msg === "Invalid title") {
           alert(
@@ -177,8 +183,13 @@ const EditPost = ({ type }) => {
       }
     }
   };
+  const previousPage = useLocation().state?.previous;
   const handleCancel = () => {
-    window.history.back();
+    if (previousPage) {
+      navigate(previousPage);
+    } else {
+      navigate(-1);
+    }
   };
 
   return (

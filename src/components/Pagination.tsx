@@ -30,10 +30,10 @@ const Pagination: React.FC<PaginationProps> = ({
   }, []);
 
   if (totalPages === undefined) {
-    return <div style={{ width: "100%" }}>조회중...</div>;
+    return <></>;
   }
   if (totalPages === 0) {
-    return <div style={{ width: "100%" }}>검색 결과가 없습니다.</div>;
+    return <></>;
   }
 
   const startPage =
