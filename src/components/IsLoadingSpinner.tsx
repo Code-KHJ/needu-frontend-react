@@ -47,7 +47,9 @@ const IsLoadingSpinner = () => {
 
   return (
     <Modal isOpen={modalOpen} style={customStyles}>
-      <h5>잠시만 기다려주세요.</h5>
+      <h5 style={{ color: "#888", marginBottom: "40px" }}>
+        잠시만 기다려주세요.
+      </h5>
       <HashLoader color="#6269f5" />
     </Modal>
   );

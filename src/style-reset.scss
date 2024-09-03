@@ -178,11 +178,19 @@ h5,
 .slick-slide {
   padding: 0 10px;
 }
+.slick-arrow {
+  width: 48px !important;
+  height: 48px !important;
+  z-index: 100;
+}
+.slick-arrow::before {
+  display: none;
+}
 .mo_show {
-  display: block;
+  display: block !important;
 }
 .tab_show {
-  display: none;
+  display: none !important;
 }
 
 /* 테블릿 768 사이즈 반응형 */
@@ -229,10 +237,10 @@ h5,
     }
   }
   .mo_show {
-    display: none;
+    display: none !important;
   }
   .tab_show {
-    display: block;
+    display: block !important;
   }
 }
 

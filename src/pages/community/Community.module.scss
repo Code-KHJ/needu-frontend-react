@@ -76,21 +76,17 @@
           border-bottom: 1px solid #d9d9d9;
           .info {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
             gap: 8px;
-            & > div {
+
+            & > img {
+              width: 26px;
+              height: 26px;
+            }
+            & > span {
               display: flex;
-              gap: 8px;
-              & > img {
-                width: 26px;
-                height: 26px;
-              }
-              & > span {
-                display: flex;
-                align-items: center;
-                text-wrap: nowrap;
-              }
+              align-items: center;
+              text-wrap: nowrap;
             }
           }
           .title {
@@ -100,8 +96,19 @@
             text-overflow: ellipsis;
             cursor: pointer;
           }
-          .title:hover {
-            color: #6269f5;
+          .reaction {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            & > img {
+              width: 26px;
+              height: 26px;
+            }
+            & > span {
+              display: flex;
+              align-items: center;
+              text-wrap: nowrap;
+            }
           }
         }
       }

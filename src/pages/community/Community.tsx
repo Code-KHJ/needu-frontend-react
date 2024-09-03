@@ -314,47 +314,27 @@ const Community = () => {
             {freeList.result.slice(0, 5).map((post, index) => (
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
-                  <div>
-                    <img src={ico_profile} alt="profile_image" />
-                    <span className={`body2`}>
-                      {post.writer.nickname}
-                      <img
-                        src={ico_level}
-                        alt="레벨"
-                        style={{ width: "18px", marginLeft: "4px" }}
-                      />
-                    </span>
-                    <span className={`caption`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_view}
-                        alt="views"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "4px",
-                        }}
-                      />
-                      {post.view}
-                    </span>
-                  </div>
-                  <div>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_like}
-                        alt="like"
-                        style={{ width: "16px", marginRight: "4px" }}
-                      />
-                      {post.like_cnt}
-                    </span>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_reply}
-                        alt="reply"
-                        style={{ width: "20px", marginRight: "4px" }}
-                      />
-                      {post.comment_cnt}
-                    </span>
-                  </div>
+                  <img src={ico_profile} alt="profile_image" />
+                  <span className={`body2`}>
+                    {post.writer.nickname}
+                    <img
+                      src={ico_level}
+                      alt="레벨"
+                      style={{ width: "18px", marginLeft: "4px" }}
+                    />
+                  </span>
+                  <span className={`caption`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_view}
+                      alt="views"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginRight: "4px",
+                      }}
+                    />
+                    {post.view}
+                  </span>
                 </div>
                 <h5
                   className={styles.title}
@@ -366,6 +346,24 @@ const Community = () => {
                 >
                   {post.title}
                 </h5>
+                <div className={styles.reaction}>
+                  <span className={`body2`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_like}
+                      alt="like"
+                      style={{ width: "16px", marginRight: "4px" }}
+                    />
+                    {post.like_cnt}
+                  </span>
+                  <span className={`body2`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_reply}
+                      alt="reply"
+                      style={{ width: "20px", marginRight: "4px" }}
+                    />
+                    {post.comment_cnt}
+                  </span>
+                </div>
               </li>
             ))}
           </ul>
@@ -385,47 +383,27 @@ const Community = () => {
             {questionList.result.slice(0, 5).map((post, index) => (
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
-                  <div>
-                    <img src={ico_profile} alt="profile_image" />
-                    <span className={`body2`}>
-                      {post.writer.nickname}
-                      <img
-                        src={ico_level}
-                        alt="레벨"
-                        style={{ width: "18px", marginLeft: "4px" }}
-                      />
-                    </span>
-                    <span className={`caption`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_view}
-                        alt="views"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "4px",
-                        }}
-                      />
-                      {post.view}
-                    </span>
-                  </div>
-                  <div>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_like}
-                        alt="like"
-                        style={{ width: "16px", marginRight: "4px" }}
-                      />
-                      {post.like_cnt}
-                    </span>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_reply}
-                        alt="reply"
-                        style={{ width: "20px", marginRight: "4px" }}
-                      />
-                      {post.comment_cnt}
-                    </span>
-                  </div>
+                  <img src={ico_profile} alt="profile_image" />
+                  <span className={`body2`}>
+                    {post.writer.nickname}
+                    <img
+                      src={ico_level}
+                      alt="레벨"
+                      style={{ width: "18px", marginLeft: "4px" }}
+                    />
+                  </span>
+                  <span className={`caption`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_view}
+                      alt="views"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginRight: "4px",
+                      }}
+                    />
+                    {post.view}
+                  </span>
                 </div>
                 <h5
                   className={styles.title}
@@ -437,6 +415,24 @@ const Community = () => {
                 >
                   {post.title}
                 </h5>
+                <div className={styles.reaction}>
+                  <span className={`body2`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_like}
+                      alt="like"
+                      style={{ width: "16px", marginRight: "4px" }}
+                    />
+                    {post.like_cnt}
+                  </span>
+                  <span className={`body2`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_reply}
+                      alt="reply"
+                      style={{ width: "20px", marginRight: "4px" }}
+                    />
+                    {post.comment_cnt}
+                  </span>
+                </div>
               </li>
             ))}
           </ul>

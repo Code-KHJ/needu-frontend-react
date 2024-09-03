@@ -12,7 +12,6 @@ import { useUser } from "./contexts/UserContext";
 import ReviewRoutes from "./pages/review";
 import CommunityRoutes from "./pages/community";
 import NoticeRoutes from "./pages/notice";
-import { useConfirm } from "./contexts/ConfirmContext";
 
 declare global {
   interface Window {
@@ -26,10 +25,10 @@ function App() {
 
   const isLogin = user.id !== null;
   const isAdmin = user.authority === 100;
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
+  if (loading) {
+    return <div></div>;
+  }
   if (window.Kakao) {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY);

@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
     authority: null,
   });
   const { showLoading, hideLoading } = useLoading();
+  const [loading, setLoading] = useState(true);
   function getCookie(name: string) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -76,12 +77,13 @@ export const UserProvider = ({ children }) => {
         }
       }
       hideLoading();
+      setLoading(false);
     };
     fetchData();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, loading }}>
       {children}
     </UserContext.Provider>
   );

@@ -179,17 +179,24 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                 onChange={handleSearchValue}
               />
               <div>
-                <button className={`mo_show ${styles.btn_to_write}`}>
-                  <img src={ico_pencil} alt="to_write" />
-                  <Link
-                    to={
+                <button
+                  className={`mo_show ${styles.btn_to_write}`}
+                  onClick={() =>
+                    navigate(
                       type === 1
                         ? "/community/free/write"
                         : type === 2
                         ? "/community/question/write"
-                        : ""
-                    }
-                  ></Link>
+                        : "",
+                      {
+                        state: {
+                          previous: location.pathname + location.search,
+                        },
+                      }
+                    )
+                  }
+                >
+                  <img src={ico_pencil} alt="to_write" />새 글 쓰기
                 </button>
                 <button
                   className={styles.btn_search}
@@ -200,18 +207,24 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                 >
                   검색
                 </button>
-                <button className={`tab_show ${styles.btn_to_write}`}>
-                  <Link
-                    to={
+                <button
+                  className={`tab_show ${styles.btn_to_write}`}
+                  onClick={() =>
+                    navigate(
                       type === 1
                         ? "/community/free/write"
                         : type === 2
                         ? "/community/question/write"
-                        : ""
-                    }
-                  >
-                    <img src={ico_pencil} alt="to_write" />
-                  </Link>
+                        : "",
+                      {
+                        state: {
+                          previous: location.pathname + location.search,
+                        },
+                      }
+                    )
+                  }
+                >
+                  <img src={ico_pencil} alt="to_write" />새 글 쓰기
                 </button>
               </div>
             </div>
@@ -227,60 +240,66 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
             </div>
           </div>
           <div className={styles.content_wrap}>
-            <div className={styles.notice}>
-              <div className={`body2 ${styles.label}`}>공지</div>
-              <div className={styles.notice_content}>
-                <div className={styles.info}>
-                  <img src={ico_profile} alt="profile_image" />
-                  <span className={`body2`}>
-                    {notice[0]?.writer.nickname}
-                    <img
-                      src={ico_level}
-                      alt="레벨"
-                      style={{ width: "16px", marginLeft: "4px" }}
-                    />
-                  </span>
-                  <span className={`caption`} style={{ color: "#aaa" }}>
-                    {agoDate(notice[0]?.created_at)}
-                  </span>
-                  <span className={`caption`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_view}
-                      alt="views"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        marginRight: "2px",
-                      }}
-                    />
-                    {notice[0]?.view}
-                  </span>
-                </div>
-                <h5
-                  className={styles.title}
-                  onClick={() => navigate(`/notice/${notice[0]?.id}`)}
-                >
-                  {notice[0]?.title}
-                </h5>
-                <div className={styles.content}>
-                  {stripHtml(notice[0]?.content)}
-                </div>
-                <div className={styles.reaction}>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img src={ico_like} alt="like" style={{ width: "16px" }} />
-                    {notice[0]?.like_cnt}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_reply}
-                      alt="reply"
-                      style={{ width: "20px" }}
-                    />
-                    {notice[0]?.comment_cnt}
-                  </span>
+            {notice.length > 0 && (
+              <div className={styles.notice}>
+                <div className={`body2 ${styles.label}`}>공지</div>
+                <div className={styles.notice_content}>
+                  <div className={styles.info}>
+                    <img src={ico_profile} alt="profile_image" />
+                    <span className={`body2`}>
+                      {notice[0]?.writer.nickname}
+                      <img
+                        src={ico_level}
+                        alt="레벨"
+                        style={{ width: "16px", marginLeft: "4px" }}
+                      />
+                    </span>
+                    <span className={`caption`} style={{ color: "#aaa" }}>
+                      {agoDate(notice[0]?.created_at)}
+                    </span>
+                    <span className={`caption`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_view}
+                        alt="views"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginRight: "2px",
+                        }}
+                      />
+                      {notice[0]?.view}
+                    </span>
+                  </div>
+                  <h5
+                    className={styles.title}
+                    onClick={() => navigate(`/notice/${notice[0]?.id}`)}
+                  >
+                    {notice[0]?.title}
+                  </h5>
+                  <div className={styles.content}>
+                    {stripHtml(notice[0]?.content)}
+                  </div>
+                  <div className={styles.reaction}>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_like}
+                        alt="like"
+                        style={{ width: "16px" }}
+                      />
+                      {notice[0]?.like_cnt}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_reply}
+                        alt="reply"
+                        style={{ width: "20px" }}
+                      />
+                      {notice[0]?.comment_cnt}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <ul className={styles.post_list}>
               {postList.result.map((post, index) => (
                 <li className={styles.post_item} key={index}>
