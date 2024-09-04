@@ -92,7 +92,10 @@ const Community = () => {
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.banner} style={{ backgroundColor: "#aaa" }}>
+      <div
+        className={styles.banner}
+        style={{ backgroundColor: "#aaa", height: "180px" }}
+      >
         배너
       </div>
       <div className={styles.weekly_wrap}>
@@ -315,8 +318,8 @@ const Community = () => {
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
                   <img src={ico_profile} alt="profile_image" />
-                  <span className={`body2`}>
-                    {post.writer.nickname}
+                  <span className={`body2  ${styles.nickname}`}>
+                    <span>{post.writer.nickname}</span>
                     <img
                       src={ico_level}
                       alt="레벨"
@@ -384,8 +387,8 @@ const Community = () => {
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
                   <img src={ico_profile} alt="profile_image" />
-                  <span className={`body2`}>
-                    {post.writer.nickname}
+                  <span className={`body2 ${styles.nickname}`}>
+                    <span>{post.writer.nickname}</span>
                     <img
                       src={ico_level}
                       alt="레벨"

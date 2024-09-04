@@ -76,9 +76,8 @@
           border-bottom: 1px solid #d9d9d9;
           .info {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 8px;
-
             & > img {
               width: 26px;
               height: 26px;
@@ -86,7 +85,14 @@
             & > span {
               display: flex;
               align-items: center;
-              text-wrap: nowrap;
+            }
+            .nickname {
+              max-width: 50%;
+              & > span {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
             }
           }
           .title {
@@ -150,6 +156,10 @@
     .content_wrap {
       flex-direction: row;
       gap: 20px;
+      .free_wrap,
+      .question_wrap {
+        width: calc(50% - 10px);
+      }
     }
   }
 }
