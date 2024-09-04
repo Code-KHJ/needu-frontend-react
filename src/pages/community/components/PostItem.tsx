@@ -10,7 +10,6 @@ import { PostListItemContent } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
 import stripHtml from "@/utils/stripHtml";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Search } from "@mui/icons-material";
 
 interface PostItemProps {
   post: PostListItemContent;
@@ -20,62 +19,108 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <div className={styles.post_content}>
-      <div className={styles.info}>
-        <img src={ico_profile} alt="profile_image" />
-        <span className={`body2`}>
-          {post.writer.nickname}
-          <img
-            src={ico_level}
-            alt="레벨"
-            style={{ width: "16px", marginLeft: "4px" }}
-          />
-        </span>
-        <span className={`caption`} style={{ color: "#aaa" }}>
-          {agoDate(post.created_at)}
-        </span>
-        <span className={`caption`} style={{ color: "#aaa" }}>
-          <img
-            src={ico_view}
-            alt="views"
-            style={{
-              width: "20px",
-              height: "20px",
-              marginRight: "2px",
-            }}
-          />
-          {post.view}
-        </span>
-      </div>
-      <h5
-        className={styles.title}
-        onClick={() =>
-          navigate(`${location.pathname}/${post.id}`, {
-            state: { previous: location.pathname + location.search },
-          })
-        }
-      >
-        {post.title}
-      </h5>
-      <div className={styles.content}>{stripHtml(post.content)}</div>
-      <div className={styles.reaction}>
-        <span className={`body2`} style={{ color: "#aaa" }}>
-          <img src={ico_like} alt="like" style={{ width: "16px" }} />
-          {post.like_cnt}
-        </span>
-        <span
-          className={`body2`}
-          style={
-            post.commentAccepted ? { color: "#6269F5" } : { color: "#aaa" }
+    <div className={styles.post_item_wrap}>
+      {Number(post.postType) === 2 && (
+        <div
+          className={`${styles.question_reply} tab_show`}
+          onClick={() =>
+            navigate(`${location.pathname}/${post.id}`, {
+              state: { previous: location.pathname + location.search },
+            })
           }
         >
-          <img
-            src={post.commentAccepted ? ico_reply_accepted : ico_reply}
-            alt="reply"
-            style={{ width: "20px" }}
-          />
-          {post.comment_cnt}
-        </span>
+          {Number(post.comment_cnt) === 0 ? (
+            <div className={styles.cnt_zero}>
+              <h2>
+                답변
+                <br />
+                하기
+              </h2>
+            </div>
+          ) : (
+            <div
+              className={`${styles.cnt} ${
+                post.commentAccepted ? styles.accepted : ""
+              }`}
+            >
+              <div className={`body2`}>답변</div>
+              <div>
+                <h2>{post.comment_cnt}</h2>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      <div className={styles.post_content}>
+        <div className={styles.info}>
+          <img src={ico_profile} alt="profile_image" />
+          <span className={`body2`}>
+            {post.writer.nickname}
+            <img
+              src={ico_level}
+              alt="레벨"
+              style={{ width: "16px", marginLeft: "4px" }}
+            />
+          </span>
+          <span className={`caption`} style={{ color: "#aaa" }}>
+            {agoDate(post.created_at)}
+          </span>
+          <span className={`caption`} style={{ color: "#aaa" }}>
+            <img
+              src={ico_view}
+              alt="views"
+              style={{
+                width: "20px",
+                height: "20px",
+                marginRight: "2px",
+              }}
+            />
+            {post.view}
+          </span>
+        </div>
+        <h5
+          className={styles.title}
+          onClick={() =>
+            navigate(`${location.pathname}/${post.id}`, {
+              state: { previous: location.pathname + location.search },
+            })
+          }
+        >
+          {post.title}
+        </h5>
+        <div
+          className={styles.content}
+          onClick={() =>
+            navigate(`${location.pathname}/${post.id}`, {
+              state: { previous: location.pathname + location.search },
+            })
+          }
+        >
+          {stripHtml(post.content)}
+        </div>
+        <div className={styles.reaction}>
+          {post.commentAccepted && (
+            <span className={`body2 mo_show_flex`} style={{ color: "#6269f5" }}>
+              <img
+                src={ico_reply_accepted}
+                alt="like"
+                style={{ width: "16px" }}
+              />
+              답변채택
+            </span>
+          )}
+          <span className={`body2`} style={{ color: "#aaa" }}>
+            <img src={ico_like} alt="like" style={{ width: "16px" }} />
+            {post.like_cnt}
+          </span>
+          <span
+            className={`body2 ${Number(post.postType) === 2 && "mo_show_flex"}`}
+            style={{ color: "#aaa" }}
+          >
+            <img src={ico_reply} alt="reply" style={{ width: "20px" }} />
+            {post.comment_cnt}
+          </span>
+        </div>
       </div>
     </div>
   );

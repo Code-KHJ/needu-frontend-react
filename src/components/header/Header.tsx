@@ -21,6 +21,7 @@ const Header = () => {
     const winResize = window.innerWidth;
     if (winResize >= 768) {
       setMenuShow(false);
+      setToggle({ review: false, community: false });
     }
   };
   useEffect(() => {

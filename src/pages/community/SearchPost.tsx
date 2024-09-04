@@ -241,7 +241,10 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
           </div>
           <div className={styles.content_wrap}>
             {notice.length > 0 && (
-              <div className={styles.notice}>
+              <div
+                className={styles.notice}
+                style={type === 1 ? { flexDirection: "column" } : {}}
+              >
                 <div className={`body2 ${styles.label}`}>공지</div>
                 <div className={styles.notice_content}>
                   <div className={styles.info}>
@@ -276,7 +279,10 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                   >
                     {notice[0]?.title}
                   </h5>
-                  <div className={styles.content}>
+                  <div
+                    className={styles.content}
+                    onClick={() => navigate(`/notice/${notice[0]?.id}`)}
+                  >
                     {stripHtml(notice[0]?.content)}
                   </div>
                   <div className={styles.reaction}>

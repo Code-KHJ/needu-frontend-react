@@ -189,7 +189,13 @@ h5,
 .mo_show {
   display: block !important;
 }
+.mo_show_flex {
+  display: flex !important;
+}
 .tab_show {
+  display: none !important;
+}
+.pc_show {
   display: none !important;
 }
 
@@ -239,9 +245,21 @@ h5,
   .mo_show {
     display: none !important;
   }
+  .mo_show_flex {
+    display: none !important;
+  }
   .tab_show {
     display: block !important;
   }
+  .pc_show {
+    display: none !important;
+  }
 }
 
+/* 테블릿 768 사이즈 반응형 */
+@media screen and (min-width: 1280px) {
+  .pc_show {
+    display: block !important;
+  }
+}
 /* reset-end */
