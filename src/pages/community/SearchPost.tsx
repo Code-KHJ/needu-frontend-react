@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ico_pencil from "@/assets/images/btn_write_modal.png";
 import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
+import ico_setting from "@/assets/images/ico_setting.png";
+import ico_wb from "@/assets/images/ico_wb.png";
+import ico_hide from "@/assets/images/ico_hide.png";
+import ico_edit from "@/assets/images/ico_edit.png";
+import ico_del from "@/assets/images/ico_del.png";
 import PostItem from "./components/PostItem";
 import { Topic } from "@/interface/Topic";
 import communityApi from "@/apis/community";
@@ -16,6 +21,8 @@ import agoDate from "@/utils/agoDate";
 import stripHtml from "@/utils/stripHtml";
 import Pagination from "@/components/Pagination";
 import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
+import { useConfirm } from "@/contexts/ConfirmContext";
 
 interface SearchPostProps {
   type: number;
@@ -31,6 +38,9 @@ type Filters = {
 
 const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
   const { showLoading, hideLoading, isLoading } = useLoading();
+  //@ts-ignore
+  const { user } = useUser();
+  const { customConfirm } = useConfirm();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
@@ -131,6 +141,61 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
     hideLoading();
   }, [filters]);
 
+  //관리자도구
+  useEffect(() => {
+    setShowToggle(false);
+    setCheckedPost([]);
+  }, []);
+
+  const [showToggle, setShowToggle] = useState(false);
+  const handleToggle = () => {
+    setShowToggle(!showToggle);
+  };
+  const [checkedPost, setCheckedPost] = useState<number[]>([]);
+  const handleCheckbox = (postId: number) => {
+    setCheckedPost((prevCheckedPost) =>
+      prevCheckedPost.includes(postId)
+        ? prevCheckedPost.filter((id) => id !== postId)
+        : [...prevCheckedPost, postId]
+    );
+  };
+
+  const submitWeeklyBest = async () => {
+    if (user.authority !== 100) {
+      alert("권한이 없습니다.");
+      window.location.reload();
+      return;
+    }
+    if (checkedPost.length < 1) {
+      alert("선택한 게시글이 없습니다.");
+      return;
+    }
+    const confirmed = await customConfirm(
+      `${checkedPost.length}개의 게시글을 Weekly Best로 채택하시겠습니까?`
+    );
+    if (confirmed) {
+      showLoading();
+      const resultmsg: string[] = [];
+      for (const postId of checkedPost) {
+        try {
+          const response: any = await communityApi.acceptWeeklyBest(postId);
+          if (response.data.msg === "중복채택") {
+            resultmsg.push(
+              `PostId: ${postId} 게시글은 이미 채택된 게시글입니다.`
+            );
+          } else if (response.status === 201) {
+            resultmsg.push(`PostId: ${postId} 게시글 WB 채택 성공`);
+          }
+        } catch (error) {
+          resultmsg.push(`PostId: ${postId} 게시글 WB 채택 실패`);
+        }
+      }
+      hideLoading();
+      alert(resultmsg.join("\n"));
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       {isLoading ? (
@@ -229,6 +294,34 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
               </div>
             </div>
             <div className={styles.sort_wrap}>
+              {user.authority === 100 && (
+                <div className={styles.admin_option}>
+                  <button className={styles.toggle} onClick={handleToggle}>
+                    <img src={ico_setting} alt="관리자 설정" />
+                  </button>
+                  <div
+                    className={styles.options}
+                    style={!showToggle ? { display: "none" } : {}}
+                  >
+                    <button className="body2" onClick={submitWeeklyBest}>
+                      <img src={ico_wb} alt="Weekly Best" />
+                      W.B
+                    </button>
+                    <button className="body2">
+                      <img src={ico_hide} alt="가림" />
+                      가림
+                    </button>
+                    <button className="body2">
+                      <img src={ico_edit} alt="수정" />
+                      수정
+                    </button>
+                    <button className="body2">
+                      <img src={ico_del} alt="삭제" />
+                      삭제
+                    </button>
+                  </div>
+                </div>
+              )}
               <select value={filters.order} onChange={handleFilterBySelect}>
                 <option value="recent">최신순</option>
                 <option value="like">좋아요순</option>
@@ -309,6 +402,15 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
             <ul className={styles.post_list}>
               {postList.result.map((post, index) => (
                 <li className={styles.post_item} key={index}>
+                  {user.authority === 100 && (
+                    <input
+                      type="checkbox"
+                      //@ts-ignore
+                      onChange={() => handleCheckbox(post.id)}
+                      //@ts-ignore
+                      checked={checkedPost.includes(post.id)}
+                    />
+                  )}
                   <PostItem post={post} />
                 </li>
               ))}

@@ -85,6 +85,42 @@
       margin-top: 40px;
       display: flex;
       justify-content: end;
+      gap: 20px;
+      .admin_option {
+        position: relative;
+        .toggle {
+          & > img {
+            width: 32px;
+          }
+        }
+        .options {
+          position: absolute;
+          border: 1px solid #aaa;
+          border-radius: 5px;
+          background-color: #fafafa;
+          padding: 4px 0;
+          width: 94px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          top: 20px;
+          left: -100px;
+          & > button {
+            padding: 6px 0;
+            padding-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            & > img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+          & > button:hover {
+            background-color: #eeefff;
+          }
+        }
+      }
       & > select {
         width: 108px;
         background-color: #fff;
@@ -160,48 +196,56 @@
       .post_item {
         padding: 20px 2px;
         border-bottom: 1px solid #d9d9d9;
-        .post_content {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          .info {
+        display: flex;
+        gap: 20px;
+        & > input {
+          width: 18px;
+        }
+        .post_item_wrap {
+          flex: 1;
+          .post_content {
+            width: 100%;
             display: flex;
-            flex-direction: row;
-            gap: 8px;
-            align-items: center;
-            & > img:nth-of-type(1) {
-              width: 18px;
-            }
-            & > span {
+            flex-direction: column;
+            justify-content: space-between;
+            .info {
               display: flex;
+              flex-direction: row;
+              gap: 8px;
               align-items: center;
+              & > img:nth-of-type(1) {
+                width: 18px;
+              }
+              & > span {
+                display: flex;
+                align-items: center;
+              }
             }
-          }
-          & > h5 {
-            margin-top: 12px;
-            margin-bottom: 4px;
-            cursor: pointer;
-          }
-          .content {
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
-            line-clamp: 2; /* 표준 속성 */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: pointer;
-          }
-          .reaction {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            gap: 10px;
-            & > span {
+            & > h5 {
+              margin-top: 12px;
+              margin-bottom: 4px;
+              cursor: pointer;
+            }
+            .content {
+              display: -webkit-box;
+              -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
+              line-clamp: 2; /* 표준 속성 */
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+            .reaction {
               display: flex;
-              align-items: center;
-              & > img {
-                margin-right: 4px;
+              flex-direction: row;
+              justify-content: flex-end;
+              gap: 10px;
+              & > span {
+                display: flex;
+                align-items: center;
+                & > img {
+                  margin-right: 4px;
+                }
               }
             }
           }
@@ -369,6 +413,7 @@
         .post_item {
           padding: 20px 40px;
           height: 177px;
+          gap: 40px;
           .post_item_wrap {
             gap: 40px;
             height: 100%;

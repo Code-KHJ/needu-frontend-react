@@ -41,6 +41,7 @@
           text-wrap: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          cursor: pointer;
         }
         .content_body {
           overflow: hidden;
@@ -49,6 +50,7 @@
           -webkit-line-clamp: 12; /* 보여줄 줄 수 설정 */
           line-clamp: 12; /* 표준 속성 */
           text-overflow: ellipsis;
+          cursor: pointer;
         }
       }
     }

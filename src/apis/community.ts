@@ -8,7 +8,6 @@ import {
   LikePostDto,
 } from "@/interface/Community";
 import customAxios from "./axios-config";
-import { ErrorOutline } from "@mui/icons-material";
 
 const communityApi = {
   createPost: async (createDto: CommunityCreateDto) => {
@@ -186,6 +185,26 @@ const communityApi = {
     try {
       const topic = await customAxios.get(`/community/topic/${type}`);
       return topic;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  getWeeklyBest: async () => {
+    try {
+      const response = await customAxios.get("/community/weekly/list");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  acceptWeeklyBest: async (postId: number) => {
+    try {
+      const response = await customAxios.post("/community/weekly", {
+        postId: postId,
+      });
+      return response;
     } catch (error) {
       console.error(error);
       return error;

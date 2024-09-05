@@ -62,6 +62,28 @@ export interface PostListItemContent {
   };
 }
 
+export interface WeeklyListItemContent {
+  id: number;
+  title: string;
+  content: string;
+  created_at: Date;
+  blind: number;
+  view: number;
+  postType: string;
+  topicType: string;
+  like_cnt: number;
+  comment_cnt: number;
+  writer: {
+    id: number;
+    nickname: string;
+    // @IsString()
+    // user_profile: string; url??
+
+    // @IsString()
+    // user_level: string;
+  };
+}
+
 export interface PostLike {
   id: number;
   post_id: number;

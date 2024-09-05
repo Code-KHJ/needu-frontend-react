@@ -11,7 +11,12 @@ import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
-import { PostListItemContent } from "@/interface/Community";
+import {
+  PostListItemContent,
+  WeeklyListItemContent,
+} from "@/interface/Community";
+import stripHtml from "@/utils/stripHtml";
+import agoDate from "@/utils/agoDate";
 
 const Community = () => {
   // slider 세팅
@@ -62,19 +67,13 @@ const Community = () => {
     result: [],
     totalPages: 1,
   });
-  const [weeklyList, setWeeklyList] = useState<{
-    result: [];
-    totalPages: number;
-  }>({
-    result: [],
-    totalPages: 1,
-  });
+  const [weeklyList, setWeeklyList] = useState<WeeklyListItemContent[]>([]);
   useEffect(() => {
     const getFreeList = async () => {
       const response: any = await communityApi.getPostList("?type=1");
       if (response.status !== 200) {
         alert("오류가 발생하였습니다");
-        window.location.reload;
+        window.location.reload();
       }
       setFreeList(response.data);
     };
@@ -82,13 +81,23 @@ const Community = () => {
       const response: any = await communityApi.getPostList("?type=2");
       if (response.status !== 200) {
         alert("오류가 발생하였습니다");
-        window.location.reload;
+        window.location.reload();
       }
       setQuestionList(response.data);
     };
+    const getWeeklyList = async () => {
+      const response: any = await communityApi.getWeeklyBest();
+      if (response.status !== 200) {
+        alert("오류가 발생하였습니다");
+        window.location.reload();
+      }
+      setWeeklyList(response.data);
+    };
     getFreeList();
     getQuestionList();
+    getWeeklyList();
   }, []);
+  console.log(weeklyList);
 
   return (
     <div className={styles.wrap}>
@@ -102,202 +111,88 @@ const Community = () => {
         <h4>Weekly Best</h4>
         <div className={`slider-container ${styles.content_list}`}>
           <Slider {...sliderSettings}>
-            <div className={styles.content}>
-              <div className={styles.info}>
-                <img src={ico_profile} alt="profile_image" />
-                <span className={`body2`}>
-                  닉네임임닉네임임
-                  <img
-                    src={ico_level}
-                    alt="레벨"
-                    style={{ width: "18px", marginLeft: "4px" }}
-                  />
-                </span>
-                <span className={`caption`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_view}
-                    alt="views"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      marginRight: "4px",
-                    }}
-                  />
-                  5,000
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_like}
-                    alt="like"
-                    style={{ width: "16px", marginRight: "4px" }}
-                  />
-                  10
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_reply}
-                    alt="reply"
-                    style={{ width: "20px", marginRight: "4px" }}
-                  />
-                  2
-                </span>
+            {weeklyList.map((post, index) => (
+              <div className={styles.content} key={index}>
+                <div className={styles.info}>
+                  <img src={ico_profile} alt="profile_image" />
+                  <span className={`body2`}>
+                    {post.writer.nickname}
+                    <img
+                      src={ico_level}
+                      alt="레벨"
+                      style={{ width: "18px", marginLeft: "4px" }}
+                    />
+                  </span>
+                  <span className={`caption`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_view}
+                      alt="views"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginRight: "4px",
+                      }}
+                    />
+                    {post.view}
+                  </span>
+                  <span className={`body2`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_like}
+                      alt="like"
+                      style={{ width: "16px", marginRight: "4px" }}
+                    />
+                    {post.like_cnt}
+                  </span>
+                  <span className={`body2`} style={{ color: "#aaa" }}>
+                    <img
+                      src={ico_reply}
+                      alt="reply"
+                      style={{ width: "20px", marginRight: "4px" }}
+                    />
+                    {post.comment_cnt}
+                  </span>
+                </div>
+                <h5
+                  onClick={() => {
+                    post.postType === "자유게시판"
+                      ? navigate(`/community/free/${post.id}`, {
+                          state: {
+                            previous: location.pathname + location.search,
+                          },
+                        })
+                      : post.postType === "질문&답변"
+                      ? navigate(`/community/question/${post.id}`, {
+                          state: {
+                            previous: location.pathname + location.search,
+                          },
+                        })
+                      : "";
+                  }}
+                >
+                  {post.title}
+                </h5>
+                <div
+                  className={styles.content_body}
+                  onClick={() => {
+                    post.postType === "자유게시판"
+                      ? navigate(`/community/free/${post.id}`, {
+                          state: {
+                            previous: location.pathname + location.search,
+                          },
+                        })
+                      : post.postType === "질문&답변"
+                      ? navigate(`/community/question/${post.id}`, {
+                          state: {
+                            previous: location.pathname + location.search,
+                          },
+                        })
+                      : "";
+                  }}
+                >
+                  {stripHtml(post.content)}
+                </div>
               </div>
-              <h5>글제목입니다 이영역은 글제목</h5>
-              <div className={styles.content_body}>
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-              </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.info}>
-                <img src={ico_profile} alt="profile_image" />
-                <span className={`body2`}>
-                  닉네임임닉네임임
-                  <img
-                    src={ico_level}
-                    alt="레벨"
-                    style={{ width: "18px", marginLeft: "4px" }}
-                  />
-                </span>
-                <span className={`caption`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_view}
-                    alt="views"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      marginRight: "4px",
-                    }}
-                  />
-                  5,000
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_like}
-                    alt="like"
-                    style={{ width: "16px", marginRight: "4px" }}
-                  />
-                  10
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_reply}
-                    alt="reply"
-                    style={{ width: "20px", marginRight: "4px" }}
-                  />
-                  2
-                </span>
-              </div>
-              <h5>222글제목입니다 이영역은 글제목</h5>
-              <div className={styles.content_body}>
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-              </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.info}>
-                <img src={ico_profile} alt="profile_image" />
-                <span className={`body2`}>
-                  닉네임임닉네임임
-                  <img
-                    src={ico_level}
-                    alt="레벨"
-                    style={{ width: "18px", marginLeft: "4px" }}
-                  />
-                </span>
-                <span className={`caption`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_view}
-                    alt="views"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      marginRight: "4px",
-                    }}
-                  />
-                  5,000
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_like}
-                    alt="like"
-                    style={{ width: "16px", marginRight: "4px" }}
-                  />
-                  10
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_reply}
-                    alt="reply"
-                    style={{ width: "20px", marginRight: "4px" }}
-                  />
-                  2
-                </span>
-              </div>
-              <h5>333글제목입니다 이영역은 글제목</h5>
-              <div className={styles.content_body}>
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-              </div>
-            </div>
-            <div className={styles.content}>
-              <div className={styles.info}>
-                <img src={ico_profile} alt="profile_image" />
-                <span className={`body2`}>
-                  닉네임임닉네임임
-                  <img
-                    src={ico_level}
-                    alt="레벨"
-                    style={{ width: "18px", marginLeft: "4px" }}
-                  />
-                </span>
-                <span className={`caption`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_view}
-                    alt="views"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      marginRight: "4px",
-                    }}
-                  />
-                  5,000
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_like}
-                    alt="like"
-                    style={{ width: "16px", marginRight: "4px" }}
-                  />
-                  10
-                </span>
-                <span className={`body2`} style={{ color: "#aaa" }}>
-                  <img
-                    src={ico_reply}
-                    alt="reply"
-                    style={{ width: "20px", marginRight: "4px" }}
-                  />
-                  2
-                </span>
-              </div>
-              <h5>444글제목입니다 이영역은 글제목</h5>
-              <div className={styles.content_body}>
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-              </div>
-            </div>
+            ))}
           </Slider>
         </div>
       </div>
@@ -325,6 +220,9 @@ const Community = () => {
                       alt="레벨"
                       style={{ width: "18px", marginLeft: "4px" }}
                     />
+                  </span>
+                  <span className={`caption`} style={{ color: "#aaa" }}>
+                    {agoDate(post.created_at)}
                   </span>
                   <span className={`caption`} style={{ color: "#aaa" }}>
                     <img
@@ -394,6 +292,9 @@ const Community = () => {
                       alt="레벨"
                       style={{ width: "18px", marginLeft: "4px" }}
                     />
+                  </span>
+                  <span className={`caption`} style={{ color: "#aaa" }}>
+                    {agoDate(post.created_at)}
                   </span>
                   <span className={`caption`} style={{ color: "#aaa" }}>
                     <img

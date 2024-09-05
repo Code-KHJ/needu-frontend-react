@@ -65,6 +65,7 @@
               border: 1px solid #aaa;
               border-radius: 5px;
               color: #aaa;
+              min-width: 102px;
               & > img {
                 width: 18px;
                 height: 18px;
@@ -80,7 +81,6 @@
         }
         .comment_body {
           margin-top: 12px;
-          margin-left: 48px;
           & > div:nth-of-type(1) > div {
             padding: 17px 16px;
             min-height: 60px;
@@ -140,7 +140,14 @@
       }
       .child_wrap {
         margin-top: 20px;
-        margin-left: 48px;
+        & > button {
+          padding-left: 20px;
+        }
+        .child_list {
+          .comment_body {
+            margin-left: 48px;
+          }
+        }
       }
       .write_child {
         margin-top: 20px;
