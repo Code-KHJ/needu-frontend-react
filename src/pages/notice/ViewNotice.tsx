@@ -23,7 +23,6 @@ import KebabNotice from "@/components/KebabNotice";
 import { useLoading } from "@/contexts/LoadingContext";
 
 const ViewNotice = () => {
-  const isLoading = useRef(false);
   const { showLoading, hideLoading } = useLoading();
   const pathname = useLocation().pathname.split("/");
   const noticeId = parseFloat(pathname[pathname.length - 1]);

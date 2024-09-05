@@ -1,6 +1,5 @@
 import { LoginDto, SingupDto } from "@/interface/User";
 import customAxios from "./axios-config";
-import { AxiosError } from "axios";
 
 const userApi = {
   login: async (userData: LoginDto) => {
