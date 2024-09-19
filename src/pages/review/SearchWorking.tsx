@@ -359,7 +359,14 @@ const SearchWorking = () => {
       )}
       {corps.length === 0 && (
         <div style={{ marginTop: "120px", textAlign: "center", color: "#888" }}>
-          찾으시는 기관이 없나요? 기관 등록하기
+          찾으시는 기관이 없나요?{" "}
+          <a
+            href="https://forms.gle/R1nGsYURtngudXBJ7"
+            target="_blank"
+            style={{ color: "#6269f5" }}
+          >
+            기관 등록하기
+          </a>
         </div>
       )}
       <div className={styles.pagination}>

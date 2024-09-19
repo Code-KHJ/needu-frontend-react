@@ -28,6 +28,7 @@ import { useLoading } from "@/contexts/LoadingContext";
 const ViewPost = ({ type }) => {
   const { showLoading, hideLoading } = useLoading();
   const previousPage = useLocation().state?.previous;
+  console.log(previousPage);
   const pathname = useLocation().pathname.split("/");
   const postType = pathname[pathname.length - 2];
   const postId = parseFloat(pathname[pathname.length - 1]);

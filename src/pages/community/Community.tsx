@@ -159,17 +159,9 @@ const Community = () => {
                 <h5
                   onClick={() => {
                     post.postType === "자유게시판"
-                      ? navigate(`/community/free/${post.id}`, {
-                          state: {
-                            previous: location.pathname + location.search,
-                          },
-                        })
+                      ? navigate(`/community/free/${post.id}`)
                       : post.postType === "질문&답변"
-                      ? navigate(`/community/question/${post.id}`, {
-                          state: {
-                            previous: location.pathname + location.search,
-                          },
-                        })
+                      ? navigate(`/community/question/${post.id}`)
                       : "";
                   }}
                 >
@@ -179,17 +171,9 @@ const Community = () => {
                   className={styles.content_body}
                   onClick={() => {
                     post.postType === "자유게시판"
-                      ? navigate(`/community/free/${post.id}`, {
-                          state: {
-                            previous: location.pathname + location.search,
-                          },
-                        })
+                      ? navigate(`/community/free/${post.id}`)
                       : post.postType === "질문&답변"
-                      ? navigate(`/community/question/${post.id}`, {
-                          state: {
-                            previous: location.pathname + location.search,
-                          },
-                        })
+                      ? navigate(`/community/question/${post.id}`)
                       : "";
                   }}
                 >
@@ -243,11 +227,7 @@ const Community = () => {
                 </div>
                 <h5
                   className={styles.title}
-                  onClick={() =>
-                    navigate(`/community/free/${post.id}`, {
-                      state: { previous: location.pathname + location.search },
-                    })
-                  }
+                  onClick={() => navigate(`/community/free/${post.id}`)}
                 >
                   {post.title}
                 </h5>
@@ -315,11 +295,7 @@ const Community = () => {
                 </div>
                 <h5
                   className={styles.title}
-                  onClick={() =>
-                    navigate(`/community/question/${post.id}`, {
-                      state: { previous: location.pathname + location.search },
-                    })
-                  }
+                  onClick={() => navigate(`/community/question/${post.id}`)}
                 >
                   {post.title}
                 </h5>
