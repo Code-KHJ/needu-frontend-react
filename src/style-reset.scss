@@ -181,7 +181,7 @@ h5,
 .slick-arrow {
   width: 48px !important;
   height: 48px !important;
-  z-index: 100;
+  z-index: 8;
 }
 .slick-arrow::before {
   display: none;
@@ -195,7 +195,13 @@ h5,
 .tab_show {
   display: none !important;
 }
+.tab_show_flex {
+  display: none !important;
+}
 .pc_show {
+  display: none !important;
+}
+.pc_show_1024 {
   display: none !important;
 }
 
@@ -251,8 +257,20 @@ h5,
   .tab_show {
     display: block !important;
   }
+  .tab_show_flex {
+    display: flex !important;
+  }
   .pc_show {
     display: none !important;
+  }
+  .pc_show_1024 {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .pc_show_1024 {
+    display: block !important;
   }
 }
 

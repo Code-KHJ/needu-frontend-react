@@ -138,8 +138,13 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
     getTopic();
     getNotice();
     getPostList();
+    scrollView();
     hideLoading();
   }, [filters]);
+
+  const scrollView = () => {
+    window.scrollTo(0, 0);
+  };
 
   //관리자도구
   useEffect(() => {
@@ -177,17 +182,31 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
       showLoading();
       const resultmsg: string[] = [];
       for (const postId of checkedPost) {
-        try {
-          const response: any = await communityApi.acceptWeeklyBest(postId);
-          if (response.data.msg === "중복채택") {
-            resultmsg.push(
-              `PostId: ${postId} 게시글은 이미 채택된 게시글입니다.`
-            );
-          } else if (response.status === 201) {
-            resultmsg.push(`PostId: ${postId} 게시글 WB 채택 성공`);
+        //@ts-ignore
+        const post = postList.result.filter((post) => post.id === postId);
+        //@ts-ignore
+        if (post[0].wbAccepted) {
+          try {
+            const response: any = await communityApi.unacceptWeeklyBest(postId);
+            if (response.status === 200) {
+              resultmsg.push(`PostId: ${postId} 게시글 WB 채택 취소 성공`);
+            }
+          } catch (error) {
+            resultmsg.push(`PostId: ${postId} 게시글 WB 채택 취소 실패`);
           }
-        } catch (error) {
-          resultmsg.push(`PostId: ${postId} 게시글 WB 채택 실패`);
+        } else {
+          try {
+            const response: any = await communityApi.acceptWeeklyBest(postId);
+            if (response.data.msg === "중복채택") {
+              resultmsg.push(
+                `PostId: ${postId} 게시글은 이미 채택된 게시글입니다.`
+              );
+            } else if (response.status === 201) {
+              resultmsg.push(`PostId: ${postId} 게시글 WB 채택 성공`);
+            }
+          } catch (error) {
+            resultmsg.push(`PostId: ${postId} 게시글 WB 채택 실패`);
+          }
         }
       }
       hideLoading();
@@ -245,7 +264,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
               />
               <div>
                 <button
-                  className={`mo_show ${styles.btn_to_write}`}
+                  className={`mo_show_flex ${styles.btn_to_write}`}
                   onClick={() =>
                     navigate(
                       type === 1
@@ -273,7 +292,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                   검색
                 </button>
                 <button
-                  className={`tab_show ${styles.btn_to_write}`}
+                  className={`tab_show_flex ${styles.btn_to_write}`}
                   onClick={() =>
                     navigate(
                       type === 1
@@ -323,12 +342,12 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                 </div>
               )}
               <select value={filters.order} onChange={handleFilterBySelect}>
-                <option value="recent">최신순</option>
-                <option value="like">좋아요순</option>
-                <option value="comment">
+                <option value="recents">최신순</option>
+                <option value="likes">좋아요순</option>
+                <option value="comments">
                   {type === 1 ? "댓글순" : type === 2 ? "답변순" : ""}
                 </option>
-                <option value="view">조회순</option>
+                <option value="views">조회순</option>
               </select>
             </div>
           </div>
@@ -403,13 +422,23 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
               {postList.result.map((post, index) => (
                 <li className={styles.post_item} key={index}>
                   {user.authority === 100 && (
-                    <input
-                      type="checkbox"
-                      //@ts-ignore
-                      onChange={() => handleCheckbox(post.id)}
-                      //@ts-ignore
-                      checked={checkedPost.includes(post.id)}
-                    />
+                    <div className={styles.for_admin}>
+                      {/* @ts-ignore */}
+                      {post.wbAccepted && (
+                        <div className={`body2 ${styles.wb}`}>W.B</div>
+                      )}
+                      <div className={`body2 ${styles.post_id}`}>
+                        {/* @ts-ignore */}
+                        {post.id}
+                      </div>
+                      <input
+                        type="checkbox"
+                        //@ts-ignore
+                        onChange={() => handleCheckbox(post.id)}
+                        //@ts-ignore
+                        checked={checkedPost.includes(post.id)}
+                      />
+                    </div>
                   )}
                   <PostItem post={post} />
                 </li>

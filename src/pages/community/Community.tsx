@@ -27,24 +27,28 @@ const Community = () => {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    arrows: false,
     initialSlide: 1,
     responsive: [
       {
         breakpoint: 1489, // 1024px 이상일 때 (더 큰 화면 예시)
         settings: {
           slidesToShow: 3, // 슬라이드 갯수를 4개로 변경
+          arrows: true,
         },
       },
       {
         breakpoint: 1023, // 1024px 이상일 때 (더 큰 화면 예시)
         settings: {
           slidesToShow: 2, // 슬라이드 갯수를 4개로 변경
+          arrows: true,
         },
       },
       {
         breakpoint: 767,
         settings: {
           slidesToShow: 1,
+          arrows: true,
         },
       },
     ],

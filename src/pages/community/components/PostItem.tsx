@@ -22,7 +22,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
     <div className={styles.post_item_wrap}>
       {Number(post.postType) === 2 && (
         <div
-          className={`${styles.question_reply} tab_show`}
+          className={`${styles.question_reply} pc_show_1024`}
           onClick={() =>
             navigate(`${location.pathname}/${post.id}`, {
               state: { previous: location.pathname + location.search },
@@ -100,7 +100,10 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         </div>
         <div className={styles.reaction}>
           {post.commentAccepted && (
-            <span className={`body2 mo_show_flex`} style={{ color: "#6269f5" }}>
+            <span
+              className={`body2 ${styles.qna_reaction}`}
+              style={{ color: "#6269f5" }}
+            >
               <img
                 src={ico_reply_accepted}
                 alt="like"
@@ -114,7 +117,9 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             {post.like_cnt}
           </span>
           <span
-            className={`body2 ${Number(post.postType) === 2 && "mo_show_flex"}`}
+            className={`body2 ${
+              Number(post.postType) === 2 && styles.qna_reaction
+            }`}
             style={{ color: "#aaa" }}
           >
             <img src={ico_reply} alt="reply" style={{ width: "20px" }} />

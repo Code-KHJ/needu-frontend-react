@@ -210,6 +210,14 @@ const communityApi = {
       return error;
     }
   },
+  unacceptWeeklyBest: async (postId: number) => {
+    try {
+      const response = await customAxios.delete(`/community/weekly/${postId}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
 
 export default communityApi;
