@@ -12,6 +12,7 @@ import { useUser } from "./contexts/UserContext";
 import ReviewRoutes from "./pages/review";
 import CommunityRoutes from "./pages/community";
 import NoticeRoutes from "./pages/notice";
+import MypageRoutes from "./pages/mypage";
 
 declare global {
   interface Window {
@@ -62,6 +63,10 @@ function App() {
           element={<CommunityRoutes isLogin={isLogin} />}
         />
         <Route path="/notice/*" element={<NoticeRoutes isAdmin={isAdmin} />} />
+        <Route
+          path="/mypage/*"
+          element={isLogin ? <MypageRoutes /> : <Navigate to="/" />}
+        />
       </Routes>
       <Footer />
     </BrowserRouter>
