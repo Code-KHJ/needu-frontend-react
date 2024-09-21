@@ -55,7 +55,6 @@ const Community = () => {
   };
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [freeList, setFreeList] = useState<{
     result: PostListItemContent[];

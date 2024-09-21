@@ -32,14 +32,13 @@ const Nav = () => {
   useEffect(() => {
     const path = location.pathname.replace("/mypage", "");
     const menu =
-      Object.entries(menuList).find(([label, value]) => value === path)?.[0] ||
+      Object.entries(menuList).find(([_, value]) => value === path)?.[0] ||
       "홈";
     setMenu(menu);
   }, []);
   useEffect(() => {
     const path =
-      Object.entries(menuList).find(([label, value]) => label === menu)?.[1] ||
-      "/";
+      Object.entries(menuList).find(([label, _]) => label === menu)?.[1] || "/";
     navigate(`/mypage${path}`);
   }, [menu]);
   return (
