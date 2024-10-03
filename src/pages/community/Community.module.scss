@@ -8,51 +8,8 @@
   .weekly_wrap {
     padding: 0 10%;
     margin-top: 120px;
-    .content_list {
-      margin-top: 20px;
-      .content {
-        display: flex !important;
-        flex-direction: column;
-        border: 1px solid #d9d9d9;
-        border-radius: 5px;
-        background-color: #fff;
-        padding: 20px;
-        height: 407px;
-        overflow: hidden;
-        .info {
-          flex-shrink: 0;
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          & > img {
-            width: 26px;
-            height: 26px;
-          }
-          & > span {
-            display: flex;
-            align-items: center;
-            text-wrap: nowrap;
-          }
-        }
-        & > h5 {
-          flex-shrink: 0;
-          margin-top: 12px;
-          margin-bottom: 4px;
-          text-wrap: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          cursor: pointer;
-        }
-        .content_body {
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 12; /* 보여줄 줄 수 설정 */
-          line-clamp: 12; /* 표준 속성 */
-          text-overflow: ellipsis;
-          cursor: pointer;
-        }
-      }
+    .sub_banner {
+      display: none;
     }
   }
   .content_wrap {
@@ -60,7 +17,7 @@
     margin-top: 120px;
     display: flex;
     flex-direction: column;
-    gap: 80px;
+    gap: 40px;
     margin-bottom: 100px;
     .free_wrap,
     .question_wrap {
@@ -71,55 +28,71 @@
         justify-content: space-between;
         align-items: flex-end;
       }
-      .content_list {
-        margin-top: 10px;
-        .content_item {
-          padding: 20px 0;
-          border-bottom: 1px solid #d9d9d9;
-          .info {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 8px;
-            & > img {
-              width: 26px;
-              height: 26px;
-            }
-            & > span {
-              display: flex;
-              align-items: center;
-            }
-            .nickname {
-              max-width: 50%;
-              & > span {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-            }
-          }
-          .title {
-            margin-top: 12px;
-            text-wrap: nowrap;
+    }
+  }
+  .content_list {
+    margin-top: 10px;
+    .content_item {
+      padding: 20px 0;
+      border-bottom: 1px solid #d9d9d9;
+      .info {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        & > img {
+          width: 26px;
+          height: 26px;
+        }
+        & > span {
+          display: flex;
+          align-items: center;
+        }
+        .nickname {
+          max-width: 50%;
+          & > span {
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            cursor: pointer;
-          }
-          .reaction {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            & > img {
-              width: 26px;
-              height: 26px;
-            }
-            & > span {
-              display: flex;
-              align-items: center;
-              text-wrap: nowrap;
-            }
           }
         }
       }
+      .title {
+        margin-top: 12px;
+        text-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+      .content {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
+        line-clamp: 2; /* 표준 속성 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+      .reaction {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        & > img {
+          width: 26px;
+          height: 26px;
+        }
+        & > span {
+          display: flex;
+          align-items: center;
+          text-wrap: nowrap;
+        }
+      }
+    }
+  }
+  .weekly_wrap,
+  .free_wrap,
+  .question_wrap {
+    .content_item:last-child {
+      border-bottom: none;
     }
   }
 }
@@ -136,25 +109,46 @@
     }
     .weekly_wrap {
       padding: 0;
-      margin-top: 160px;
-      .content_list {
-        .content {
-          .content_body {
-            -webkit-line-clamp: 10; /* 보여줄 줄 수 설정 */
-            line-clamp: 10; /* 표준 속성 */
-          }
-        }
+      margin-top: 100px;
+      .weekly_content {
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        padding: 28px;
       }
     }
     .content_wrap {
       padding: 0;
-      margin-top: 160px;
+      margin-top: 40px;
+      gap: 20px;
+      .free_wrap,
+      .question_wrap {
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        padding: 28px;
+      }
+    }
+    .content_list {
+      .content_item {
+        .content {
+          -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
+          line-clamp: 1; /* 표준 속성 */
+        }
+      }
     }
   }
 }
 @media screen and (min-width: 1280px) {
   .wrap {
     max-width: 1280px;
+    .weekly_wrap {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      .sub_banner {
+        display: block;
+        min-width: 305px;
+      }
+    }
     .content_wrap {
       flex-direction: row;
       gap: 20px;

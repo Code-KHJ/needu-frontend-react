@@ -1,59 +1,23 @@
-import { useEffect, useState } from "react";
-import styles from "./Community.module.scss";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { PrevArrow, NextArrow } from "@/components/SliderArrow";
-import ico_profile from "@/assets/images/ico_login_gray.png";
-import ico_level from "@/assets/images/ico_level_default.png";
-import ico_view from "@/assets/images/ico_view.png";
-import ico_like from "@/assets/images/ico_like.png";
-import ico_reply from "@/assets/images/ico_reply.png";
-import { useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
+import ico_arrow from "@/assets/images/ico_arrow_down.png";
+import ico_level from "@/assets/images/ico_level_default.png";
+import ico_like from "@/assets/images/ico_like.png";
+import ico_profile from "@/assets/images/ico_login_gray.png";
+import ico_reply from "@/assets/images/ico_reply.png";
+import ico_view from "@/assets/images/ico_view.png";
 import {
   PostListItemContent,
   WeeklyListItemContent,
 } from "@/interface/Community";
-import stripHtml from "@/utils/stripHtml";
 import agoDate from "@/utils/agoDate";
+import stripHtml from "@/utils/stripHtml";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import styles from "./Community.module.scss";
 
 const Community = () => {
-  // slider 세팅
-  const sliderSettings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    arrows: false,
-    initialSlide: 1,
-    responsive: [
-      {
-        breakpoint: 1489, // 1024px 이상일 때 (더 큰 화면 예시)
-        settings: {
-          slidesToShow: 3, // 슬라이드 갯수를 4개로 변경
-          arrows: true,
-        },
-      },
-      {
-        breakpoint: 1023, // 1024px 이상일 때 (더 큰 화면 예시)
-        settings: {
-          slidesToShow: 2, // 슬라이드 갯수를 4개로 변경
-          arrows: true,
-        },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1,
-          arrows: true,
-        },
-      },
-    ],
-  };
-
   const navigate = useNavigate();
 
   const [freeList, setFreeList] = useState<{
@@ -111,20 +75,23 @@ const Community = () => {
         배너
       </div>
       <div className={styles.weekly_wrap}>
-        <h4>Weekly Best</h4>
-        <div className={`slider-container ${styles.content_list}`}>
-          <Slider {...sliderSettings}>
-            {weeklyList.map((post, index) => (
-              <div className={styles.content} key={index}>
+        <div className={styles.weekly_content}>
+          <h2>Weekly Best</h2>
+          <ul className={styles.content_list}>
+            {weeklyList.slice(0, 5).map((post, index) => (
+              <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
                   <img src={ico_profile} alt="profile_image" />
-                  <span className={`body2`}>
-                    {post.writer.nickname}
+                  <span className={`body2  ${styles.nickname}`}>
+                    <span>{post.writer.nickname}</span>
                     <img
                       src={ico_level}
                       alt="레벨"
                       style={{ width: "18px", marginLeft: "4px" }}
                     />
+                  </span>
+                  <span className={`caption`} style={{ color: "#aaa" }}>
+                    {agoDate(post.created_at)}
                   </span>
                   <span className={`caption`} style={{ color: "#aaa" }}>
                     <img
@@ -138,6 +105,36 @@ const Community = () => {
                     />
                     {post.view}
                   </span>
+                </div>
+                <h5
+                  className={styles.title}
+                  onClick={() =>
+                    navigate(
+                      `${
+                        post.postType === "자유게시판"
+                          ? `/community/free/${post.id}`
+                          : `/community/question/${post.id}`
+                      }`
+                    )
+                  }
+                >
+                  {post.title}
+                </h5>
+                <div
+                  className={styles.content}
+                  onClick={() =>
+                    navigate(
+                      `${
+                        post.postType === "자유게시판"
+                          ? `/community/free/${post.id}`
+                          : `/community/question/${post.id}`
+                      }`
+                    )
+                  }
+                >
+                  {stripHtml(post.content)}
+                </div>
+                <div className={styles.reaction}>
                   <span className={`body2`} style={{ color: "#aaa" }}>
                     <img
                       src={ico_like}
@@ -155,32 +152,12 @@ const Community = () => {
                     {post.comment_cnt}
                   </span>
                 </div>
-                <h5
-                  onClick={() => {
-                    post.postType === "자유게시판"
-                      ? navigate(`/community/free/${post.id}`)
-                      : post.postType === "질문&답변"
-                      ? navigate(`/community/question/${post.id}`)
-                      : "";
-                  }}
-                >
-                  {post.title}
-                </h5>
-                <div
-                  className={styles.content_body}
-                  onClick={() => {
-                    post.postType === "자유게시판"
-                      ? navigate(`/community/free/${post.id}`)
-                      : post.postType === "질문&답변"
-                      ? navigate(`/community/question/${post.id}`)
-                      : "";
-                  }}
-                >
-                  {stripHtml(post.content)}
-                </div>
-              </div>
+              </li>
             ))}
-          </Slider>
+          </ul>
+        </div>
+        <div className={styles.sub_banner} style={{ backgroundColor: "#aaa" }}>
+          배너
         </div>
       </div>
       <div className={styles.content_wrap}>
@@ -192,7 +169,11 @@ const Community = () => {
               style={{ color: "#aaa", cursor: "pointer" }}
               onClick={() => navigate("/community/free")}
             >
-              더보기 &gt;
+              <img
+                src={ico_arrow}
+                alt="더보기"
+                style={{ transform: "rotate(-90deg)" }}
+              />
             </div>
           </div>
           <ul className={styles.content_list}>
@@ -260,7 +241,11 @@ const Community = () => {
               style={{ color: "#aaa", cursor: "pointer" }}
               onClick={() => navigate("/community/question")}
             >
-              더보기 &gt;
+              <img
+                src={ico_arrow}
+                alt="더보기"
+                style={{ transform: "rotate(-90deg)" }}
+              />
             </div>
           </div>
           <ul className={styles.content_list}>
