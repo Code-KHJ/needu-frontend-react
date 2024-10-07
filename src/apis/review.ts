@@ -3,9 +3,9 @@ import {
   ReviewTrainingDto,
   ReviewWorkingDto,
 } from "@/interface/Review";
-import customAxios from "./axios-config";
-import { LikeDto } from "../interface/Review";
 import { AxiosError } from "axios";
+import { LikeDto } from "../interface/Review";
+import customAxios from "./axios-config";
 
 const reviewApi = {
   createWorking: async (reviewData: ReviewWorkingDto) => {
@@ -47,6 +47,15 @@ const reviewApi = {
     } catch (error) {
       console.error(error);
       return (error as AxiosError).response;
+    }
+  },
+  getWorkingReviewsByUser: async () => {
+    try {
+      const response = await customAxios.get("/review/working/user");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
     }
   },
   updateWorkingReview: async (no: string, reviewData: ReviewWorkingDto) => {
@@ -111,6 +120,15 @@ const reviewApi = {
     } catch (error) {
       console.error(error);
       return (error as AxiosError).response;
+    }
+  },
+  getTrainingReviewsByUser: async () => {
+    try {
+      const response = await customAxios.get("/review/training/user");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
     }
   },
   updateTrainingReview: async (no: string, reviewData: ReviewTrainingDto) => {

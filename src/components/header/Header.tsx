@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import styles from "./Header.module.scss";
-import { Link, useLocation } from "react-router-dom";
-import { useUser } from "@/contexts/UserContext";
 import userApi from "@/apis/user";
+import { useUser } from "@/contexts/UserContext";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import styles from "./Header.module.scss";
 
 const Header = () => {
   //@ts-ignore
@@ -180,7 +180,7 @@ const Header = () => {
             <div className={styles.usersign}>
               {user.nickname !== null ? (
                 <>
-                  <Link to="/mypage/profile" className={styles.nickname}>
+                  <Link to="/mypage" className={styles.nickname}>
                     {user.nickname}님
                   </Link>
                   <span className={styles.logout} onClick={logout}>

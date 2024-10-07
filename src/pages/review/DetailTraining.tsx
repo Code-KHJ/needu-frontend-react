@@ -1,29 +1,29 @@
 //@ts-nocheck
 
-import { useEffect, useState } from "react";
-import styles from "./Detail.module.scss";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import ScoreStar from "@/components/ScoreStar";
-import { StarList } from "@/common/StarList";
-import ScoreBar from "@/components/ScoreBar";
 import corpApi from "@/apis/corp";
 import reviewApi from "@/apis/review";
+import btn_kebab from "@/assets/images/btn_kebab.png";
+import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
+import ico_arrow_R from "@/assets/images/ico_arrow_R.png";
+import like_off from "@/assets/images/like.png";
+import like_on from "@/assets/images/like_on.png";
+import { StarList } from "@/common/StarList";
+import BlindComment from "@/components/BlindComment";
+import Hashtag from "@/components/Hashtag";
+import ReportModal from "@/components/modal/ReportModal";
+import ScoreBar from "@/components/ScoreBar";
+import ScoreStar from "@/components/ScoreStar";
+import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
 import {
   DeleteReviewDto,
   LikeDto,
   ReviewTrainingContent,
 } from "@/interface/Review";
-import Hashtag from "@/components/Hashtag";
-import { useUser } from "@/contexts/UserContext";
-import BlindComment from "@/components/BlindComment";
-import ReportModal from "@/components/modal/ReportModal";
-import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
-import btn_kebab from "@/assets/images/btn_kebab.png";
-import like_on from "@/assets/images/like_on.png";
-import like_off from "@/assets/images/like.png";
-import ico_arrow_R from "@/assets/images/ico_arrow_R.png";
-import { useConfirm } from "@/contexts/ConfirmContext";
-import { useLoading } from "@/contexts/LoadingContext";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styles from "./Detail.module.scss";
 
 const DetailTraining = () => {
   const { customConfirm } = useConfirm();

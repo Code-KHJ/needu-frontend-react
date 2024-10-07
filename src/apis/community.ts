@@ -48,6 +48,15 @@ const communityApi = {
       return error;
     }
   },
+  getPostListByUser: async () => {
+    try {
+      const response = await customAxios.get("/community/post/list/user");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   updatePost: async (editDto: CommunityEditDto) => {
     try {
       const response = await customAxios.patch(

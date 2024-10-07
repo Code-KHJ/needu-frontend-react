@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import styles from "./Write.module.scss";
-import TextEditor from "@/components/TextEditor";
-import type { Editor } from "@toast-ui/react-editor";
 import communityApi from "@/apis/community";
-import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
-import { CommunityCreateDto } from "@/interface/Community";
-import { useUser } from "@/contexts/UserContext";
-import Button from "@/components/elements/Button";
-import { useLocation, useNavigate } from "react-router-dom";
 import ico_ext from "@/assets/images/ico_ext.png";
+import Button from "@/components/elements/Button";
+import TextEditor from "@/components/TextEditor";
 import { useConfirm } from "@/contexts/ConfirmContext";
-import { Topic } from "@/interface/Topic";
 import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
+import { CommunityCreateDto } from "@/interface/Community";
+import { Topic } from "@/interface/Topic";
+import type { Editor } from "@toast-ui/react-editor";
+import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Write.module.scss";
 
 //@ts-ignore
 const WritePost = ({ type }) => {
@@ -245,7 +245,7 @@ const WritePost = ({ type }) => {
                 ? "btn_condition_true"
                 : "btn_condition_false"
             }`}
-            style={{ minWidth: "110px", height: "60px" }}
+            style={{ minWidth: "110px" }}
             isDisabled={isSubmitDisabled}
             onClick={handleSubmit}
           ></Button>

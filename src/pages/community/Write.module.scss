@@ -59,7 +59,7 @@ select {
       flex-direction: row;
       gap: 20px;
       & > button {
-        height: 60px;
+        height: 48px;
         border-radius: 3px;
         width: calc(50% - 10px);
         color: #fff;
@@ -99,6 +99,7 @@ select {
         justify-content: center;
         & > button {
           width: 110px;
+          height: 60px;
         }
       }
     }

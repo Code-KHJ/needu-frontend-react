@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Mypage.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Mypage.module.scss";
 
 const Nav = () => {
   const location = useLocation();
@@ -8,7 +8,7 @@ const Nav = () => {
 
   const menuList = {
     홈: "/",
-    기관리뷰: "/working",
+    전현직리뷰: "/working",
     실습리뷰: "/training",
     자유게시판: "/free",
     "Q&A게시판": "/question",
@@ -35,7 +35,7 @@ const Nav = () => {
       Object.entries(menuList).find(([_, value]) => value === path)?.[0] ||
       "홈";
     setMenu(menu);
-  }, []);
+  }, [location.pathname]);
   useEffect(() => {
     const path =
       Object.entries(menuList).find(([label, _]) => label === menu)?.[1] || "/";

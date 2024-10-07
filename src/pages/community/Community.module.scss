@@ -144,6 +144,9 @@
       display: flex;
       flex-direction: row;
       gap: 20px;
+      .weekly_content {
+        flex: 1;
+      }
       .sub_banner {
         display: block;
         min-width: 305px;

@@ -64,7 +64,6 @@ const Community = () => {
     getQuestionList();
     getWeeklyList();
   }, []);
-  console.log(weeklyList);
 
   return (
     <div className={styles.wrap}>

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import styles from "./Mypage.module.scss";
-import ico_profile from "@/assets/images/ico_login_gray.png";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
 import ico_help from "@/assets/images/ico_help.png";
+import ico_level from "@/assets/images/ico_level_default.png";
+import ico_profile from "@/assets/images/ico_login_gray.png";
+import { useEffect, useState } from "react";
+import styles from "./Mypage.module.scss";
 
 const Profile = () => {
   const value = Math.min((250 / 499) * 100, 100);
@@ -26,7 +26,6 @@ const Profile = () => {
     };
   }, []);
 
-  console.log(value);
   return (
     <div className={styles.profile_wrap}>
       <div className={styles.user_info}>

@@ -2,8 +2,8 @@
 
 .wrap {
   margin: 40px auto 100px;
+  width: 80%;
   .nav_wrap {
-    margin: 0 10%;
     .for_mo {
       width: 100%;
       height: 50px;
@@ -18,7 +18,7 @@
     }
   }
   .content_wrap {
-    margin: 20px 10% 100px;
+    margin-top: 20px;
     .profile_wrap {
       display: flex;
       flex-direction: column;
@@ -86,14 +86,69 @@
   }
 }
 
+.home_wrap {
+  margin-top: 40px;
+  .review_wrap,
+  .community_wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .community_wrap {
+    margin-top: 20px;
+  }
+  .item_wrap {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 20px;
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .item_list {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        .title {
+          text-wrap: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .reaction {
+          display: flex;
+          justify-content: flex-end;
+          gap: 8px;
+          & > img {
+            width: 26px;
+            height: 26px;
+          }
+          & > span {
+            display: flex;
+            align-items: center;
+            text-wrap: nowrap;
+          }
+        }
+      }
+    }
+  }
+}
+
 /* main end */
 /* mobile-end */
 
 @media screen and (min-width: 768px) {
   .wrap {
     margin-top: 80px;
+    width: 86%;
     .nav_wrap {
-      width: 86%;
       margin: 0 auto;
       .for_mo {
         display: none;
@@ -115,8 +170,7 @@
       }
     }
     .content_wrap {
-      margin: 40px auto 100px;
-      width: 86%;
+      margin-top: 40px;
       .profile_wrap {
         flex-direction: row;
         gap: 80px;
@@ -145,6 +199,15 @@
       }
     }
   }
+  .home_wrap {
+    .review_wrap,
+    .community_wrap {
+      flex-direction: row;
+    }
+    .item_wrap {
+      min-width: calc(50% - 10px);
+    }
+  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -157,10 +220,20 @@
     .content_wrap {
       display: flex;
       flex-direction: row;
+      gap: 40px;
       .profile_wrap {
-        width: 310px;
+        min-width: 310px;
         flex-direction: column;
       }
+    }
+  }
+  .home_wrap {
+    margin-top: 0px;
+    min-width: 0;
+    flex-grow: 1;
+    .review_wrap,
+    .community_wrap {
+      flex-direction: column;
     }
   }
 }
@@ -168,5 +241,11 @@
 @media screen and (min-width: 1280px) {
   .wrap {
     max-width: 1280px;
+  }
+  .home_wrap {
+    .review_wrap,
+    .community_wrap {
+      flex-direction: row;
+    }
   }
 }

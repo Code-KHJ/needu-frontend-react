@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import Info from "./Info";
 import styles from "./Mypage.module.scss";
 import Nav from "./Nav";
 import Profile from "./Profile";
-import Home from "./Home";
 
 const MypageRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const MypageRoutes = () => {
         <Profile />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/info" element={<Info />} />
         </Routes>
       </div>
     </div>
