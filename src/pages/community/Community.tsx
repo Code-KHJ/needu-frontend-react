@@ -2,7 +2,6 @@ import communityApi from "@/apis/community";
 import ico_arrow from "@/assets/images/ico_arrow_down.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_view from "@/assets/images/ico_view.png";
 import {
@@ -16,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import styles from "./Community.module.scss";
+import ProfileImage from "@/components/ProfileImage";
 
 const Community = () => {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const Community = () => {
             {weeklyList.slice(0, 5).map((post, index) => (
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
-                  <img src={ico_profile} alt="profile_image" />
+                  <ProfileImage src={post.writer.profile_image} />
                   <span className={`body2  ${styles.nickname}`}>
                     <span>{post.writer.nickname}</span>
                     <img
@@ -179,7 +179,7 @@ const Community = () => {
             {freeList.result.slice(0, 5).map((post, index) => (
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
-                  <img src={ico_profile} alt="profile_image" />
+                  <ProfileImage src={post.writer.profile_image} />
                   <span className={`body2  ${styles.nickname}`}>
                     <span>{post.writer.nickname}</span>
                     <img
@@ -251,7 +251,7 @@ const Community = () => {
             {questionList.result.slice(0, 5).map((post, index) => (
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
-                  <img src={ico_profile} alt="profile_image" />
+                  <ProfileImage src={post.writer.profile_image} />{" "}
                   <span className={`body2 ${styles.nickname}`}>
                     <span>{post.writer.nickname}</span>
                     <img

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Comments.module.scss";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_like_on from "@/assets/images/like_on.png";
@@ -17,6 +16,7 @@ import communityApi from "@/apis/community";
 import noticeApi from "@/apis/notice";
 import { TextField } from "@mui/material";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import ProfileImage from "../ProfileImage";
 
 interface CommentProps {
   postType: string;
@@ -236,7 +236,7 @@ const Comment: React.FC<CommentProps> = ({
       <div className={styles.comment_header}>
         <div className={styles.user_info}>
           <div className={styles.profile}>
-            <img src={ico_profile} alt="profile" />
+            <ProfileImage src={comment.writer.profile_image} />
           </div>
           <div>
             <div>

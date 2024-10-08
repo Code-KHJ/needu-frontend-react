@@ -60,6 +60,7 @@ const Login = () => {
         user_id: response.data.user_id,
         nickname: response.data.nickname,
         authority: response.data.authority,
+        profile_image: response.data.profile_image,
       });
       localStorage.setItem(
         "userInfo",
@@ -68,6 +69,7 @@ const Login = () => {
           user_id: response.data.user_id,
           nickname: response.data.nickname,
           authority: response.data.authority,
+          profile_image: response.data.profile_image,
         })
       );
       alert(response.data.nickname + "님 환영합니다.");

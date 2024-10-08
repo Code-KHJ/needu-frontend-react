@@ -1,9 +1,9 @@
 import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
 import ico_help from "@/assets/images/ico_help.png";
 import ico_level from "@/assets/images/ico_level_default.png";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import { useEffect, useState } from "react";
 import styles from "./Mypage.module.scss";
+import ProfileImage from "@/components/ProfileImage";
 
 const Profile = () => {
   const value = Math.min((250 / 499) * 100, 100);
@@ -31,11 +31,7 @@ const Profile = () => {
       <div className={styles.user_info}>
         <div className={styles.info}>
           <span className="body2 tab_show">홍길동</span>
-          <img
-            className={styles.profile_image}
-            src={ico_profile}
-            alt="profile_image"
-          />
+          <ProfileImage src={null} />
           <span className={styles.nickname}>홍길동</span>
           <img className={styles.level_imamge} src={ico_level} alt="level" />
           <span>{windowWidth > 768 && "NEEDU 커뮤니티 "}Level 2</span>

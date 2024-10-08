@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Comments.module.scss";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_arrow_down from "@/assets/images/ico_arrow_down_gnb.png";
 import { TextField } from "@mui/material";
 import { useUser } from "@/contexts/UserContext";
@@ -9,6 +8,7 @@ import communityApi from "@/apis/community";
 import Comment from "./Comment";
 import noticeApi from "@/apis/notice";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import ProfileImage from "../ProfileImage";
 
 interface CommentsProps {
   postId: number;
@@ -254,7 +254,7 @@ const Comments: React.FC<CommentsProps> = ({
     <div className={styles.comment_wrap}>
       <p>댓글 {comments.length}</p>
       <div className={styles.comment_write}>
-        <img src={ico_profile} alt="profile" />
+        <ProfileImage src={user.profile_image} />
         <TextField
           name="content"
           placeholder={
@@ -429,7 +429,7 @@ const Comments: React.FC<CommentsProps> = ({
                   {childCommentShow[comment.id]?.form ? (
                     <div className={styles.write_child}>
                       <div className={styles.form}>
-                        <img src={ico_profile} alt="profile" />
+                        <ProfileImage src={user.profile_image} />
                         <TextField
                           placeholder={
                             user.id

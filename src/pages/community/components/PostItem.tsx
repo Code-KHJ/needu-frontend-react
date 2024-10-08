@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../Search.module.scss";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
@@ -10,6 +9,7 @@ import { PostListItemContent } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
 import stripHtml from "@/utils/stripHtml";
 import { useLocation, useNavigate } from "react-router-dom";
+import ProfileImage from "@/components/ProfileImage";
 
 interface PostItemProps {
   post: PostListItemContent;
@@ -53,7 +53,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
       )}
       <div className={styles.post_content}>
         <div className={styles.info}>
-          <img src={ico_profile} alt="profile_image" />
+          <ProfileImage src={post.writer.profile_image} />
           <span className={`body2`}>
             {post.writer.nickname}
             <img

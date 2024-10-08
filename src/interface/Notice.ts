@@ -26,11 +26,8 @@ export interface NoticeContent {
   writer: {
     id: number;
     nickname: string;
-    // @IsString()
-    // user_profile: string; url??
-
-    // @IsString()
-    // user_level: string;
+    profile_image: string | null;
+    activity_points: number;
   };
 }
 
@@ -46,11 +43,8 @@ export interface PublicNotice {
   writer: {
     id: number;
     nickname: string;
-    // @IsString()
-    // user_profile: string; url??
-
-    // @IsString()
-    // user_level: string;
+    profile_image: string | null;
+    activity_points: number;
   };
 }
 

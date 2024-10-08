@@ -31,11 +31,8 @@ export interface PostContent {
   writer: {
     id: number;
     nickname: string;
-    // @IsString()
-    // user_profile: string; url??
-
-    // @IsString()
-    // user_level: string;
+    profile_image: string | null;
+    activity_points: number;
   };
 }
 
@@ -54,11 +51,8 @@ export interface PostListItemContent {
   writer: {
     id: number;
     nickname: string;
-    // @IsString()
-    // user_profile: string; url??
-
-    // @IsString()
-    // user_level: string;
+    profile_image: string | null;
+    activity_points: number;
   };
 }
 
@@ -76,11 +70,8 @@ export interface WeeklyListItemContent {
   writer: {
     id: number;
     nickname: string;
-    // @IsString()
-    // user_profile: string; url??
-
-    // @IsString()
-    // user_level: string;
+    profile_image: string | null;
+    activity_points: number;
   };
 }
 
@@ -128,11 +119,8 @@ export interface CommentContent {
   writer: {
     id: number;
     nickname: string;
-    // @IsString()
-    // user_profile: string; url??
-
-    // @IsString()
-    // user_level: string;
+    profile_image: string | null;
+    activity_points: number;
   };
 }
 

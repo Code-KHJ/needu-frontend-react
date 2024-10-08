@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./View.module.scss";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ico_view from "@/assets/images/ico_view.png";
 import btn_share from "@/assets/images/ico_share.png";
@@ -23,6 +22,7 @@ import Comments from "@/components/comments/Comments";
 import { copyClipboard, fbShare, kakaoShare, xShare } from "@/utils/snsShare";
 import { Topic } from "@/interface/Topic";
 import { useLoading } from "@/contexts/LoadingContext";
+import ProfileImage from "@/components/ProfileImage";
 
 //@ts-ignore
 const ViewPost = ({ type }) => {
@@ -232,7 +232,7 @@ const ViewPost = ({ type }) => {
             <h3>{post?.title}</h3>
             <div className={styles.post_header_info}>
               <div className={styles.writer_info}>
-                <img src={ico_profile} alt="profile_image" />
+                <ProfileImage src={post?.writer.profile_image} />
                 <div>
                   <div>
                     <span>{post?.writer.nickname}</span>

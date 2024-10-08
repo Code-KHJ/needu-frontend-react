@@ -11,6 +11,7 @@ export const UserProvider = ({ children }) => {
     user_id: null,
     nickname: null,
     authority: null,
+    profile_image: null,
   });
   const { showLoading, hideLoading } = useLoading();
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,7 @@ export const UserProvider = ({ children }) => {
               user_id: userData.user_id,
               nickname: userData.nickname,
               authority: userData.authority,
+              profile_image: userData.profile_image,
             });
           } else {
             const response: any = await userApi.getMe();
@@ -48,6 +50,7 @@ export const UserProvider = ({ children }) => {
                 user_id: response.data.user_id,
                 nickname: response.data.nickname,
                 authority: response.data.authority,
+                profile_image: response.data.profile_image,
               });
               localStorage.setItem(
                 "userInfo",
@@ -56,6 +59,7 @@ export const UserProvider = ({ children }) => {
                   user_id: response.data.user_id,
                   nickname: response.data.nickname,
                   authority: response.data.authority,
+                  profile_image: response.data.profile_image,
                 })
               );
             } else {
@@ -64,6 +68,7 @@ export const UserProvider = ({ children }) => {
                 user_id: null,
                 nickname: null,
                 authority: null,
+                profile_image: null,
               });
             }
           }
@@ -73,6 +78,7 @@ export const UserProvider = ({ children }) => {
             user_id: null,
             nickname: null,
             authority: null,
+            profile_image: null,
           });
         }
       }

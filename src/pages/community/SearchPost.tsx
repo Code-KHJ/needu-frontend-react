@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import ico_pencil from "@/assets/images/btn_write_modal.png";
-import ico_profile from "@/assets/images/ico_login_gray.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
@@ -23,6 +22,7 @@ import Pagination from "@/components/Pagination";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import ProfileImage from "@/components/ProfileImage";
 
 interface SearchPostProps {
   type: number;
@@ -360,7 +360,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                 <div className={`body2 ${styles.label}`}>공지</div>
                 <div className={styles.notice_content}>
                   <div className={styles.info}>
-                    <img src={ico_profile} alt="profile_image" />
+                    <ProfileImage src={notice[0]?.writer.profile_image} />
                     <span className={`body2`}>
                       {notice[0]?.writer.nickname}
                       <img
