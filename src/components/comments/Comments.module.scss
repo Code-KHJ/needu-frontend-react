@@ -200,8 +200,15 @@
       }
     }
     .comment_list {
-      margin-left: 20px;
       .comment {
+        .comment_item {
+          .comment_body {
+            margin-left: 48px;
+          }
+        }
+        .child_wrap {
+          margin-left: 38px;
+        }
         .write_child {
           margin-top: 20px;
           .form {

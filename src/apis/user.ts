@@ -80,6 +80,26 @@ const userApi = {
     const response = await customAxios.put("/user/update/pw", userData);
     return response;
   },
+  uploadProfile: async (formData: FormData) => {
+    try {
+      const response = await customAxios.post("/user/profile/image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  getUserInfo: async () => {
+    try {
+      const response = await customAxios.get("/user/profile");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default userApi;

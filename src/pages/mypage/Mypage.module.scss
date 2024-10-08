@@ -37,6 +37,16 @@
             height: 18px;
             margin-right: 4px;
           }
+          .profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            & > img {
+              width: 18px;
+              height: 18px;
+              margin-right: 4px;
+            }
+          }
           .nickname {
             margin-right: 10px;
           }
@@ -161,6 +171,7 @@
           height: 45px;
           padding: 0 20px;
           color: #222;
+          text-wrap: nowrap;
         }
         .active {
           background-color: #fff;
@@ -178,6 +189,13 @@
           flex: 1;
           .info {
             flex-direction: column;
+            .profile {
+              & > img {
+                margin: 20px auto;
+                width: 80px;
+                height: 80px;
+              }
+            }
             .profile_image {
               margin: 20px auto;
               width: 80px;

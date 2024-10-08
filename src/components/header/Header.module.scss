@@ -244,6 +244,7 @@ header {
       .gnb li {
         margin: 0;
         margin-left: 20px;
+        text-wrap: nowrap;
       }
       .gnb li a::after {
         display: none;

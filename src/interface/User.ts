@@ -13,7 +13,7 @@ export type SingupDto = User & {
   password2: string;
 };
 
-export type LoginDto = Pick<User, 'user_id' | 'password'>;
+export type LoginDto = Pick<User, "user_id" | "password">;
 
 export interface UserCareer {
   id: number;
@@ -23,4 +23,14 @@ export interface UserCareer {
   last_date: string;
   type: string;
   review_no: number;
+}
+
+export interface UserProfile {
+  user_id: string;
+  nickname: string;
+  phonenumber: string;
+  google: boolean;
+  kakao: boolean;
+  profile_image: string;
+  activity_points: number;
 }
