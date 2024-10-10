@@ -6,7 +6,7 @@ const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const menuList = {
+  const menuList: { [key: string]: string } = {
     홈: "/",
     전현직리뷰: "/working",
     실습리뷰: "/training",
@@ -20,27 +20,23 @@ const Nav = () => {
       | React.ChangeEvent<HTMLSelectElement>
       | React.MouseEvent<HTMLButtonElement>
   ) => {
-    if (e.nativeEvent instanceof MouseEvent) {
-      const { value } = e.currentTarget;
-      setMenu(value);
-    } else {
-      const { value } = e.target as HTMLSelectElement;
-      setMenu(value);
-    }
+    const { value } =
+      e.nativeEvent instanceof MouseEvent
+        ? e.currentTarget
+        : (e.target as HTMLSelectElement);
+
+    const path = menuList[value];
+    navigate(`/mypage${path}`);
   };
 
   useEffect(() => {
     const path = location.pathname.replace("/mypage", "");
-    const menu =
+    const currentMenu =
       Object.entries(menuList).find(([_, value]) => value === path)?.[0] ||
       "홈";
-    setMenu(menu);
+    if (menu !== currentMenu) setMenu(currentMenu);
   }, [location.pathname]);
-  useEffect(() => {
-    const path =
-      Object.entries(menuList).find(([label, _]) => label === menu)?.[1] || "/";
-    navigate(`/mypage${path}`);
-  }, [menu]);
+
   return (
     <div className={styles.nav_wrap}>
       <select

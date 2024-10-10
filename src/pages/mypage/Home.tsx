@@ -70,7 +70,6 @@ const Home = () => {
     getPost();
     hideLoading();
   }, []);
-  console.log(postList);
 
   return (
     <div className={styles.home_wrap}>

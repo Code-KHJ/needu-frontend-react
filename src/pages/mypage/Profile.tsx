@@ -8,7 +8,12 @@ import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import userApi from "@/apis/user";
 import { UserProfile } from "@/interface/User";
 
-const Profile = () => {
+interface ProfileProps {
+  userInfo: UserProfile;
+  setUserInfo: React.Dispatch<React.SetStateAction<UserProfile>>;
+}
+
+const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   const value = Math.min((250 / 499) * 100, 100);
   const [expandActivity, setExpandActivity] = useState(false);
   const handleExpand = () => {
@@ -26,28 +31,6 @@ const Profile = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
-
-  const [userInfo, setUserInfo] = useState<UserProfile>({
-    user_id: "",
-    nickname: "",
-    phonenumber: "",
-    google: false,
-    kakao: false,
-    profile_image: "",
-    activity_points: 0,
-  });
-  const getUserInfo = async () => {
-    const response: any = await userApi.getUserInfo();
-    if (response.status !== 200) {
-      alert("오류가 발생하였습니다");
-      window.location.reload();
-    }
-    setUserInfo(response.data);
-  };
-
-  useEffect(() => {
-    getUserInfo();
   }, []);
 
   const profileInput = useRef<HTMLInputElement | null>(null);
@@ -113,7 +96,7 @@ const Profile = () => {
     <div className={styles.profile_wrap}>
       <div className={styles.user_info}>
         <div className={styles.info}>
-          <span className="body2 tab_show">홍길동</span>
+          <span className="body2 tab_show">{userInfo.nickname}</span>
           <span
             className={styles.profile}
             onClick={() => {

@@ -77,7 +77,7 @@ const userApi = {
     return response;
   },
   updatePw: async (userData: object) => {
-    const response = await customAxios.put("/user/update/pw", userData);
+    const response = await customAxios.patch("/user/update/pw", userData);
     return response;
   },
   uploadProfile: async (formData: FormData) => {
@@ -94,6 +94,27 @@ const userApi = {
   getUserInfo: async () => {
     try {
       const response = await customAxios.get("/user/profile");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  updateUserInfo: async (userData: object) => {
+    try {
+      const response = await customAxios.patch("/user/update/info", userData);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  updateUserPassword: async (userData: object) => {
+    try {
+      const response = await customAxios.patch(
+        "/user/update/password",
+        userData
+      );
       return response;
     } catch (error) {
       console.error(error);

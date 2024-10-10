@@ -1,7 +1,8 @@
-import React from 'react';
-import styles from './Element.module.scss';
+import React from "react";
+import styles from "./Element.module.scss";
 
 interface InputProps {
+  type?: string;
   name: string;
   className: string;
   value: string;
@@ -12,6 +13,7 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
+  type,
   name,
   className,
   value,
@@ -21,7 +23,7 @@ const Input: React.FC<InputProps> = ({
   required,
 }) => {
   switch (name) {
-    case 'user_id':
+    case "user_id":
       return (
         <input
           type="email"
@@ -37,7 +39,7 @@ const Input: React.FC<InputProps> = ({
           required={required}
         />
       );
-    case 'password':
+    case "password":
       return (
         <input
           type="password"
@@ -46,13 +48,17 @@ const Input: React.FC<InputProps> = ({
           minLength={8}
           maxLength={16}
           autoComplete="on"
-          placeholder="8~16자 영문 대소문자, 숫자, 특수문자"
+          placeholder={
+            placeholder !== ""
+              ? placeholder
+              : "8~16자 영문 대소문자, 숫자, 특수문자"
+          }
           value={value}
           onChange={onChange}
           required={required}
         />
       );
-    case 'password2':
+    case "password2":
       return (
         <input
           type="password"
@@ -67,7 +73,7 @@ const Input: React.FC<InputProps> = ({
           required={required}
         />
       );
-    case 'phone':
+    case "phone":
       return (
         <input
           type="text"
@@ -81,7 +87,7 @@ const Input: React.FC<InputProps> = ({
           required={required}
         />
       );
-    case 'nickname':
+    case "nickname":
       return (
         <input
           type="text"
@@ -99,8 +105,9 @@ const Input: React.FC<InputProps> = ({
     default:
       return (
         <input
-          type="text"
+          type={type}
           className={`${styles.input} ${styles[className]}`}
+          name={name}
           maxLength={40}
           autoCapitalize="off"
           placeholder={placeholder}
