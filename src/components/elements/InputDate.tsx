@@ -13,6 +13,7 @@ interface InputProps {
   minDate: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 const InputDate: React.FC<InputProps> = ({
@@ -21,6 +22,7 @@ const InputDate: React.FC<InputProps> = ({
   minDate,
   value,
   onChange,
+  disabled,
 }) => {
   const today = formattedDate(new Date()).slice(0, 10);
   const inputRef = useRef(null);
@@ -57,6 +59,7 @@ const InputDate: React.FC<InputProps> = ({
           options={options}
           value={value}
           placeholder="입사일"
+          disabled={disabled}
         />
       );
     case "end_date":
@@ -81,6 +84,7 @@ const InputDate: React.FC<InputProps> = ({
           options={options}
           value={value}
           placeholder="퇴사일"
+          disabled={disabled}
         />
       );
   }

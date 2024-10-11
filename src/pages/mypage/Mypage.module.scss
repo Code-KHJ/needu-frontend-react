@@ -23,6 +23,7 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      height: fit-content;
       background-color: #fff;
       border: 1px solid #aaa;
       border-radius: 5px;
@@ -215,8 +216,6 @@
             & > img {
               width: 28px;
               height: 28px;
-              border: 1px solid #aaa;
-              border-radius: 5px;
             }
           }
         }
@@ -282,13 +281,13 @@
     gap: 20px;
     .career_detail {
       min-width: 295px;
-      height: 292px;
       flex-grow: 1;
       border: 1px solid #aaa;
       border-radius: 5px;
-      background: url(@/assets/images/img_blue8.png) no-repeat, #eeefff;
-      background-position: right;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
       .item {
         display: flex;
         flex-direction: column;
@@ -296,8 +295,114 @@
         label {
           color: #888;
         }
+        .period_label {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          & > div:nth-of-type(1) {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            input {
+              width: 18px;
+              height: 18px;
+            }
+            label {
+              margin-left: 5px;
+            }
+          }
+        }
+        .date_pickr {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          gap: 8px;
+        }
+        .kebab {
+          float: right;
+          position: relative;
+          .edit {
+            position: absolute;
+            right: 4px;
+            z-index: 6;
+            padding: 6px 12px;
+            white-space: nowrap;
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+        }
+      }
+      .total {
+      }
+      .btn {
+        display: flex;
+        justify-content: flex-end;
+        & > button {
+          height: 48px;
+          padding: 0 32px;
+          color: #fafafa;
+          background-color: #6269f5;
+          border-radius: 3px;
+        }
+      }
+    }
+    .off_edit {
+      background: url(@/assets/images/img_blue8.png) no-repeat, #eeefff;
+      background-position: right;
+      .item {
         input {
-          padding: 13px 20px;
+          border: 0px;
+          background: unset;
+          cursor: unset;
+        }
+        select {
+          border: 0px;
+          background: unset;
+          color: #222;
+          -webkit-appearance: none; /* WebKit 기반 브라우저용 */
+          -moz-appearance: none; /* Firefox용 */
+          appearance: none; /* 표준 속성 */
+        }
+        .date_pickr {
+          & > input {
+            width: 60px;
+            padding: 0;
+            height: unset;
+          }
+        }
+      }
+    }
+    .on_edit {
+      background: unset;
+      background-color: #efefef;
+      .item {
+        input {
+          border: 1px solid #aaa;
+          border-radius: 5px;
+          background: #fff;
+          padding: 0 20px;
+          height: 48px;
+          cursor: pointer;
+        }
+        select {
+          border: 1px solid #aaa;
+          border-radius: 5px;
+          background: #fff;
+          padding: 0 20px;
+          height: 48px;
+          cursor: pointer;
+          color: #222;
+        }
+        .corpname {
+          background-color: #d9d9d9;
+          cursor: unset;
+        }
+        .date_pickr {
+          & > input {
+            width: calc(50% - 4px);
+          }
         }
       }
     }

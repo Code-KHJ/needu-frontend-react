@@ -121,6 +121,15 @@ const userApi = {
       return error;
     }
   },
+  getCareerList: async () => {
+    try {
+      const response = await customAxios.get("/user/career/list");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default userApi;

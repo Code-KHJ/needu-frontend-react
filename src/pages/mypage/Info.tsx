@@ -1,15 +1,19 @@
 import userApi from "@/apis/user";
 import styles from "./Mypage.module.scss";
 import ico_kakao from "@/assets/images/ico_kakao.png";
-import ico_google from "@/assets/images/social_google.png";
+import ico_google from "@/assets/images/ico_google.png";
 import ico_help from "@/assets/images/ico_help.png";
+import btn_kebab from "@/assets/images/btn_kebab.png";
+
 import Input from "@/components/elements/Input";
 import Label from "@/components/elements/Label";
 import { regNickname, regPhone, regPw } from "@/utils/validation";
 import { useCallback, useEffect, useState } from "react";
-import _ from "lodash";
+import _, { values } from "lodash";
 import { useLoading } from "@/contexts/LoadingContext";
 import { UserProfile } from "@/interface/User";
+import InputDate from "@/components/elements/InputDate";
+import sharedApi from "@/apis/shared";
 
 interface InfoProps {
   userInfo: UserProfile;
@@ -321,9 +325,118 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
     corpname: string;
     start_date: string;
     end_date: string;
+    working: boolean;
     career_type: string;
   };
+  type ValidCareer = {
+    id: number;
+    start_date: boolean | null;
+    end_date: boolean | null;
+    career_type: boolean | null;
+  };
   const [editCareer, setEditCareer] = useState<CareerDetail[]>([]);
+  const [validCareer, setValidCareer] = useState<ValidCareer[]>([]);
+  const handleCareer = (
+    id: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "working") {
+      const { checked } = e.target as HTMLInputElement;
+      setEditCareer((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                working: checked,
+                end_date: checked ? "9999-12-31" : "",
+              }
+            : item
+        )
+      );
+      setValidCareer((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, end_date: checked ? true : false } : item
+        )
+      );
+    } else {
+      setEditCareer((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, [name]: value } : item))
+      );
+      setValidCareer((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, [name]: value !== "" } : item
+        )
+      );
+    }
+  };
+  const submitEditCareer = async (id: number) => {
+    const valid = validCareer
+      .filter((item) => item.id === id)
+      .map(({ id, ...rest }) => {
+        console.log(id);
+        return rest;
+      });
+
+    const isSubmit = Object.values(valid[0]).every((value) => value);
+    console.log(isSubmit);
+  };
+
+  const [shared, setShared] = useState<Array<{ id: string; type: string }>>([]);
+  const [kebab, setKebab] = useState<{ [key: number]: boolean }>({});
+  const handleKebab = (id: number) => {
+    setKebab((prev) => {
+      if (prev[id]) {
+        return {
+          ...prev,
+          [id]: false,
+        };
+      } else {
+        const updated = Object.keys(prev).reduce((acc: any, key: any) => {
+          acc[key] = false;
+          return acc;
+        }, {} as { [key: number]: boolean });
+        return {
+          ...updated,
+          [id]: true,
+        };
+      }
+    });
+  };
+  useEffect(() => {
+    showLoading();
+    const getUserCareer = async () => {
+      const response: any = await userApi.getCareerList();
+      if (response.status !== 200) {
+        alert("오류가 발생하였습니다");
+        window.location.reload();
+      }
+      const careerLIst = response.data.map((career: any) => ({
+        ...career,
+        status: false,
+        working: career.end_date === "9999-12-31" ? true : false,
+      }));
+      setEditCareer(careerLIst);
+      const careerDefaultValid = response.data.map((career: any) => ({
+        id: career.id,
+        start_date: career.start_date !== "",
+        end_date: career.end_date !== "",
+        career_type: career.career_type !== "",
+      }));
+      setValidCareer(careerDefaultValid);
+    };
+    const getShared = async () => {
+      const response: any = await sharedApi.getCareerType();
+      if (response.status !== 200) {
+        alert("오류가 발생하였습니다");
+        window.location.reload();
+      }
+      setShared(response.data);
+    };
+    getUserCareer();
+    getShared();
+    hideLoading();
+  }, [userInfo]);
   return (
     <div className={styles.info_wrap}>
       <div className={styles.user_info_wrap}>
@@ -539,53 +652,118 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
           </div>
         </div>
         <div className={styles.career_list}>
-          <div className={styles.career_detail}>
-            <div className={styles.item}>
-              <label className="body2">기관명</label>
-              <input
-                type="text"
-                value="서을시사회복지사협회"
-                disabled
-                readOnly
-              />
-            </div>
-            <div className={styles.item}>
-              <label className="body2">근무기간</label>
-              <input
-                type="text"
-                value="서을시사회복지사협회"
-                disabled
-                readOnly
-              />
-            </div>
-            <div className={styles.item}>
-              <label className="body2">근무직종</label>
-              <select
-                name="career_type"
-                // className={`${
-                //   valid.career_type
-                //     ? styles.valid
-                //     : values.career_type == ""
-                //     ? ""
-                //     : styles.invalid
-                // }`}
-                // value={values.career_type}
-                // onChange={handleChange}
-              >
-                <option value="" disabled hidden>
-                  직종 선택
-                </option>
-                {/* {shared.careerType.map((item) => (
-                  <option key={item.id} value={item.type}>
-                    {item.type}
+          {editCareer.map((career) => (
+            <div
+              className={`${styles.career_detail} ${
+                career.status ? styles.on_edit : styles.off_edit
+              }`}
+              key={career.id}
+            >
+              <div className={styles.item}>
+                <div>
+                  <label className="body2">기관명</label>
+                  <div className={styles.kebab}>
+                    <img
+                      src={btn_kebab}
+                      style={{ cursor: "pointer" }}
+                      alt="kebab"
+                      onClick={() => handleKebab(career.id)}
+                    />
+                    {kebab[career.id] && (
+                      <div
+                        className={styles.edit}
+                        onClick={() => {
+                          setEditCareer((prev) =>
+                            prev.map((item) =>
+                              item.id === career.id
+                                ? { ...item, status: true }
+                                : item
+                            )
+                          );
+                          handleKebab(career.id);
+                        }}
+                      >
+                        수정
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  className={styles.corpname}
+                  value={career.corpname}
+                  disabled
+                  readOnly
+                />
+              </div>
+              <div className={styles.item}>
+                <div className={styles.period_label}>
+                  <label className="body2">근무기간</label>
+                  {career.status && (
+                    <div>
+                      <input
+                        name="working"
+                        type="checkbox"
+                        checked={career.working}
+                        onChange={(e) => handleCareer(career.id, e)}
+                      />
+                      <label>재직중</label>
+                    </div>
+                  )}
+                </div>
+                <div className={styles.date_pickr}>
+                  <InputDate
+                    name="start_date"
+                    working={false}
+                    value={career.start_date}
+                    onChange={(e) => handleCareer(career.id, e)}
+                    minDate="1950-01-01"
+                    disabled={!career.status}
+                  ></InputDate>
+                  {!career.status && <span>~</span>}
+                  <InputDate
+                    key={career.start_date}
+                    name="end_date"
+                    working={career.working}
+                    value={career.end_date}
+                    onChange={(e) => handleCareer(career.id, e)}
+                    minDate={career.start_date}
+                    disabled={!career.status}
+                  ></InputDate>
+                </div>
+              </div>
+              <div className={styles.item}>
+                <label className="body2">근무직종</label>
+                <select
+                  name="career_type"
+                  value={career.career_type}
+                  onChange={(e) => handleCareer(career.id, e)}
+                  disabled={!career.status}
+                >
+                  <option value="" disabled hidden>
+                    직종 선택
                   </option>
-                ))} */}
-              </select>
+                  {shared.map((item) => (
+                    <option key={item.id} value={item.type}>
+                      {item.type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {career.status ? (
+                <div className={styles.btn}>
+                  <button
+                    type="button"
+                    onClick={() => submitEditCareer(career.id)}
+                  >
+                    수정
+                  </button>
+                </div>
+              ) : (
+                <div className={styles.total}>1년 0개월</div>
+              )}
             </div>
-          </div>
-          <div className={styles.career_detail}>경력1</div>
-          <div className={styles.career_detail}>경력1</div>
-          <div className={styles.career_detail}>경력1</div>
+          ))}
         </div>
       </div>
     </div>
