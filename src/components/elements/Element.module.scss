@@ -2,7 +2,7 @@
 
 .input {
   width: 100%;
-  height: 60px;
+  height: 48px;
   padding-left: 16px;
   border-radius: 4px;
   &::placeholder {
@@ -11,6 +11,8 @@
   &:read-only {
     color: #aaa;
     background-color: #efefef;
+    border: 1px solid #aaa;
+    cursor: unset;
   }
 }
 .input_default {
@@ -26,7 +28,23 @@
     color: #222;
   }
 }
-
+.input_filled {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  color: #aaa;
+  &:hover {
+    border: 1px solid #6269f5;
+  }
+  &:focus {
+    border: 1px solid #6269f5;
+    color: #222;
+  }
+}
+.input_disabled {
+  background-color: #efefef;
+  border: 1px solid #aaa;
+  color: #aaa;
+}
 .input_wrong {
   background-color: #fff;
   border: 1px solid #ff4444;
@@ -48,7 +66,7 @@
 }
 
 .button {
-  height: 60px;
+  height: 48px;
   border-radius: 3px;
 }
 
@@ -72,6 +90,23 @@
   color: #fafafa;
 }
 .input_date {
-  height: 60px;
-  padding: 17.5px 16px;
+  height: 48px;
+  padding-left: 16px;
+
+  // padding: 17.5px 16px;
+}
+
+/* main end */
+/* mobile-end */
+
+@media screen and (min-width: 768px) {
+  .input {
+    height: 54px;
+  }
+  .button {
+    height: 54px;
+  }
+  .input_date {
+    height: 54px;
+  }
 }

@@ -1,16 +1,16 @@
+import corpApi from "@/apis/corp";
+import reviewApi from "@/apis/review";
+import sharedApi from "@/apis/shared";
+import { StarList } from "@/common/StarList";
+import Button from "@/components/elements/Button";
+import InputDate from "@/components/elements/InputDate";
+import ScoreStar from "@/components/ScoreStar";
+import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
+import { ReviewWorkingDto } from "@/interface/Review";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Write.module.scss";
-import InputDate from "@/components/elements/InputDate";
-import ScoreStar from "@/components/ScoreStar";
-import Button from "@/components/elements/Button";
-import corpApi from "@/apis/corp";
-import sharedApi from "@/apis/shared";
-import { ReviewWorkingDto } from "@/interface/Review";
-import { useUser } from "@/contexts/UserContext";
-import reviewApi from "@/apis/review";
-import { StarList } from "@/common/StarList";
-import { useLoading } from "@/contexts/LoadingContext";
 
 const WriteWorking = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -468,7 +468,7 @@ const WriteWorking = () => {
                 ? "btn_condition_true"
                 : "btn_condition_false"
             }`}
-            style={{ minWidth: "110px", height: "60px" }}
+            style={{ minWidth: "110px" }}
             isDisabled={isSubmitDisabled}
             onClick={handleSubmit}
           ></Button>

@@ -1,12 +1,12 @@
+import userApi from "@/apis/user";
 import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
 import ico_help from "@/assets/images/ico_help.png";
 import ico_level from "@/assets/images/ico_level_default.png";
+import ProfileImage from "@/components/ProfileImage";
+import { UserProfile } from "@/interface/User";
+import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Mypage.module.scss";
-import ProfileImage from "@/components/ProfileImage";
-import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
-import userApi from "@/apis/user";
-import { UserProfile } from "@/interface/User";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -158,7 +158,10 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
         <div className={styles.activity}>
           <div className={styles.title}>
             <h5>활동기록</h5>
-            <a href="" target="_blank">
+            <a
+              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449aa575ed6eec7f5f3b?pvs=4"
+              target="_blank"
+            >
               <img
                 src={ico_help}
                 alt="help"

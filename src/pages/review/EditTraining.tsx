@@ -1,15 +1,15 @@
+import corpApi from "@/apis/corp";
+import reviewApi from "@/apis/review";
+import { StarList } from "@/common/StarList";
+import ScoreStar from "@/components/ScoreStar";
+import Button from "@/components/elements/Button";
+import { useConfirm } from "@/contexts/ConfirmContext";
+import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
+import { ReviewTrainingDto } from "@/interface/Review";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Write.module.scss";
-import ScoreStar from "@/components/ScoreStar";
-import Button from "@/components/elements/Button";
-import { useUser } from "@/contexts/UserContext";
-import corpApi from "@/apis/corp";
-import { ReviewTrainingDto } from "@/interface/Review";
-import reviewApi from "@/apis/review";
-import { StarList } from "@/common/StarList";
-import { useConfirm } from "@/contexts/ConfirmContext";
-import { useLoading } from "@/contexts/LoadingContext";
 
 const EditTraining = () => {
   const { customConfirm } = useConfirm();
@@ -494,7 +494,7 @@ const EditTraining = () => {
           <Button
             children="취소"
             className="btn_condition_false"
-            style={{ minWidth: "110px", height: "60px" }}
+            style={{ minWidth: "110px" }}
             isDisabled={false}
             onClick={handleCancel}
           ></Button>
@@ -505,7 +505,7 @@ const EditTraining = () => {
                 ? "btn_condition_true"
                 : "btn_condition_false"
             }`}
-            style={{ minWidth: "110px", height: "60px" }}
+            style={{ minWidth: "110px" }}
             isDisabled={isSubmitDisabled}
             onClick={handleSubmit}
           ></Button>

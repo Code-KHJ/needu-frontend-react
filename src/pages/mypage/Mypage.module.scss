@@ -69,6 +69,7 @@
     .activity {
       .title {
         display: flex;
+        align-items: baseline;
         & > h5 {
           margin-right: 12px;
         }
@@ -135,16 +136,19 @@
         }
         .reaction {
           display: flex;
-          justify-content: flex-end;
-          gap: 8px;
+          justify-content: space-between;
           & > img {
             width: 26px;
             height: 26px;
           }
-          & > span {
+          & > div {
             display: flex;
-            align-items: center;
-            text-wrap: nowrap;
+            gap: 8px;
+            & > span {
+              display: flex;
+              align-items: flex-start;
+              text-wrap: nowrap;
+            }
           }
         }
       }
@@ -189,8 +193,6 @@
           }
           input {
             max-width: 340px;
-            padding: 14px 16px;
-            height: unset;
           }
           input::placeholder {
             color: #aaa;
@@ -245,6 +247,8 @@
     gap: 20px;
     position: relative;
     .title {
+      display: flex;
+      align-items: baseline;
       & > span {
         color: #888;
         margin-right: 8px;
@@ -335,41 +339,59 @@
         }
       }
       .total {
+        & > h3 {
+          display: inline;
+          vertical-align: middle;
+          margin-right: 4px;
+        }
       }
       .btn {
         display: flex;
         justify-content: flex-end;
+        gap: 8px;
         & > button {
           height: 48px;
           padding: 0 32px;
+          border-radius: 3px;
+        }
+        .cancel {
+          color: #fafafa;
+          background-color: #aaa;
+        }
+        .submit {
           color: #fafafa;
           background-color: #6269f5;
-          border-radius: 3px;
         }
       }
     }
     .off_edit {
       background: url(@/assets/images/img_blue8.png) no-repeat, #eeefff;
-      background-position: right;
+      background-position: right bottom;
       .item {
         input {
           border: 0px;
           background: unset;
           cursor: unset;
+          opacity: unset;
         }
         select {
           border: 0px;
           background: unset;
           color: #222;
+          opacity: unset;
           -webkit-appearance: none; /* WebKit 기반 브라우저용 */
           -moz-appearance: none; /* Firefox용 */
           appearance: none; /* 표준 속성 */
         }
         .date_pickr {
           & > input {
-            width: 60px;
+            width: 70px;
             padding: 0;
             height: unset;
+            opacity: unset;
+          }
+          & > input::placeholder {
+            color: #222;
           }
         }
       }
@@ -382,7 +404,7 @@
           border: 1px solid #aaa;
           border-radius: 5px;
           background: #fff;
-          padding: 0 20px;
+          padding-left: 16px;
           height: 48px;
           cursor: pointer;
         }
@@ -390,7 +412,7 @@
           border: 1px solid #aaa;
           border-radius: 5px;
           background: #fff;
-          padding: 0 20px;
+          padding-left: 16px;
           height: 48px;
           cursor: pointer;
           color: #222;
@@ -515,7 +537,7 @@
       }
       .btn {
         & > button {
-          height: 60px;
+          height: 54px;
         }
       }
     }
@@ -524,6 +546,26 @@
       .title {
         .tooltip {
           bottom: 70px;
+        }
+      }
+    }
+    .career_list {
+      .career_detail {
+        max-width: calc(50% - 10px);
+        .btn {
+          & > button {
+            height: 54px;
+          }
+        }
+      }
+      .on_edit {
+        .item {
+          input {
+            height: 54px;
+          }
+          select {
+            height: 54px;
+          }
         }
       }
     }
@@ -560,6 +602,12 @@
     margin-top: 0px;
     min-width: 0;
     flex-grow: 1;
+    .career_list {
+      .career_detail {
+        max-width: unset;
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -571,6 +619,13 @@
     .review_wrap,
     .community_wrap {
       flex-direction: row;
+    }
+  }
+  .info_wrap {
+    .career_list {
+      .career_detail {
+        max-width: calc(50% - 10px);
+      }
     }
   }
 }

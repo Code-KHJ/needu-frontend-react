@@ -130,6 +130,15 @@ const userApi = {
       return error;
     }
   },
+  updateCareer: async (careerData: object) => {
+    try {
+      const response = await customAxios.patch("/user/career", careerData);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default userApi;

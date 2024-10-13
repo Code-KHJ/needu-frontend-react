@@ -19,7 +19,7 @@ interface PostList {
   question: PostContent[];
 }
 const Home = () => {
-  const { showLoading, hideLoading, isLoading } = useLoading();
+  const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
   const [postList, setPostList] = useState<PostList>({
     working: [],
@@ -92,27 +92,29 @@ const Home = () => {
           <ul className={styles.item_list}>
             {postList.working.slice(0, 3).map((item, index) => (
               <li className={styles.item} key={index}>
-                <div className="caption" style={{ color: "#aaa" }}>
-                  {item.created_date.slice(0, 10).replace(/-/g, ".")}
-                </div>
                 <div className={styles.title}>{item.highlight}</div>
                 <div className={styles.reaction}>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_like}
-                      alt="like"
-                      style={{ width: "16px", marginRight: "4px" }}
-                    />
-                    {item.likes}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_score}
-                      alt="score"
-                      style={{ width: "16px", marginRight: "4px" }}
-                    />
-                    {item.total_score}
-                  </span>
+                  <div className="body2" style={{ color: "#aaa" }}>
+                    {item.created_date.slice(0, 10).replace(/-/g, ".")}
+                  </div>
+                  <div>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_like}
+                        alt="like"
+                        style={{ width: "16px", marginRight: "4px" }}
+                      />
+                      {item.likes}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_score}
+                        alt="score"
+                        style={{ width: "16px", marginRight: "4px" }}
+                      />
+                      {item.total_score}
+                    </span>
+                  </div>
                 </div>
               </li>
             ))}
@@ -136,27 +138,29 @@ const Home = () => {
           <ul className={styles.item_list}>
             {postList.training.slice(0, 3).map((item, index) => (
               <li className={styles.item} key={index}>
-                <div className="caption" style={{ color: "#aaa" }}>
-                  {item.created_date.slice(0, 10).replace(/-/g, ".")}
-                </div>
                 <div className={styles.title}>{item.highlight}</div>
                 <div className={styles.reaction}>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_like}
-                      alt="like"
-                      style={{ width: "16px", marginRight: "4px" }}
-                    />
-                    {item.likes}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_score}
-                      alt="score"
-                      style={{ width: "16px", marginRight: "4px" }}
-                    />
-                    {item.total_score}
-                  </span>
+                  <div className="body2" style={{ color: "#aaa" }}>
+                    {item.created_date.slice(0, 10).replace(/-/g, ".")}
+                  </div>
+                  <div>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_like}
+                        alt="like"
+                        style={{ width: "16px", marginRight: "4px" }}
+                      />
+                      {item.likes}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_score}
+                        alt="score"
+                        style={{ width: "16px", marginRight: "4px" }}
+                      />
+                      {item.total_score}
+                    </span>
+                  </div>
                 </div>
               </li>
             ))}
@@ -182,38 +186,40 @@ const Home = () => {
           <ul className={styles.item_list}>
             {postList.free.slice(0, 3).map((item, index) => (
               <li className={styles.item} key={index}>
-                <div className="caption" style={{ color: "#aaa" }}>
-                  {new Date(item.created_at)
-                    .toISOString()
-                    .slice(0, 10)
-                    .replace(/-/g, ".")}
-                </div>
                 <div className={styles.title}>{item.title}</div>
                 <div className={styles.reaction}>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_like}
-                      alt="like"
-                      style={{ width: "16px", marginRight: "4px" }}
-                    />
-                    {item.postLikes.length}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_reply}
-                      alt="reply"
-                      style={{ width: "20px", marginRight: "4px" }}
-                    />
-                    {item.comment_cnt}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_view}
-                      alt="view"
-                      style={{ width: "20px", marginRight: "4px" }}
-                    />
-                    {item.view}
-                  </span>
+                  <div className="body2" style={{ color: "#aaa" }}>
+                    {new Date(item.created_at)
+                      .toISOString()
+                      .slice(0, 10)
+                      .replace(/-/g, ".")}
+                  </div>
+                  <div>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_like}
+                        alt="like"
+                        style={{ width: "16px", marginRight: "4px" }}
+                      />
+                      {item.postLikes.length}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_reply}
+                        alt="reply"
+                        style={{ width: "20px", marginRight: "4px" }}
+                      />
+                      {item.comment_cnt}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_view}
+                        alt="view"
+                        style={{ width: "20px", marginRight: "4px" }}
+                      />
+                      {item.view}
+                    </span>
+                  </div>
                 </div>
               </li>
             ))}
@@ -237,38 +243,40 @@ const Home = () => {
           <ul className={styles.item_list}>
             {postList.question.slice(0, 3).map((item, index) => (
               <li className={styles.item} key={index}>
-                <div className="caption" style={{ color: "#aaa" }}>
-                  {new Date(item.created_at)
-                    .toISOString()
-                    .slice(0, 10)
-                    .replace(/-/g, ".")}
-                </div>
                 <div className={styles.title}>{item.title}</div>
                 <div className={styles.reaction}>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_like}
-                      alt="like"
-                      style={{ width: "16px", marginRight: "4px" }}
-                    />
-                    {item.postLikes.length}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_reply}
-                      alt="reply"
-                      style={{ width: "20px", marginRight: "4px" }}
-                    />
-                    {item.comment_cnt}
-                  </span>
-                  <span className={`body2`} style={{ color: "#aaa" }}>
-                    <img
-                      src={ico_view}
-                      alt="view"
-                      style={{ width: "20px", marginRight: "4px" }}
-                    />
-                    {item.view}
-                  </span>
+                  <div className="body2" style={{ color: "#aaa" }}>
+                    {new Date(item.created_at)
+                      .toISOString()
+                      .slice(0, 10)
+                      .replace(/-/g, ".")}
+                  </div>
+                  <div>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_like}
+                        alt="like"
+                        style={{ width: "16px", marginRight: "4px" }}
+                      />
+                      {item.postLikes.length}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_reply}
+                        alt="reply"
+                        style={{ width: "20px", marginRight: "4px" }}
+                      />
+                      {item.comment_cnt}
+                    </span>
+                    <span className={`body2`} style={{ color: "#aaa" }}>
+                      <img
+                        src={ico_view}
+                        alt="view"
+                        style={{ width: "20px", marginRight: "4px" }}
+                      />
+                      {item.view}
+                    </span>
+                  </div>
                 </div>
               </li>
             ))}

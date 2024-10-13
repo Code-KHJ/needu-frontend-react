@@ -23,7 +23,7 @@ select {
       .title {
         & > input {
           width: 100%;
-          height: 60px;
+          height: 48px;
           border: 1px solid #aaa;
           border-radius: 3px;
           padding: 0 16px;
@@ -34,7 +34,7 @@ select {
         margin-top: 80px;
         & > select {
           width: 100%;
-          height: 60px;
+          height: 48px;
           border: 1px solid #aaa;
           border-radius: 3px;
           padding: 0 16px;
@@ -94,12 +94,22 @@ select {
         border-radius: 5px;
         background-color: #fff;
         padding: 40px;
+        .title {
+          & > input {
+            height: 54px;
+          }
+        }
+        .topic {
+          & > select {
+            height: 54px;
+          }
+        }
       }
       .btn_wrap {
         justify-content: center;
         & > button {
           width: 110px;
-          height: 60px;
+          height: 54px;
         }
       }
     }

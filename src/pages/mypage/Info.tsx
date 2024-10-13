@@ -1,19 +1,21 @@
 import userApi from "@/apis/user";
-import styles from "./Mypage.module.scss";
-import ico_kakao from "@/assets/images/ico_kakao.png";
+import btn_kebab from "@/assets/images/btn_kebab.png";
 import ico_google from "@/assets/images/ico_google.png";
 import ico_help from "@/assets/images/ico_help.png";
-import btn_kebab from "@/assets/images/btn_kebab.png";
+import ico_kakao from "@/assets/images/ico_kakao.png";
+import styles from "./Mypage.module.scss";
 
+import sharedApi from "@/apis/shared";
 import Input from "@/components/elements/Input";
+import InputDate from "@/components/elements/InputDate";
 import Label from "@/components/elements/Label";
-import { regNickname, regPhone, regPw } from "@/utils/validation";
-import { useCallback, useEffect, useState } from "react";
-import _, { values } from "lodash";
+import { useConfirm } from "@/contexts/ConfirmContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import { UserProfile } from "@/interface/User";
-import InputDate from "@/components/elements/InputDate";
-import sharedApi from "@/apis/shared";
+import diffDate from "@/utils/diffDate";
+import { regNickname, regPhone, regPw } from "@/utils/validation";
+import _ from "lodash";
+import { useCallback, useEffect, useState } from "react";
 
 interface InfoProps {
   userInfo: UserProfile;
@@ -21,7 +23,8 @@ interface InfoProps {
 }
 
 const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
-  const { showLoading, hideLoading, isLoading } = useLoading();
+  const { showLoading, hideLoading } = useLoading();
+  const { customConfirm } = useConfirm();
 
   // 유저 정보 수정
   const [subNav, setSubNav] = useState("basic");
@@ -234,10 +237,6 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
       nickname: userInfo.nickname || "",
       phonenumber: userInfo.phonenumber || "",
     });
-    setValidBasicInfo({
-      nickname: userInfo.nickname ? true : null,
-      phonenumber: userInfo.phonenumber ? true : null,
-    });
     setValidMsg({
       password: "",
       newPassword: "",
@@ -266,54 +265,59 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         alert("변경된 정보가 없습니다.");
         return;
       }
-      const isSubmit = Object.values(validBasicInfo).every((value) => value);
-      if (!isSubmit) {
+      const isNotSubmit = Object.values(validBasicInfo).some(
+        (value) => value === false
+      );
+      if (isNotSubmit) {
         alert("정보를 올바르게 입력해주세요.");
         return;
       }
-
-      showLoading();
-      const userData = {
-        nickname: basicInfo.nickname,
-        phonenumber: basicInfo.phonenumber,
-      };
-      const response: any = await userApi.updateUserInfo(userData);
-      if (response.status !== 200) {
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      const confirmed = await customConfirm("회원정보를 수정하시겠습니까?");
+      if (confirmed) {
+        showLoading();
+        const userData = {
+          nickname: basicInfo.nickname,
+          phonenumber: basicInfo.phonenumber,
+        };
+        const response: any = await userApi.updateUserInfo(userData);
+        if (response.status !== 200) {
+          alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+          hideLoading();
+          return;
+        }
+        setUserInfo(response.data);
+        alert("정보가 변경되었습니다.");
         hideLoading();
-        return;
       }
-      setUserInfo(response.data);
-      alert("정보가 변경되었습니다.");
-      hideLoading();
     }
     if (subNav === "password") {
-      console.log(validPassword);
       const isSubmit = Object.values(validPassword).every((value) => value);
       if (!isSubmit) {
         alert("정보를 올바르게 입력해주세요.");
         return;
       }
-
-      showLoading();
-      const userData = {
-        password: password.password,
-        newPassword: password.newPassword,
-      };
-      const response: any = await userApi.updateUserPassword(userData);
-      if (response.status === 401) {
-        alert("잘못된 비밀번호입니다.");
+      const confirmed = await customConfirm("비밀번호를 수정하시겠습니까?");
+      if (confirmed) {
+        showLoading();
+        const userData = {
+          password: password.password,
+          newPassword: password.newPassword,
+        };
+        const response: any = await userApi.updateUserPassword(userData);
+        if (response.status === 401) {
+          alert("잘못된 비밀번호입니다.");
+          hideLoading();
+          return;
+        }
+        if (response.status !== 200) {
+          alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+          hideLoading();
+          return;
+        }
+        setUserInfo(response.data);
+        alert("정보가 변경되었습니다.");
         hideLoading();
-        return;
       }
-      if (response.status !== 200) {
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        hideLoading();
-        return;
-      }
-      setUserInfo(response.data);
-      alert("정보가 변경되었습니다.");
-      hideLoading();
     }
   };
 
@@ -334,6 +338,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
     end_date: boolean | null;
     career_type: boolean | null;
   };
+  const [originCareer, setOriginCareer] = useState<CareerDetail[]>([]);
   const [editCareer, setEditCareer] = useState<CareerDetail[]>([]);
   const [validCareer, setValidCareer] = useState<ValidCareer[]>([]);
   const handleCareer = (
@@ -377,11 +382,78 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         console.log(id);
         return rest;
       });
-
     const isSubmit = Object.values(valid[0]).every((value) => value);
-    console.log(isSubmit);
+    if (!isSubmit) {
+      alert("정보를 올바르게 입력해주세요.");
+      return;
+    }
+    const values = editCareer.filter((item) => item.id === id);
+    const confirmed = await customConfirm("경력을 수정하시겠습니까?");
+    if (confirmed) {
+      showLoading();
+      const careerData = {
+        id: values[0].id,
+        start_date: values[0].start_date,
+        end_date: values[0].end_date,
+        career_type: values[0].career_type,
+      };
+      const response: any = await userApi.updateCareer(careerData);
+      if (response.status !== 200) {
+        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
+        return;
+      }
+      console.log(response.data);
+      setEditCareer((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                status: false,
+                start_date: response.data.start_date,
+                end_date: response.data.end_date,
+                career_type: response.data.career_type,
+                working: response.data.end_date === "9999-12-31" ? true : false,
+              }
+            : item
+        )
+      );
+      setOriginCareer((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                status: false,
+                start_date: response.data.start_date,
+                end_date: response.data.end_date,
+                career_type: response.data.career_type,
+                working: response.data.end_date === "9999-12-31" ? true : false,
+              }
+            : item
+        )
+      );
+      setValidCareer((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                start_date: response.data.start_date !== "",
+                end_date: response.data.end_date !== "",
+                career_type: response.data.career_type !== "",
+              }
+            : item
+        )
+      );
+      alert("정보가 변경되었습니다.");
+      hideLoading();
+    }
   };
-
+  const cancelEditCareer = async (id: number) => {
+    const origin = originCareer.filter((item) => item.id === id);
+    setEditCareer((prev) =>
+      prev.map((item) => (item.id === id ? origin[0] : item))
+    );
+  };
   const [shared, setShared] = useState<Array<{ id: string; type: string }>>([]);
   const [kebab, setKebab] = useState<{ [key: number]: boolean }>({});
   const handleKebab = (id: number) => {
@@ -416,6 +488,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         status: false,
         working: career.end_date === "9999-12-31" ? true : false,
       }));
+      setOriginCareer(careerLIst);
       setEditCareer(careerLIst);
       const careerDefaultValid = response.data.map((career: any) => ({
         id: career.id,
@@ -437,6 +510,26 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
     getShared();
     hideLoading();
   }, [userInfo]);
+
+  const [totalCareer, setTotalCareer] = useState({
+    year: 0,
+    month: 0,
+  });
+  useEffect(() => {
+    let totalYear = 0;
+    let totalMonth = 0;
+    originCareer.map((career) => {
+      const { year, month } = diffDate(career.start_date, career.end_date);
+      totalYear += year;
+      totalMonth += month;
+    });
+    totalYear += Math.floor(totalMonth / 12);
+    totalMonth = totalMonth % 12;
+    setTotalCareer({
+      year: totalYear,
+      month: totalMonth,
+    });
+  }, [originCareer]);
   return (
     <div className={styles.info_wrap}>
       <div className={styles.user_info_wrap}>
@@ -461,7 +554,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
                 <Label title="이메일" target="user_id" required={false} />
                 <Input
                   name="user_id"
-                  className={"input_default"}
+                  className={""}
                   value={basicInfo.userId}
                   placeholder=""
                   onChange={() => {}}
@@ -480,7 +573,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
                     name="nickname"
                     className={`${
                       validBasicInfo.nickname === null
-                        ? "input_default"
+                        ? "input_filled"
                         : validBasicInfo.nickname
                         ? "input_done"
                         : "input_wrong"
@@ -510,7 +603,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
                     name="phone"
                     className={`${
                       validBasicInfo.phonenumber === null
-                        ? "input_default"
+                        ? "input_filled"
                         : validBasicInfo.phonenumber
                         ? "input_done"
                         : "input_wrong"
@@ -648,122 +741,138 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
             )}
           </div>
           <div className={styles.career}>
-            총 <h4>2</h4>년 <h4>10</h4>개월
+            총 <h4>{totalCareer.year}</h4>년 <h4>{totalCareer.month}</h4>개월
           </div>
         </div>
         <div className={styles.career_list}>
-          {editCareer.map((career) => (
-            <div
-              className={`${styles.career_detail} ${
-                career.status ? styles.on_edit : styles.off_edit
-              }`}
-              key={career.id}
-            >
-              <div className={styles.item}>
-                <div>
-                  <label className="body2">기관명</label>
-                  <div className={styles.kebab}>
-                    <img
-                      src={btn_kebab}
-                      style={{ cursor: "pointer" }}
-                      alt="kebab"
-                      onClick={() => handleKebab(career.id)}
-                    />
-                    {kebab[career.id] && (
-                      <div
-                        className={styles.edit}
-                        onClick={() => {
-                          setEditCareer((prev) =>
-                            prev.map((item) =>
-                              item.id === career.id
-                                ? { ...item, status: true }
-                                : item
-                            )
-                          );
-                          handleKebab(career.id);
-                        }}
-                      >
-                        수정
+          {editCareer.map((career) => {
+            const { year, month } = diffDate(
+              career.start_date,
+              career.end_date
+            );
+            return (
+              <div
+                className={`${styles.career_detail} ${
+                  career.status ? styles.on_edit : styles.off_edit
+                }`}
+                key={career.id}
+              >
+                <div className={styles.item}>
+                  <div>
+                    <label className="body2">기관명</label>
+                    <div className={styles.kebab}>
+                      <img
+                        src={btn_kebab}
+                        style={{ cursor: "pointer" }}
+                        alt="kebab"
+                        onClick={() => handleKebab(career.id)}
+                      />
+                      {kebab[career.id] && (
+                        <div
+                          className={styles.edit}
+                          onClick={() => {
+                            setEditCareer((prev) =>
+                              prev.map((item) =>
+                                item.id === career.id
+                                  ? { ...item, status: true }
+                                  : item
+                              )
+                            );
+                            handleKebab(career.id);
+                          }}
+                        >
+                          수정
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    className={styles.corpname}
+                    value={career.corpname}
+                    disabled
+                    readOnly
+                  />
+                </div>
+                <div className={styles.item}>
+                  <div className={styles.period_label}>
+                    <label className="body2">근무기간</label>
+                    {career.status && (
+                      <div>
+                        <input
+                          name="working"
+                          type="checkbox"
+                          checked={career.working}
+                          onChange={(e) => handleCareer(career.id, e)}
+                        />
+                        <label>재직중</label>
                       </div>
                     )}
                   </div>
+                  <div className={styles.date_pickr}>
+                    <InputDate
+                      name="start_date"
+                      working={false}
+                      value={career.start_date}
+                      onChange={(e) => handleCareer(career.id, e)}
+                      minDate="1950-01-01"
+                      disabled={!career.status}
+                    ></InputDate>
+                    {!career.status && <span>~</span>}
+                    <InputDate
+                      key={career.start_date}
+                      name="end_date"
+                      working={career.working}
+                      value={career.end_date}
+                      onChange={(e) => handleCareer(career.id, e)}
+                      minDate={career.start_date}
+                      disabled={!career.status}
+                    ></InputDate>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  className={styles.corpname}
-                  value={career.corpname}
-                  disabled
-                  readOnly
-                />
-              </div>
-              <div className={styles.item}>
-                <div className={styles.period_label}>
-                  <label className="body2">근무기간</label>
-                  {career.status && (
-                    <div>
-                      <input
-                        name="working"
-                        type="checkbox"
-                        checked={career.working}
-                        onChange={(e) => handleCareer(career.id, e)}
-                      />
-                      <label>재직중</label>
-                    </div>
-                  )}
-                </div>
-                <div className={styles.date_pickr}>
-                  <InputDate
-                    name="start_date"
-                    working={false}
-                    value={career.start_date}
+                <div className={styles.item}>
+                  <label className="body2">근무직종</label>
+                  <select
+                    name="career_type"
+                    value={career.career_type}
                     onChange={(e) => handleCareer(career.id, e)}
-                    minDate="1950-01-01"
                     disabled={!career.status}
-                  ></InputDate>
-                  {!career.status && <span>~</span>}
-                  <InputDate
-                    key={career.start_date}
-                    name="end_date"
-                    working={career.working}
-                    value={career.end_date}
-                    onChange={(e) => handleCareer(career.id, e)}
-                    minDate={career.start_date}
-                    disabled={!career.status}
-                  ></InputDate>
-                </div>
-              </div>
-              <div className={styles.item}>
-                <label className="body2">근무직종</label>
-                <select
-                  name="career_type"
-                  value={career.career_type}
-                  onChange={(e) => handleCareer(career.id, e)}
-                  disabled={!career.status}
-                >
-                  <option value="" disabled hidden>
-                    직종 선택
-                  </option>
-                  {shared.map((item) => (
-                    <option key={item.id} value={item.type}>
-                      {item.type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {career.status ? (
-                <div className={styles.btn}>
-                  <button
-                    type="button"
-                    onClick={() => submitEditCareer(career.id)}
                   >
-                    수정
-                  </button>
+                    <option value="" disabled hidden>
+                      직종 선택
+                    </option>
+                    {shared.map((item) => (
+                      <option key={item.id} value={item.type}>
+                        {item.type}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              ) : (
-                <div className={styles.total}>1년 0개월</div>
-              )}
-            </div>
-          ))}
+                {career.status ? (
+                  <div className={styles.btn}>
+                    <button
+                      type="button"
+                      className={styles.cancel}
+                      onClick={() => cancelEditCareer(career.id)}
+                    >
+                      취소
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.submit}
+                      onClick={() => submitEditCareer(career.id)}
+                    >
+                      수정
+                    </button>
+                  </div>
+                ) : (
+                  <div className={styles.total}>
+                    <h3>{year}</h3>년 <h3>{month}</h3>개월
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

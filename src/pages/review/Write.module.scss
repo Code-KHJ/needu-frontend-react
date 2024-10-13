@@ -74,10 +74,13 @@ select {
     select,
     textarea {
       width: 100%;
-      height: 60px;
-      padding: 17.5px 16px;
+      height: 48px;
+      padding: 0 16px;
       border: 1px solid #aaa;
       border-radius: 3px;
+    }
+    textarea {
+      height: 60px;
     }
     .multiple_choice {
       .training_info_wrap {
@@ -180,6 +183,7 @@ select {
       justify-content: center;
       & > button {
         width: 100%;
+        height: 48px;
       }
     }
     .submit_btn_edit {
@@ -189,6 +193,7 @@ select {
       gap: 20px;
       & > button {
         width: 100%;
+        height: 48px;
       }
     }
   }
@@ -238,10 +243,13 @@ select {
     select,
     textarea {
       width: 100%;
-      height: 60px;
-      padding: 17.5px 16px;
+      height: 48px;
+      padding: 0 16px;
       border: 1px solid #aaa;
       border-radius: 3px;
+    }
+    textarea {
+      height: 60px;
     }
     .multiple_choice {
       .work_info_wrap {
@@ -407,6 +415,10 @@ select {
     }
     .form_wrap {
       width: 100%;
+      input,
+      select {
+        height: 54px;
+      }
       .multiple_choice {
         .training_info_wrap {
           .training_info_content {
@@ -432,12 +444,14 @@ select {
       .submit_btn {
         & > button {
           width: auto;
+          height: 54px;
         }
       }
       .submit_btn_edit {
         justify-content: center;
         & > button {
           width: 110px;
+          height: 54px;
         }
       }
     }
@@ -457,6 +471,10 @@ select {
     }
     .form_wrap {
       width: 100%;
+      input,
+      select {
+        height: 54px;
+      }
       .multiple_choice {
         .work_info_wrap {
           .work_info_content {
