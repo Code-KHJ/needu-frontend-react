@@ -54,6 +54,11 @@
         }
         .gauge {
           margin-top: 20px;
+          .values {
+            & > span:hover {
+              color: #222;
+            }
+          }
           .range {
             display: flex;
             flex-direction: row;

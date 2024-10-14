@@ -7,6 +7,7 @@ import { UserProfile } from "@/interface/User";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Mypage.module.scss";
+import { useLoading } from "@/contexts/LoadingContext";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -14,7 +15,16 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
-  const value = Math.min((250 / 499) * 100, 100);
+  const { showLoading, hideLoading } = useLoading();
+
+  const minScore = 0;
+  const maxScore = 199;
+  const score = Math.min(
+    (userInfo.activity_points / (maxScore - minScore)) * 100,
+    100
+  );
+  const [gaugeHovered, setGaugeHovered] = useState(false);
+
   const [expandActivity, setExpandActivity] = useState(false);
   const handleExpand = () => {
     setExpandActivity(!expandActivity);
@@ -92,6 +102,27 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
     []
   );
 
+  type ActivityLog = {
+    id: number;
+    type: string;
+    totalPoints: number;
+  };
+  const [activityLog, setActivityLog] = useState<ActivityLog[]>([]);
+  useEffect(() => {
+    showLoading();
+    const getPointLog = async () => {
+      const response: any = await userApi.getPointLog();
+      if (response.status !== 200) {
+        alert("오류가 발생하였습니다");
+        hideLoading();
+        window.location.reload();
+      }
+      setActivityLog(response.data);
+    };
+    getPointLog();
+    hideLoading();
+  }, [userInfo]);
+
   return (
     <div className={styles.profile_wrap}>
       <div className={styles.user_info}>
@@ -116,8 +147,13 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
           <img className={styles.level_imamge} src={ico_level} alt="level" />
           <span>{windowWidth > 768 && "NEEDU 커뮤니티 "}Level 2</span>
         </div>
-        <div className={styles.gauge}>
+        <div
+          className={styles.gauge}
+          onMouseEnter={() => setGaugeHovered(true)}
+          onMouseLeave={() => setGaugeHovered(false)}
+        >
           <div
+            className={styles.values}
             style={{
               backgroundColor: "#d9d9d9",
               width: "100%",
@@ -129,16 +165,21 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
             <span
               style={{
                 backgroundColor: "#6269f5",
-                borderRadius: `${value === 100 ? "5px" : "5px 0 0 5px"}`,
-                width: `${value}%`,
-                height: "8px",
+                borderRadius: `${score === 100 ? "5px" : "5px 0 0 5px"}`,
+                width: `${score}%`,
+                height: `${gaugeHovered ? "10px" : "8px"}`,
                 position: "absolute",
+                textAlign: "center",
+                lineHeight: "45px",
+                color: `${gaugeHovered ? "#222" : "#fff"}`,
               }}
-            ></span>
+            >
+              {userInfo.activity_points} point
+            </span>
           </div>
           <div className={styles.range}>
-            <span className="body2">200</span>
-            <span className="body2">499</span>
+            <span className="body2">{minScore}</span>
+            <span className="body2">{maxScore}</span>
           </div>
         </div>
       </div>
@@ -159,7 +200,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
           <div className={styles.title}>
             <h5>활동기록</h5>
             <a
-              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449aa575ed6eec7f5f3b?pvs=4"
+              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449minScore575ed6eec7f5f3b?pvs=4"
               target="_blank"
             >
               <img
@@ -171,38 +212,12 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
           </div>
           <div className={styles.content}>
             <ul>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
-              <li>
-                <span>계정 생성</span>
-                <span>1</span>
-              </li>
+              {activityLog.map((log) => (
+                <li key={log.id}>
+                  <span>{log.type}</span>
+                  <span>{log.totalPoints}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

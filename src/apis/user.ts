@@ -139,6 +139,15 @@ const userApi = {
       return error;
     }
   },
+  getPointLog: async () => {
+    try {
+      const response = await customAxios.get("/user/point/log");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default userApi;
