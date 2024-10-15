@@ -4,6 +4,9 @@ const agoDate = (date: Date) => {
   then.setHours(then.getHours() + 9);
 
   const diffInMinutes = Math.floor((today.getTime() - then.getTime()) / 60000);
+  if (diffInMinutes < 1) {
+    return `방금 전`;
+  }
   if (diffInMinutes < 60) {
     return `${diffInMinutes}분 전`;
   }
