@@ -55,8 +55,12 @@
         .gauge {
           margin-top: 20px;
           .values {
+            & > span {
+              font-size: 0;
+              text-wrap: nowrap;
+            }
             & > span:hover {
-              color: #222;
+              font-size: unset;
             }
           }
           .range {
