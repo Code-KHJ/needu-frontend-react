@@ -378,7 +378,9 @@ const DetailTraining = () => {
                                 className="body2"
                                 style={{ color: "#aaa", wordBreak: "keep-all" }}
                               >
-                                {item.ko}
+                                {item.ko == "수퍼바이징 만족도"
+                                  ? "수퍼바이징"
+                                  : item.ko}
                               </span>
                             </div>
                           ))}
