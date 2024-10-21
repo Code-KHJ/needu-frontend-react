@@ -7,6 +7,7 @@ import Profile from "./Profile";
 import { useEffect, useState } from "react";
 import { UserProfile } from "@/interface/User";
 import userApi from "@/apis/user";
+import Community from "./Community";
 
 const MypageRoutes = () => {
   const [userInfo, setUserInfo] = useState<UserProfile>({
@@ -43,6 +44,8 @@ const MypageRoutes = () => {
             path="/info"
             element={<Info userInfo={userInfo} setUserInfo={setUserInfo} />}
           />
+          <Route path="/free" element={<Community userInfo={userInfo} />} />
+          <Route path="/question" element={<Community userInfo={userInfo} />} />
         </Routes>
       </div>
     </div>

@@ -26,6 +26,7 @@ export interface PostContent {
   postType: string;
   topicType: string;
   commentAccepted: number | null;
+  weeklyBest: number | null;
   postLikes: PostLike[];
   comment_cnt: number;
   writer: {

@@ -440,6 +440,64 @@
   }
 }
 
+.community_wrap {
+  margin-top: 40px;
+  .post_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .post_item {
+      background-color: #fff;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      .title {
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
+        line-clamp: 1; /* 표준 속성 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+      .content {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
+        line-clamp: 2; /* 표준 속성 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+      .reaction_wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .date {
+          color: #aaa;
+        }
+        .reaction {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          & > span {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+          }
+          .accepted {
+            font-size: 0;
+            gap: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
 /* main end */
 /* mobile-end */
 
@@ -579,6 +637,21 @@
       }
     }
   }
+  .community_wrap {
+    .post_list {
+      .post_item {
+        .reaction_wrap {
+          .reaction {
+            .accepted {
+              font-size: 1.6rem;
+              line-height: 20px;
+              gap: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -617,6 +690,11 @@
         width: 100%;
       }
     }
+  }
+  .community_wrap {
+    margin-top: 0px;
+    min-width: 0;
+    flex-grow: 1;
   }
 }
 

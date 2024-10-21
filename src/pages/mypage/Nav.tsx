@@ -11,7 +11,7 @@ const Nav = () => {
     전현직리뷰: "/working",
     실습리뷰: "/training",
     자유게시판: "/free",
-    "Q&A게시판": "/question",
+    "질문&답변": "/question",
     정보수정: "/info",
   };
   const [menu, setMenu] = useState("");

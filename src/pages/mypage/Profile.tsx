@@ -8,6 +8,7 @@ import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Mypage.module.scss";
 import { useLoading } from "@/contexts/LoadingContext";
+import userLevel from "@/utils/calculateUserLevel";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -17,10 +18,13 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
 
-  const minScore = 0;
-  const maxScore = 199;
+  const { level, minPoint, maxPoint } = userLevel(userInfo.activity_points) || {
+    level: 1,
+    minPoint: 0,
+    maxPoint: 100,
+  };
   const score = Math.min(
-    (userInfo.activity_points / (maxScore - minScore)) * 100,
+    ((userInfo.activity_points - minPoint) / (maxPoint - minPoint)) * 100,
     100
   );
   const [gaugeHovered, setGaugeHovered] = useState(false);
@@ -145,7 +149,9 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
           </span>
           <span className={styles.nickname}>{userInfo.nickname}</span>
           <img className={styles.level_imamge} src={ico_level} alt="level" />
-          <span>{windowWidth > 768 && "NEEDU 커뮤니티 "}Level 2</span>
+          <span>
+            {windowWidth > 768 && "NEEDU 커뮤니티 "}Level {level}
+          </span>
         </div>
         <div
           className={styles.gauge}
@@ -178,8 +184,8 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
             </span>
           </div>
           <div className={styles.range}>
-            <span className="body2">{minScore}</span>
-            <span className="body2">{maxScore}</span>
+            <span className="body2">{minPoint}</span>
+            <span className="body2">{maxPoint}</span>
           </div>
         </div>
       </div>
