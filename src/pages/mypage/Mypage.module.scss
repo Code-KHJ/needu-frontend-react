@@ -155,7 +155,7 @@
             gap: 8px;
             & > span {
               display: flex;
-              align-items: flex-start;
+              align-items: center;
               text-wrap: nowrap;
             }
           }
@@ -491,6 +491,67 @@
           .accepted {
             font-size: 0;
             gap: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.review_wrap {
+  margin-top: 40px;
+  .review_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .review_item {
+      background-color: #fff;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      .item_header {
+        display: flex;
+        justify-content: space-between;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        .corp_name {
+          flex: 1;
+          display: -webkit-box;
+          -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
+          line-clamp: 1; /* 표준 속성 */
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .highlight {
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
+        line-clamp: 1; /* 표준 속성 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        margin-top: 4px;
+      }
+      .reaction_wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 4px;
+        .date {
+          color: #aaa;
+        }
+        .reaction {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          & > span {
+            display: flex;
+            gap: 4px;
+            align-items: center;
           }
         }
       }
