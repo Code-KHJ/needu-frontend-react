@@ -536,6 +536,70 @@
         cursor: pointer;
         margin-top: 4px;
       }
+      .review_body {
+        margin-top: 20px;
+        .review_content {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          .total_score {
+            height: 100%;
+            display: flex;
+            gap: 4px;
+            align-items: flex-start;
+            & > span,
+            & > h5 {
+              line-height: 25px;
+              height: 25px;
+              text-align: center;
+            }
+          }
+          .score_detail {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            & > li {
+              min-width: 108px;
+              .score_bar {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                & > span {
+                  color: #888;
+                }
+              }
+            }
+          }
+          .review_detail_wrap {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            .info {
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              align-items: center;
+              & > img {
+                height: 16px;
+                margin-right: 5px;
+              }
+              & > span {
+                color: #888;
+              }
+              & > span:not(:last-child)::after {
+                content: "·";
+                display: inline-block;
+                width: 17px;
+                margin-left: 4px;
+                margin-right: 4px;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
       .reaction_wrap {
         display: flex;
         flex-direction: row;
@@ -753,6 +817,11 @@
     }
   }
   .community_wrap {
+    margin-top: 0px;
+    min-width: 0;
+    flex-grow: 1;
+  }
+  .review_wrap {
     margin-top: 0px;
     min-width: 0;
     flex-grow: 1;
