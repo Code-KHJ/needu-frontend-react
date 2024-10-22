@@ -4,23 +4,38 @@ import ico_career_c from "@/assets/images/ico_career_c.png";
 import ico_career_f from "@/assets/images/ico_career_f.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_score from "@/assets/images/Star_1.png";
+import ico_like_black from "@/assets/images/ico_like_black.png";
+import btn_kebab from "@/assets/images/btn_kebab.png";
 import Hashtag from "@/components/Hashtag";
 import ScoreBar from "@/components/ScoreBar";
 import { useLoading } from "@/contexts/LoadingContext";
-import { ReviewContent, ReviewTrainingContent } from "@/interface/Review";
+import {
+  DeleteReviewDto,
+  ReviewContent,
+  ReviewTrainingContent,
+} from "@/interface/Review";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Mypage.module.scss";
+import { StarList } from "@/common/StarList";
+import { useConfirm } from "@/contexts/ConfirmContext";
+import { useUser } from "@/contexts/UserContext";
 
 const Review = () => {
+  const { customConfirm } = useConfirm();
   const { showLoading, hideLoading } = useLoading();
+  // @ts-ignore
+  const { user } = useUser();
   const location = useLocation();
   const reviewType = location.pathname.split("/")[2];
+  const starList = StarList;
   const navigate = useNavigate();
 
   const [reviewList, setReviewList] = useState<
-    | (ReviewContent & { expand: boolean })[]
-    | (ReviewTrainingContent & { expand: boolean })[]
+    (ReviewContent &
+      ReviewTrainingContent & { expand: boolean; kebab: boolean } & {
+        user: { id: number; user_id: string };
+      })[]
   >([]);
 
   useEffect(() => {
@@ -38,10 +53,10 @@ const Review = () => {
       }
       const setData = response.data.map((item: any) => ({
         ...item,
-        expand: true,
+        expand: false,
+        kebab: false,
         user: item.user,
       }));
-      console.log(setData);
       setReviewList(setData);
     };
     getReview();
@@ -57,24 +72,90 @@ const Review = () => {
     const status = lastDate < today ? "전직자" : "현직자";
     return status;
   };
-  console.log(reviewList);
+
+  const showExpand = (id: number) => {
+    setReviewList((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, expand: !item.expand } : item
+      )
+    );
+  };
+  const showKebab = (id: number) => {
+    setReviewList((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, kebab: !item.kebab } : item
+      )
+    );
+  };
+  const editReview = (review_no: number) => {
+    navigate(`/review/${reviewType}/edit?no=${review_no}`);
+  };
+  const deleteReview = async (review_no: number) => {
+    const review = reviewList.filter((item) => item.id === review_no);
+    if (user.id != review[0].user.id) {
+      alert("본인이 작성한 리뷰만 삭제가 가능합니다.");
+      return;
+    }
+    const deleteReviewDto: DeleteReviewDto = {
+      user_id: user.user_id,
+      review_no: review_no,
+    };
+    const confirmed = await customConfirm(
+      "삭제한 리뷰는 복구할 수 없습니다. 정말로 리뷰를 삭제하시겠습니까?"
+    );
+    if (confirmed) {
+      showLoading();
+      let response: any;
+      if (reviewType === "working") {
+        response = await reviewApi.deleteWorkingReview(deleteReviewDto);
+      } else if (reviewType === "training") {
+        response = await reviewApi.deleteTrainingReview(deleteReviewDto);
+      }
+      if (response.status !== 200) {
+        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
+        return;
+      }
+      alert("리뷰가 삭제되었습니다.");
+      hideLoading();
+      window.location.reload();
+    }
+  };
 
   return (
     <div className={styles.review_wrap}>
       <ul className={styles.review_list}>
-        {/* 접혔을떄 */}
         {reviewList.map((review) => (
           <li className={styles.review_item} key={review.id}>
             <div className={styles.item_header}>
-              <h5 className={styles.corp_name}>
-                기관명입니다123123123기관명입니다123123123 기관명입니다123123123
-              </h5>
-              <div>점</div>
+              <h5 className={styles.corp_name}>{review.corpname}</h5>
+              <div className={styles.kebab}>
+                <img
+                  src={btn_kebab}
+                  style={{ cursor: "pointer" }}
+                  alt="kebab"
+                  onClick={() => showKebab(review.id)}
+                />
+                {review.kebab && (
+                  <div className={styles.kebab_list}>
+                    <div
+                      className={styles.kebab_item}
+                      onClick={() => editReview(review.id)}
+                    >
+                      수정
+                    </div>
+                    <div
+                      className={styles.kebab_item}
+                      onClick={() => deleteReview(review.id)}
+                    >
+                      삭제
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className={styles.highlight}>
-              한줄평입니다.123123123한줄평입니다.123123123
-              한줄평입니다.123123123 한줄평입니다.123123123
-            </div>
+            <div className={styles.highlight}>{review.highlight}</div>
+            {/* 펼쳤을 떄 */}
             {review.expand ? (
               <div className={styles.review_body}>
                 <div className={styles.review_content}>
@@ -86,51 +167,33 @@ const Review = () => {
                         style={{ width: "20px", height: "20px" }}
                       />
                       <span>총점</span>
-                      <h5>2.5</h5>
+                      <h5>{review.total_score}</h5>
                     </div>
                     <ul className={styles.score_detail}>
-                      <li>
-                        <div className="body2">성장가능성</div>
-                        <div className={styles.score_bar}>
-                          <ScoreBar width="80px" value={3.5} />
-                          <span className="body2">2.5</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="body2">성장가능성</div>
-                        <div className={styles.score_bar}>
-                          <ScoreBar width="80px" value={3.5} />
-                          <span className="body2">2.5</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="body2">성장가능성</div>
-                        <div className={styles.score_bar}>
-                          <ScoreBar width="80px" value={3.5} />
-                          <span className="body2">2.5</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="body2">성장가능성</div>
-                        <div className={styles.score_bar}>
-                          <ScoreBar width="80px" value={3.5} />
-                          <span className="body2">2.5</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="body2">성장가능성</div>
-                        <div className={styles.score_bar}>
-                          <ScoreBar width="80px" value={3.5} />
-                          <span className="body2">2.5</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="body2">성장가능성</div>
-                        <div className={styles.score_bar}>
-                          <ScoreBar width="80px" value={3.5} />
-                          <span className="body2">2.5</span>
-                        </div>
-                      </li>
+                      {reviewType === "working" &&
+                        starList.working.map((item) => (
+                          <li key={item.en}>
+                            <div className="body2">{item.ko}</div>
+                            <div className={styles.score_bar}>
+                              <ScoreBar width="80px" value={review[item.en]} />
+                              <span className="body2">{review[item.en]}</span>
+                            </div>
+                          </li>
+                        ))}
+                      {reviewType === "training" &&
+                        starList.training.map((item) => (
+                          <li key={item.en}>
+                            <div className="body2">
+                              {item.ko === "수퍼바이징 만족도"
+                                ? "수퍼바이징"
+                                : item.ko}
+                            </div>
+                            <div className={styles.score_bar}>
+                              <ScoreBar width="80px" value={review[item.en]} />
+                              <span className="body2">{review[item.en]}</span>
+                            </div>
+                          </li>
+                        ))}
                     </ul>
                   </div>
                   <div className={styles.review_detail_wrap}>
@@ -138,29 +201,29 @@ const Review = () => {
                       <div className={styles.info}>
                         <img
                           src={
-                            careerStatus(review.userCareer.last_date) ===
+                            careerStatus(review.userCareer?.last_date) ===
                             "전직자"
                               ? ico_career_f
                               : ico_career_c
                           }
                         />
-                        <span>{careerStatus(review.userCareer.last_date)}</span>
-                        {/* @ts-ignore */}
+                        <span>
+                          {careerStatus(review.userCareer?.last_date)}
+                        </span>
                         <span>{review.user.user_id}</span>
-                        <span>{review.userCareer.type}</span>
+                        <span>{review.userCareer?.type}</span>
                         <span>
                           {review.created_date.slice(0, 10).replace(/-/g, ".")}
                         </span>
                       </div>
                     ) : (
                       <div className={styles.info}>
-                        {/* @ts-ignore */}
                         <span>{review.user.user_id}</span>
                         <span>
                           {review.year} {review.season}
                         </span>
                         <span>{review.number_of_participants}명</span>
-                        <span>{review.cost.toLocaleString()}원</span>
+                        <span>{review.cost?.toLocaleString()}원</span>
                         <span>
                           {review.created_date.slice(0, 10).replace(/-/g, ".")}
                         </span>
@@ -174,14 +237,15 @@ const Review = () => {
                       <h5>단점</h5>
                       <p>{review.cons}</p>
                     </div>
-                    {reviewType === "working" ? (
+                    {reviewType === "working" && review.hashtag ? (
                       <div className={styles.hashtag}>
                         {Hashtag(review.hashtag).map((item) => (
                           <span
                             style={{
                               marginRight: "12px",
-                              marginBottom: "8px",
+                              marginBottom: "4px",
                               display: "inline-block",
+                              color: "#888",
                             }}
                             key={item}
                           >
@@ -194,11 +258,20 @@ const Review = () => {
                     )}
                   </div>
                 </div>
-                <div>좋아요</div>
+                <div className={styles.like}>
+                  <img
+                    src={ico_like_black}
+                    alt="like"
+                    style={{ width: "20px", height: "20px" }}
+                  />
+                  도움이 돼요 <h5>{review.likes}</h5>
+                </div>
               </div>
             ) : (
               <div className={styles.reaction_wrap}>
-                <div className={`body2 ${styles.date}`}>2024.10.10</div>
+                <div className={`body2 ${styles.date}`}>
+                  {review.created_date.slice(0, 10).replace(/-/g, ".")}
+                </div>
                 <div className={styles.reaction}>
                   <span className={`body2`} style={{ color: "#aaa" }}>
                     <img
@@ -206,7 +279,7 @@ const Review = () => {
                       alt="like"
                       style={{ width: "16px", height: "16px" }}
                     />
-                    10
+                    {review.likes}
                   </span>
                   <span className={`body2`} style={{ color: "#aaa" }}>
                     <img
@@ -214,13 +287,12 @@ const Review = () => {
                       alt="score"
                       style={{ width: "16px", height: "16px" }}
                     />
-                    3
+                    {review.total_score}
                   </span>
                 </div>
               </div>
             )}
-
-            <button onClick={() => {}}>
+            <button onClick={() => showExpand(review.id)}>
               <img
                 src={ico_arrow_down}
                 alt="더보기"

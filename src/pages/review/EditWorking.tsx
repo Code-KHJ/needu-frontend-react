@@ -99,10 +99,6 @@ const EditWorking = () => {
         navigate("/");
       }
       setCorp(response.data);
-      setValues((prevValues) => ({
-        ...prevValues,
-        corp_name: response.data.corp_name,
-      }));
     };
     const getReview = async () => {
       const response: any = await reviewApi.getWorkingReview(no);
@@ -117,6 +113,7 @@ const EditWorking = () => {
       getCorp(response.data.corp.corp_name);
       setValues((prevValues) => ({
         ...prevValues,
+        corp_name: response.data.corp.corp_name,
         start_date: response.data.userCareer.first_date,
         end_date: response.data.userCareer.last_date,
         career_type: response.data.userCareer.type,

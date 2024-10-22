@@ -514,8 +514,6 @@
       .item_header {
         display: flex;
         justify-content: space-between;
-        overflow: hidden;
-        flex-wrap: nowrap;
         .corp_name {
           flex: 1;
           display: -webkit-box;
@@ -524,6 +522,27 @@
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+        .kebab {
+          position: relative;
+          .kebab_list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: absolute;
+            top: 20px;
+            right: 4px;
+            .kebab_item {
+              width: 55px;
+              padding: 6px 12px;
+              white-space: nowrap;
+              background-color: #fff;
+              border: 1px solid #aaa;
+              border-radius: 5px;
+              color: #222;
+              cursor: pointer;
+            }
+          }
         }
       }
       .highlight {
@@ -543,7 +562,6 @@
           flex-direction: column;
           gap: 20px;
           .total_score {
-            height: 100%;
             display: flex;
             gap: 4px;
             align-items: flex-start;
@@ -572,7 +590,6 @@
             }
           }
           .review_detail_wrap {
-            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -598,6 +615,14 @@
               }
             }
           }
+        }
+        .like {
+          display: flex;
+          flex-direction: row;
+          justify-content: end;
+          align-items: center;
+          margin-top: 20px;
+          gap: 4px;
         }
       }
       .reaction_wrap {
@@ -771,6 +796,20 @@
               font-size: 1.6rem;
               line-height: 20px;
               gap: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .review_wrap {
+    .review_list {
+      .review_item {
+        .review_body {
+          .review_content {
+            flex-direction: row;
+            .score_detail {
+              flex-direction: column;
             }
           }
         }

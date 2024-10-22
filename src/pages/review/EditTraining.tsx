@@ -47,10 +47,6 @@ const EditTraining = () => {
         navigate("/");
       }
       setCorp(response.data);
-      setValues((prevValues) => ({
-        ...prevValues,
-        corp_name: response.data.corp_name,
-      }));
     };
     const getReview = async () => {
       const response: any = await reviewApi.getTrainingReview(no);
@@ -65,6 +61,7 @@ const EditTraining = () => {
       getCorp(response.data.corp.corp_name);
       setValues((prevValues) => ({
         ...prevValues,
+        corp_name: response.data.corp_name,
         year: response.data.year,
         season: response.data.season,
         cost: response.data.cost,

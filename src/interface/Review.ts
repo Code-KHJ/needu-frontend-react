@@ -1,4 +1,4 @@
-import { UserCareer } from './User';
+import { UserCareer } from "./User";
 
 export interface Review {
   corp_name: string;
@@ -56,6 +56,8 @@ export interface ReviewContent {
   is_del: boolean | null;
   blind: number;
   userCareer: UserCareer;
+  corpname: string;
+  [key: string]: any;
 }
 
 export interface ReviewTrainingContent {
@@ -79,6 +81,8 @@ export interface ReviewTrainingContent {
   likes: number;
   is_del: boolean | null;
   blind: number;
+  corpname: string;
+  [key: string]: any;
 }
 
 export interface LikeDto {
