@@ -210,7 +210,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
           <div className={styles.title}>
             <h5>활동기록</h5>
             <a
-              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449minScore575ed6eec7f5f3b?pvs=4"
+              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449aa575ed6eec7f5f3b?pvs=4"
               target="_blank"
             >
               <img

@@ -12,7 +12,7 @@ const Footer = () => {
         <div className={styles.footer_terms}>
           <div>
             <a
-              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-2023-11-20-deb19b729f214bddbbbaf636cf14652d?pvs=4"
+              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-2024-10-00-3690cfa0ab124c1a86cf46cde92b1aa2?pvs=4"
               target="_blank"
             >
               이용약관

@@ -8,6 +8,7 @@ import Input from "@/components/elements/Input";
 import Label from "@/components/elements/Label";
 import Button from "@/components/elements/Button";
 import { useLoading } from "@/contexts/LoadingContext";
+import ico_arrow from "@/assets/images/arrow_right.png";
 
 const Signup = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -559,10 +560,14 @@ const Signup = () => {
                 </label>
                 <span className={`material-symbols-outlined ${styles.arrow}`}>
                   <a
-                    href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-2023-08-06-850d2be0329c403daf4377ade286c4a1?pvs=4"
+                    href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-2024-10-00-3690cfa0ab124c1a86cf46cde92b1aa2?pvs=4"
                     target="_blank"
                   >
-                    arrow_forward_ios
+                    <img
+                      src={ico_arrow}
+                      alt="화살표"
+                      style={{ height: "20px" }}
+                    />
                   </a>
                 </span>
               </div>
@@ -583,7 +588,11 @@ const Signup = () => {
                     href="https://neighborly-arithmetic-8e6.notion.site/d262bf0970b143fa97cfb93552a1b33f?pvs=4"
                     target="_blank"
                   >
-                    arrow_forward_ios
+                    <img
+                      src={ico_arrow}
+                      alt="화살표"
+                      style={{ height: "20px" }}
+                    />
                   </a>
                 </span>
               </div>
@@ -603,7 +612,11 @@ const Signup = () => {
                     href="https://neighborly-arithmetic-8e6.notion.site/5a691a0824ad4f0180ac55e076da44d7?pvs=4"
                     target="_blank"
                   >
-                    arrow_forward_ios
+                    <img
+                      src={ico_arrow}
+                      alt="화살표"
+                      style={{ height: "20px" }}
+                    />
                   </a>
                 </span>
               </div>
@@ -623,7 +636,11 @@ const Signup = () => {
                     href="https://neighborly-arithmetic-8e6.notion.site/sms-9de40b40848d4b19a0a36440941da5b3?pvs=4"
                     target="_blank"
                   >
-                    arrow_forward_ios
+                    <img
+                      src={ico_arrow}
+                      alt="화살표"
+                      style={{ height: "20px" }}
+                    />
                   </a>
                 </span>
               </div>
