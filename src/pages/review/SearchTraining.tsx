@@ -205,7 +205,8 @@ const SearchTraining = () => {
     }
   };
   const moveDetail = (corpName: string) => {
-    navigate(`/review/detail/training?name=${corpName}`);
+    const encodedCorpName = encodeURIComponent(corpName).replace(/%2B/g, "%2B");
+    navigate(`/review/detail/training?name=${encodedCorpName}`);
   };
 
   return (

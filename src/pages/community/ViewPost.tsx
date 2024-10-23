@@ -58,34 +58,34 @@ const ViewPost = ({ type }) => {
         if (response.status === 404) {
           hideLoading();
           navigate("/404", {
-            state: { previouse: previousPage },
+            state: { previous: previousPage },
           });
           return;
         }
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
       if (response.data.msg === "is_del") {
         hideLoading();
         navigate("/404", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
       if (postType === "free") {
         if (response.data.postType !== "자유게시판") {
           navigate("/404", {
-            state: { previouse: previousPage },
+            state: { previous: previousPage },
           });
         }
       }
       if (postType === "question") {
         if (response.data.postType !== "질문&답변") {
           navigate("/404", {
-            state: { previouse: previousPage },
+            state: { previous: previousPage },
           });
         }
       }
@@ -113,12 +113,12 @@ const ViewPost = ({ type }) => {
         if (response.status === 404) {
           hideLoading();
           navigate("/404", {
-            state: { previouse: previousPage },
+            state: { previous: previousPage },
           });
         }
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
       }
     };

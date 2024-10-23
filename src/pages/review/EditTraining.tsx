@@ -44,14 +44,14 @@ const EditTraining = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
       if (!response.data.corp_name) {
         hideLoading();
         navigate("/404", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
@@ -67,7 +67,7 @@ const EditTraining = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }

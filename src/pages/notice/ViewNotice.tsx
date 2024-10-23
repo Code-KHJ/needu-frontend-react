@@ -49,20 +49,20 @@ const ViewNotice = () => {
         if (response.status === 404) {
           hideLoading();
           navigate("/404", {
-            state: { previouse: previousPage },
+            state: { previous: previousPage },
           });
           return;
         }
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
       if (response.data.msg === "is_del") {
         hideLoading();
         navigate("/404", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
@@ -90,12 +90,12 @@ const ViewNotice = () => {
         if (response.status === 404) {
           hideLoading();
           navigate("/404", {
-            state: { previouse: previousPage },
+            state: { previous: previousPage },
           });
         }
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
       }
     };

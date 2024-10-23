@@ -31,12 +31,15 @@ const DetailTraining = () => {
   const previousPage = useLocation().state?.previous;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const corpName = queryParams.get("name");
+  const corpName = decodeURIComponent(
+    queryParams.get("name")?.replace(/\+/g, "%2B")
+  );
   const navigate = useNavigate();
   const user = useUser();
   const starList = StarList.training;
+  const encodedCorpName = encodeURIComponent(corpName).replace(/%2B/g, "%2B");
   const clickTab = (type: string) => {
-    navigate(`/review/detail/${type}?name=${corpName}`);
+    navigate(`/review/detail/${type}?name=${encodedCorpName}`);
   };
 
   const [corp, setCorp] = useState({
@@ -70,14 +73,14 @@ const DetailTraining = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
       if (!response.data.corp_name) {
         hideLoading();
         navigate("/404", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
@@ -91,7 +94,7 @@ const DetailTraining = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
@@ -103,7 +106,7 @@ const DetailTraining = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: previousPage },
+          state: { previous: previousPage },
         });
         return;
       }
@@ -335,7 +338,7 @@ const DetailTraining = () => {
           <div className={styles.write_review}>
             <p>이 기관에 대해 나눠주실 경험이 있으신가요?</p>
             <button type="button">
-              <Link to={`/review/training/write?name=${corp.corp_name}`}>
+              <Link to={`/review/training/write?name=${encodedCorpName}`}>
                 리뷰하러 가기
               </Link>
             </button>

@@ -121,7 +121,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: "/mypage" },
+          state: { previous: "/mypage" },
         });
         return;
       }

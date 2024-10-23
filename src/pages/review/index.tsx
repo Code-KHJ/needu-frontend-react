@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import WriteWorking from "./WriteWorking";
 import WriteTraining from "./WriteTraining";
 import DetailWorking from "./DetailWorking";
@@ -12,23 +12,49 @@ interface ReviewRoutesProps {
   isLogin: boolean;
 }
 const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
+  const location = useLocation();
+  const previousPage = location.pathname + location.search;
   return (
     <Routes>
       <Route
         path="/working/write"
-        element={!isLogin ? <Navigate to="/" /> : <WriteWorking />}
+        element={
+          !isLogin ? (
+            <Navigate to="/login" state={{ previous: previousPage }} />
+          ) : (
+            <WriteWorking />
+          )
+        }
       />
       <Route
         path="/training/write"
-        element={!isLogin ? <Navigate to="/" /> : <WriteTraining />}
+        element={
+          !isLogin ? (
+            <Navigate to="/login" state={{ previous: previousPage }} />
+          ) : (
+            <WriteTraining />
+          )
+        }
       />
       <Route
         path="/working/edit"
-        element={!isLogin ? <Navigate to="/" /> : <EditWorking />}
+        element={
+          !isLogin ? (
+            <Navigate to="/login" state={{ previous: previousPage }} />
+          ) : (
+            <EditWorking />
+          )
+        }
       />
       <Route
         path="/training/edit"
-        element={!isLogin ? <Navigate to="/" /> : <EditTraining />}
+        element={
+          !isLogin ? (
+            <Navigate to="/login" state={{ previous: previousPage }} />
+          ) : (
+            <EditTraining />
+          )
+        }
       />
       <Route path="/detail/working" element={<DetailWorking />} />
       <Route path="/detail/training" element={<DetailTraining />} />

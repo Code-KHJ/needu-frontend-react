@@ -34,7 +34,7 @@ const Home = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: "/mypage" },
+          state: { previous: "/mypage" },
         });
       }
       setPostList((prevState) => ({
@@ -47,7 +47,7 @@ const Home = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: "/mypage" },
+          state: { previous: "/mypage" },
         });
       }
       setPostList((prevState) => ({
@@ -60,7 +60,7 @@ const Home = () => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: "/mypage" },
+          state: { previous: "/mypage" },
         });
       }
       setPostList((prevState) => ({

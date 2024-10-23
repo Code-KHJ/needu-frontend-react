@@ -285,7 +285,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         if (response.status !== 200) {
           hideLoading();
           navigate("/error", {
-            state: { previouse: "/mypage" },
+            state: { previous: "/mypage" },
           });
           return;
         }
@@ -316,7 +316,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         if (response.status !== 200) {
           hideLoading();
           navigate("/error", {
-            state: { previouse: "/mypage/info" },
+            state: { previous: "/mypage/info" },
           });
           return;
         }
@@ -488,7 +488,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: "/mypage" },
+          state: { previous: "/mypage" },
         });
         return;
       }
@@ -512,7 +512,7 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
-          state: { previouse: "/mypage" },
+          state: { previous: "/mypage" },
         });
         return;
       }

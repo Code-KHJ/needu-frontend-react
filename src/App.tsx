@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 import "./App.css";
 import Header from "./components/header/Header";
@@ -25,7 +31,6 @@ declare global {
 function App() {
   //@ts-ignore
   const { user, loading } = useUser();
-
   const isLogin = user.id !== null;
   const isAdmin = user.authority === 100;
 
@@ -66,10 +71,7 @@ function App() {
           element={<CommunityRoutes isLogin={isLogin} />}
         />
         <Route path="/notice/*" element={<NoticeRoutes isAdmin={isAdmin} />} />
-        <Route
-          path="/mypage/*"
-          element={isLogin ? <MypageRoutes /> : <Navigate to="/" />}
-        />
+        <Route path="/mypage/*" element={<MypageRoutes isLogin={isLogin} />} />
         <Route path="/error" element={<Error />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

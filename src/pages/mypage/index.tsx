@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./Home";
 import Info from "./Info";
 import styles from "./Mypage.module.scss";
@@ -10,7 +10,12 @@ import userApi from "@/apis/user";
 import Community from "./Community";
 import Review from "./Review";
 
-const MypageRoutes = () => {
+interface MypageRoutesProps {
+  isLogin: boolean;
+}
+const MypageRoutes: React.FC<MypageRoutesProps> = ({ isLogin }) => {
+  const location = useLocation();
+  const previousPage = location.pathname + location.search;
   const [userInfo, setUserInfo] = useState<UserProfile>({
     user_id: "",
     nickname: "",
@@ -31,10 +36,12 @@ const MypageRoutes = () => {
   };
 
   useEffect(() => {
-    getUserInfo();
+    if (isLogin) {
+      getUserInfo();
+    }
   }, []);
 
-  return (
+  return isLogin ? (
     <div className={styles.wrap}>
       <Nav />
       <div className={styles.content_wrap}>
@@ -52,6 +59,8 @@ const MypageRoutes = () => {
         </Routes>
       </div>
     </div>
+  ) : (
+    <Navigate to="/login" state={{ previous: previousPage }} />
   );
 };
 

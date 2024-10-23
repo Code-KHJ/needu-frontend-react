@@ -13,6 +13,7 @@ import styles from "./Write.module.scss";
 const WriteTraining = () => {
   const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
+  const previousPage = useLocation().state?.previous;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const name = queryParams.get("name");
@@ -32,17 +33,25 @@ const WriteTraining = () => {
 
   useEffect(() => {
     if (!name) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     showLoading();
     const getCorp = async () => {
       const response: any = await corpApi.getWithTraining(name);
       if (response.status !== 200) {
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previous: previousPage },
+        });
+        return;
       }
       if (!response.data.corp_name) {
-        navigate("/");
+        hideLoading();
+        navigate("/404", {
+          state: { previous: previousPage },
+        });
+        return;
       }
       setCorp(response.data);
       setValues({

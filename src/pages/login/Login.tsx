@@ -73,7 +73,7 @@ const Login = () => {
         })
       );
       alert(response.data.nickname + "님 환영합니다.");
-      const from = location.state?.from || "/";
+      const from = location.state?.previous || "/";
       navigate(from);
     }
   };
