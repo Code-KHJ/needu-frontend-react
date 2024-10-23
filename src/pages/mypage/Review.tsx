@@ -48,8 +48,11 @@ const Review = () => {
         response = await reviewApi.getTrainingReviewsByUser();
       }
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
+        return;
       }
       const setData = response.data.map((item: any) => ({
         ...item,

@@ -16,6 +16,7 @@ import styles from "./Write.module.scss";
 const EditWorking = () => {
   const { customConfirm } = useConfirm();
   const { showLoading, hideLoading } = useLoading();
+  const previousPage = useLocation().state?.previous;
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -86,19 +87,28 @@ const EditWorking = () => {
 
   useEffect(() => {
     if (!no) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     showLoading();
     const getCorp = async (corpName: string) => {
       const response: any = await corpApi.getWithWorking(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       if (!response.data.corp_name) {
-        navigate("/");
+        hideLoading();
+        navigate("/404", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       setCorp(response.data);
+      getReview();
     };
     const getReview = async () => {
       const response: any = await reviewApi.getWorkingReview(no);
@@ -107,8 +117,11 @@ const EditWorking = () => {
         window.history.back();
       }
       if (response.status !== 200) {
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        window.history.back();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       getCorp(response.data.corp.corp_name);
       setValues((prevValues) => ({
@@ -133,7 +146,6 @@ const EditWorking = () => {
         setWorking(true);
       }
     };
-    getReview();
     hideLoading();
   }, [no]);
 

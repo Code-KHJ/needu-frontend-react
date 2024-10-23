@@ -8,8 +8,10 @@ import Button from "@/components/elements/Button";
 import userApi from "@/apis/user";
 import { useNavigate } from "react-router-dom";
 import SocialLogin from "@/components/IcoSocialLogin";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const Findid = () => {
+  const { showLoading, hideLoading } = useLoading();
   const [values, setValues] = useState("");
   const [validValues, setValidValues] = useState<boolean | null>(null);
   const [validMsg, setValidMsg] = useState("");
@@ -37,9 +39,11 @@ const Findid = () => {
   const [reqPhone, setReqPhone] = useState("");
   const reqAuthSMS = async () => {
     //인증문자 발송 api
+    showLoading();
     const response = await userApi.verifyPhone(values);
     if (response.data.status !== "completed") {
       alert("에러발생 다시 시도해주세요.");
+      hideLoading();
       return;
     }
     setAuthCode({
@@ -49,6 +53,7 @@ const Findid = () => {
     });
     setReqPhone(values);
     alert("인증번호가 전송되었습니다. 잠시만 기다려주세요.");
+    hideLoading();
   };
 
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,9 +70,11 @@ const Findid = () => {
       );
       return;
     }
+    showLoading();
     const response = await userApi.findUser("phonenumber", reqPhone);
     if (response.status !== 201) {
       alert("에러발생 다시 시도해주세요.");
+      hideLoading();
       return;
     }
     setResult({
@@ -76,6 +83,7 @@ const Findid = () => {
     });
 
     alert("인증되었습니다.");
+    hideLoading();
   };
 
   const [result, setResult] = useState({

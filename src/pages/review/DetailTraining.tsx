@@ -28,6 +28,7 @@ import styles from "./Detail.module.scss";
 const DetailTraining = () => {
   const { customConfirm } = useConfirm();
   const { showLoading, hideLoading } = useLoading();
+  const previousPage = useLocation().state?.previous;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const corpName = queryParams.get("name");
@@ -59,26 +60,40 @@ const DetailTraining = () => {
   const [reviews, setReviews] = useState<ReviewTrainingContent[]>([]);
 
   useEffect(() => {
-    showLoading();
     if (!corpName) {
-      navigate("/");
+      navigate("/404");
       return;
     }
+    showLoading();
     const getCorp = async () => {
       const response: any = await corpApi.getWithTraining(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       if (!response.data.corp_name) {
-        navigate("/");
+        hideLoading();
+        navigate("/404", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       setCorp(response.data);
+      getCorpScore();
+      getReviews();
     };
 
     const getCorpScore = async () => {
       const response: any = await reviewApi.getTrainingScore(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       setCorpScore(response.data);
     };
@@ -86,7 +101,11 @@ const DetailTraining = () => {
     const getReviews = async () => {
       const response: any = await reviewApi.getTrainingReviews(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       setReviews(response.data);
       response.data.forEach((review: any) => {
@@ -103,8 +122,6 @@ const DetailTraining = () => {
       });
     };
     getCorp();
-    getCorpScore();
-    getReviews();
     hideLoading();
   }, [corpName]);
 

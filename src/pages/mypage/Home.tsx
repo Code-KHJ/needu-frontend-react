@@ -32,8 +32,10 @@ const Home = () => {
     const getWorking = async () => {
       const response: any = await reviewApi.getWorkingReviewsByUser();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
       }
       setPostList((prevState) => ({
         ...prevState,
@@ -43,8 +45,10 @@ const Home = () => {
     const getTraining = async () => {
       const response: any = await reviewApi.getTrainingReviewsByUser();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
       }
       setPostList((prevState) => ({
         ...prevState,
@@ -54,8 +58,10 @@ const Home = () => {
     const getPost = async () => {
       const response: any = await communityApi.getPostListByUser();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
       }
       setPostList((prevState) => ({
         ...prevState,

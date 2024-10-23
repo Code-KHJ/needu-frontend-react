@@ -91,7 +91,7 @@ const WritePost = ({ type }) => {
           alert("파일 용량이 5MB를 초과하여 업로드에 실패하였습니다.");
           return;
         } else {
-          alert("오류가 발생했습니다.");
+          alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
           return;
         }
       }

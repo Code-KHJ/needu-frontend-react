@@ -5,8 +5,10 @@ import Input from "@/components/elements/Input";
 import Button from "@/components/elements/Button";
 import { regEmail, regPw } from "@/utils/validation";
 import userApi from "@/apis/user";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const Findpw = () => {
+  const { showLoading, hideLoading } = useLoading();
   const [values, setValues] = useState("");
   const [validValues, setValidValues] = useState<boolean | null>(null);
   const [validMsg, setValidMsg] = useState("");
@@ -33,9 +35,11 @@ const Findpw = () => {
 
   const reqAuthEmail = async () => {
     //id 유효한지 확인
+    showLoading();
     const userData = await userApi.findUser("user_id", values);
     if (userData.data.length !== 1) {
       alert("아이디가 존재하지 않습니다. 다시 확인해주세요.");
+      hideLoading();
       return;
     }
 
@@ -43,6 +47,7 @@ const Findpw = () => {
     const response = await userApi.verifyEmail(values);
     if (response.data.status !== "completed") {
       alert("에러발생 다시 시도해주세요.");
+      hideLoading();
       return;
     }
     setAuthCode({
@@ -51,6 +56,7 @@ const Findpw = () => {
       createdCode: response.data.authNum,
     });
     alert("인증번호가 전송되었습니다. 잠시만 기다려주세요.");
+    hideLoading();
   };
 
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,6 +170,7 @@ const Findpw = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    showLoading();
     const userData = {
       id: values,
       field: "password",
@@ -172,9 +179,11 @@ const Findpw = () => {
     const response = await userApi.updatePw(userData);
     if (response.status == 200) {
       alert("비밀번호가 변경되었습니다. 로그인을 해주세요.");
+      hideLoading();
       window.location.href = "/login";
     } else {
       alert("비밀번호 변경이 실패했습니다. 잠시 후 다시 시도해주세요.");
+      hideLoading();
     }
   };
 

@@ -14,6 +14,7 @@ import styles from "./Write.module.scss";
 const EditTraining = () => {
   const { customConfirm } = useConfirm();
   const { showLoading, hideLoading } = useLoading();
+  const previousPage = useLocation().state?.previous;
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -34,19 +35,28 @@ const EditTraining = () => {
 
   useEffect(() => {
     if (!no) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     showLoading();
     const getCorp = async (corpName: string) => {
       const response: any = await corpApi.getWithTraining(corpName);
       if (response.status !== 200) {
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       if (!response.data.corp_name) {
-        navigate("/");
+        hideLoading();
+        navigate("/404", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       setCorp(response.data);
+      getReview();
     };
     const getReview = async () => {
       const response: any = await reviewApi.getTrainingReview(no);
@@ -55,8 +65,11 @@ const EditTraining = () => {
         window.history.back();
       }
       if (response.status !== 200) {
-        alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        window.history.back();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       getCorp(response.data.corp.corp_name);
       setValues((prevValues) => ({
@@ -77,7 +90,6 @@ const EditTraining = () => {
         cons: response.data.cons,
       }));
     };
-    getReview();
     hideLoading();
   }, [no]);
 

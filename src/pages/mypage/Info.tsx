@@ -16,6 +16,7 @@ import diffDate from "@/utils/diffDate";
 import { regNickname, regPhone, regPw } from "@/utils/validation";
 import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface InfoProps {
   userInfo: UserProfile;
@@ -25,6 +26,7 @@ interface InfoProps {
 const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
   const { customConfirm } = useConfirm();
+  const navigate = useNavigate();
 
   // 유저 정보 수정
   const [subNav, setSubNav] = useState("basic");
@@ -281,8 +283,10 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         };
         const response: any = await userApi.updateUserInfo(userData);
         if (response.status !== 200) {
-          alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
           hideLoading();
+          navigate("/error", {
+            state: { previouse: "/mypage" },
+          });
           return;
         }
         setUserInfo(response.data);
@@ -310,8 +314,10 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
           return;
         }
         if (response.status !== 200) {
-          alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
           hideLoading();
+          navigate("/error", {
+            state: { previouse: "/mypage/info" },
+          });
           return;
         }
         setUserInfo(response.data);
@@ -480,8 +486,11 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
     const getUserCareer = async () => {
       const response: any = await userApi.getCareerList();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
+        return;
       }
       const careerLIst = response.data.map((career: any) => ({
         ...career,
@@ -501,8 +510,11 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
     const getShared = async () => {
       const response: any = await sharedApi.getCareerType();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
+        return;
       }
       setShared(response.data);
     };

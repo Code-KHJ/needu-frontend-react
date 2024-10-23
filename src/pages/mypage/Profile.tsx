@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Mypage.module.scss";
 import { useLoading } from "@/contexts/LoadingContext";
 import userLevel from "@/utils/calculateUserLevel";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -17,6 +18,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
+  const navigate = useNavigate();
 
   const { level, minPoint, maxPoint } = userLevel(userInfo.activity_points) || {
     level: 1,
@@ -92,7 +94,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
             alert("파일 용량이 5MB를 초과하여 업로드에 실패하였습니다.");
             return;
           } else {
-            alert("오류가 발생했습니다.");
+            alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             return;
           }
         }
@@ -117,9 +119,11 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
     const getPointLog = async () => {
       const response: any = await userApi.getPointLog();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
         hideLoading();
-        window.location.reload();
+        navigate("/error", {
+          state: { previouse: "/mypage" },
+        });
+        return;
       }
       setActivityLog(response.data);
     };

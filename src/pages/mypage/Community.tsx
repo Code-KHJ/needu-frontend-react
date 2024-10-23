@@ -28,8 +28,8 @@ const Community: React.FC<CommunityProps> = ({ userInfo }) => {
     const getPost = async () => {
       const response: any = await communityApi.getPostListByUser();
       if (response.status !== 200) {
-        alert("오류가 발생하였습니다");
-        window.location.reload();
+        hideLoading();
+        navigate("/error");
       }
       //@ts-ignore
       const filteredType = response.data.filter((item) =>

@@ -33,16 +33,16 @@ const EditNotice = () => {
   const [initialValue, setInitialValue] = useState<string>("");
   useEffect(() => {
     if (!noticeId) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     if (user.authority !== 100) {
-      navigate("/");
+      navigate("/404");
     }
     const getNotice = async (noticeId: number) => {
       const response: any = await noticeApi.getNoticeForEdit(noticeId);
       if (response.status !== 200) {
-        navigate("/");
+        navigate("/error");
       }
 
       setValues({

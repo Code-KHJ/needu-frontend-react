@@ -280,14 +280,17 @@ const Signup = () => {
       confirmText: "확인",
     });
     ///////////인증메일 발송 api
+    showLoading();
     const response = await userApi.verifyEmail(values.user_id);
     if (response.data.status !== "completed") {
       alert("에러발생 다시 시도해주세요.");
+      hideLoading();
       return;
     }
     console.log(response.data.authNum);
     setCreatedAuthCode(response.data.authNum);
     alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
+    hideLoading();
   };
   const handleAuth = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuthCode(e.target.value);

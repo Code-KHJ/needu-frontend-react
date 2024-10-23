@@ -13,6 +13,8 @@ import ReviewRoutes from "./pages/review";
 import CommunityRoutes from "./pages/community";
 import NoticeRoutes from "./pages/notice";
 import MypageRoutes from "./pages/mypage";
+import NotFound from "./pages/common/NotFound";
+import Error from "./pages/common/Error";
 
 declare global {
   interface Window {
@@ -41,6 +43,7 @@ function App() {
       <ScrollToTop />
       <Header />
       <Routes>
+        <Route path="/" />
         <Route
           path="/login"
           element={isLogin ? <Navigate to="/" /> : <Login />}
@@ -67,6 +70,8 @@ function App() {
           path="/mypage/*"
           element={isLogin ? <MypageRoutes /> : <Navigate to="/" />}
         />
+        <Route path="/error" element={<Error />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

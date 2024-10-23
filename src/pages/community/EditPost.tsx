@@ -41,7 +41,7 @@ const EditPost = ({ type }) => {
   const [initialValue, setInitialValue] = useState<string>("");
   useEffect(() => {
     if (!postId) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     showLoading();
@@ -54,11 +54,10 @@ const EditPost = ({ type }) => {
     const getPost = async (postId: number) => {
       const response: any = await communityApi.getPostForEdit(postId);
       if (response.status !== 200) {
-        navigate("/");
+        navigate("/error");
       }
       if (type !== response.data.type) {
-        alert("존재하지 않는 게시글입니다.");
-        navigate("/");
+        navigate("/404");
       }
 
       setValues({

@@ -131,7 +131,9 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
       );
       if (response.status !== 200) {
         alert("오류가 발생하였습니다");
-        navigate("/");
+        navigate("/error", {
+          state: { previouse: location.pathname + location.search },
+        });
       }
       setPostList(response.data);
     };

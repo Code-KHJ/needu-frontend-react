@@ -48,7 +48,7 @@ const ViewPost = ({ type }) => {
 
   useEffect(() => {
     if (!postId) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     showLoading();
@@ -56,25 +56,37 @@ const ViewPost = ({ type }) => {
       const response: any = await communityApi.getPost(postId);
       if (response.status !== 200) {
         if (response.status === 404) {
-          alert("존재하지 않는 게시글입니다.");
+          hideLoading();
+          navigate("/404", {
+            state: { previouse: previousPage },
+          });
+          return;
         }
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       if (response.data.msg === "is_del") {
-        alert("삭제된 게시글입니다.");
-        navigate("/");
+        hideLoading();
+        navigate("/404", {
+          state: { previouse: previousPage },
+        });
         return;
       }
       if (postType === "free") {
         if (response.data.postType !== "자유게시판") {
-          alert("존재하지 않는 게시글입니다.");
-          navigate("/");
+          navigate("/404", {
+            state: { previouse: previousPage },
+          });
         }
       }
       if (postType === "question") {
         if (response.data.postType !== "질문&답변") {
-          alert("존재하지 않는 게시글입니다.");
-          navigate("/");
+          navigate("/404", {
+            state: { previouse: previousPage },
+          });
         }
       }
       setPost(response.data);
@@ -93,18 +105,24 @@ const ViewPost = ({ type }) => {
           (item: any) => item.user_id === user.id && item.type === -1
         ),
       });
+      updateView(postId);
     };
     const updateView = async (postId: number) => {
       const response: any = await communityApi.updateView(postId);
       if (response.status !== 200) {
         if (response.status === 404) {
-          alert("존재하지 않는 게시글입니다.");
+          hideLoading();
+          navigate("/404", {
+            state: { previouse: previousPage },
+          });
         }
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
       }
     };
     getPost(postId);
-    updateView(postId);
     hideLoading();
   }, [postId, fetch]);
   useEffect(() => {

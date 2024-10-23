@@ -24,6 +24,7 @@ import ProfileImage from "@/components/ProfileImage";
 
 const ViewNotice = () => {
   const { showLoading, hideLoading } = useLoading();
+  const previousPage = useLocation().state?.previous;
   const pathname = useLocation().pathname.split("/");
   const noticeId = parseFloat(pathname[pathname.length - 1]);
   //@ts-ignore
@@ -38,7 +39,7 @@ const ViewNotice = () => {
 
   useEffect(() => {
     if (!noticeId) {
-      navigate("/");
+      navigate("/404");
       return;
     }
     showLoading();
@@ -46,13 +47,23 @@ const ViewNotice = () => {
       const response: any = await noticeApi.getNotice(noticeId);
       if (response.status !== 200) {
         if (response.status === 404) {
-          alert("존재하지 않는 게시글입니다.");
+          hideLoading();
+          navigate("/404", {
+            state: { previouse: previousPage },
+          });
+          return;
         }
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
+        return;
       }
       if (response.data.msg === "is_del") {
-        alert("삭제된 게시글입니다.");
-        navigate("/");
+        hideLoading();
+        navigate("/404", {
+          state: { previouse: previousPage },
+        });
         return;
       }
       setNotice(response.data);
@@ -71,18 +82,24 @@ const ViewNotice = () => {
           (item: any) => item.user_id === user.id && item.type === -1
         ),
       });
+      updateView(noticeId);
     };
     const updateView = async (noticeId: number) => {
       const response: any = await noticeApi.updateView(noticeId);
       if (response.status !== 200) {
         if (response.status === 404) {
-          alert("존재하지 않는 게시글입니다.");
+          hideLoading();
+          navigate("/404", {
+            state: { previouse: previousPage },
+          });
         }
-        navigate("/");
+        hideLoading();
+        navigate("/error", {
+          state: { previouse: previousPage },
+        });
       }
     };
     getNotice(noticeId);
-    updateView(noticeId);
     hideLoading();
   }, [noticeId]);
 
