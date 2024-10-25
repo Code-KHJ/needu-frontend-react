@@ -121,6 +121,15 @@ const userApi = {
       return error;
     }
   },
+  reqResetPassword: async (userEamil: object) => {
+    try {
+      const response = await customAxios.post("/user/reset/request", userEamil);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   getCareerList: async () => {
     try {
       const response = await customAxios.get("/user/career/list");

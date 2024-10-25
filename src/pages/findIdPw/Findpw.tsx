@@ -36,26 +36,39 @@ const Findpw = () => {
   const reqAuthEmail = async () => {
     //id 유효한지 확인
     showLoading();
-    const userData = await userApi.findUser("user_id", values);
-    if (userData.data.length !== 1) {
-      alert("아이디가 존재하지 않습니다. 다시 확인해주세요.");
+    const data = { email: values };
+    const response: any = await userApi.reqResetPassword(data);
+    if (response.status === 404) {
+      alert("존재하지 않는 회원입니다. 아이디를 다시 확인해주세요.");
       hideLoading();
       return;
     }
+    if (response.status !== 201) {
+      alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      hideLoading();
+      return;
+    }
+    console.log(response);
+    // const userData = await userApi.findUser("user_id", values);
+    // if (userData.data.length !== 1) {
+    //   alert("아이디가 존재하지 않습니다. 다시 확인해주세요.");
+    //   hideLoading();
+    //   return;
+    // }
 
-    //인증메일 발송 api
-    const response = await userApi.verifyEmail(values);
-    if (response.data.status !== "completed") {
-      alert("에러발생 다시 시도해주세요.");
-      hideLoading();
-      return;
-    }
-    setAuthCode({
-      ...authCode,
-      status: "req",
-      createdCode: response.data.authNum,
-    });
-    alert("인증번호가 전송되었습니다. 잠시만 기다려주세요.");
+    // //인증메일 발송 api
+    // const response = await userApi.verifyEmail(values);
+    // if (response.data.status !== "completed") {
+    //   alert("에러발생 다시 시도해주세요.");
+    //   hideLoading();
+    //   return;
+    // }
+    // setAuthCode({
+    //   ...authCode,
+    //   status: "req",
+    //   createdCode: response.data.authNum,
+    // });
+    // alert("인증번호가 전송되었습니다. 잠시만 기다려주세요.");
     hideLoading();
   };
 
