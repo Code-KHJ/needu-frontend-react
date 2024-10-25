@@ -1,0 +1,145 @@
+@charset "utf-8";
+
+.home_wrap {
+  margin: 40px auto;
+
+  .content_wrap {
+    padding: 0 10%;
+    .review_wrap,
+    .community_wrap {
+      margin-top: 80px;
+      .header {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        & > h3 {
+          white-space: nowrap;
+        }
+        .tab {
+          display: flex;
+          flex-direction: row;
+          gap: 2px;
+          flex-wrap: nowrap;
+          & > button {
+            padding: 4px 10px;
+            flex: none;
+            color: #888;
+          }
+          .current_tab {
+            background-color: #6269f5;
+            color: #fafafa;
+            border-radius: 5px;
+          }
+        }
+      }
+      .body_wrap {
+        .btn_more {
+          margin-top: 20px;
+          color: #aaa;
+          display: flex;
+          align-items: center;
+          margin-left: auto;
+          & > img {
+            width: 14px;
+            height: 7px;
+          }
+        }
+      }
+    }
+    .community_wrap {
+      .body_wrap {
+        & > ul {
+          .item {
+            margin-top: 20px;
+            .type {
+              width: fit-content;
+              padding: 2px 8px;
+              border: 1px solid #aaa;
+              border-radius: 5px;
+              color: #aaa;
+            }
+            .content {
+              margin-top: 8px;
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              gap: 10px;
+              justify-content: space-between;
+              .title {
+                text-wrap: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 500px;
+              }
+              .reaction {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                justify-content: flex-end;
+                margin-left: auto;
+                & > span {
+                  display: flex;
+                  gap: 4px;
+                  align-items: center;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .review_wrap {
+      margin-top: 80px;
+    }
+  }
+}
+
+/* main end */
+/* mobile-end */
+
+@media screen and (min-width: 768px) {
+  .home_wrap {
+    margin-top: 80px;
+    width: 86%;
+    .content_wrap {
+      padding: 0;
+      .review_wrap,
+      .community_wrap {
+        margin-top: 120px;
+      }
+      .community_wrap {
+        .body_wrap {
+          & > ul {
+            .item {
+              display: flex;
+              flex-direction: row;
+              gap: 8px;
+              overflow: hidden;
+              .type {
+                flex-shrink: 0;
+              }
+              .content {
+                margin-top: 0;
+                flex-grow: 1;
+                flex-wrap: nowrap;
+                align-items: center;
+                overflow: hidden;
+                .title {
+                  max-width: unset;
+                  flex-grow: 1;
+                }
+                .reaction {
+                  flex-shrink: 0;
+                  margin-left: unset;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

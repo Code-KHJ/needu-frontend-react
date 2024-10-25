@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import "./App.css";
 import Header from "./components/header/Header";
@@ -21,6 +15,7 @@ import NoticeRoutes from "./pages/notice";
 import MypageRoutes from "./pages/mypage";
 import NotFound from "./pages/common/NotFound";
 import Error from "./pages/common/Error";
+import Home from "./pages/common/Home";
 
 declare global {
   interface Window {
@@ -48,7 +43,7 @@ function App() {
       <ScrollToTop />
       <Header />
       <Routes>
-        <Route path="/" />
+        <Route path="/" element={<Home />} />
         <Route
           path="/login"
           element={isLogin ? <Navigate to="/" /> : <Login />}
