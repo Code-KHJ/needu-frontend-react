@@ -1,4 +1,3 @@
-import React from "react";
 import img_error from "@/assets/images/img_404.png";
 import { Link, useLocation } from "react-router-dom";
 

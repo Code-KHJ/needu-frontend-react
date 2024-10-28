@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Home.module.scss";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
