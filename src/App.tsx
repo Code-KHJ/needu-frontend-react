@@ -1,21 +1,22 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import "./App.css";
-import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
-import Login from "./pages/login/Login";
-import Signup from "./pages/signup/Signup";
-import Findid from "./pages/findIdPw/Findid";
-import Findpw from "./pages/findIdPw/Findpw";
+import Header from "./components/header/Header";
 import ScrollToTop from "./components/ScrollToTop";
 import { useUser } from "./contexts/UserContext";
-import ReviewRoutes from "./pages/review";
-import CommunityRoutes from "./pages/community";
-import NoticeRoutes from "./pages/notice";
-import MypageRoutes from "./pages/mypage";
-import NotFound from "./pages/common/NotFound";
 import Error from "./pages/common/Error";
 import Home from "./pages/common/Home";
+import NotFound from "./pages/common/NotFound";
+import CommunityRoutes from "./pages/community";
+import Findid from "./pages/findIdPw/Findid";
+import Findpw from "./pages/findIdPw/Findpw";
+import ResetPw from "./pages/findIdPw/ResetPw";
+import Login from "./pages/login/Login";
+import MypageRoutes from "./pages/mypage";
+import NoticeRoutes from "./pages/notice";
+import ReviewRoutes from "./pages/review";
+import Signup from "./pages/signup/Signup";
 
 declare global {
   interface Window {
@@ -60,6 +61,7 @@ function App() {
           path="/find/pw"
           element={isLogin ? <Navigate to="/" /> : <Findpw />}
         />
+        <Route path="/reset/password/*" element={<ResetPw />} />
         <Route path="/review/*" element={<ReviewRoutes isLogin={isLogin} />} />
         <Route
           path="/community/*"

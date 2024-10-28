@@ -76,10 +76,6 @@ const userApi = {
     const response = await customAxios.post("/user/signup", userData);
     return response;
   },
-  updatePw: async (userData: object) => {
-    const response = await customAxios.patch("/user/update/pw", userData);
-    return response;
-  },
   uploadProfile: async (formData: FormData) => {
     try {
       const response = await customAxios.post("/user/profile/image", formData, {
@@ -129,6 +125,19 @@ const userApi = {
       console.error(error);
       return error;
     }
+  },
+  validResetToken: async (token: string) => {
+    try {
+      const response = await customAxios.get(`/user/reset/valid/${token}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  resetPassword: async (userData: object) => {
+    const response = await customAxios.patch("/user/reset/password", userData);
+    return response;
   },
   getCareerList: async () => {
     try {

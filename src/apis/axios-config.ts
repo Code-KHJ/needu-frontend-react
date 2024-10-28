@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
+const retryRequests = new Map<string, { _retry: boolean }>();
+
 const customAxios: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
   timeout: 1000,
@@ -17,6 +19,8 @@ customAxios.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    const requestKey = `${originalRequest.url}-${originalRequest.method}`;
+
     function getCookie(name: string) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -29,12 +33,19 @@ customAxios.interceptors.response.use(
     }
     const refreshToken = getCookie("refreshToken");
 
+    if (!retryRequests.has(requestKey)) {
+      retryRequests.set(requestKey, { _retry: false });
+    }
+
+    const requestState = retryRequests.get(requestKey);
+
     if (
       error.response.status === 401 &&
-      !originalRequest._retry &&
+      !requestState?._retry &&
       refreshToken
     ) {
-      originalRequest._retry = true;
+      // @ts-ignore
+      requestState._retry = true;
 
       try {
         const response = await customAxios.post("/auth/refresh");
