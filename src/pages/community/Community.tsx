@@ -4,6 +4,7 @@ import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_view from "@/assets/images/ico_view.png";
+import ProfileImage from "@/components/ProfileImage";
 import {
   PostListItemContent,
   WeeklyListItemContent,
@@ -15,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import styles from "./Community.module.scss";
-import ProfileImage from "@/components/ProfileImage";
 
 const Community = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Community = () => {
   const [weeklyList, setWeeklyList] = useState<WeeklyListItemContent[]>([]);
   useEffect(() => {
     const getFreeList = async () => {
-      const response: any = await communityApi.getPostList("?type=1");
+      const response: any = await communityApi.getPostList("?type=1&page=1");
       if (response.status !== 200) {
         alert("오류가 발생하였습니다");
         window.location.reload();
@@ -45,7 +45,7 @@ const Community = () => {
       setFreeList(response.data);
     };
     const getQuestionList = async () => {
-      const response: any = await communityApi.getPostList("?type=2");
+      const response: any = await communityApi.getPostList("?type=2&page=1");
       if (response.status !== 200) {
         alert("오류가 발생하였습니다");
         window.location.reload();

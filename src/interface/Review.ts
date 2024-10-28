@@ -85,6 +85,15 @@ export interface ReviewTrainingContent {
   [key: string]: any;
 }
 
+export interface CommonReviewContent {
+  id: number;
+  highlight: string;
+  created_date: string;
+  total_score: string;
+  corpname: string;
+  year: string;
+}
+
 export interface LikeDto {
   review_no: number;
   type: string;
