@@ -14,6 +14,7 @@ import Findpw from "./pages/findIdPw/Findpw";
 import ResetPw from "./pages/findIdPw/ResetPw";
 import Login from "./pages/login/Login";
 import MypageRoutes from "./pages/mypage";
+import Users from "./pages/mypage/Users";
 import NoticeRoutes from "./pages/notice";
 import ReviewRoutes from "./pages/review";
 import Signup from "./pages/signup/Signup";
@@ -69,6 +70,7 @@ function App() {
         />
         <Route path="/notice/*" element={<NoticeRoutes isAdmin={isAdmin} />} />
         <Route path="/mypage/*" element={<MypageRoutes isLogin={isLogin} />} />
+        <Route path="/users/*" element={<Users />} />
         <Route path="/error" element={<Error />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

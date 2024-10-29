@@ -96,6 +96,15 @@ const userApi = {
       return error;
     }
   },
+  getUserInfoForPublic: async (nickname: string) => {
+    try {
+      const response = await customAxios.get(`/user/public/${nickname}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   updateUserInfo: async (userData: object) => {
     try {
       const response = await customAxios.patch("/user/update/info", userData);

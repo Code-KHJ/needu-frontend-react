@@ -3,13 +3,13 @@ import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
 import ico_help from "@/assets/images/ico_help.png";
 import ico_level from "@/assets/images/ico_level_default.png";
 import ProfileImage from "@/components/ProfileImage";
+import { useLoading } from "@/contexts/LoadingContext";
 import { UserProfile } from "@/interface/User";
+import userLevel from "@/utils/calculateUserLevel";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { useCallback, useEffect, useRef, useState } from "react";
-import styles from "./Mypage.module.scss";
-import { useLoading } from "@/contexts/LoadingContext";
-import userLevel from "@/utils/calculateUserLevel";
 import { useNavigate } from "react-router-dom";
+import styles from "./Mypage.module.scss";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -152,7 +152,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
             />
           </span>
           <span className={styles.nickname}>{userInfo.nickname}</span>
-          <img className={styles.level_imamge} src={ico_level} alt="level" />
+          <img className={styles.level_image} src={ico_level} alt="level" />
           <span>
             {windowWidth > 768 && "NEEDU 커뮤니티 "}Level {level}
           </span>
