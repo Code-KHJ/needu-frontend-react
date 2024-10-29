@@ -3,6 +3,7 @@ import arrow_right from "@/assets/images/btn_slick_arrow_R.png";
 
 const PrevArrow = (props: any) => {
   const { className, style, onClick } = props;
+
   return (
     <div
       className={className}
@@ -33,4 +34,4 @@ const NextArrow = (props: any) => {
   );
 };
 
-export { PrevArrow, NextArrow };
+export { NextArrow, PrevArrow };

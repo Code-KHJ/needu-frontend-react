@@ -4,15 +4,10 @@
   margin: 40px auto;
   .banner_wrap {
     padding: 0 10%;
-    .banner1 {
+    .banner {
       background-color: #888;
       max-width: 1280px;
-    }
-    .banner2 {
-      background-color: #888;
-    }
-    .banner3 {
-      background-color: #888;
+      height: 178px;
     }
   }
   .content_wrap {
@@ -201,9 +196,15 @@
         }
         & > ul {
           margin-top: 20px;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
+          .slider_corp {
+            & > div {
+              & > div {
+                & > div {
+                  padding: 0 0 20px;
+                }
+              }
+            }
+          }
           .item {
             border: 1px solid #aaa;
             border-radius: 5px;
@@ -211,6 +212,9 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
+            & > h5 {
+              cursor: pointer;
+            }
             .description {
               width: fit-content;
               border: #6269f5 solid 1px;
@@ -225,6 +229,12 @@
       }
     }
   }
+  .bottom_banner {
+    margin-top: 60px;
+    margin: 60px 10%;
+    background-color: #aaa;
+    height: 178px;
+  }
 }
 
 /* main end */
@@ -234,9 +244,13 @@
   .home_wrap {
     margin-top: 80px;
     .banner_wrap {
+      max-width: 1400px;
       width: 86%;
       margin: 0 auto;
       padding: 0;
+      .banner {
+        height: 400px;
+      }
     }
     .content_wrap {
       width: 86%;
@@ -314,25 +328,16 @@
         }
       }
     }
+    .bottom_banner {
+      margin: 60px auto;
+      max-width: 1280px;
+      width: 86%;
+    }
   }
 }
 
 @media screen and (min-width: 1280px) {
   .home_wrap {
-    .banner_wrap {
-      width: 100%;
-      .banner1 {
-        max-width: 1280px;
-      }
-      .banner2 {
-        width: 86%;
-        max-width: 1280px;
-      }
-      .banner3 {
-        width: 86%;
-        max-width: 1280px;
-      }
-    }
     .content_wrap {
       max-width: 1280px;
       .review_wrap,
@@ -387,6 +392,9 @@
           }
         }
       }
+    }
+    .bottom_banner {
+      height: 280px;
     }
   }
 }

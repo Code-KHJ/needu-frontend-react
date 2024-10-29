@@ -179,8 +179,8 @@ h5,
   padding: 0 10px;
 }
 .slick-arrow {
-  width: 48px !important;
-  height: 48px !important;
+  width: 40px !important;
+  height: 40px !important;
   z-index: 8;
 }
 .slick-arrow::before {
@@ -247,6 +247,10 @@ h5,
     .placeholder {
       font-size: 1.8rem !important;
     }
+  }
+  .slick-arrow {
+    width: 48px !important;
+    height: 48px !important;
   }
   .mo_show {
     display: none !important;

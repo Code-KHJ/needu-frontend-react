@@ -1,24 +1,24 @@
 import communityApi from "@/apis/community";
+import corpApi from "@/apis/corp";
+import reviewApi from "@/apis/review";
 import ico_arrow from "@/assets/images/ico_arrow_down.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
+import ico_triangle from "@/assets/images/ico_triangle_blue.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_score from "@/assets/images/Star_1.png";
-import ico_triangle from "@/assets/images/ico_triangle_blue.png";
 import ProfileImage from "@/components/ProfileImage";
+import { NextArrow, PrevArrow } from "@/components/SliderArrow";
 import { useLoading } from "@/contexts/LoadingContext";
 import { PostListItemContent } from "@/interface/Community";
 import { CommonReviewContent } from "@/interface/Review";
 import agoDate from "@/utils/agoDate";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Home.module.scss";
-import reviewApi from "@/apis/review";
-import corpApi from "@/apis/corp";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { PrevArrow, NextArrow } from "@/components/SliderArrow";
+import styles from "./Home.module.scss";
 
 interface PostList {
   working: CommonReviewContent[];
@@ -141,18 +141,32 @@ const Home = () => {
     const winResize = window.innerWidth;
     if (winResize < 768) {
       setSliceCount(3);
-    } else {
-      setSliceCount(6);
-    }
-    if (winResize > 1280) {
-      setBannerSliderSettings((prev) => ({
+      setCorpSliderSettings((prev) => ({
         ...prev,
-        centerMode: true,
+        slidesToShow: 3,
       }));
-    } else {
       setBannerSliderSettings((prev) => ({
         ...prev,
         centerMode: false,
+      }));
+    } else if (winResize >= 768 && winResize < 1280) {
+      setSliceCount(6);
+      setCorpSliderSettings((prev) => ({
+        ...prev,
+        slidesToShow: 6,
+      }));
+      setBannerSliderSettings((prev) => ({
+        ...prev,
+        centerMode: false,
+      }));
+    } else if (winResize >= 1280) {
+      setCorpSliderSettings((prev) => ({
+        ...prev,
+        slidesToShow: 3,
+      }));
+      setBannerSliderSettings((prev) => ({
+        ...prev,
+        centerMode: true,
       }));
     }
   };
@@ -163,26 +177,37 @@ const Home = () => {
     };
   }, []);
 
-  console.log(postList.corp);
-
   const [bannerSliderSettings, setBannerSliderSettings] = useState({
     focusOnSelect: true,
     centerMode: winInnerWidth < 768 ? false : true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
+    autoplay: true,
+    autoplaySpeed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
+  });
+  const [corpSliderSettings, setCorpSliderSettings] = useState({
+    focusOnSelect: true,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    slidesToShow: winInnerWidth >= 768 && winInnerWidth < 1280 ? 6 : 3,
+    slidesToScroll: 1,
+    vertical: true,
+    verticalSwiping: true,
   });
 
   return (
     <div className={styles.home_wrap}>
       <div className={styles.banner_wrap}>
         <Slider {...bannerSliderSettings}>
-          <div className={styles.banner1}>배너1</div>
-          <div className={styles.banner2}>배너2</div>
-          <div className={styles.banner3}>배너3</div>
+          <div className={styles.banner}>배너1</div>
+          <div className={styles.banner}>배너2</div>
+          <div className={styles.banner}>배너3</div>
         </Slider>
       </div>
       <div className={styles.content_wrap}>
@@ -425,17 +450,27 @@ const Home = () => {
               <img src={ico_triangle} alt="icon" style={{ width: "24px" }} />
             </div>
             <ul>
-              {postList.corp.map((corp, index) => (
-                <li className={styles.item} key={index}>
-                  <h5>{corp.corpname}</h5>
-                  <div className={styles.description}>{corp.description}</div>
-                </li>
-              ))}
+              <Slider {...corpSliderSettings} className={styles.slider_corp}>
+                {postList.corp.map((corp, index) => (
+                  <li className={styles.item} key={index}>
+                    <h5
+                      onClick={() =>
+                        navigate(
+                          `${`/review/detail/working?name=${corp.corpname}`}`
+                        )
+                      }
+                    >
+                      {corp.corpname}
+                    </h5>
+                    <div className={styles.description}>{corp.description}</div>
+                  </li>
+                ))}
+              </Slider>
             </ul>
           </div>
         </div>
       </div>
-      <div>하단배너</div>
+      <div className={styles.bottom_banner}>하단배너</div>
     </div>
   );
 };
