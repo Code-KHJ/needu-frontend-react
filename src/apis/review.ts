@@ -49,6 +49,15 @@ const reviewApi = {
       return (error as AxiosError).response;
     }
   },
+  getWorkingReviewByRecent: async () => {
+    try {
+      const response = await customAxios.get("/review/working/recent");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
+  },
   getWorkingReviewsByUser: async () => {
     try {
       const response = await customAxios.get("/review/working/user");
@@ -116,6 +125,15 @@ const reviewApi = {
   getTrainingReview: async (no: string) => {
     try {
       const response = await customAxios.get(`/review/training/id/${no}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return (error as AxiosError).response;
+    }
+  },
+  getTrainingReviewByRecent: async () => {
+    try {
+      const response = await customAxios.get("/review/training/recent");
       return response;
     } catch (error) {
       console.error(error);

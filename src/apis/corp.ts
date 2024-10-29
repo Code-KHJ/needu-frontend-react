@@ -1,4 +1,4 @@
-import customAxios from './axios-config';
+import customAxios from "./axios-config";
 
 const corpApi = {
   getWithWorking: async (name: string) => {
@@ -31,6 +31,15 @@ const corpApi = {
   getListWithTraining: async (queryParams: string) => {
     try {
       const response = await customAxios.get(`/corp/training${queryParams}`);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  getHotList: async () => {
+    try {
+      const response = await customAxios.get(`/corp/hotlist`);
       return response;
     } catch (error) {
       console.error(error);

@@ -91,7 +91,7 @@ export interface CommonReviewContent {
   created_date: string;
   total_score: string;
   corpname: string;
-  year: string;
+  type: string;
 }
 
 export interface LikeDto {
