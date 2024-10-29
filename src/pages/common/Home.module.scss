@@ -2,7 +2,19 @@
 
 .home_wrap {
   margin: 40px auto;
-
+  .banner_wrap {
+    padding: 0 10%;
+    .banner1 {
+      background-color: #888;
+      max-width: 1280px;
+    }
+    .banner2 {
+      background-color: #888;
+    }
+    .banner3 {
+      background-color: #888;
+    }
+  }
   .content_wrap {
     padding: 0 10%;
     .review_wrap,
@@ -221,8 +233,14 @@
 @media screen and (min-width: 768px) {
   .home_wrap {
     margin-top: 80px;
-    width: 86%;
+    .banner_wrap {
+      width: 86%;
+      margin: 0 auto;
+      padding: 0;
+    }
     .content_wrap {
+      width: 86%;
+      margin: 0 auto;
       padding: 0;
       .review_wrap,
       .community_wrap {
@@ -301,8 +319,22 @@
 
 @media screen and (min-width: 1280px) {
   .home_wrap {
-    max-width: 1280px;
+    .banner_wrap {
+      width: 100%;
+      .banner1 {
+        max-width: 1280px;
+      }
+      .banner2 {
+        width: 86%;
+        max-width: 1280px;
+      }
+      .banner3 {
+        width: 86%;
+        max-width: 1280px;
+      }
+    }
     .content_wrap {
+      max-width: 1280px;
       .review_wrap,
       .community_wrap {
         margin-top: 160px;

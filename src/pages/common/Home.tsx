@@ -15,6 +15,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.scss";
 import reviewApi from "@/apis/review";
 import corpApi from "@/apis/corp";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { PrevArrow, NextArrow } from "@/components/SliderArrow";
 
 interface PostList {
   working: CommonReviewContent[];
@@ -27,7 +31,7 @@ interface PostList {
 const Home = () => {
   const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
-
+  const winInnerWidth = window.innerWidth;
   const [postList, setPostList] = useState<PostList>({
     working: [],
     training: [],
@@ -132,13 +136,24 @@ const Home = () => {
     hideLoading();
   }, []);
 
-  const [slideCount, setSlideCOunt] = useState(6);
+  const [sliceCount, setSliceCount] = useState(winInnerWidth < 768 ? 3 : 6);
   const handleResize = () => {
     const winResize = window.innerWidth;
     if (winResize < 768) {
-      setSlideCOunt(3);
+      setSliceCount(3);
     } else {
-      setSlideCOunt(6);
+      setSliceCount(6);
+    }
+    if (winResize > 1280) {
+      setBannerSliderSettings((prev) => ({
+        ...prev,
+        centerMode: true,
+      }));
+    } else {
+      setBannerSliderSettings((prev) => ({
+        ...prev,
+        centerMode: false,
+      }));
     }
   };
   useEffect(() => {
@@ -150,9 +165,26 @@ const Home = () => {
 
   console.log(postList.corp);
 
+  const [bannerSliderSettings, setBannerSliderSettings] = useState({
+    focusOnSelect: true,
+    centerMode: winInnerWidth < 768 ? false : true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+  });
+
   return (
     <div className={styles.home_wrap}>
-      <div>배너</div>
+      <div className={styles.banner_wrap}>
+        <Slider {...bannerSliderSettings}>
+          <div className={styles.banner1}>배너1</div>
+          <div className={styles.banner2}>배너2</div>
+          <div className={styles.banner3}>배너3</div>
+        </Slider>
+      </div>
       <div className={styles.content_wrap}>
         <div className={styles.community_wrap}>
           <div className={styles.header}>
@@ -222,7 +254,7 @@ const Home = () => {
                     new Date(b.created_at).getTime() -
                     new Date(a.created_at).getTime()
                 )
-                .slice(0, slideCount)
+                .slice(0, sliceCount)
                 .map((post, index) => (
                   <li className={styles.item} key={index}>
                     <h5 className={styles.type}>
@@ -351,7 +383,7 @@ const Home = () => {
                       new Date(b.created_date).getTime() -
                       new Date(a.created_date).getTime()
                   )
-                  .slice(0, slideCount)
+                  .slice(0, sliceCount)
                   .map((review, index) => (
                     <li className={styles.item} key={index}>
                       <h5 className={styles.type}>{review.type}</h5>
