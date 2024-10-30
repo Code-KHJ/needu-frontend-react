@@ -1,14 +1,17 @@
 import reviewApi from "@/apis/review";
+import btn_kebab from "@/assets/images/btn_kebab.png";
 import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
 import ico_career_c from "@/assets/images/ico_career_c.png";
 import ico_career_f from "@/assets/images/ico_career_f.png";
 import ico_like from "@/assets/images/ico_like.png";
-import ico_score from "@/assets/images/Star_1.png";
 import ico_like_black from "@/assets/images/ico_like_black.png";
-import btn_kebab from "@/assets/images/btn_kebab.png";
+import ico_score from "@/assets/images/Star_1.png";
+import { StarList } from "@/common/StarList";
 import Hashtag from "@/components/Hashtag";
 import ScoreBar from "@/components/ScoreBar";
+import { useConfirm } from "@/contexts/ConfirmContext";
 import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
 import {
   DeleteReviewDto,
   ReviewContent,
@@ -17,9 +20,6 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Mypage.module.scss";
-import { StarList } from "@/common/StarList";
-import { useConfirm } from "@/contexts/ConfirmContext";
-import { useUser } from "@/contexts/UserContext";
 
 const Review = () => {
   const { customConfirm } = useConfirm();
@@ -124,6 +124,10 @@ const Review = () => {
       window.location.reload();
     }
   };
+  const moveDetail = (corpName: string) => {
+    const encodedCorpName = encodeURIComponent(corpName).replace(/%2B/g, "%2B");
+    navigate(`/review/detail/${reviewType}?name=${encodedCorpName}`);
+  };
 
   return (
     <div className={styles.review_wrap}>
@@ -131,7 +135,12 @@ const Review = () => {
         {reviewList.map((review) => (
           <li className={styles.review_item} key={review.id}>
             <div className={styles.item_header}>
-              <h5 className={styles.corp_name}>{review.corpname}</h5>
+              <h5
+                className={styles.corp_name}
+                onClick={() => moveDetail(review.corpname)}
+              >
+                {review.corpname}
+              </h5>
               <div className={styles.kebab}>
                 <img
                   src={btn_kebab}

@@ -522,6 +522,7 @@
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
+          cursor: pointer;
         }
         .kebab {
           position: relative;
@@ -552,7 +553,6 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
-        cursor: pointer;
         margin-top: 4px;
       }
       .review_body {
