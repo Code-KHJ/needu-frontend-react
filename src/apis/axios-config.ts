@@ -52,9 +52,18 @@ customAxios.interceptors.response.use(
         if (response.status === 200) {
           return customAxios(originalRequest);
         }
-        return alert("로그인이 필요한 서비스입니다.");
+        return (window.location.href = "/login");
       } catch (refreshError) {
         console.error("리프레시 토큰 갱신 실패", refreshError);
+
+        document.cookie =
+          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        localStorage.removeItem("userInfo");
+
+        window.location.href = "/login";
+
         throw Promise.reject(refreshError);
       }
     }
