@@ -81,7 +81,10 @@ const Community = () => {
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
                   <ProfileImage src={post.writer.profile_image} />
-                  <span className={`body2  ${styles.nickname}`}>
+                  <span
+                    className={`body2  ${styles.nickname}`}
+                    onClick={() => navigate(`/users/${post.writer.nickname}`)}
+                  >
                     <span>{post.writer.nickname}</span>
                     <img
                       src={ico_level}
@@ -180,7 +183,10 @@ const Community = () => {
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
                   <ProfileImage src={post.writer.profile_image} />
-                  <span className={`body2  ${styles.nickname}`}>
+                  <span
+                    className={`body2  ${styles.nickname}`}
+                    onClick={() => navigate(`/users/${post.writer.nickname}`)}
+                  >
                     <span>{post.writer.nickname}</span>
                     <img
                       src={ico_level}
@@ -252,7 +258,10 @@ const Community = () => {
               <li className={styles.content_item} key={index}>
                 <div className={styles.info}>
                   <ProfileImage src={post.writer.profile_image} />{" "}
-                  <span className={`body2 ${styles.nickname}`}>
+                  <span
+                    className={`body2 ${styles.nickname}`}
+                    onClick={() => navigate(`/users/${post.writer.nickname}`)}
+                  >
                     <span>{post.writer.nickname}</span>
                     <img
                       src={ico_level}

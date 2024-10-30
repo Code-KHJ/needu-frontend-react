@@ -49,6 +49,7 @@
         }
         .nickname {
           max-width: 50%;
+          cursor: pointer;
           & > span {
             white-space: nowrap;
             overflow: hidden;

@@ -252,7 +252,10 @@ const ViewPost = ({ type }) => {
               <div className={styles.writer_info}>
                 <ProfileImage src={post?.writer.profile_image} />
                 <div>
-                  <div>
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/users/${post?.writer.nickname}`)}
+                  >
                     <span>{post?.writer.nickname}</span>
                     <img
                       src={ico_level}

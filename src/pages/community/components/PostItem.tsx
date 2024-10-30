@@ -1,15 +1,15 @@
-import React from "react";
-import styles from "../Search.module.scss";
 import ico_level from "@/assets/images/ico_level_default.png";
-import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_reply_accepted from "@/assets/images/ico_reply_accepted.png";
+import ico_view from "@/assets/images/ico_view.png";
+import ProfileImage from "@/components/ProfileImage";
 import { PostListItemContent } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
 import stripHtml from "@/utils/stripHtml";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProfileImage from "@/components/ProfileImage";
+import styles from "../Search.module.scss";
 
 interface PostItemProps {
   post: PostListItemContent;
@@ -54,7 +54,11 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
       <div className={styles.post_content}>
         <div className={styles.info}>
           <ProfileImage src={post.writer.profile_image} />
-          <span className={`body2`}>
+          <span
+            className={`body2`}
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate(`/users/${post.writer.nickname}`)}
+          >
             {post.writer.nickname}
             <img
               src={ico_level}
