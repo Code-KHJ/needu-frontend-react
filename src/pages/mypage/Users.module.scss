@@ -48,14 +48,18 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            .title {
-              display: -webkit-box;
-              -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
-              line-clamp: 1; /* 표준 속성 */
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              cursor: pointer;
+            .title_wrap {
+              display: flex;
+              align-items: center;
+              .title {
+                display: -webkit-box;
+                -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
+                line-clamp: 1; /* 표준 속성 */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+              }
             }
             .content {
               display: -webkit-box;
@@ -97,8 +101,6 @@
                 color: #888;
               }
               .title_wrap {
-                display: flex;
-                align-items: center;
                 .type {
                   border: #aaa 1px solid;
                   border-radius: 5px;
@@ -106,6 +108,9 @@
                   margin-right: 8px;
                   white-space: nowrap;
                 }
+              }
+              .content {
+                margin-top: 4px;
               }
             }
           }

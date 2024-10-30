@@ -1,23 +1,24 @@
+import communityApi from "@/apis/community";
 import userApi from "@/apis/user";
 import ico_level from "@/assets/images/ico_level_default.png";
-import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_reply_accepted from "@/assets/images/ico_reply_accepted.png";
+import ico_view from "@/assets/images/ico_view.png";
 import ProfileImage from "@/components/ProfileImage";
 import { useLoading } from "@/contexts/LoadingContext";
 import userLevel from "@/utils/calculateUserLevel";
+import stripHtml from "@/utils/stripHtml";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Users.module.scss";
-import communityApi from "@/apis/community";
-import stripHtml from "@/utils/stripHtml";
 
 interface ContentList {
   type: string;
   id: number;
   title: string;
   content: string;
+  post_type: number;
   created_at: Date;
   view: number;
   like_cnt: number;
@@ -103,7 +104,7 @@ const Users = () => {
                   <li className={styles.item} key={index}>
                     {content.type === "post" && (
                       <div>
-                        <h5 className={styles.title}>
+                        <div className={styles.title_wrap}>
                           {content.wbAccepted ? (
                             <span
                               style={{
@@ -119,9 +120,29 @@ const Users = () => {
                           ) : (
                             ""
                           )}
-                          {content.title}
-                        </h5>
-                        <span className={styles.content}>
+                          <h5
+                            className={styles.title}
+                            onClick={() =>
+                              navigate(
+                                `/community/${
+                                  content.post_type === 1 ? "free" : "question"
+                                }/${content.id}`
+                              )
+                            }
+                          >
+                            {content.title}
+                          </h5>
+                        </div>
+                        <span
+                          className={styles.content}
+                          onClick={() =>
+                            navigate(
+                              `/community/${
+                                content.post_type === 1 ? "free" : "question"
+                              }/${content.id}`
+                            )
+                          }
+                        >
                           {stripHtml(content.content)}
                         </span>
                         <div className={styles.reaction_wrap}>
@@ -200,7 +221,18 @@ const Users = () => {
                             </span>
                           </div>
                         </div>
-                        <div className={styles.origin_post}>
+                        <div
+                          className={styles.origin_post}
+                          onClick={() =>
+                            navigate(
+                              `/community/${
+                                content.post.type === "자유게시판"
+                                  ? "free"
+                                  : "question"
+                              }/${content.post.id}`
+                            )
+                          }
+                        >
                           <div className={styles.title_wrap}>
                             <span className={styles.type}>
                               {content.post.type}
