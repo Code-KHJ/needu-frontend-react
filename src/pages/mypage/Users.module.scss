@@ -44,6 +44,71 @@
           border-radius: 5px;
           background-color: #fff;
           padding: 20px;
+          & > div {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            .title {
+              display: -webkit-box;
+              -webkit-line-clamp: 1; /* Webkit 기반 브라우저용 */
+              line-clamp: 1; /* 표준 속성 */
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+            .content {
+              display: -webkit-box;
+              -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
+              line-clamp: 2; /* 표준 속성 */
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+            .reaction_wrap {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              .date {
+                color: #aaa;
+              }
+              .reaction {
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+                & > span {
+                  display: flex;
+                  gap: 4px;
+                  align-items: center;
+                }
+              }
+            }
+            .origin_post {
+              margin-top: 20px;
+              border: 1px solid #aaa;
+              border-radius: 5px;
+              background-color: #efefef;
+              padding: 20px;
+              cursor: pointer;
+              & > h5,
+              & > div {
+                color: #888;
+              }
+              .title_wrap {
+                display: flex;
+                align-items: center;
+                .type {
+                  border: #aaa 1px solid;
+                  border-radius: 5px;
+                  padding: 2px 10.5px;
+                  margin-right: 8px;
+                  white-space: nowrap;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -66,6 +131,7 @@
     .main {
       margin-top: 40px;
       .profile {
+        height: fit-content;
         flex-direction: column;
         & > img:nth-of-type(1) {
           width: 80px;

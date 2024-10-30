@@ -57,6 +57,17 @@ const communityApi = {
       return error;
     }
   },
+  getPostAndCommentByNickname: async (nickname: string) => {
+    try {
+      const response = await customAxios.get(
+        `/community/post/list/nickname/${nickname}`
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
   updatePost: async (editDto: CommunityEditDto) => {
     try {
       const response = await customAxios.patch(
