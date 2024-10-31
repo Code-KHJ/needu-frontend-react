@@ -1,26 +1,26 @@
-import { useEffect, useRef, useState } from "react";
-import styles from "./View.module.scss";
-import ico_level from "@/assets/images/ico_level_default.png";
-import ico_view from "@/assets/images/ico_view.png";
-import btn_share from "@/assets/images/ico_share.png";
-import ico_facebook from "@/assets/images/ico_facebook.svg";
-import ico_kakao from "@/assets/images/ico_kakao.svg";
-import ico_X from "@/assets/images/ico_sns_X.png";
-import ico_url from "@/assets/images/ico_url.png";
-import ico_like from "@/assets/images/ico_like.png";
-import ico_like_on from "@/assets/images/like_on.png";
+import noticeApi from "@/apis/notice";
 import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_on from "@/assets/images/ico_dislike_on.png";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useUser } from "@/contexts/UserContext";
-import { dompurify } from "@/utils/dompurify";
-import agoDate from "@/utils/agoDate";
+import ico_facebook from "@/assets/images/ico_facebook.svg";
+import ico_kakao from "@/assets/images/ico_kakao.svg";
+import ico_level from "@/assets/images/ico_level_default.png";
+import ico_like from "@/assets/images/ico_like.png";
+import btn_share from "@/assets/images/ico_share.png";
+import ico_X from "@/assets/images/ico_sns_X.png";
+import ico_url from "@/assets/images/ico_url.png";
+import ico_view from "@/assets/images/ico_view.png";
+import ico_like_on from "@/assets/images/like_on.png";
 import Comments from "@/components/comments/Comments";
-import noticeApi from "@/apis/notice";
-import { LikeNoticeDto, NoticeContent } from "@/interface/Notice";
 import KebabNotice from "@/components/KebabNotice";
-import { useLoading } from "@/contexts/LoadingContext";
 import ProfileImage from "@/components/ProfileImage";
+import { useLoading } from "@/contexts/LoadingContext";
+import { useUser } from "@/contexts/UserContext";
+import { LikeNoticeDto, NoticeContent } from "@/interface/Notice";
+import agoDate from "@/utils/agoDate";
+import { dompurify } from "@/utils/dompurify";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./View.module.scss";
 
 const ViewNotice = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -299,6 +299,7 @@ const ViewNotice = () => {
           postId={notice?.id as number}
           type="notice"
           accepted_id={null}
+          isWriter={false}
         />
       </div>
     </div>
