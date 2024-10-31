@@ -32,6 +32,7 @@ interface CommentProps {
     value: boolean
   ) => void;
   handleAccept: (comment_id: number) => void;
+  isWriter: boolean;
 }
 
 const Comment: React.FC<CommentProps> = ({
@@ -43,6 +44,7 @@ const Comment: React.FC<CommentProps> = ({
   isAccepted,
   handleChildCommentShow,
   handleAccept,
+  isWriter,
 }) => {
   //@ts-ignore
   const { user } = useUser();
@@ -267,7 +269,11 @@ const Comment: React.FC<CommentProps> = ({
               className={`body2 ${styles.btn_accept} ${
                 isAccepted ? styles.accepted : ""
               }`}
-              onClick={() => handleAccept(comment.id)}
+              style={{
+                cursor: isWriter ? "pointer" : "unset",
+                display: !isWriter && !isAccepted ? "none" : "flex",
+              }}
+              onClick={() => isWriter && handleAccept(comment.id)}
             >
               <img
                 src={isAccepted ? ico_checked : ico_unchecked}

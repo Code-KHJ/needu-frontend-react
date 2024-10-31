@@ -233,7 +233,11 @@ const WriteWorking = () => {
       alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
     } else {
       alert("리뷰가 작성되었습니다.");
-      navigate(`/review/detail/working?name=${values.corp_name}`);
+      const encodedCorpName = encodeURIComponent(values.corp_name).replace(
+        /%2B/g,
+        "%2B"
+      );
+      navigate(`/review/detail/working?name=${encodedCorpName}`);
     }
   };
 

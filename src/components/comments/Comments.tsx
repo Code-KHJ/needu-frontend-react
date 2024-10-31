@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Comments.module.scss";
+import communityApi from "@/apis/community";
+import noticeApi from "@/apis/notice";
 import ico_arrow_down from "@/assets/images/ico_arrow_down_gnb.png";
-import { TextField } from "@mui/material";
+import { useConfirm } from "@/contexts/ConfirmContext";
 import { useUser } from "@/contexts/UserContext";
 import { CommentContent, CommentCreateDto } from "@/interface/Community";
-import communityApi from "@/apis/community";
-import Comment from "./Comment";
-import noticeApi from "@/apis/notice";
-import { useConfirm } from "@/contexts/ConfirmContext";
+import { TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import ProfileImage from "../ProfileImage";
+import Comment from "./Comment";
+import styles from "./Comments.module.scss";
 
 interface CommentsProps {
   postId: number;
   type: string;
   accepted_id: number | null | undefined;
+  isWriter: boolean;
   refresh?: () => void;
 }
 
@@ -21,6 +22,7 @@ const Comments: React.FC<CommentsProps> = ({
   postId,
   type,
   accepted_id,
+  isWriter,
   refresh,
 }) => {
   //@ts-ignore
@@ -312,6 +314,7 @@ const Comments: React.FC<CommentsProps> = ({
                         : null
                     }
                     handleAccept={acceptComment}
+                    isWriter={isWriter}
                     handleChildCommentShow={handleChildCommentShow}
                   />
                   <div className={styles.child_wrap}>
@@ -376,6 +379,7 @@ const Comments: React.FC<CommentsProps> = ({
                                     : null
                                 }
                                 handleAccept={acceptComment}
+                                isWriter={isWriter}
                                 handleChildCommentShow={handleChildCommentShow}
                               />
                             </div>

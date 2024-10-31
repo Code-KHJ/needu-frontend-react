@@ -35,6 +35,10 @@ const Header = () => {
   const location = useLocation();
   useEffect(() => {
     setMenuShow(false);
+    setToggle({
+      review: false,
+      community: false,
+    });
   }, [location.pathname]);
 
   const logout = async () => {

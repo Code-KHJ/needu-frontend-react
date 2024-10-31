@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./Search.module.scss";
-import { RegionList } from "@/common/Region";
-import sharedApi from "@/apis/shared";
 import corpApi from "@/apis/corp";
-import { CorpDto } from "@/interface/Corp";
-import Pagination from "@/components/Pagination";
-import { useLocation, useNavigate } from "react-router-dom";
+import sharedApi from "@/apis/shared";
 import Star_1 from "@/assets/images/Star_1.png";
 import Star_2 from "@/assets/images/Star_2.png";
 import Star_3 from "@/assets/images/Star_3.png";
 import Star_4 from "@/assets/images/Star_4.png";
 import Star_5 from "@/assets/images/Star_5.png";
+import { RegionList } from "@/common/Region";
+import Pagination from "@/components/Pagination";
 import { useLoading } from "@/contexts/LoadingContext";
+import { CorpDto } from "@/interface/Corp";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Search.module.scss";
 
 type Filters = {
   region: string;
@@ -306,70 +306,76 @@ const SearchWorking = () => {
           </div>
         </div>
       </div>
-      {corps.length > 0 && (
-        <div className={styles.content_wrap}>
-          <div className={styles.sort}>
-            <select name="order" value={filters.order} onChange={handleFilter}>
-              <option value="avg">별점 높은 순</option>
-              <option value="cnt">리뷰 많은 순</option>
-            </select>
-          </div>
-          <div className={styles.corp_list}>
-            <ul>
-              {corps.map((corp) => (
-                <li className={styles.corp_item} key={corp.no}>
-                  <div className={styles.info}>
-                    <div className={`body2 ${styles.region}`}>
-                      <span>
-                        {
-                          RegionList.find((item) => item.name === corp.city)
-                            ?.sido
-                        }
-                      </span>
-                      <span>{corp.gugun}</span>
-                    </div>
-                    <div className={styles.corp}>
-                      <h4 onClick={() => moveDetail(corp.corpname)}>
-                        {corp.corpname}
-                      </h4>
-                      <div className={styles.hashtag}>
-                        {corp.hashtag !== null && corp.hashtag !== undefined
-                          ? corp.hashtag.map((id) => (
-                              <span className="body2" key={id}>
-                                {
-                                  shared.hashtagList.find(
-                                    (item) => item.id === id
-                                  )?.content
-                                }
-                              </span>
-                            ))
-                          : ""}
+      {pages !== undefined &&
+        (pages > 0 ? (
+          <div className={styles.content_wrap}>
+            <div className={styles.sort}>
+              <select
+                name="order"
+                value={filters.order}
+                onChange={handleFilter}
+              >
+                <option value="avg">별점 높은 순</option>
+                <option value="cnt">리뷰 많은 순</option>
+              </select>
+            </div>
+            <div className={styles.corp_list}>
+              <ul>
+                {corps.map((corp) => (
+                  <li className={styles.corp_item} key={corp.no}>
+                    <div className={styles.info}>
+                      <div className={`body2 ${styles.region}`}>
+                        <span>
+                          {
+                            RegionList.find((item) => item.name === corp.city)
+                              ?.sido
+                          }
+                        </span>
+                        <span>{corp.gugun}</span>
+                      </div>
+                      <div className={styles.corp}>
+                        <h4 onClick={() => moveDetail(corp.corpname)}>
+                          {corp.corpname}
+                        </h4>
+                        <div className={styles.hashtag}>
+                          {corp.hashtag !== null && corp.hashtag !== undefined
+                            ? corp.hashtag.map((id) => (
+                                <span className="body2" key={id}>
+                                  {
+                                    shared.hashtagList.find(
+                                      (item) => item.id === id
+                                    )?.content
+                                  }
+                                </span>
+                              ))
+                            : ""}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className={styles.star}>
-                    <img src={Star_1} alt="star" />
-                    <h4>{corp.avg}</h4>
-                    <span className="body2">({corp.cnt})</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                    <div className={styles.star}>
+                      <img src={Star_1} alt="star" />
+                      <h4>{corp.avg}</h4>
+                      <span className="body2">({corp.cnt})</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      )}
-      {corps.length === 0 && (
-        <div style={{ marginTop: "120px", textAlign: "center", color: "#888" }}>
-          찾으시는 기관이 없나요?{" "}
-          <a
-            href="https://forms.gle/R1nGsYURtngudXBJ7"
-            target="_blank"
-            style={{ color: "#6269f5" }}
+        ) : (
+          <div
+            style={{ marginTop: "120px", textAlign: "center", color: "#888" }}
           >
-            기관 등록하기
-          </a>
-        </div>
-      )}
+            찾으시는 기관이 없나요?{" "}
+            <a
+              href="https://forms.gle/R1nGsYURtngudXBJ7"
+              target="_blank"
+              style={{ color: "#6269f5" }}
+            >
+              기관 등록하기
+            </a>
+          </div>
+        ))}
       <div className={styles.pagination}>
         <Pagination
           currentPage={filters.page}

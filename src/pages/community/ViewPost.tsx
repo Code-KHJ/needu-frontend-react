@@ -372,9 +372,8 @@ const ViewPost = ({ type }) => {
         <Comments
           postId={post?.id as number}
           type={postType}
-          accepted_id={
-            user.id === post?.writer.id ? post?.commentAccepted : null
-          }
+          accepted_id={post?.commentAccepted}
+          isWriter={user.id === post?.writer.id}
           refresh={refreshPost}
         />
       </div>
