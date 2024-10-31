@@ -108,7 +108,6 @@ const EditWorking = () => {
         return;
       }
       setCorp(response.data);
-      getReview();
     };
     const getReview = async () => {
       const response: any = await reviewApi.getWorkingReview(no);
@@ -146,6 +145,7 @@ const EditWorking = () => {
         setWorking(true);
       }
     };
+    getReview();
     hideLoading();
   }, [no]);
 

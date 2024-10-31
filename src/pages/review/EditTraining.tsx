@@ -56,7 +56,6 @@ const EditTraining = () => {
         return;
       }
       setCorp(response.data);
-      getReview();
     };
     const getReview = async () => {
       const response: any = await reviewApi.getTrainingReview(no);
@@ -90,6 +89,7 @@ const EditTraining = () => {
         cons: response.data.cons,
       }));
     };
+    getReview();
     hideLoading();
   }, [no]);
 
