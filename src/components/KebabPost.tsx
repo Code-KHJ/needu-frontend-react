@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import btn_kebab from "@/assets/images/btn_kebab.png";
-import { useLocation, useNavigate } from "react-router-dom";
 import communityApi from "@/apis/community";
-import ReportModal from "./modal/ReportModal";
-import { useUser } from "@/contexts/UserContext";
+import btn_kebab from "@/assets/images/btn_kebab.png";
 import { useConfirm } from "@/contexts/ConfirmContext";
+import { useUser } from "@/contexts/UserContext";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import ReportModal from "./modal/ReportModal";
 
 interface KebabPostProps {
   target: string;
@@ -57,7 +57,7 @@ const KebabPost: React.FC<KebabPostProps> = ({
         return;
       }
       alert("게시글이 삭제되었습니다.");
-      window.location.reload();
+      navigate(`/community`);
     }
   };
 
