@@ -25,7 +25,7 @@ interface PostList {
   training: CommonReviewContent[];
   free: PostListItemContent[];
   question: PostListItemContent[];
-  corp: { corpname: string; description: string }[];
+  corp: { corpname: string; description: string; type: string }[];
 }
 
 const Home = () => {
@@ -454,11 +454,14 @@ const Home = () => {
                 {postList.corp.map((corp, index) => (
                   <li className={styles.item} key={index}>
                     <h5
-                      onClick={() =>
+                      onClick={() => {
+                        const encodedCorpName = encodeURIComponent(
+                          corp.corpname
+                        ).replace(/%2B/g, "%2B");
                         navigate(
-                          `${`/review/detail/working?name=${corp.corpname}`}`
-                        )
-                      }
+                          `${`/review/detail/${corp.type}?name=${encodedCorpName}`}`
+                        );
+                      }}
                     >
                       {corp.corpname}
                     </h5>

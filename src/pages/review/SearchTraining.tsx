@@ -209,8 +209,6 @@ const SearchTraining = () => {
     navigate(`/review/detail/training?name=${encodedCorpName}`);
   };
 
-  console.log(pages);
-  console.log(corps);
   return (
     <div className={styles.search_wrap}>
       <div className={styles.filter_wrap}>

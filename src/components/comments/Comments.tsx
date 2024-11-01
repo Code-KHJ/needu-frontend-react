@@ -215,7 +215,9 @@ const Comments: React.FC<CommentsProps> = ({
   };
 
   //댓글 채택
-  const acceptComment = async (commentId: number) => {
+  const acceptComment = async (commentId: number, writerId: number) => {
+    console.log(accepted_id);
+    console.log(writerId);
     if (accepted_id === null) {
       alert("답변을 채택할 수 없습니다. 잠시 후 다시 시도해주세요.");
       return window.location.reload();
@@ -234,6 +236,10 @@ const Comments: React.FC<CommentsProps> = ({
       }
     }
     if (accepted_id !== commentId) {
+      if (user.id === writerId) {
+        alert("본인의 댓글은 답변으로 채택할 수 없습니다.");
+        return;
+      }
       const confirmed = await customConfirm("답변을 채택하시겠습니까?");
       if (confirmed) {
         const accpetDto = {

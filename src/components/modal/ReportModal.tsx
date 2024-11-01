@@ -1,11 +1,11 @@
+import sharedApi from "@/apis/shared";
+import arrow_right from "@/assets/images/arrow_right.png";
+import ico_ext from "@/assets/images/ico_ext.png";
+import { useUser } from "@/contexts/UserContext";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ModalComponent from "./Modal";
 import styles from "./Modal.module.scss";
-import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import sharedApi from "@/apis/shared";
-import { useUser } from "@/contexts/UserContext";
-import arrow_right from "@/assets/images/arrow_right.png";
-import ico_ext from "@/assets/images/ico_ext.png";
 
 interface ReportModalProps {
   target: string;
@@ -164,10 +164,8 @@ const ReportModal: React.FC<ReportModalProps> = ({
                 </p>
                 <p style={{ color: "#aaa" }}>
                   방송통신위원회에 신고하는 절차를 안내드리며, 방송통신위원회의
-                  심의 절차에 따라 처리됩니다.
-                </p>
-                <p style={{ color: "#aaa" }}>
-                  (구글 폼을 통해 접수, 캡처본 등 상세 서류 제출 필수)
+                  심의 절차에 따라 처리됩니다. (구글 폼을 통해 접수, 캡처본 등
+                  상세 서류 제출 필수)
                 </p>
               </div>
             </div>

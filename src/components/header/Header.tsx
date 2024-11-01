@@ -35,10 +35,6 @@ const Header = () => {
   const location = useLocation();
   useEffect(() => {
     setMenuShow(false);
-    setToggle({
-      review: false,
-      community: false,
-    });
   }, [location.pathname]);
 
   const logout = async () => {
@@ -62,6 +58,7 @@ const Header = () => {
   useEffect(() => {
     setToggle({ review: false, community: false });
   }, []);
+
   type ToggleType = "review" | "community";
 
   const handleToggle = (type: ToggleType) => {

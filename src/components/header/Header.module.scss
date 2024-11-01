@@ -201,8 +201,12 @@ header {
   header {
     .header_wrap {
       width: 86%;
+      .logo {
+        flex-shrink: 0;
+      }
       .nav_wrap {
         width: 100%;
+        max-width: calc(100% - 120px);
         flex: 1;
         display: flex;
         align-items: center;
@@ -214,6 +218,7 @@ header {
     nav {
       display: flex !important;
       justify-content: space-between !important;
+      gap: 20px;
       .gnb_wrap {
         margin: 0;
         width: fit-content;
@@ -257,7 +262,7 @@ header {
 
     .usersign {
       margin: 0;
-      max-width: 180px;
+      overflow: hidden;
       flex-grow: 1;
       justify-content: end;
       & > a {
@@ -276,6 +281,7 @@ header {
         width: auto;
       }
       .logout {
+        width: unset;
         display: inline-block !important;
       }
       & > a:first-child {

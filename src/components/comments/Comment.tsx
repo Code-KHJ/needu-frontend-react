@@ -31,7 +31,7 @@ interface CommentProps {
     parent_id: number,
     value: boolean
   ) => void;
-  handleAccept: (comment_id: number) => void;
+  handleAccept: (comment_id: number, writer_id: number) => void;
   isWriter: boolean;
 }
 
@@ -273,7 +273,9 @@ const Comment: React.FC<CommentProps> = ({
                 cursor: isWriter ? "pointer" : "unset",
                 display: !isWriter && !isAccepted ? "none" : "flex",
               }}
-              onClick={() => isWriter && handleAccept(comment.id)}
+              onClick={() =>
+                isWriter && handleAccept(comment.id, comment.writer.id)
+              }
             >
               <img
                 src={isAccepted ? ico_checked : ico_unchecked}

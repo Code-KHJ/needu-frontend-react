@@ -207,6 +207,33 @@ h5,
   display: none !important;
 }
 
+select {
+  appearance: none; /* 브라우저 기본 스타일 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f0f0f0;
+  padding: 10px;
+  padding-right: 30px; /* 오른쪽에 여유 공간 확보 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-image: url(@/assets/images/ico_arrow_down.png); /* 원하는 화살표 이미지 */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* 오른쪽에 화살표 위치 조정 */
+  background-size: 15px;
+}
+
+.post_content {
+  a {
+    color: #6269f5;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
 /* 테블릿 768 사이즈 반응형 */
 @media screen and (min-width: 768px) {
   a,
