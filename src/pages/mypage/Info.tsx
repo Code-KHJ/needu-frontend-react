@@ -290,8 +290,17 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
           return;
         }
         setUserInfo(response.data);
+        console.log(response.data);
+        const localStorageData = localStorage.getItem("userInfo");
+        const userInfoInLocalStorage = JSON.parse(localStorageData as string);
+        userInfoInLocalStorage.nickname = response.data.nickname;
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(userInfoInLocalStorage)
+        );
         alert("정보가 변경되었습니다.");
         hideLoading();
+        window.location.reload();
       }
     }
     if (subNav === "password") {

@@ -266,7 +266,7 @@ const Home = () => {
                 <img
                   src={ico_arrow}
                   alt="더보기"
-                  style={{ transform: "rotate(-90deg)" }}
+                  style={{ transform: "rotate(-90deg)", marginLeft: "8px" }}
                 />
               </button>
             </div>
@@ -395,7 +395,7 @@ const Home = () => {
                   <img
                     src={ico_arrow}
                     alt="더보기"
-                    style={{ transform: "rotate(-90deg)" }}
+                    style={{ transform: "rotate(-90deg)", marginLeft: "8px" }}
                   />
                 </button>
               </div>
@@ -465,7 +465,9 @@ const Home = () => {
                     >
                       {corp.corpname}
                     </h5>
-                    <div className={styles.description}>{corp.description}</div>
+                    <div className={` body2 ${styles.description}`}>
+                      {corp.description}
+                    </div>
                   </li>
                 ))}
               </Slider>

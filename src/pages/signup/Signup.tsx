@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import styles from "./Signup.module.scss";
-import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
 import userApi from "@/apis/user";
-import _ from "lodash";
-import { SingupDto } from "@/interface/User";
+import ico_arrow from "@/assets/images/arrow_right.png";
+import Button from "@/components/elements/Button";
 import Input from "@/components/elements/Input";
 import Label from "@/components/elements/Label";
-import Button from "@/components/elements/Button";
 import { useLoading } from "@/contexts/LoadingContext";
-import ico_arrow from "@/assets/images/arrow_right.png";
+import { SingupDto } from "@/interface/User";
+import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
+import _ from "lodash";
+import React, { useCallback, useEffect, useState } from "react";
+import styles from "./Signup.module.scss";
 
 const Signup = () => {
   const { showLoading, hideLoading } = useLoading();
