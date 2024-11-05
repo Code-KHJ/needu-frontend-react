@@ -48,15 +48,17 @@ const Findpw = () => {
     <main>
       <div className={`wrap ${styles.wrap}`}>
         <div className={styles.explanation}>
-          <h4>비밀번호 찾기</h4>
+          <h4>비밀번호 재설정</h4>
           <br />
           <p className="body2">
-            아이디(Email)로 발송된 인증번호를 확인해주세요.
+            비밀번호를 재설정하실 아이디(이메일)을 입력해주세요.
+            <br />
+            작성하신 이메일로 비밀번호 재설정 링크가 발송됩니다.
           </p>
         </div>
         <form className={styles.search_form}>
           <div>
-            <Label title="아이디" target="id" required={false} />
+            <Label title="아이디(이메일)" target="id" required={false} />
             <div className={styles.input_box}>
               <Input
                 name="id"
@@ -76,7 +78,7 @@ const Findpw = () => {
               <div className={`${"body2"} ${styles.checkmsg}`}>{validMsg}</div>
             </div>
             <Button
-              children="인증요청"
+              children="확인"
               className={`${
                 validValues ? "btn_condition_true" : "btn_condition_false"
               }`}

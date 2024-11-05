@@ -14,7 +14,7 @@ import { PostListItemContent } from "@/interface/Community";
 import { CommonReviewContent } from "@/interface/Review";
 import agoDate from "@/utils/agoDate";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -29,6 +29,12 @@ interface PostList {
 }
 
 const Home = () => {
+  const location = useLocation();
+  const alertMsg = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("alertMsg="))
+    ?.split("=")[1];
+
   const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
   const winInnerWidth = window.innerWidth;
@@ -68,6 +74,11 @@ const Home = () => {
   }, [currentTab, postList]);
   useEffect(() => {
     showLoading();
+    if (alertMsg) {
+      alert(decodeURIComponent(alertMsg));
+      document.cookie = "alertMsg=; max-Age=0";
+    }
+
     const getFreeList = async () => {
       const response: any = await communityApi.getPostList("?type=1&page=1");
       if (response.status !== 200) {
@@ -310,7 +321,7 @@ const Home = () => {
                         </div>
                       </div>
                       <div className={styles.reaction}>
-                        <span className={`body2`} style={{ color: "#aaa" }}>
+                        <span className={`body2`} style={{ color: "#888" }}>
                           <img
                             src={ico_like}
                             alt="like"
@@ -318,7 +329,7 @@ const Home = () => {
                           />
                           {post.like_cnt}
                         </span>
-                        <span className={`body2`} style={{ color: "#aaa" }}>
+                        <span className={`body2`} style={{ color: "#888" }}>
                           <img
                             src={ico_reply}
                             alt="reply"
@@ -326,7 +337,7 @@ const Home = () => {
                           />
                           {post.comment_cnt}
                         </span>
-                        <span className={`body2`} style={{ color: "#aaa" }}>
+                        <span className={`body2`} style={{ color: "#888" }}>
                           <img
                             src={ico_view}
                             alt="reply"

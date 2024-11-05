@@ -140,7 +140,7 @@
     }
   }
   .content_wrap {
-    margin-top: 160px;
+    margin-top: 80px;
     .sort {
       display: flex;
       justify-content: end;
@@ -149,6 +149,7 @@
         border: 1px solid #aaa;
         border-radius: 3px;
         padding: 6px 8px;
+        padding-right: 33px;
       }
     }
     .corp_list {

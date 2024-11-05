@@ -128,6 +128,7 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      cursor: pointer;
     }
     .item_list {
       margin-top: 28px;
@@ -138,6 +139,7 @@
         display: flex;
         flex-direction: column;
         gap: 4px;
+        cursor: pointer;
         .title {
           text-wrap: nowrap;
           overflow: hidden;
@@ -159,6 +161,15 @@
               text-wrap: nowrap;
             }
           }
+        }
+      }
+      .not_yet {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        flex-wrap: wrap;
+        & > span {
+          color: #aaa;
         }
       }
     }

@@ -123,7 +123,7 @@ const Login = () => {
                 </Link>
                 <span>|</span>
                 <Link to="/find/pw" className="body2">
-                  비밀번호 찾기
+                  비밀번호 재설정
                 </Link>
               </div>
             </div>
