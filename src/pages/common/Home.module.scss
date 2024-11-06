@@ -17,15 +17,16 @@
       margin-top: 80px;
       .header {
         display: flex;
-        flex-direction: row;
-        gap: 16px;
+        flex-direction: column;
+        gap: 8px;
         justify-content: flex-start;
-        align-items: center;
+        align-items: flex-start;
         flex-wrap: wrap;
         & > h3 {
           white-space: nowrap;
         }
         .tab_wrap {
+          width: 100%;
           flex-grow: 1;
           display: flex;
           justify-content: space-between;
@@ -193,6 +194,7 @@
         max-width: 305px;
         flex-grow: 1;
         .header {
+          flex-direction: row;
           justify-content: space-between;
         }
         & > ul {

@@ -56,8 +56,18 @@
       justify-content: space-between;
       margin-top: 10px;
       .user_data_id {
-        & > input {
-          margin-right: 8px;
+        display: flex;
+        gap: 8px;
+        .social_ico {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+          flex-grow: unset;
+          align-items: center;
+          & > img {
+            width: 20px;
+            height: 20px;
+          }
         }
       }
       & > div:nth-of-type(2) {

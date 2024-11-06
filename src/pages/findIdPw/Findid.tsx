@@ -9,6 +9,8 @@ import userApi from "@/apis/user";
 import { useNavigate } from "react-router-dom";
 import SocialLogin from "@/components/IcoSocialLogin";
 import { useLoading } from "@/contexts/LoadingContext";
+import ico_google from "@/assets/images/ico_google.png";
+import ico_kakao from "@/assets/images/ico_kakao.png";
 
 const Findid = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -202,11 +204,14 @@ const Findid = () => {
               <br />
               <br />
               <ul>
-                {result.userData.map((user) => (
-                  <li className={styles.user_data}>
+                {result.userData.map((user, index) => (
+                  <li className={styles.user_data} key={index}>
                     <div className={styles.user_data_id}>
-                      <input type="radio" />
                       <span>{user.user_id}</span>
+                      <div className={styles.social_ico}>
+                        {user.kakao && <img src={ico_kakao} />}
+                        {user.google && <img src={ico_google} />}
+                      </div>
                     </div>
                     <div className={styles.user_data_created_date}>
                       <span>가입: </span>
