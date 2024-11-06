@@ -7,6 +7,7 @@ import { regPw } from "@/utils/validation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Find.module.scss";
+import Helmets from "../helmets";
 
 const ResetPw = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -159,80 +160,86 @@ const ResetPw = () => {
   };
 
   return (
-    validToken && (
-      <main>
-        <div className={`wrap ${styles.wrap}`}>
-          <div className={styles.explanation}>
-            <h4>비밀번호 재설정</h4>
-            <br />
-            <p className="body2">비밀번호를 다시 설정해주세요.</p>
-          </div>
-          <form className={styles.search_form}>
-            <div>
-              <Label title="비밀번호" target="password" required={false} />
+    <>
+      <Helmets
+        title={"비밀번호 재설정 I 사회복지 커뮤니티 NEEDU"}
+        description=""
+      ></Helmets>
+      {validToken && (
+        <main>
+          <div className={`wrap ${styles.wrap}`}>
+            <div className={styles.explanation}>
+              <h4>비밀번호 재설정</h4>
+              <br />
+              <p className="body2">비밀번호를 다시 설정해주세요.</p>
+            </div>
+            <form className={styles.search_form}>
               <div>
-                <Input
-                  name="password"
-                  className={`${
-                    pwValidValues.password === null
-                      ? "input_default"
-                      : pwValidValues.password
-                      ? "input_done"
-                      : "input_wrong"
-                  }`}
-                  value={pwValues.password}
-                  onChange={handleChangePw}
-                  readOnly={false}
-                  placeholder=""
-                  required
-                />
-                <div className={`${"body2"} ${styles.checkmsg}`}>
-                  {pwValidMsg.password}
+                <Label title="비밀번호" target="password" required={false} />
+                <div>
+                  <Input
+                    name="password"
+                    className={`${
+                      pwValidValues.password === null
+                        ? "input_default"
+                        : pwValidValues.password
+                        ? "input_done"
+                        : "input_wrong"
+                    }`}
+                    value={pwValues.password}
+                    onChange={handleChangePw}
+                    readOnly={false}
+                    placeholder=""
+                    required
+                  />
+                  <div className={`${"body2"} ${styles.checkmsg}`}>
+                    {pwValidMsg.password}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <Label
-                title="비밀번호 확인"
-                target="password2"
-                required={false}
+              <div>
+                <Label
+                  title="비밀번호 확인"
+                  target="password2"
+                  required={false}
+                />
+                <div>
+                  <Input
+                    name="password2"
+                    className={`${
+                      pwValidValues.password2 === null
+                        ? "input_default"
+                        : pwValidValues.password2
+                        ? "input_done"
+                        : "input_wrong"
+                    }`}
+                    value={pwValues.password2}
+                    onChange={handleChangePw}
+                    readOnly={false}
+                    placeholder=""
+                    required
+                  />
+                  <div className={`${"body2"} ${styles.checkmsg}`}>
+                    {pwValidMsg.password2}
+                  </div>
+                </div>
+              </div>
+              <Button
+                children="수정"
+                style={{ marginTop: "80px" }}
+                className={`${
+                  isSubmitDisabled === false
+                    ? "btn_condition_true"
+                    : "btn_condition_false"
+                }`}
+                isDisabled={isSubmitDisabled}
+                onClick={handleSubmit}
               />
-              <div>
-                <Input
-                  name="password2"
-                  className={`${
-                    pwValidValues.password2 === null
-                      ? "input_default"
-                      : pwValidValues.password2
-                      ? "input_done"
-                      : "input_wrong"
-                  }`}
-                  value={pwValues.password2}
-                  onChange={handleChangePw}
-                  readOnly={false}
-                  placeholder=""
-                  required
-                />
-                <div className={`${"body2"} ${styles.checkmsg}`}>
-                  {pwValidMsg.password2}
-                </div>
-              </div>
-            </div>
-            <Button
-              children="수정"
-              style={{ marginTop: "80px" }}
-              className={`${
-                isSubmitDisabled === false
-                  ? "btn_condition_true"
-                  : "btn_condition_false"
-              }`}
-              isDisabled={isSubmitDisabled}
-              onClick={handleSubmit}
-            />
-          </form>
-        </div>
-      </main>
-    )
+            </form>
+          </div>
+        </main>
+      )}
+    </>
   );
 };
 

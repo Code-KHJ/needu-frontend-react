@@ -21,6 +21,7 @@ import { dompurify } from "@/utils/dompurify";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./View.module.scss";
+import Helmets from "../helmets";
 
 const ViewNotice = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -191,118 +192,128 @@ const ViewNotice = () => {
   }, [shareRef]);
 
   return (
-    <div className={styles.view_wrap}>
-      <div className={styles.topic}>
-        <h4>
-          <span className={styles.gray}>공지사항</span>
-          <span className={styles.gray}>|</span>
-          <span>공지사항</span>
-        </h4>
-      </div>
-      <div className={styles.content_wrap}>
-        <div className={styles.post_wrap}>
-          <div className={styles.post_header}>
-            <h3>{notice?.title}</h3>
-            <div className={styles.post_header_info}>
-              <div className={styles.writer_info}>
-                <ProfileImage src={notice?.writer.profile_image} />
-                <div>
+    <>
+      <Helmets
+        title={"공지사항 I 사회복지 커뮤니티 NEEDU"}
+        description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
+      ></Helmets>
+      <div className={styles.view_wrap}>
+        <div className={styles.topic}>
+          <h4>
+            <span className={styles.gray}>공지사항</span>
+            <span className={styles.gray}>|</span>
+            <span>공지사항</span>
+          </h4>
+        </div>
+        <div className={styles.content_wrap}>
+          <div className={styles.post_wrap}>
+            <div className={styles.post_header}>
+              <h3>{notice?.title}</h3>
+              <div className={styles.post_header_info}>
+                <div className={styles.writer_info}>
+                  <ProfileImage src={notice?.writer.profile_image} />
                   <div>
-                    <span>{notice?.writer.nickname}</span>
-                    <img
-                      src={ico_level}
-                      alt="레벨"
-                      style={{
-                        width: "16px",
-                        height: "16px",
-                        marginLeft: "4px",
-                      }}
-                    />
-                  </div>
-                  <div className="body2" style={{ color: "#aaa" }}>
-                    <span>{agoDate(notice?.created_at as Date)}</span>
-                    <img
-                      src={ico_view}
-                      alt="views"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        marginLeft: "8px",
-                        marginRight: "4px",
-                      }}
-                    />
-                    <span>{notice?.view}</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.options}>
-                <div className={styles.share} ref={shareRef}>
-                  <img
-                    src={btn_share}
-                    alt="share"
-                    style={{ width: "18px", height: "18px", cursor: "pointer" }}
-                    onClick={() => handleShare()}
-                  />
-                  <div
-                    className={styles.share_list}
-                    style={showShare ? {} : { display: "none" }}
-                  >
-                    <div className="body2">
-                      <img src={ico_facebook} alt="facebook" />
-                      Facebook
+                    <div>
+                      <span>{notice?.writer.nickname}</span>
+                      <img
+                        src={ico_level}
+                        alt="레벨"
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                          marginLeft: "4px",
+                        }}
+                      />
                     </div>
-                    <div className="body2">
-                      <img src={ico_X} alt="X(Twitter)" />
-                      X(Twitter)
-                    </div>
-                    <div className="body2">
-                      <img src={ico_kakao} alt="KakaoTalk" />
-                      KakaoTalk
-                    </div>
-                    <div className="body2">
-                      <img src={ico_url} alt="Copy URL" />
-                      Copy URL
+                    <div className="body2" style={{ color: "#aaa" }}>
+                      <span>{agoDate(notice?.created_at as Date)}</span>
+                      <img
+                        src={ico_view}
+                        alt="views"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginLeft: "8px",
+                          marginRight: "4px",
+                        }}
+                      />
+                      <span>{notice?.view}</span>
                     </div>
                   </div>
                 </div>
-                <KebabNotice target_id={notice?.id as number}></KebabNotice>
+                <div className={styles.options}>
+                  <div className={styles.share} ref={shareRef}>
+                    <img
+                      src={btn_share}
+                      alt="share"
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleShare()}
+                    />
+                    <div
+                      className={styles.share_list}
+                      style={showShare ? {} : { display: "none" }}
+                    >
+                      <div className="body2">
+                        <img src={ico_facebook} alt="facebook" />
+                        Facebook
+                      </div>
+                      <div className="body2">
+                        <img src={ico_X} alt="X(Twitter)" />
+                        X(Twitter)
+                      </div>
+                      <div className="body2">
+                        <img src={ico_kakao} alt="KakaoTalk" />
+                        KakaoTalk
+                      </div>
+                      <div className="body2">
+                        <img src={ico_url} alt="Copy URL" />
+                        Copy URL
+                      </div>
+                    </div>
+                  </div>
+                  <KebabNotice target_id={notice?.id as number}></KebabNotice>
+                </div>
               </div>
             </div>
+            <div
+              className={styles.post_content}
+              dangerouslySetInnerHTML={{
+                __html: dompurify(notice?.content as string),
+              }}
+            ></div>
+            <div className={styles.likes}>
+              <button
+                className={isLike.like ? styles.like_on : ""}
+                onClick={() => likeNotice("like")}
+              >
+                <img src={isLike.like ? ico_like_on : ico_like} alt="좋아요" />
+                <span className="body2">{likes.like}</span>
+              </button>
+              <button
+                className={isLike.dislike ? styles.dislike_on : ""}
+                onClick={() => likeNotice("dislike")}
+              >
+                <img
+                  src={isLike.dislike ? ico_dislike_on : ico_dislike}
+                  alt="싫어요"
+                />
+                <span className="body2">{likes.dislike}</span>
+              </button>
+            </div>
           </div>
-          <div
-            className={styles.post_content}
-            dangerouslySetInnerHTML={{
-              __html: dompurify(notice?.content as string),
-            }}
-          ></div>
-          <div className={styles.likes}>
-            <button
-              className={isLike.like ? styles.like_on : ""}
-              onClick={() => likeNotice("like")}
-            >
-              <img src={isLike.like ? ico_like_on : ico_like} alt="좋아요" />
-              <span className="body2">{likes.like}</span>
-            </button>
-            <button
-              className={isLike.dislike ? styles.dislike_on : ""}
-              onClick={() => likeNotice("dislike")}
-            >
-              <img
-                src={isLike.dislike ? ico_dislike_on : ico_dislike}
-                alt="싫어요"
-              />
-              <span className="body2">{likes.dislike}</span>
-            </button>
-          </div>
+          <Comments
+            postId={notice?.id as number}
+            type="notice"
+            accepted_id={null}
+            isWriter={false}
+          />
         </div>
-        <Comments
-          postId={notice?.id as number}
-          type="notice"
-          accepted_id={null}
-          isWriter={false}
-        />
       </div>
-    </div>
+    </>
   );
 };
 

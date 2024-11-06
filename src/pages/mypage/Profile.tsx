@@ -10,6 +10,7 @@ import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Mypage.module.scss";
+import Helmets from "../helmets";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -132,107 +133,113 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   }, [userInfo]);
 
   return (
-    <div className={styles.profile_wrap}>
-      <div className={styles.user_info}>
-        <div className={styles.info}>
-          <span className="body2 tab_show">{userInfo.nickname}</span>
-          <span
-            className={styles.profile}
-            onClick={() => {
-              profileInput.current!.click();
-            }}
-          >
-            <ProfileImage src={userInfo.profile_image} />
-            <input
-              type="file"
-              accept=".jpg, .jpeg, .png, image/jpg, image/png, image/jpeg"
-              onChange={changeProfileImage}
-              ref={profileInput}
-              style={{ display: "none" }}
-            />
-          </span>
-          <span className={styles.nickname}>{userInfo.nickname}</span>
-          <img className={styles.level_image} src={ico_level} alt="level" />
-          <span>
-            {windowWidth > 768 && "NEEDU 커뮤니티 "}Level {level}
-          </span>
-        </div>
-        <div
-          className={styles.gauge}
-          onMouseEnter={() => setGaugeHovered(true)}
-          onMouseLeave={() => setGaugeHovered(false)}
-        >
-          <div
-            className={styles.values}
-            style={{
-              backgroundColor: "#d9d9d9",
-              width: "100%",
-              height: "8px",
-              borderRadius: "5px",
-              position: "relative",
-            }}
-          >
+    <>
+      <Helmets
+        title={`[${userInfo.nickname}]의 프로필 I 사회복지 커뮤니티 NEEDU`}
+        description=""
+      ></Helmets>
+      <div className={styles.profile_wrap}>
+        <div className={styles.user_info}>
+          <div className={styles.info}>
+            <span className="body2 tab_show">{userInfo.nickname}</span>
             <span
-              style={{
-                backgroundColor: "#6269f5",
-                borderRadius: `${score === 100 ? "5px" : "5px 0 0 5px"}`,
-                width: `${score}%`,
-                height: `${gaugeHovered ? "10px" : "8px"}`,
-                position: "absolute",
-                textAlign: "center",
-                lineHeight: "45px",
-                color: `${gaugeHovered ? "#222" : "#fff"}`,
+              className={styles.profile}
+              onClick={() => {
+                profileInput.current!.click();
               }}
             >
-              {userInfo.activity_points} point
+              <ProfileImage src={userInfo.profile_image} />
+              <input
+                type="file"
+                accept=".jpg, .jpeg, .png, image/jpg, image/png, image/jpeg"
+                onChange={changeProfileImage}
+                ref={profileInput}
+                style={{ display: "none" }}
+              />
+            </span>
+            <span className={styles.nickname}>{userInfo.nickname}</span>
+            <img className={styles.level_image} src={ico_level} alt="level" />
+            <span>
+              {windowWidth > 768 && "NEEDU 커뮤니티 "}Level {level}
             </span>
           </div>
-          <div className={styles.range}>
-            <span className="body2">{minPoint}</span>
-            <span className="body2">{maxPoint}</span>
-          </div>
-        </div>
-      </div>
-      {windowWidth < 768 && (
-        <button onClick={handleExpand}>
-          <img
-            src={ico_arrow_down}
-            alt="더보기"
-            style={{
-              width: "16px",
-              transform: expandActivity ? "rotate(180deg)" : "rotate(0deg)",
-            }}
-          />
-        </button>
-      )}
-      {(expandActivity || windowWidth >= 768) && (
-        <div className={styles.activity}>
-          <div className={styles.title}>
-            <h5>활동기록</h5>
-            <a
-              href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449aa575ed6eec7f5f3b?pvs=4"
-              target="_blank"
+          <div
+            className={styles.gauge}
+            onMouseEnter={() => setGaugeHovered(true)}
+            onMouseLeave={() => setGaugeHovered(false)}
+          >
+            <div
+              className={styles.values}
+              style={{
+                backgroundColor: "#d9d9d9",
+                width: "100%",
+                height: "8px",
+                borderRadius: "5px",
+                position: "relative",
+              }}
             >
-              <img
-                src={ico_help}
-                alt="help"
-                style={{ width: "16px", height: "16px" }}
-              />
-            </a>
-          </div>
-          <div className={styles.content}>
-            <ul>
-              {activityLog.map((log) => (
-                <li key={log.id}>
-                  <span>{log.type}</span>
-                  <span>{log.totalPoints}</span>
-                </li>
-              ))}
-            </ul>
+              <span
+                style={{
+                  backgroundColor: "#6269f5",
+                  borderRadius: `${score === 100 ? "5px" : "5px 0 0 5px"}`,
+                  width: `${score}%`,
+                  height: `${gaugeHovered ? "10px" : "8px"}`,
+                  position: "absolute",
+                  textAlign: "center",
+                  lineHeight: "45px",
+                  color: `${gaugeHovered ? "#222" : "#fff"}`,
+                }}
+              >
+                {userInfo.activity_points} point
+              </span>
+            </div>
+            <div className={styles.range}>
+              <span className="body2">{minPoint}</span>
+              <span className="body2">{maxPoint}</span>
+            </div>
           </div>
         </div>
-      )}
-    </div>
+        {windowWidth < 768 && (
+          <button onClick={handleExpand}>
+            <img
+              src={ico_arrow_down}
+              alt="더보기"
+              style={{
+                width: "16px",
+                transform: expandActivity ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+            />
+          </button>
+        )}
+        {(expandActivity || windowWidth >= 768) && (
+          <div className={styles.activity}>
+            <div className={styles.title}>
+              <h5>활동기록</h5>
+              <a
+                href="https://neighborly-arithmetic-8e6.notion.site/NEEDU-83686bcf1165449aa575ed6eec7f5f3b?pvs=4"
+                target="_blank"
+              >
+                <img
+                  src={ico_help}
+                  alt="help"
+                  style={{ width: "16px", height: "16px" }}
+                />
+              </a>
+            </div>
+            <div className={styles.content}>
+              <ul>
+                {activityLog.map((log) => (
+                  <li key={log.id}>
+                    <span>{log.type}</span>
+                    <span>{log.totalPoints}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

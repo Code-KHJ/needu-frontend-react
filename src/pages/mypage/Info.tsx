@@ -17,6 +17,7 @@ import { regNickname, regPhone, regPw } from "@/utils/validation";
 import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Helmets from "../helmets";
 
 interface InfoProps {
   userInfo: UserProfile;
@@ -552,351 +553,357 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
     });
   }, [originCareer]);
   return (
-    <div className={styles.info_wrap}>
-      <div className={styles.user_info_wrap}>
-        <div className={styles.sub_nav}>
-          <div
-            className={subNav === "basic" ? styles.current : ""}
-            onClick={() => setSubNav("basic")}
-          >
-            기본정보
-          </div>
-          <div
-            className={subNav === "password" ? styles.current : ""}
-            onClick={() => setSubNav("password")}
-          >
-            비밀번호 변경
-          </div>
-        </div>
-        <div className={styles.content}>
-          {subNav === "basic" && (
-            <div className={styles.basic_info}>
-              <div className={styles.item}>
-                <Label title="이메일" target="user_id" required={false} />
-                <Input
-                  name="user_id"
-                  className={""}
-                  value={basicInfo.userId}
-                  placeholder=""
-                  onChange={() => {}}
-                  readOnly={true}
-                  required
-                />
-                <div className={styles.social_ico}>
-                  {userInfo.kakao && <img src={ico_kakao} />}
-                  {userInfo.google && <img src={ico_google} />}
-                </div>
-              </div>
-              <div className={styles.item}>
-                <Label title="닉네임" target="nickname" required={false} />
-                <div>
-                  <Input
-                    name="nickname"
-                    className={`${
-                      validBasicInfo.nickname === null
-                        ? "input_filled"
-                        : validBasicInfo.nickname
-                        ? "input_done"
-                        : "input_wrong"
-                    }`}
-                    value={basicInfo.nickname}
-                    onChange={handleBasicInfo}
-                    readOnly={false}
-                    placeholder=""
-                    required
-                  />
-                  <div
-                    className={`${"body2"} ${styles.checkmsg}`}
-                    id="checknmmsg"
-                  >
-                    {validMsg.nickname}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.item}>
-                <Label
-                  title="휴대폰번호"
-                  target="phonenumber"
-                  required={false}
-                />
-                <div>
-                  <Input
-                    name="phone"
-                    className={`${
-                      validBasicInfo.phonenumber === null
-                        ? "input_filled"
-                        : validBasicInfo.phonenumber
-                        ? "input_done"
-                        : "input_wrong"
-                    }`}
-                    value={basicInfo.phonenumber}
-                    onChange={handleBasicInfo}
-                    readOnly={false}
-                    placeholder=""
-                    required
-                  />
-                  <div className={`${"body2"} ${styles.checkmsg}`}>
-                    {validMsg.phonenumber}
-                  </div>
-                </div>
-              </div>
+    <>
+      <Helmets
+        title={"프로필 수정 I 사회복지 커뮤니티 NEEDU"}
+        description=""
+      ></Helmets>
+      <div className={styles.info_wrap}>
+        <div className={styles.user_info_wrap}>
+          <div className={styles.sub_nav}>
+            <div
+              className={subNav === "basic" ? styles.current : ""}
+              onClick={() => setSubNav("basic")}
+            >
+              기본정보
             </div>
-          )}
-          {subNav === "password" && (
-            <div className={styles.password}>
-              <div className={styles.item}>
-                <Label
-                  title="현재 비밀번호"
-                  target="password"
-                  required={true}
-                />
-                <div>
-                  <Input
-                    name="password"
-                    className={`${
-                      validPassword.password === null
-                        ? "input_default"
-                        : validPassword.password
-                        ? "input_done"
-                        : "input_wrong"
-                    }`}
-                    value={password.password}
-                    onChange={handlePassword}
-                    readOnly={false}
-                    placeholder="현재 비밀번호를 입력해주세요"
-                    required
-                  />
-                  <div className={`${"body2"} ${styles.checkmsg}`}>
-                    {validMsg.password}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.item}>
-                <Label
-                  title="변경 비밀번호"
-                  target="newPassword"
-                  required={true}
-                />
-                <div>
-                  <Input
-                    type="password"
-                    name="newPassword"
-                    className={`${
-                      validPassword.newPassword === null
-                        ? "input_default"
-                        : validPassword.newPassword
-                        ? "input_done"
-                        : "input_wrong"
-                    }`}
-                    value={password.newPassword}
-                    onChange={handlePassword}
-                    readOnly={false}
-                    placeholder="8~16자 영문 대소문자, 숫자, 특수문자"
-                    required
-                  />
-                  <div
-                    className={`${"body2"} ${styles.checkmsg}`}
-                    id="checkpw2msg"
-                  >
-                    {validMsg.newPassword}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.item}>
-                <Label
-                  title="비밀번호 확인"
-                  target="newPassword2"
-                  required={true}
-                />
-                <div>
-                  <Input
-                    type="password"
-                    name="newPassword2"
-                    className={`${
-                      validPassword.newPassword2 === null
-                        ? "input_default"
-                        : validPassword.newPassword2
-                        ? "input_done"
-                        : "input_wrong"
-                    }`}
-                    value={password.newPassword2}
-                    onChange={handlePassword}
-                    readOnly={false}
-                    placeholder="비밀번호를 다시 한번 입력해주세요"
-                    required
-                  />
-                  <div
-                    className={`${"body2"} ${styles.checkmsg}`}
-                    id="checkpw2msg"
-                  >
-                    {validMsg.newPassword2}
-                  </div>
-                </div>
-              </div>
+            <div
+              className={subNav === "password" ? styles.current : ""}
+              onClick={() => setSubNav("password")}
+            >
+              비밀번호 변경
             </div>
-          )}
-        </div>
-        <div className={styles.btn}>
-          <button type="button" onClick={updateInfo}>
-            수정
-          </button>
-        </div>
-      </div>
-      <div className={styles.career_info_wrap}>
-        <div className={styles.total_career}>
-          <div className={styles.title}>
-            <span>경력사항</span>
-            <img
-              src={ico_help}
-              alt="help"
-              style={{ width: "15px", height: "15px" }}
-              onMouseEnter={() => setCareerTooltip(true)}
-              onMouseLeave={() => setCareerTooltip(false)}
-            />
-            {careerTooltip && (
-              <div className={`caption ${styles.tooltip}`}>
-                본 페이지에서는 수정만 가능합니다.
-                <br />
-                경력을 추가하려면 리뷰를 남겨주세요.
+          </div>
+          <div className={styles.content}>
+            {subNav === "basic" && (
+              <div className={styles.basic_info}>
+                <div className={styles.item}>
+                  <Label title="이메일" target="user_id" required={false} />
+                  <Input
+                    name="user_id"
+                    className={""}
+                    value={basicInfo.userId}
+                    placeholder=""
+                    onChange={() => {}}
+                    readOnly={true}
+                    required
+                  />
+                  <div className={styles.social_ico}>
+                    {userInfo.kakao && <img src={ico_kakao} />}
+                    {userInfo.google && <img src={ico_google} />}
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <Label title="닉네임" target="nickname" required={false} />
+                  <div>
+                    <Input
+                      name="nickname"
+                      className={`${
+                        validBasicInfo.nickname === null
+                          ? "input_filled"
+                          : validBasicInfo.nickname
+                          ? "input_done"
+                          : "input_wrong"
+                      }`}
+                      value={basicInfo.nickname}
+                      onChange={handleBasicInfo}
+                      readOnly={false}
+                      placeholder=""
+                      required
+                    />
+                    <div
+                      className={`${"body2"} ${styles.checkmsg}`}
+                      id="checknmmsg"
+                    >
+                      {validMsg.nickname}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <Label
+                    title="휴대폰번호"
+                    target="phonenumber"
+                    required={false}
+                  />
+                  <div>
+                    <Input
+                      name="phone"
+                      className={`${
+                        validBasicInfo.phonenumber === null
+                          ? "input_filled"
+                          : validBasicInfo.phonenumber
+                          ? "input_done"
+                          : "input_wrong"
+                      }`}
+                      value={basicInfo.phonenumber}
+                      onChange={handleBasicInfo}
+                      readOnly={false}
+                      placeholder=""
+                      required
+                    />
+                    <div className={`${"body2"} ${styles.checkmsg}`}>
+                      {validMsg.phonenumber}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {subNav === "password" && (
+              <div className={styles.password}>
+                <div className={styles.item}>
+                  <Label
+                    title="현재 비밀번호"
+                    target="password"
+                    required={true}
+                  />
+                  <div>
+                    <Input
+                      name="password"
+                      className={`${
+                        validPassword.password === null
+                          ? "input_default"
+                          : validPassword.password
+                          ? "input_done"
+                          : "input_wrong"
+                      }`}
+                      value={password.password}
+                      onChange={handlePassword}
+                      readOnly={false}
+                      placeholder="현재 비밀번호를 입력해주세요"
+                      required
+                    />
+                    <div className={`${"body2"} ${styles.checkmsg}`}>
+                      {validMsg.password}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <Label
+                    title="변경 비밀번호"
+                    target="newPassword"
+                    required={true}
+                  />
+                  <div>
+                    <Input
+                      type="password"
+                      name="newPassword"
+                      className={`${
+                        validPassword.newPassword === null
+                          ? "input_default"
+                          : validPassword.newPassword
+                          ? "input_done"
+                          : "input_wrong"
+                      }`}
+                      value={password.newPassword}
+                      onChange={handlePassword}
+                      readOnly={false}
+                      placeholder="8~16자 영문 대소문자, 숫자, 특수문자"
+                      required
+                    />
+                    <div
+                      className={`${"body2"} ${styles.checkmsg}`}
+                      id="checkpw2msg"
+                    >
+                      {validMsg.newPassword}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <Label
+                    title="비밀번호 확인"
+                    target="newPassword2"
+                    required={true}
+                  />
+                  <div>
+                    <Input
+                      type="password"
+                      name="newPassword2"
+                      className={`${
+                        validPassword.newPassword2 === null
+                          ? "input_default"
+                          : validPassword.newPassword2
+                          ? "input_done"
+                          : "input_wrong"
+                      }`}
+                      value={password.newPassword2}
+                      onChange={handlePassword}
+                      readOnly={false}
+                      placeholder="비밀번호를 다시 한번 입력해주세요"
+                      required
+                    />
+                    <div
+                      className={`${"body2"} ${styles.checkmsg}`}
+                      id="checkpw2msg"
+                    >
+                      {validMsg.newPassword2}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
-          <div className={styles.career}>
-            총 <h4>{totalCareer.year}</h4>년 <h4>{totalCareer.month}</h4>개월
+          <div className={styles.btn}>
+            <button type="button" onClick={updateInfo}>
+              수정
+            </button>
           </div>
         </div>
-        <div className={styles.career_list}>
-          {editCareer.map((career) => {
-            const { year, month } = diffDate(
-              career.start_date,
-              career.end_date
-            );
-            return (
-              <div
-                className={`${styles.career_detail} ${
-                  career.status ? styles.on_edit : styles.off_edit
-                }`}
-                key={career.id}
-              >
-                <div className={styles.item}>
-                  <div>
-                    <label className="body2">기관명</label>
-                    <div className={styles.kebab}>
-                      <img
-                        src={btn_kebab}
-                        style={{ cursor: "pointer" }}
-                        alt="kebab"
-                        onClick={() => handleKebab(career.id)}
-                      />
-                      {kebab[career.id] && (
-                        <div
-                          className={styles.edit}
-                          onClick={() => {
-                            setEditCareer((prev) =>
-                              prev.map((item) =>
-                                item.id === career.id
-                                  ? { ...item, status: true }
-                                  : item
-                              )
-                            );
-                            handleKebab(career.id);
-                          }}
-                        >
-                          수정
+        <div className={styles.career_info_wrap}>
+          <div className={styles.total_career}>
+            <div className={styles.title}>
+              <span>경력사항</span>
+              <img
+                src={ico_help}
+                alt="help"
+                style={{ width: "15px", height: "15px" }}
+                onMouseEnter={() => setCareerTooltip(true)}
+                onMouseLeave={() => setCareerTooltip(false)}
+              />
+              {careerTooltip && (
+                <div className={`caption ${styles.tooltip}`}>
+                  본 페이지에서는 수정만 가능합니다.
+                  <br />
+                  경력을 추가하려면 리뷰를 남겨주세요.
+                </div>
+              )}
+            </div>
+            <div className={styles.career}>
+              총 <h4>{totalCareer.year}</h4>년 <h4>{totalCareer.month}</h4>개월
+            </div>
+          </div>
+          <div className={styles.career_list}>
+            {editCareer.map((career) => {
+              const { year, month } = diffDate(
+                career.start_date,
+                career.end_date
+              );
+              return (
+                <div
+                  className={`${styles.career_detail} ${
+                    career.status ? styles.on_edit : styles.off_edit
+                  }`}
+                  key={career.id}
+                >
+                  <div className={styles.item}>
+                    <div>
+                      <label className="body2">기관명</label>
+                      <div className={styles.kebab}>
+                        <img
+                          src={btn_kebab}
+                          style={{ cursor: "pointer" }}
+                          alt="kebab"
+                          onClick={() => handleKebab(career.id)}
+                        />
+                        {kebab[career.id] && (
+                          <div
+                            className={styles.edit}
+                            onClick={() => {
+                              setEditCareer((prev) =>
+                                prev.map((item) =>
+                                  item.id === career.id
+                                    ? { ...item, status: true }
+                                    : item
+                                )
+                              );
+                              handleKebab(career.id);
+                            }}
+                          >
+                            수정
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      className={styles.corpname}
+                      value={career.corpname}
+                      disabled
+                      readOnly
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <div className={styles.period_label}>
+                      <label className="body2">근무기간</label>
+                      {career.status && (
+                        <div>
+                          <input
+                            name="working"
+                            type="checkbox"
+                            checked={career.working}
+                            onChange={(e) => handleCareer(career.id, e)}
+                          />
+                          <label>재직중</label>
                         </div>
                       )}
                     </div>
+                    <div className={styles.date_pickr}>
+                      <InputDate
+                        name="start_date"
+                        working={false}
+                        value={career.start_date}
+                        onChange={(e) => handleCareer(career.id, e)}
+                        minDate="1950-01-01"
+                        disabled={!career.status}
+                      ></InputDate>
+                      {!career.status && <span>~</span>}
+                      <InputDate
+                        key={career.start_date}
+                        name="end_date"
+                        working={career.working}
+                        value={career.end_date}
+                        onChange={(e) => handleCareer(career.id, e)}
+                        minDate={career.start_date}
+                        disabled={!career.status}
+                      ></InputDate>
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    className={styles.corpname}
-                    value={career.corpname}
-                    disabled
-                    readOnly
-                  />
-                </div>
-                <div className={styles.item}>
-                  <div className={styles.period_label}>
-                    <label className="body2">근무기간</label>
-                    {career.status && (
-                      <div>
-                        <input
-                          name="working"
-                          type="checkbox"
-                          checked={career.working}
-                          onChange={(e) => handleCareer(career.id, e)}
-                        />
-                        <label>재직중</label>
-                      </div>
-                    )}
-                  </div>
-                  <div className={styles.date_pickr}>
-                    <InputDate
-                      name="start_date"
-                      working={false}
-                      value={career.start_date}
+                  <div className={styles.item}>
+                    <label className="body2">근무직종</label>
+                    <select
+                      name="career_type"
+                      value={career.career_type}
                       onChange={(e) => handleCareer(career.id, e)}
-                      minDate="1950-01-01"
                       disabled={!career.status}
-                    ></InputDate>
-                    {!career.status && <span>~</span>}
-                    <InputDate
-                      key={career.start_date}
-                      name="end_date"
-                      working={career.working}
-                      value={career.end_date}
-                      onChange={(e) => handleCareer(career.id, e)}
-                      minDate={career.start_date}
-                      disabled={!career.status}
-                    ></InputDate>
-                  </div>
-                </div>
-                <div className={styles.item}>
-                  <label className="body2">근무직종</label>
-                  <select
-                    name="career_type"
-                    value={career.career_type}
-                    onChange={(e) => handleCareer(career.id, e)}
-                    disabled={!career.status}
-                  >
-                    <option value="" disabled hidden>
-                      직종 선택
-                    </option>
-                    {shared.map((item) => (
-                      <option key={item.id} value={item.type}>
-                        {item.type}
+                    >
+                      <option value="" disabled hidden>
+                        직종 선택
                       </option>
-                    ))}
-                  </select>
+                      {shared.map((item) => (
+                        <option key={item.id} value={item.type}>
+                          {item.type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {career.status ? (
+                    <div className={styles.btn}>
+                      <button
+                        type="button"
+                        className={styles.cancel}
+                        onClick={() => cancelEditCareer(career.id)}
+                      >
+                        취소
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.submit}
+                        onClick={() => submitEditCareer(career.id)}
+                      >
+                        수정
+                      </button>
+                    </div>
+                  ) : (
+                    <div className={styles.total}>
+                      <h3>{year}</h3>년 <h3>{month}</h3>개월
+                    </div>
+                  )}
                 </div>
-                {career.status ? (
-                  <div className={styles.btn}>
-                    <button
-                      type="button"
-                      className={styles.cancel}
-                      onClick={() => cancelEditCareer(career.id)}
-                    >
-                      취소
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.submit}
-                      onClick={() => submitEditCareer(career.id)}
-                    >
-                      수정
-                    </button>
-                  </div>
-                ) : (
-                  <div className={styles.total}>
-                    <h3>{year}</h3>년 <h3>{month}</h3>개월
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

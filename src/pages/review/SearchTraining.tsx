@@ -14,6 +14,7 @@ import { CorpWithTrainingDto } from "@/interface/Corp";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
+import Helmets from "../helmets";
 
 type Filters = {
   region: string;
@@ -210,228 +211,236 @@ const SearchTraining = () => {
   };
 
   return (
-    <div className={styles.search_wrap}>
-      <div className={styles.filter_wrap}>
-        <div className={styles.header}>
-          <h4>기관검색</h4>
-          <div className={styles.detail_filter} onClick={handleFilterBtn}>
-            상세검색
+    <>
+      <Helmets
+        title={"사회복지 커뮤니티, NEEDU"}
+        description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
+      ></Helmets>
+      <div className={styles.search_wrap}>
+        <div className={styles.filter_wrap}>
+          <div className={styles.header}>
+            <h4>기관검색</h4>
+            <div className={styles.detail_filter} onClick={handleFilterBtn}>
+              상세검색
+            </div>
+          </div>
+          <div className={styles.filter} onKeyDown={handleKeyPress}>
+            <div className={styles.contents}>
+              <div className={styles.region_corp}>
+                <div className={styles.item}>
+                  <label>
+                    <h5>지역</h5>
+                  </label>
+                  <select
+                    name="region"
+                    className={styles.value}
+                    value={filters.region}
+                    onChange={handleFilter}
+                  >
+                    <option value="">전체</option>
+                    {RegionList.map((item) => (
+                      <option value={item.name} key={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.item}>
+                  <label>
+                    <h5>기관명</h5>
+                  </label>
+                  <input
+                    name="corp_name"
+                    className={styles.value}
+                    type="text"
+                    placeholder="기관명을 입력해주세요"
+                    value={filters.corp_name}
+                    onChange={handleFilter}
+                  ></input>
+                </div>
+              </div>
+              <div
+                style={
+                  window.innerWidth >= 768
+                    ? { display: "block" }
+                    : filterBtn
+                    ? { display: "block" }
+                    : { display: "none" }
+                }
+              >
+                <div className={styles.item}>
+                  <label>
+                    <h5>별점</h5>
+                  </label>
+                  <div className={styles.list}>
+                    {[1, 2, 3, 4, 5].map((score) => (
+                      <span
+                        className={`${styles.list_item} ${
+                          filters.score.includes(score) ? styles.selected : ""
+                        }`}
+                        key={score}
+                        onClick={() => handleList("score", score)}
+                      >
+                        <img src={starImages[score]} alt={`score ${score}`} />
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <label>
+                    <h5 className={styles.people}>실습인원</h5>
+                  </label>
+                  <div className={styles.list}>
+                    {options.number_of_participants.map((item, index) => (
+                      <span
+                        className={`${styles.list_item} ${
+                          filters.number_of_participants.includes(index)
+                            ? styles.selected
+                            : ""
+                        }`}
+                        key={index}
+                        onClick={() =>
+                          handleList("number_of_participants", index)
+                        }
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <label>
+                    <h5 className={styles.cost}>실습비</h5>
+                  </label>
+                  <div className={styles.list}>
+                    {options.cost.map((item, index) => (
+                      <span
+                        className={`${styles.list_item} ${
+                          filters.cost.includes(index) ? styles.selected : ""
+                        }`}
+                        key={index}
+                        onClick={() => handleList("cost", index)}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles.item}>
+                  <label>
+                    <h5 className={styles.duration}>실습기간</h5>
+                  </label>
+                  <div className={styles.list}>
+                    {options.duration.map((item, index) => (
+                      <span
+                        className={`${styles.list_item} ${
+                          filters.duration.includes(index)
+                            ? styles.selected
+                            : ""
+                        }`}
+                        key={index}
+                        onClick={() => handleList("duration", index)}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.buttons} ref={resultRef}>
+              <button className={styles.reset} onClick={resetFilters}>
+                초기화
+              </button>
+              <button className={styles.search} onClick={search}>
+                검색
+              </button>
+            </div>
           </div>
         </div>
-        <div className={styles.filter} onKeyDown={handleKeyPress}>
-          <div className={styles.contents}>
-            <div className={styles.region_corp}>
-              <div className={styles.item}>
-                <label>
-                  <h5>지역</h5>
-                </label>
+        {pages !== undefined &&
+          (pages > 0 ? (
+            <div className={styles.content_wrap}>
+              <div className={styles.sort}>
                 <select
-                  name="region"
-                  className={styles.value}
-                  value={filters.region}
+                  name="order"
+                  value={filters.order}
                   onChange={handleFilter}
                 >
-                  <option value="">전체</option>
-                  {RegionList.map((item) => (
-                    <option value={item.name} key={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
+                  <option value="avg">별점 높은 순</option>
+                  <option value="cnt">리뷰 많은 순</option>
                 </select>
               </div>
-              <div className={styles.item}>
-                <label>
-                  <h5>기관명</h5>
-                </label>
-                <input
-                  name="corp_name"
-                  className={styles.value}
-                  type="text"
-                  placeholder="기관명을 입력해주세요"
-                  value={filters.corp_name}
-                  onChange={handleFilter}
-                ></input>
-              </div>
-            </div>
-            <div
-              style={
-                window.innerWidth >= 768
-                  ? { display: "block" }
-                  : filterBtn
-                  ? { display: "block" }
-                  : { display: "none" }
-              }
-            >
-              <div className={styles.item}>
-                <label>
-                  <h5>별점</h5>
-                </label>
-                <div className={styles.list}>
-                  {[1, 2, 3, 4, 5].map((score) => (
-                    <span
-                      className={`${styles.list_item} ${
-                        filters.score.includes(score) ? styles.selected : ""
-                      }`}
-                      key={score}
-                      onClick={() => handleList("score", score)}
-                    >
-                      <img src={starImages[score]} alt={`score ${score}`} />
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.item}>
-                <label>
-                  <h5 className={styles.people}>실습인원</h5>
-                </label>
-                <div className={styles.list}>
-                  {options.number_of_participants.map((item, index) => (
-                    <span
-                      className={`${styles.list_item} ${
-                        filters.number_of_participants.includes(index)
-                          ? styles.selected
-                          : ""
-                      }`}
-                      key={index}
-                      onClick={() =>
-                        handleList("number_of_participants", index)
-                      }
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.item}>
-                <label>
-                  <h5 className={styles.cost}>실습비</h5>
-                </label>
-                <div className={styles.list}>
-                  {options.cost.map((item, index) => (
-                    <span
-                      className={`${styles.list_item} ${
-                        filters.cost.includes(index) ? styles.selected : ""
-                      }`}
-                      key={index}
-                      onClick={() => handleList("cost", index)}
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.item}>
-                <label>
-                  <h5 className={styles.duration}>실습기간</h5>
-                </label>
-                <div className={styles.list}>
-                  {options.duration.map((item, index) => (
-                    <span
-                      className={`${styles.list_item} ${
-                        filters.duration.includes(index) ? styles.selected : ""
-                      }`}
-                      key={index}
-                      onClick={() => handleList("duration", index)}
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.buttons} ref={resultRef}>
-            <button className={styles.reset} onClick={resetFilters}>
-              초기화
-            </button>
-            <button className={styles.search} onClick={search}>
-              검색
-            </button>
-          </div>
-        </div>
-      </div>
-      {pages !== undefined &&
-        (pages > 0 ? (
-          <div className={styles.content_wrap}>
-            <div className={styles.sort}>
-              <select
-                name="order"
-                value={filters.order}
-                onChange={handleFilter}
-              >
-                <option value="avg">별점 높은 순</option>
-                <option value="cnt">리뷰 많은 순</option>
-              </select>
-            </div>
-            <div className={styles.corp_list}>
-              <ul>
-                {corps.map((corp) => (
-                  <li className={styles.corp_item} key={corp.no}>
-                    <div className={styles.info}>
-                      <div className={`body2 ${styles.region}`}>
-                        <span>
-                          {
-                            RegionList.find((item) => item.name === corp.city)
-                              ?.sido
-                          }
-                        </span>
-                        <span>{corp.gugun}</span>
-                      </div>
-                      <div className={styles.corp}>
-                        <h4 onClick={() => moveDetail(corp.corpname)}>
-                          {corp.corpname}
-                        </h4>
-                        <div className={styles.detail_info}>
-                          <span className="body2">
-                            <img src={ico_people} alt="실습인원" />
-                            {corp.number_of_participants > 0
-                              ? corp.number_of_participants
-                              : "0"}
-                            명
+              <div className={styles.corp_list}>
+                <ul>
+                  {corps.map((corp) => (
+                    <li className={styles.corp_item} key={corp.no}>
+                      <div className={styles.info}>
+                        <div className={`body2 ${styles.region}`}>
+                          <span>
+                            {
+                              RegionList.find((item) => item.name === corp.city)
+                                ?.sido
+                            }
                           </span>
-                          <span className="body2">
-                            <img src={ico_money} alt="실습비" />
-                            {corp.cost > 0 ? corp.cost : "0"}만원
-                          </span>
-                          <span className="body2">
-                            <img src={ico_clock} alt="실습시간" />
-                            {corp.duration > 0 ? corp.duration : "0"}시간
-                          </span>
+                          <span>{corp.gugun}</span>
+                        </div>
+                        <div className={styles.corp}>
+                          <h4 onClick={() => moveDetail(corp.corpname)}>
+                            {corp.corpname}
+                          </h4>
+                          <div className={styles.detail_info}>
+                            <span className="body2">
+                              <img src={ico_people} alt="실습인원" />
+                              {corp.number_of_participants > 0
+                                ? corp.number_of_participants
+                                : "0"}
+                              명
+                            </span>
+                            <span className="body2">
+                              <img src={ico_money} alt="실습비" />
+                              {corp.cost > 0 ? corp.cost : "0"}만원
+                            </span>
+                            <span className="body2">
+                              <img src={ico_clock} alt="실습시간" />
+                              {corp.duration > 0 ? corp.duration : "0"}시간
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className={styles.star}>
-                      <img src={Star_1} alt="star" />
-                      <h4>{corp.avg}</h4>
-                      <span className="body2">({corp.cnt})</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                      <div className={styles.star}>
+                        <img src={Star_1} alt="star" />
+                        <h4>{corp.avg}</h4>
+                        <span className="body2">({corp.cnt})</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div
-            style={{ marginTop: "120px", textAlign: "center", color: "#888" }}
-          >
-            찾으시는 기관이 없나요?{" "}
-            <a
-              href="https://forms.gle/R1nGsYURtngudXBJ7"
-              target="_blank"
-              style={{ color: "#6269f5" }}
+          ) : (
+            <div
+              style={{ marginTop: "120px", textAlign: "center", color: "#888" }}
             >
-              기관 등록하기
-            </a>
-          </div>
-        ))}
-      <div className={styles.pagination}>
-        <Pagination
-          currentPage={filters.page}
-          totalPages={pages}
-          onPageChange={handlePage}
-        />
+              찾으시는 기관이 없나요?{" "}
+              <a
+                href="https://forms.gle/R1nGsYURtngudXBJ7"
+                target="_blank"
+                style={{ color: "#6269f5" }}
+              >
+                기관 등록하기
+              </a>
+            </div>
+          ))}
+        <div className={styles.pagination}>
+          <Pagination
+            currentPage={filters.page}
+            totalPages={pages}
+            onPageChange={handlePage}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

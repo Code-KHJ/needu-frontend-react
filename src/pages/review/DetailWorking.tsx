@@ -271,292 +271,309 @@ const DetailWorking = () => {
   };
 
   return (
-    <div className={styles.detail_working_wrap}>
-      <div className={styles.corp_info}>
-        <h1 className={styles.corp_name}>{corp.corp_name}</h1>
-        <p className={`.body1 ${styles.corp_location}`}>
-          {corp.city} {corp.gugun}
-        </p>
-        <p className={styles.hashtag}>
-          {corp.hashtag &&
-            Hashtag(corp.hashtag).length > 0 &&
-            Hashtag(corp.hashtag).map((item) => (
-              <span
-                style={{
-                  marginRight: "8px",
-                  marginBottom: "8px",
-                  display: "inline-block",
-                }}
-                key={item}
-              >
-                {item}
-              </span>
-            ))}
-        </p>
-      </div>
-      <section>
-        <div className={styles.tab}>
-          <div
-            className={`${
-              location.pathname == "/review/detail/working"
-                ? styles.current
-                : ""
-            }`}
-            onClick={() => clickTab("working")}
-          >
-            <h4>전현직리뷰</h4>
-          </div>
-          <div
-            className={`${
-              location.pathname == "/review/detail/training"
-                ? styles.current
-                : ""
-            }`}
-            onClick={() => clickTab("training")}
-          >
-            <h4>실습리뷰</h4>
-          </div>
-        </div>
-        <div className={styles.summary_wrap}>
-          <div className={styles.star_wrap}>
-            <div className={styles.total}>
-              <ScoreStar
-                name="total_score"
-                mosize="40px"
-                tabsize="40px"
-                readonly={true}
-                value={corp.avg}
-                onChange={() => {}}
-              />
-              <h1>{corp.avg}</h1>
-              <span className={`body1 ${styles.cnt}`}>{corp.cnt}개 리뷰</span>
-            </div>
-            <div className={styles.score_list}>
-              {starList.map((item) => (
-                <div className={styles.score_item} key={item.en}>
-                  <h5>{item.ko}</h5>
-                  <div className={styles.score_score}>
-                    <p>
-                      {isNaN(parseFloat(corpScore[item.en]))
-                        ? "0.0"
-                        : parseFloat(corpScore[item.en]).toFixed(1)}
-                    </p>
-                    <ScoreBar
-                      width="160px"
-                      value={
-                        isNaN(parseFloat(corpScore[item.en]))
-                          ? "0.0"
-                          : parseFloat(corpScore[item.en]).toFixed(1)
-                      }
-                    ></ScoreBar>
-                  </div>
-                </div>
+    <>
+      <Helmets
+        title={`${corp.corp_name} 전현직 리뷰 I NEEDU 니쥬`}
+        description=""
+      ></Helmets>
+      <div className={styles.detail_working_wrap}>
+        <div className={styles.corp_info}>
+          <h1 className={styles.corp_name}>{corp.corp_name}</h1>
+          <p className={`.body1 ${styles.corp_location}`}>
+            {corp.city} {corp.gugun}
+          </p>
+          <p className={styles.hashtag}>
+            {corp.hashtag &&
+              Hashtag(corp.hashtag).length > 0 &&
+              Hashtag(corp.hashtag).map((item) => (
+                <span
+                  style={{
+                    marginRight: "8px",
+                    marginBottom: "8px",
+                    display: "inline-block",
+                  }}
+                  key={item}
+                >
+                  {item}
+                </span>
               ))}
+          </p>
+        </div>
+        <section>
+          <div className={styles.tab}>
+            <div
+              className={`${
+                location.pathname == "/review/detail/working"
+                  ? styles.current
+                  : ""
+              }`}
+              onClick={() => clickTab("working")}
+            >
+              <h4>전현직리뷰</h4>
+            </div>
+            <div
+              className={`${
+                location.pathname == "/review/detail/training"
+                  ? styles.current
+                  : ""
+              }`}
+              onClick={() => clickTab("training")}
+            >
+              <h4>실습리뷰</h4>
             </div>
           </div>
-          <div className={styles.write_review}>
-            <p>이 기관에 대해 나눠주실 경험이 있으신가요?</p>
-            <button type="button">
-              <Link to={`/review/working/write?name=${encodedCorpName}`}>
-                리뷰하러 가기
-              </Link>
-            </button>
-          </div>
-        </div>
-        {reviews.length != 0 ? (
-          <>
-            <div className={styles.review_wrap}>
-              {reviews.map((review, index) =>
-                index === 0 || showAll ? (
-                  <div
-                    className={styles.review_item}
-                    key={index}
-                    style={showAll ? { borderBottom: "1px solid #d9d9d9" } : {}}
-                  >
-                    <div
-                      className={`${styles.score_wrap} ${
-                        review.blind != 1 ? "blur" : ""
-                      }`}
-                    >
-                      <div className={styles.score_summary}>
-                        <h4>{review.total_score}</h4>
-                        <div>
-                          <ScoreStar
-                            name="total_score"
-                            mosize="26px"
-                            tabsize="26px"
-                            readonly={true}
-                            value={review.total_score}
-                            onChange={() => {}}
-                          ></ScoreStar>
-                          <img
-                            src={ico_arrow_down}
-                            style={{ cursor: "pointer" }}
-                            alt="arrow"
-                            onClick={() => handleToggle(index)}
-                          />
-                        </div>
-                      </div>
-                      {showToggle[index] && (
-                        <div className={styles.score_detail}>
-                          {starList.map((item) => (
-                            <div className={styles.item} key={item.en}>
-                              <ScoreStar
-                                name="total_score"
-                                mosize="16px"
-                                tabsize="16px"
-                                readonly={true}
-                                value={review[item.en]}
-                                onChange={() => {}}
-                              ></ScoreStar>
-                              <span className="body2" style={{ color: "#aaa" }}>
-                                {item.ko}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <div className={styles.content_wrap}>
-                      <div className={styles.title}>
-                        <h3 className={review.blind != 1 ? "blur" : ""}>
-                          {review.highlight}
-                        </h3>
-                        <div className={styles.kebab}>
-                          <img
-                            src={btn_kebab}
-                            style={{ cursor: "pointer" }}
-                            alt="kebab"
-                            onClick={() => handleKebab(index)}
-                          />
-                          {user.user.id === review.user.id
-                            ? showKebab[index] && (
-                                <div className={styles.kebab_list}>
-                                  <div
-                                    className={styles.kebab_item}
-                                    onClick={() => editReview(review.id)}
-                                  >
-                                    수정
-                                  </div>
-                                  <div
-                                    className={styles.kebab_item}
-                                    onClick={() =>
-                                      deleteReview(index, review.id)
-                                    }
-                                  >
-                                    삭제
-                                  </div>
-                                </div>
-                              )
-                            : showKebab[index] && (
-                                <div className={styles.kebab_list}>
-                                  <div
-                                    className={styles.kebab_item}
-                                    onClick={() => handleModalTarget(review.id)}
-                                  >
-                                    신고
-                                  </div>
-                                </div>
-                              )}
-                        </div>
-                      </div>
-                      <div className={styles.info}>
-                        <img
-                          src={
-                            careerStatus(review.userCareer.last_date) ===
-                            "전직자"
-                              ? ico_career_f
-                              : ico_career_c
-                          }
-                        />
-                        <span>{careerStatus(review.userCareer.last_date)}</span>
-                        <span>{review.user.user_id}</span>
-                        <span>{review.userCareer.type}</span>
-                        <span>
-                          {review.created_date.slice(0, 10).replace(/-/g, ".")}
-                        </span>
-                      </div>
-                      {review.blind != 1 ? (
-                        <BlindComment type={review.blind}></BlindComment>
-                      ) : (
-                        <div className={styles.content}>
-                          <div className={styles.pros}>
-                            <h4>장점</h4>
-                            <p>{review.pros}</p>
-                          </div>
-                          <div className={styles.cons}>
-                            <h4>단점</h4>
-                            <p>{review.cons}</p>
-                          </div>
-                          <div className={styles.hashtag}>
-                            {Hashtag(review.hashtag).map((item) => (
-                              <span
-                                style={{
-                                  marginRight: "12px",
-                                  marginBottom: "8px",
-                                  display: "inline-block",
-                                }}
-                                key={item}
-                              >
-                                {item}
-                              </span>
-                            ))}
-                          </div>
-                          <button
-                            className={`body2 ${styles.btn_like} ${
-                              isLike[review.id] ? styles.on : ""
-                            }`}
-                            onClick={() => like(review.id)}
-                          >
-                            {isLike[review.id] ? (
-                              <img src={like_on} alt="좋아요" />
-                            ) : (
-                              <img src={like_off} alt="좋아요" />
-                            )}
-                            도움이 돼요
-                            <span>({review.likes})</span>
-                          </button>
-                        </div>
-                      )}
-
-                      <div></div>
-                      <div></div>
+          <div className={styles.summary_wrap}>
+            <div className={styles.star_wrap}>
+              <div className={styles.total}>
+                <ScoreStar
+                  name="total_score"
+                  mosize="40px"
+                  tabsize="40px"
+                  readonly={true}
+                  value={corp.avg}
+                  onChange={() => {}}
+                />
+                <h1>{corp.avg}</h1>
+                <span className={`body1 ${styles.cnt}`}>{corp.cnt}개 리뷰</span>
+              </div>
+              <div className={styles.score_list}>
+                {starList.map((item) => (
+                  <div className={styles.score_item} key={item.en}>
+                    <h5>{item.ko}</h5>
+                    <div className={styles.score_score}>
+                      <p>
+                        {isNaN(parseFloat(corpScore[item.en]))
+                          ? "0.0"
+                          : parseFloat(corpScore[item.en]).toFixed(1)}
+                      </p>
+                      <ScoreBar
+                        width="160px"
+                        value={
+                          isNaN(parseFloat(corpScore[item.en]))
+                            ? "0.0"
+                            : parseFloat(corpScore[item.en]).toFixed(1)
+                        }
+                      ></ScoreBar>
                     </div>
                   </div>
-                ) : null
-              )}
-            </div>
-            {showAll ? null : (
-              <button
-                type="button"
-                className={styles.btn_show}
-                onClick={() => handleShowAll()}
-              >
-                리뷰 전체 보기
-                <img
-                  src={ico_arrow_R}
-                  style={{ height: "12px", marginLeft: "8px" }}
-                />
-              </button>
-            )}
-          </>
-        ) : (
-          <>
-            <div className={styles.review_wrap}>
-              <div className={styles.review_item} style={{ color: "#222" }}>
-                아직 작성된 리뷰가 없습니다.
+                ))}
               </div>
             </div>
-          </>
-        )}
-      </section>
-      <ReportModal
-        target={modal.target}
-        target_id={modal.target_id}
-        modalOpen={modal.isOpen}
-        closeModal={closeModal}
-      />
-    </div>
+            <div className={styles.write_review}>
+              <p>이 기관에 대해 나눠주실 경험이 있으신가요?</p>
+              <button type="button">
+                <Link to={`/review/working/write?name=${encodedCorpName}`}>
+                  리뷰하러 가기
+                </Link>
+              </button>
+            </div>
+          </div>
+          {reviews.length != 0 ? (
+            <>
+              <div className={styles.review_wrap}>
+                {reviews.map((review, index) =>
+                  index === 0 || showAll ? (
+                    <div
+                      className={styles.review_item}
+                      key={index}
+                      style={
+                        showAll ? { borderBottom: "1px solid #d9d9d9" } : {}
+                      }
+                    >
+                      <div
+                        className={`${styles.score_wrap} ${
+                          review.blind != 1 ? "blur" : ""
+                        }`}
+                      >
+                        <div className={styles.score_summary}>
+                          <h4>{review.total_score}</h4>
+                          <div>
+                            <ScoreStar
+                              name="total_score"
+                              mosize="26px"
+                              tabsize="26px"
+                              readonly={true}
+                              value={review.total_score}
+                              onChange={() => {}}
+                            ></ScoreStar>
+                            <img
+                              src={ico_arrow_down}
+                              style={{ cursor: "pointer" }}
+                              alt="arrow"
+                              onClick={() => handleToggle(index)}
+                            />
+                          </div>
+                        </div>
+                        {showToggle[index] && (
+                          <div className={styles.score_detail}>
+                            {starList.map((item) => (
+                              <div className={styles.item} key={item.en}>
+                                <ScoreStar
+                                  name="total_score"
+                                  mosize="16px"
+                                  tabsize="16px"
+                                  readonly={true}
+                                  value={review[item.en]}
+                                  onChange={() => {}}
+                                ></ScoreStar>
+                                <span
+                                  className="body2"
+                                  style={{ color: "#aaa" }}
+                                >
+                                  {item.ko}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className={styles.content_wrap}>
+                        <div className={styles.title}>
+                          <h3 className={review.blind != 1 ? "blur" : ""}>
+                            {review.highlight}
+                          </h3>
+                          <div className={styles.kebab}>
+                            <img
+                              src={btn_kebab}
+                              style={{ cursor: "pointer" }}
+                              alt="kebab"
+                              onClick={() => handleKebab(index)}
+                            />
+                            {user.user.id === review.user.id
+                              ? showKebab[index] && (
+                                  <div className={styles.kebab_list}>
+                                    <div
+                                      className={styles.kebab_item}
+                                      onClick={() => editReview(review.id)}
+                                    >
+                                      수정
+                                    </div>
+                                    <div
+                                      className={styles.kebab_item}
+                                      onClick={() =>
+                                        deleteReview(index, review.id)
+                                      }
+                                    >
+                                      삭제
+                                    </div>
+                                  </div>
+                                )
+                              : showKebab[index] && (
+                                  <div className={styles.kebab_list}>
+                                    <div
+                                      className={styles.kebab_item}
+                                      onClick={() =>
+                                        handleModalTarget(review.id)
+                                      }
+                                    >
+                                      신고
+                                    </div>
+                                  </div>
+                                )}
+                          </div>
+                        </div>
+                        <div className={styles.info}>
+                          <img
+                            src={
+                              careerStatus(review.userCareer.last_date) ===
+                              "전직자"
+                                ? ico_career_f
+                                : ico_career_c
+                            }
+                          />
+                          <span>
+                            {careerStatus(review.userCareer.last_date)}
+                          </span>
+                          <span>{review.user.user_id}</span>
+                          <span>{review.userCareer.type}</span>
+                          <span>
+                            {review.created_date
+                              .slice(0, 10)
+                              .replace(/-/g, ".")}
+                          </span>
+                        </div>
+                        {review.blind != 1 ? (
+                          <BlindComment type={review.blind}></BlindComment>
+                        ) : (
+                          <div className={styles.content}>
+                            <div className={styles.pros}>
+                              <h4>장점</h4>
+                              <p>{review.pros}</p>
+                            </div>
+                            <div className={styles.cons}>
+                              <h4>단점</h4>
+                              <p>{review.cons}</p>
+                            </div>
+                            <div className={styles.hashtag}>
+                              {Hashtag(review.hashtag).map((item) => (
+                                <span
+                                  style={{
+                                    marginRight: "12px",
+                                    marginBottom: "8px",
+                                    display: "inline-block",
+                                  }}
+                                  key={item}
+                                >
+                                  {item}
+                                </span>
+                              ))}
+                            </div>
+                            <button
+                              className={`body2 ${styles.btn_like} ${
+                                isLike[review.id] ? styles.on : ""
+                              }`}
+                              onClick={() => like(review.id)}
+                            >
+                              {isLike[review.id] ? (
+                                <img src={like_on} alt="좋아요" />
+                              ) : (
+                                <img src={like_off} alt="좋아요" />
+                              )}
+                              도움이 돼요
+                              <span>({review.likes})</span>
+                            </button>
+                          </div>
+                        )}
+
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  ) : null
+                )}
+              </div>
+              {showAll ? null : (
+                <button
+                  type="button"
+                  className={styles.btn_show}
+                  onClick={() => handleShowAll()}
+                >
+                  리뷰 전체 보기
+                  <img
+                    src={ico_arrow_R}
+                    style={{ height: "12px", marginLeft: "8px" }}
+                  />
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <div className={styles.review_wrap}>
+                <div className={styles.review_item} style={{ color: "#222" }}>
+                  아직 작성된 리뷰가 없습니다.
+                </div>
+              </div>
+            </>
+          )}
+        </section>
+        <ReportModal
+          target={modal.target}
+          target_id={modal.target_id}
+          modalOpen={modal.isOpen}
+          closeModal={closeModal}
+        />
+      </div>
+    </>
   );
 };
 

@@ -23,6 +23,7 @@ import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { useConfirm } from "@/contexts/ConfirmContext";
 import ProfileImage from "@/components/ProfileImage";
+import Helmets from "../helmets";
 
 interface SearchPostProps {
   type: number;
@@ -219,6 +220,10 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
 
   return (
     <>
+      <Helmets
+        title={"사회복지 커뮤니티, NEEDU"}
+        description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
+      ></Helmets>
       {isLoading ? (
         <div style={{ height: "1000px" }}></div>
       ) : (

@@ -19,6 +19,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import styles from "./Home.module.scss";
+import Helmets from "../helmets";
 
 interface PostList {
   working: CommonReviewContent[];
@@ -213,180 +214,54 @@ const Home = () => {
   });
 
   return (
-    <div className={styles.home_wrap}>
-      <div className={styles.banner_wrap}>
-        <Slider {...bannerSliderSettings}>
-          <div className={styles.banner}>배너1</div>
-          <div className={styles.banner}>배너2</div>
-          <div className={styles.banner}>배너3</div>
-        </Slider>
-      </div>
-      <div className={styles.content_wrap}>
-        <div className={styles.community_wrap}>
-          <div className={styles.header}>
-            <h3>커뮤니티</h3>
-            <div className={styles.tab_wrap}>
-              <div className={styles.tab}>
-                <button
-                  className={`${
-                    currentTab.post === "all" && styles.current_tab
-                  }`}
-                  onClick={() =>
-                    setCurrentTab((prev) => ({ ...prev, post: "all" }))
-                  }
-                >
-                  <h5>최신</h5>
-                </button>
-                <button
-                  className={`${
-                    currentTab.post === "free" && styles.current_tab
-                  }`}
-                  onClick={() =>
-                    setCurrentTab((prev) => ({ ...prev, post: "free" }))
-                  }
-                >
-                  <h5>자유게시판</h5>
-                </button>
-                <button
-                  className={`${
-                    currentTab.post === "question" && styles.current_tab
-                  }`}
-                  onClick={() =>
-                    setCurrentTab((prev) => ({ ...prev, post: "question" }))
-                  }
-                >
-                  <h5>질문&답변</h5>
-                </button>
-              </div>
-              <button
-                className={styles.btn_more}
-                type="button"
-                onClick={() =>
-                  navigate(
-                    `${
-                      currentTab.post === "all"
-                        ? "/community"
-                        : currentTab.post === "free"
-                        ? "/community/free"
-                        : "/community/question"
-                    }`
-                  )
-                }
-              >
-                더보기
-                <img
-                  src={ico_arrow}
-                  alt="더보기"
-                  style={{ transform: "rotate(-90deg)", marginLeft: "8px" }}
-                />
-              </button>
-            </div>
-          </div>
-          <div className={styles.body_wrap}>
-            <ul>
-              {currentData.post
-                .sort(
-                  (a, b) =>
-                    new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime()
-                )
-                .slice(0, sliceCount)
-                .map((post, index) => (
-                  <li className={styles.item} key={index}>
-                    <h5 className={styles.type}>
-                      {post.postType.toString() === "1"
-                        ? "자유게시판"
-                        : "질문&답변"}
-                    </h5>
-                    <div className={styles.content}>
-                      <div className={styles.title_wrap}>
-                        <div
-                          className={styles.title}
-                          onClick={() =>
-                            navigate(
-                              `${
-                                post.postType.toString() === "1"
-                                  ? `/community/free/${post.id}`
-                                  : `/community/question/${post.id}`
-                              }`
-                            )
-                          }
-                        >
-                          {post.title}
-                        </div>
-                        <div className={styles.user_info}>
-                          <span>{post.writer.nickname}</span>
-                          <ProfileImage src={post.writer.profile_image} />
-                          <span>{agoDate(post.created_at)}</span>
-                        </div>
-                      </div>
-                      <div className={styles.reaction}>
-                        <span className={`body2`} style={{ color: "#888" }}>
-                          <img
-                            src={ico_like}
-                            alt="like"
-                            style={{ width: "16px" }}
-                          />
-                          {post.like_cnt}
-                        </span>
-                        <span className={`body2`} style={{ color: "#888" }}>
-                          <img
-                            src={ico_reply}
-                            alt="reply"
-                            style={{ width: "20px" }}
-                          />
-                          {post.comment_cnt}
-                        </span>
-                        <span className={`body2`} style={{ color: "#888" }}>
-                          <img
-                            src={ico_view}
-                            alt="reply"
-                            style={{ width: "20px" }}
-                          />
-                          {post.view}
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          </div>
+    <>
+      <Helmets
+        title={"사회복지 커뮤니티, NEEDU"}
+        description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
+      ></Helmets>
+      <div className={styles.home_wrap}>
+        <div className={styles.banner_wrap}>
+          <Slider {...bannerSliderSettings}>
+            <div className={styles.banner}>배너1</div>
+            <div className={styles.banner}>배너2</div>
+            <div className={styles.banner}>배너3</div>
+          </Slider>
         </div>
-        <div className={styles.review_wrap}>
-          <div className={styles.reviews}>
+        <div className={styles.content_wrap}>
+          <div className={styles.community_wrap}>
             <div className={styles.header}>
-              <h3>리뷰</h3>
+              <h3>커뮤니티</h3>
               <div className={styles.tab_wrap}>
                 <div className={styles.tab}>
                   <button
                     className={`${
-                      currentTab.review === "all" && styles.current_tab
+                      currentTab.post === "all" && styles.current_tab
                     }`}
                     onClick={() =>
-                      setCurrentTab((prev) => ({ ...prev, review: "all" }))
+                      setCurrentTab((prev) => ({ ...prev, post: "all" }))
                     }
                   >
                     <h5>최신</h5>
                   </button>
                   <button
                     className={`${
-                      currentTab.review === "working" && styles.current_tab
+                      currentTab.post === "free" && styles.current_tab
                     }`}
                     onClick={() =>
-                      setCurrentTab((prev) => ({ ...prev, review: "working" }))
+                      setCurrentTab((prev) => ({ ...prev, post: "free" }))
                     }
                   >
-                    <h5>전현직</h5>
+                    <h5>자유게시판</h5>
                   </button>
                   <button
                     className={`${
-                      currentTab.review === "training" && styles.current_tab
+                      currentTab.post === "question" && styles.current_tab
                     }`}
                     onClick={() =>
-                      setCurrentTab((prev) => ({ ...prev, review: "training" }))
+                      setCurrentTab((prev) => ({ ...prev, post: "question" }))
                     }
                   >
-                    <h5>실습</h5>
+                    <h5>질문&답변</h5>
                   </button>
                 </div>
                 <button
@@ -395,9 +270,11 @@ const Home = () => {
                   onClick={() =>
                     navigate(
                       `${
-                        currentTab.review === "training"
-                          ? "/review/search/training"
-                          : "/review/search/working"
+                        currentTab.post === "all"
+                          ? "/community"
+                          : currentTab.post === "free"
+                          ? "/community/free"
+                          : "/community/question"
                       }`
                     )
                   }
@@ -413,40 +290,66 @@ const Home = () => {
             </div>
             <div className={styles.body_wrap}>
               <ul>
-                {currentData.review
+                {currentData.post
                   .sort(
                     (a, b) =>
-                      new Date(b.created_date).getTime() -
-                      new Date(a.created_date).getTime()
+                      new Date(b.created_at).getTime() -
+                      new Date(a.created_at).getTime()
                   )
                   .slice(0, sliceCount)
-                  .map((review, index) => (
+                  .map((post, index) => (
                     <li className={styles.item} key={index}>
-                      <h5 className={styles.type}>{review.type}</h5>
-                      <div
-                        className={styles.content}
-                        onClick={() =>
-                          navigate(
-                            `${
-                              review.type === "전현직"
-                                ? `/review/detail/working?name=${review.corpname}`
-                                : `/review/detail/training?name=${review.corpname}`
-                            }`
-                          )
-                        }
-                      >
-                        <h5 className={styles.highlight}>{review.highlight}</h5>
-                        <div className={styles.info}>
-                          <span className={styles.corp_name}>
-                            {review.corpname}
-                          </span>
-                          <span className={styles.score}>
+                      <h5 className={styles.type}>
+                        {post.postType.toString() === "1"
+                          ? "자유게시판"
+                          : "질문&답변"}
+                      </h5>
+                      <div className={styles.content}>
+                        <div className={styles.title_wrap}>
+                          <div
+                            className={styles.title}
+                            onClick={() =>
+                              navigate(
+                                `${
+                                  post.postType.toString() === "1"
+                                    ? `/community/free/${post.id}`
+                                    : `/community/question/${post.id}`
+                                }`
+                              )
+                            }
+                          >
+                            {post.title}
+                          </div>
+                          <div className={styles.user_info}>
+                            <span>{post.writer.nickname}</span>
+                            <ProfileImage src={post.writer.profile_image} />
+                            <span>{agoDate(post.created_at)}</span>
+                          </div>
+                        </div>
+                        <div className={styles.reaction}>
+                          <span className={`body2`} style={{ color: "#888" }}>
                             <img
-                              src={ico_score}
-                              alt="score"
-                              style={{ width: "18px" }}
+                              src={ico_like}
+                              alt="like"
+                              style={{ width: "16px" }}
                             />
-                            {review.total_score}
+                            {post.like_cnt}
+                          </span>
+                          <span className={`body2`} style={{ color: "#888" }}>
+                            <img
+                              src={ico_reply}
+                              alt="reply"
+                              style={{ width: "20px" }}
+                            />
+                            {post.comment_cnt}
+                          </span>
+                          <span className={`body2`} style={{ color: "#888" }}>
+                            <img
+                              src={ico_view}
+                              alt="reply"
+                              style={{ width: "20px" }}
+                            />
+                            {post.view}
                           </span>
                         </div>
                       </div>
@@ -455,39 +358,151 @@ const Home = () => {
               </ul>
             </div>
           </div>
-          <div className={styles.hot_corp_wrap}>
-            <div className={styles.header}>
-              <h3>지금 떠오르는 기관</h3>
-              <img src={ico_triangle} alt="icon" style={{ width: "24px" }} />
-            </div>
-            <ul>
-              <Slider {...corpSliderSettings} className={styles.slider_corp}>
-                {postList.corp.map((corp, index) => (
-                  <li className={styles.item} key={index}>
-                    <h5
-                      onClick={() => {
-                        const encodedCorpName = encodeURIComponent(
-                          corp.corpname
-                        ).replace(/%2B/g, "%2B");
-                        navigate(
-                          `${`/review/detail/${corp.type}?name=${encodedCorpName}`}`
-                        );
-                      }}
+          <div className={styles.review_wrap}>
+            <div className={styles.reviews}>
+              <div className={styles.header}>
+                <h3>리뷰</h3>
+                <div className={styles.tab_wrap}>
+                  <div className={styles.tab}>
+                    <button
+                      className={`${
+                        currentTab.review === "all" && styles.current_tab
+                      }`}
+                      onClick={() =>
+                        setCurrentTab((prev) => ({ ...prev, review: "all" }))
+                      }
                     >
-                      {corp.corpname}
-                    </h5>
-                    <div className={` body2 ${styles.description}`}>
-                      {corp.description}
-                    </div>
-                  </li>
-                ))}
-              </Slider>
-            </ul>
+                      <h5>최신</h5>
+                    </button>
+                    <button
+                      className={`${
+                        currentTab.review === "working" && styles.current_tab
+                      }`}
+                      onClick={() =>
+                        setCurrentTab((prev) => ({
+                          ...prev,
+                          review: "working",
+                        }))
+                      }
+                    >
+                      <h5>전현직</h5>
+                    </button>
+                    <button
+                      className={`${
+                        currentTab.review === "training" && styles.current_tab
+                      }`}
+                      onClick={() =>
+                        setCurrentTab((prev) => ({
+                          ...prev,
+                          review: "training",
+                        }))
+                      }
+                    >
+                      <h5>실습</h5>
+                    </button>
+                  </div>
+                  <button
+                    className={styles.btn_more}
+                    type="button"
+                    onClick={() =>
+                      navigate(
+                        `${
+                          currentTab.review === "training"
+                            ? "/review/search/training"
+                            : "/review/search/working"
+                        }`
+                      )
+                    }
+                  >
+                    더보기
+                    <img
+                      src={ico_arrow}
+                      alt="더보기"
+                      style={{ transform: "rotate(-90deg)", marginLeft: "8px" }}
+                    />
+                  </button>
+                </div>
+              </div>
+              <div className={styles.body_wrap}>
+                <ul>
+                  {currentData.review
+                    .sort(
+                      (a, b) =>
+                        new Date(b.created_date).getTime() -
+                        new Date(a.created_date).getTime()
+                    )
+                    .slice(0, sliceCount)
+                    .map((review, index) => (
+                      <li className={styles.item} key={index}>
+                        <h5 className={styles.type}>{review.type}</h5>
+                        <div
+                          className={styles.content}
+                          onClick={() =>
+                            navigate(
+                              `${
+                                review.type === "전현직"
+                                  ? `/review/detail/working?name=${review.corpname}`
+                                  : `/review/detail/training?name=${review.corpname}`
+                              }`
+                            )
+                          }
+                        >
+                          <h5 className={styles.highlight}>
+                            {review.highlight}
+                          </h5>
+                          <div className={styles.info}>
+                            <span className={styles.corp_name}>
+                              {review.corpname}
+                            </span>
+                            <span className={styles.score}>
+                              <img
+                                src={ico_score}
+                                alt="score"
+                                style={{ width: "18px" }}
+                              />
+                              {review.total_score}
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+            <div className={styles.hot_corp_wrap}>
+              <div className={styles.header}>
+                <h3>지금 떠오르는 기관</h3>
+                <img src={ico_triangle} alt="icon" style={{ width: "24px" }} />
+              </div>
+              <ul>
+                <Slider {...corpSliderSettings} className={styles.slider_corp}>
+                  {postList.corp.map((corp, index) => (
+                    <li className={styles.item} key={index}>
+                      <h5
+                        onClick={() => {
+                          const encodedCorpName = encodeURIComponent(
+                            corp.corpname
+                          ).replace(/%2B/g, "%2B");
+                          navigate(
+                            `${`/review/detail/${corp.type}?name=${encodedCorpName}`}`
+                          );
+                        }}
+                      >
+                        {corp.corpname}
+                      </h5>
+                      <div className={` body2 ${styles.description}`}>
+                        {corp.description}
+                      </div>
+                    </li>
+                  ))}
+                </Slider>
+              </ul>
+            </div>
           </div>
         </div>
+        <div className={styles.bottom_banner}>하단배너</div>
       </div>
-      <div className={styles.bottom_banner}>하단배너</div>
-    </div>
+    </>
   );
 };
 

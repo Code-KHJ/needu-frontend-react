@@ -8,6 +8,7 @@ import Button from "@/components/elements/Button";
 import SocialLogin from "@/components/IcoSocialLogin";
 import { useUser } from "@/contexts/UserContext";
 import { useLoading } from "@/contexts/LoadingContext";
+import Helmets from "../helmets";
 
 const Login = () => {
   const location = useLocation();
@@ -87,6 +88,10 @@ const Login = () => {
 
   return (
     <>
+      <Helmets
+        title={"로그인 I 사회복지 커뮤니티 NEEDU"}
+        description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
+      ></Helmets>
       <div className={styles.main_wrap}>
         <div className={styles.login_wrap}>
           <h4>사회복지 커리어플랫폼 NEEDU</h4>

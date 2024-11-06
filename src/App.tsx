@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
+import { HelmetProvider } from "react-helmet-async";
 import "./App.css";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -41,41 +41,52 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={isLogin ? <Navigate to="/" /> : <Login />}
-        />
-        <Route
-          path="/signup"
-          element={isLogin ? <Navigate to="/" /> : <Signup />}
-        />
-        <Route
-          path="/find/id"
-          element={isLogin ? <Navigate to="/" /> : <Findid />}
-        />
-        <Route
-          path="/find/pw"
-          element={isLogin ? <Navigate to="/" /> : <Findpw />}
-        />
-        <Route path="/reset/password/*" element={<ResetPw />} />
-        <Route path="/review/*" element={<ReviewRoutes isLogin={isLogin} />} />
-        <Route
-          path="/community/*"
-          element={<CommunityRoutes isLogin={isLogin} />}
-        />
-        <Route path="/notice/*" element={<NoticeRoutes isAdmin={isAdmin} />} />
-        <Route path="/mypage/*" element={<MypageRoutes isLogin={isLogin} />} />
-        <Route path="/users/*" element={<Users />} />
-        <Route path="/error" element={<Error />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={isLogin ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/signup"
+            element={isLogin ? <Navigate to="/" /> : <Signup />}
+          />
+          <Route
+            path="/find/id"
+            element={isLogin ? <Navigate to="/" /> : <Findid />}
+          />
+          <Route
+            path="/find/pw"
+            element={isLogin ? <Navigate to="/" /> : <Findpw />}
+          />
+          <Route path="/reset/password/*" element={<ResetPw />} />
+          <Route
+            path="/review/*"
+            element={<ReviewRoutes isLogin={isLogin} />}
+          />
+          <Route
+            path="/community/*"
+            element={<CommunityRoutes isLogin={isLogin} />}
+          />
+          <Route
+            path="/notice/*"
+            element={<NoticeRoutes isAdmin={isAdmin} />}
+          />
+          <Route
+            path="/mypage/*"
+            element={<MypageRoutes isLogin={isLogin} />}
+          />
+          <Route path="/users/*" element={<Users />} />
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

@@ -9,6 +9,7 @@ import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Signup.module.scss";
+import Helmets from "../helmets";
 
 const Signup = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -359,6 +360,10 @@ const Signup = () => {
 
   return (
     <>
+      <Helmets
+        title={"회원가입 I 사회복지 커뮤니티 NEEDU"}
+        description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
+      ></Helmets>
       <div className={styles.signup_wrap}>
         {/* <!-- 회원가입 입력폼 --> <!-- name 부분은 DB 필드이름하고 매치--> */}
         <div className={styles.signup}>

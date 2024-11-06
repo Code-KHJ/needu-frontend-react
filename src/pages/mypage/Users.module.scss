@@ -170,6 +170,7 @@
         flex-shrink: 0;
       }
       .content_wrap {
+        min-width: 0;
         flex-grow: 1;
       }
     }
