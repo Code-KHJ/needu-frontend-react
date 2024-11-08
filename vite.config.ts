@@ -7,7 +7,7 @@ import svgrPlugin from "vite-plugin-svgr";
 export default defineConfig({
   plugins: [react(), svgrPlugin()],
   build: {
-    outDir: "/app/needu/build",
+    outDir: "/home/ubuntu/needu_new/build",
     // outDir: "./build",
   },
   resolve: {
