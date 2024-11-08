@@ -5,10 +5,7 @@ import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ProfileImage from "@/components/ProfileImage";
-import {
-  PostListItemContent,
-  WeeklyListItemContent,
-} from "@/interface/Community";
+import { PostListItemContent } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +31,7 @@ const Community = () => {
     result: [],
     totalPages: 1,
   });
-  const [weeklyList, setWeeklyList] = useState<WeeklyListItemContent[]>([]);
+  // const [weeklyList, setWeeklyList] = useState<WeeklyListItemContent[]>([]);
   useEffect(() => {
     const getFreeList = async () => {
       const response: any = await communityApi.getPostList("?type=1&page=1");
@@ -58,7 +55,7 @@ const Community = () => {
         alert("오류가 발생하였습니다");
         window.location.reload();
       }
-      setWeeklyList(response.data);
+      // setWeeklyList(response.data);
     };
     getFreeList();
     getQuestionList();

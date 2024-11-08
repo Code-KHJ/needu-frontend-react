@@ -18,12 +18,12 @@ import { useUser } from "@/contexts/UserContext";
 import { LikePostDto, PostContent } from "@/interface/Community";
 import { Topic } from "@/interface/Topic";
 import agoDate from "@/utils/agoDate";
-import { dompurify, extractTextFromHTML } from "@/utils/dompurify";
+import { dompurify } from "@/utils/dompurify";
 import { copyClipboard, fbShare, kakaoShare, xShare } from "@/utils/snsShare";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./View.module.scss";
 import Helmets from "../helmets";
+import styles from "./View.module.scss";
 
 //@ts-ignore
 const ViewPost = ({ type }) => {
@@ -328,10 +328,7 @@ const ViewPost = ({ type }) => {
                         onClick={() =>
                           kakaoShare(
                             post?.title as string,
-                            extractTextFromHTML(post?.content as string),
-                            window.location.href,
-                            likes.like,
-                            post?.comment_cnt as number
+                            window.location.href
                           )
                         }
                       >
