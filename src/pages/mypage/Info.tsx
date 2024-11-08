@@ -291,7 +291,6 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
           return;
         }
         setUserInfo(response.data);
-        console.log(response.data);
         const localStorageData = localStorage.getItem("userInfo");
         const userInfoInLocalStorage = JSON.parse(localStorageData as string);
         userInfoInLocalStorage.nickname = response.data.nickname;
@@ -419,7 +418,6 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
         hideLoading();
         return;
       }
-      console.log(response.data);
       setEditCareer((prev) =>
         prev.map((item) =>
           item.id === id

@@ -16,7 +16,6 @@ const xShare = (url: string) => {
 const kakaoShare = (title: string, url: string) => {
   if (window.Kakao) {
     const kakao = window.Kakao;
-    console.log(kakao);
     if (!kakao.isInitialized()) {
       kakao.init(import.meta.env.VITE_APP_KAKAO_JAVASCRIPT_KEY);
     }

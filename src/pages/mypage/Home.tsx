@@ -77,7 +77,6 @@ const Home = () => {
     hideLoading();
   }, []);
 
-  console.log(postList);
   const moveReviewDetail = (corpName: string, type: string) => {
     const encodedCorpName = encodeURIComponent(corpName).replace(/%2B/g, "%2B");
     navigate(`/review/detail/${type}?name=${encodedCorpName}`);

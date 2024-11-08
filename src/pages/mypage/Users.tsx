@@ -72,7 +72,6 @@ const Users = () => {
     getUser();
     hideLoading();
   }, []);
-  console.log(userInfo);
 
   return (
     <>

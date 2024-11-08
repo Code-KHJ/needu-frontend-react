@@ -8,8 +8,8 @@ import { SingupDto } from "@/interface/User";
 import { regEmail, regNickname, regPhone, regPw } from "@/utils/validation";
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
-import styles from "./Signup.module.scss";
 import Helmets from "../helmets";
+import styles from "./Signup.module.scss";
 
 const Signup = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -289,7 +289,6 @@ const Signup = () => {
       hideLoading();
       return;
     }
-    console.log(response.data.authNum);
     setCreatedAuthCode(response.data.authNum);
     alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
     hideLoading();

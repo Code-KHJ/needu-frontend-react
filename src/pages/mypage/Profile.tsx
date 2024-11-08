@@ -131,7 +131,6 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
     getPointLog();
     hideLoading();
   }, [userInfo]);
-  console.log(score);
 
   return (
     <>

@@ -216,8 +216,6 @@ const Comments: React.FC<CommentsProps> = ({
 
   //댓글 채택
   const acceptComment = async (commentId: number, writerId: number) => {
-    console.log(accepted_id);
-    console.log(writerId);
     if (accepted_id === null) {
       alert("답변을 채택할 수 없습니다. 잠시 후 다시 시도해주세요.");
       return window.location.reload();
