@@ -13,6 +13,7 @@ const xShare = (url: string) => {
   );
 };
 
+import kakao_og from "@/assets/images/img_share_kakao.jpeg";
 const kakaoShare = (title: string, url: string) => {
   if (window.Kakao) {
     const kakao = window.Kakao;
@@ -25,8 +26,7 @@ const kakaoShare = (title: string, url: string) => {
       objectType: "feed",
       content: {
         title: title,
-        imageUrl:
-          "https://github.com/Code-KHJ/Needu/assets/124508326/ff518c60-5d82-429e-befa-370ec59e3e52",
+        imageUrl: kakao_og,
         link: {
           mobileWebUrl: url,
           webUrl: url,
