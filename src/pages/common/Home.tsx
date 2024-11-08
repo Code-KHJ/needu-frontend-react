@@ -4,7 +4,7 @@ import reviewApi from "@/apis/review";
 import ico_arrow from "@/assets/images/ico_arrow_down.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
-import ico_triangle from "@/assets/images/ico_triangle_blue.png";
+import ico_rising from "@/assets/images/ico_risingInsti.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_score from "@/assets/images/Star_1.png";
 import HotCorps from "@/components/HotCorps";
@@ -532,7 +532,7 @@ const Home = () => {
             <div className={styles.hot_corp_wrap}>
               <div className={styles.header}>
                 <h3>지금 떠오르는 기관</h3>
-                <img src={ico_triangle} alt="icon" style={{ width: "24px" }} />
+                <img src={ico_rising} alt="icon" style={{ width: "24px" }} />
               </div>
               <ul>
                 <Slider {...corpSliderSettings} className={styles.slider_corp}>
