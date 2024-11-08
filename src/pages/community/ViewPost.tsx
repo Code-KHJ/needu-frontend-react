@@ -3,7 +3,6 @@ import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_on from "@/assets/images/ico_dislike_on.png";
 import ico_facebook from "@/assets/images/ico_facebook.svg";
 import ico_kakao from "@/assets/images/ico_kakao.svg";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import btn_share from "@/assets/images/ico_share.png";
 import ico_X from "@/assets/images/ico_sns_X.png";
@@ -18,6 +17,7 @@ import { useUser } from "@/contexts/UserContext";
 import { LikePostDto, PostContent } from "@/interface/Community";
 import { Topic } from "@/interface/Topic";
 import agoDate from "@/utils/agoDate";
+import userLevel from "@/utils/calculateUserLevel";
 import { dompurify } from "@/utils/dompurify";
 import { copyClipboard, fbShare, kakaoShare, xShare } from "@/utils/snsShare";
 import { useEffect, useRef, useState } from "react";
@@ -268,7 +268,9 @@ const ViewPost = ({ type }) => {
                     >
                       <span>{post?.writer.nickname}</span>
                       <img
-                        src={ico_level}
+                        src={
+                          userLevel((post as any)?.writer.activity_points)?.icon
+                        }
                         alt="레벨"
                         style={{
                           width: "16px",

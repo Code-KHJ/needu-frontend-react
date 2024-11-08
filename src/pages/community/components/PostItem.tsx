@@ -1,4 +1,3 @@
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_reply_accepted from "@/assets/images/ico_reply_accepted.png";
@@ -6,6 +5,7 @@ import ico_view from "@/assets/images/ico_view.png";
 import ProfileImage from "@/components/ProfileImage";
 import { PostListItemContent } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
+import userLevel from "@/utils/calculateUserLevel";
 import stripHtml from "@/utils/stripHtml";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -61,9 +61,9 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
           >
             {post.writer.nickname}
             <img
-              src={ico_level}
+              src={userLevel(post.writer.activity_points)?.icon}
               alt="레벨"
-              style={{ width: "16px", marginLeft: "4px" }}
+              style={{ width: "17px", marginLeft: "4px" }}
             />
           </span>
           <span className={`caption`} style={{ color: "#aaa" }}>

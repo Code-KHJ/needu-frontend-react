@@ -3,7 +3,6 @@ import noticeApi from "@/apis/notice";
 import ico_checked from "@/assets/images/ico_checked.png";
 import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_gray from "@/assets/images/ico_dislike_gray.png";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_unchecked from "@/assets/images/ico_unchecked.png";
 import ico_like_on from "@/assets/images/like_on.png";
@@ -12,6 +11,7 @@ import { useConfirm } from "@/contexts/ConfirmContext";
 import { useUser } from "@/contexts/UserContext";
 import { CommentContent, LikeCommentDto } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
+import userLevel from "@/utils/calculateUserLevel";
 import { dompurify } from "@/utils/dompurify";
 import { TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -249,7 +249,7 @@ const Comment: React.FC<CommentProps> = ({
             >
               <span>{comment.writer.nickname}</span>
               <img
-                src={ico_level}
+                src={userLevel(comment.writer.activity_points)?.icon}
                 alt="레벨"
                 style={{
                   width: "16px",

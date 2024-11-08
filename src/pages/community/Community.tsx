@@ -1,12 +1,12 @@
 import communityApi from "@/apis/community";
 import ico_arrow from "@/assets/images/ico_arrow_down.png";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ProfileImage from "@/components/ProfileImage";
 import { PostListItemContent } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
+import userLevel from "@/utils/calculateUserLevel";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
@@ -198,7 +198,7 @@ const Community = () => {
                     >
                       <span>{post.writer.nickname}</span>
                       <img
-                        src={ico_level}
+                        src={userLevel(post.writer.activity_points)?.icon}
                         alt="레벨"
                         style={{ width: "18px", marginLeft: "4px" }}
                       />
@@ -273,7 +273,7 @@ const Community = () => {
                     >
                       <span>{post.writer.nickname}</span>
                       <img
-                        src={ico_level}
+                        src={userLevel(post.writer.activity_points)?.icon}
                         alt="레벨"
                         style={{ width: "18px", marginLeft: "4px" }}
                       />

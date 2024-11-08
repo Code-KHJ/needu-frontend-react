@@ -1,7 +1,6 @@
 import userApi from "@/apis/user";
 import ico_arrow_down from "@/assets/images/ico_arrow_down.png";
 import ico_help from "@/assets/images/ico_help.png";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ProfileImage from "@/components/ProfileImage";
 import { useLoading } from "@/contexts/LoadingContext";
 import { UserProfile } from "@/interface/User";
@@ -21,7 +20,9 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
 
-  const { level, minPoint, maxPoint } = userLevel(userInfo.activity_points) || {
+  const { level, minPoint, maxPoint, icon } = userLevel(
+    userInfo.activity_points
+  ) || {
     level: 1,
     minPoint: 0,
     maxPoint: 100,
@@ -158,7 +159,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
               />
             </span>
             <span className={styles.nickname}>{userInfo.nickname}</span>
-            <img className={styles.level_image} src={ico_level} alt="level" />
+            <img className={styles.level_image} src={icon} alt="level" />
             <span>
               {windowWidth > 768 && "NEEDU 커뮤니티 "}Level {level}
             </span>

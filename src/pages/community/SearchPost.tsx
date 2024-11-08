@@ -1,29 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./Search.module.scss";
-import { useLocation, useNavigate } from "react-router-dom";
+import communityApi from "@/apis/community";
+import noticeApi from "@/apis/notice";
 import ico_pencil from "@/assets/images/btn_write_modal.png";
-import ico_level from "@/assets/images/ico_level_default.png";
-import ico_view from "@/assets/images/ico_view.png";
+import ico_del from "@/assets/images/ico_del.png";
+import ico_edit from "@/assets/images/ico_edit.png";
+import ico_hide from "@/assets/images/ico_hide.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_setting from "@/assets/images/ico_setting.png";
+import ico_view from "@/assets/images/ico_view.png";
 import ico_wb from "@/assets/images/ico_wb.png";
-import ico_hide from "@/assets/images/ico_hide.png";
-import ico_edit from "@/assets/images/ico_edit.png";
-import ico_del from "@/assets/images/ico_del.png";
-import PostItem from "./components/PostItem";
-import { Topic } from "@/interface/Topic";
-import communityApi from "@/apis/community";
-import noticeApi from "@/apis/notice";
-import { PublicNotice } from "@/interface/Notice";
-import agoDate from "@/utils/agoDate";
-import stripHtml from "@/utils/stripHtml";
 import Pagination from "@/components/Pagination";
+import ProfileImage from "@/components/ProfileImage";
+import { useConfirm } from "@/contexts/ConfirmContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
-import { useConfirm } from "@/contexts/ConfirmContext";
-import ProfileImage from "@/components/ProfileImage";
+import { PublicNotice } from "@/interface/Notice";
+import { Topic } from "@/interface/Topic";
+import agoDate from "@/utils/agoDate";
+import userLevel from "@/utils/calculateUserLevel";
+import stripHtml from "@/utils/stripHtml";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
+import PostItem from "./components/PostItem";
+import styles from "./Search.module.scss";
 
 interface SearchPostProps {
   type: number;
@@ -371,9 +371,9 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                     <span className={`body2`}>
                       {notice[0]?.writer.nickname}
                       <img
-                        src={ico_level}
+                        src={userLevel(notice[0].writer.activity_points)?.icon}
                         alt="레벨"
-                        style={{ width: "16px", marginLeft: "4px" }}
+                        style={{ width: "17px", marginLeft: "4px" }}
                       />
                     </span>
                     <span className={`caption`} style={{ color: "#aaa" }}>

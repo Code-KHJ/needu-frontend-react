@@ -3,7 +3,6 @@ import ico_dislike from "@/assets/images/ico_dislike.png";
 import ico_dislike_on from "@/assets/images/ico_dislike_on.png";
 import ico_facebook from "@/assets/images/ico_facebook.svg";
 import ico_kakao from "@/assets/images/ico_kakao.svg";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import btn_share from "@/assets/images/ico_share.png";
 import ico_X from "@/assets/images/ico_sns_X.png";
@@ -17,11 +16,12 @@ import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { LikeNoticeDto, NoticeContent } from "@/interface/Notice";
 import agoDate from "@/utils/agoDate";
+import userLevel from "@/utils/calculateUserLevel";
 import { dompurify } from "@/utils/dompurify";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./View.module.scss";
 import Helmets from "../helmets";
+import styles from "./View.module.scss";
 
 const ViewNotice = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -216,7 +216,10 @@ const ViewNotice = () => {
                     <div>
                       <span>{notice?.writer.nickname}</span>
                       <img
-                        src={ico_level}
+                        src={
+                          userLevel((notice as any)?.writer.activity_points)
+                            ?.icon
+                        }
                         alt="레벨"
                         style={{
                           width: "16px",

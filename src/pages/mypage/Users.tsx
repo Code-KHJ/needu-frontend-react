@@ -1,6 +1,5 @@
 import communityApi from "@/apis/community";
 import userApi from "@/apis/user";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_reply_accepted from "@/assets/images/ico_reply_accepted.png";
@@ -11,8 +10,8 @@ import userLevel from "@/utils/calculateUserLevel";
 import stripHtml from "@/utils/stripHtml";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./Users.module.scss";
 import Helmets from "../helmets";
+import styles from "./Users.module.scss";
 
 interface ContentList {
   type: string;
@@ -44,6 +43,7 @@ const Users = () => {
     nickname: "",
     profile: "",
     level: 0,
+    icon: "",
   });
   const [content, setContent] = useState<ContentList[]>([]);
 
@@ -55,8 +55,8 @@ const Users = () => {
         hideLoading();
         navigate("/404");
       }
-      const { level } = userLevel(response.point) || { level: 1 };
-      setUserInfo({ ...response.data, level: level });
+      const { level, icon } = userLevel(response.data.point) || { level: 1 };
+      setUserInfo({ ...response.data, level: level, icon: icon });
       getPostAndComment(response.data.nickname);
     };
     const getPostAndComment = async (nickname: string) => {
@@ -72,7 +72,7 @@ const Users = () => {
     getUser();
     hideLoading();
   }, []);
-  console.log(content);
+  console.log(userInfo);
 
   return (
     <>
@@ -90,7 +90,11 @@ const Users = () => {
               <span className="tab_show">{userInfo.nickname}</span>
               <ProfileImage src={userInfo.profile} />
               <span className="mo_show">{userInfo.nickname}</span>
-              <img className={styles.level_image} src={ico_level} alt="level" />
+              <img
+                className={styles.level_image}
+                src={userInfo.icon}
+                alt="level"
+              />
               <span style={{ display: "flex" }}>
                 <span className="tab_show" style={{ marginRight: "4px" }}>
                   NEEDU 커뮤니티
