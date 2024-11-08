@@ -1,22 +1,22 @@
 import communityApi from "@/apis/community";
-import { useLoading } from "@/contexts/LoadingContext";
-import { PostContent } from "@/interface/Community";
-import { UserProfile } from "@/interface/User";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./Mypage.module.scss";
-import ico_view from "@/assets/images/ico_view.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_reply_accepted from "@/assets/images/ico_reply_accepted.png";
+import ico_view from "@/assets/images/ico_view.png";
+import { useLoading } from "@/contexts/LoadingContext";
+import { PostContent } from "@/interface/Community";
+import { UserProfile } from "@/interface/User";
 import stripHtml from "@/utils/stripHtml";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Mypage.module.scss";
 
 interface CommunityProps {
   userInfo: UserProfile;
 }
 
 const Community: React.FC<CommunityProps> = ({ userInfo }) => {
-  const { showLoading, hideLoading } = useLoading();
+  const { showLoading, hideLoading, isLoading } = useLoading();
   const location = useLocation();
   const communityType = location.pathname.split("/")[2];
   const navigate = useNavigate();
@@ -120,6 +120,19 @@ const Community: React.FC<CommunityProps> = ({ userInfo }) => {
             </div>
           </li>
         ))}
+        {!isLoading && postList.length === 0 && (
+          <li className={styles.post_item} style={{ height: "200px" }}>
+            <div className={styles.post_none}>
+              <p>작성한 글이 없습니다. 첫 글을 남겨보세요!</p>
+              <button
+                type="button"
+                onClick={() => navigate(`/community/${communityType}/`)}
+              >
+                글 남기러 가기
+              </button>
+            </div>
+          </li>
+        )}
       </ul>
     </div>
   );

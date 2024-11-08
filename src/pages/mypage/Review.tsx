@@ -23,7 +23,7 @@ import styles from "./Mypage.module.scss";
 
 const Review = () => {
   const { customConfirm } = useConfirm();
-  const { showLoading, hideLoading } = useLoading();
+  const { showLoading, hideLoading, isLoading } = useLoading();
   // @ts-ignore
   const { user } = useUser();
   const location = useLocation();
@@ -128,7 +128,6 @@ const Review = () => {
     const encodedCorpName = encodeURIComponent(corpName).replace(/%2B/g, "%2B");
     navigate(`/review/detail/${reviewType}?name=${encodedCorpName}`);
   };
-
   return (
     <div className={styles.review_wrap}>
       <ul className={styles.review_list}>
@@ -316,6 +315,19 @@ const Review = () => {
             </button>
           </li>
         ))}
+        {!isLoading && reviewList.length === 0 && (
+          <li className={styles.review_item} style={{ height: "200px" }}>
+            <div className={styles.review_none}>
+              <p>작성한 리뷰가 없습니다. 첫 리뷰를 남겨보세요!</p>
+              <button
+                type="button"
+                onClick={() => navigate(`/review/search/${reviewType}`)}
+              >
+                리뷰 남기러 가기
+              </button>
+            </div>
+          </li>
+        )}
       </ul>
     </div>
   );

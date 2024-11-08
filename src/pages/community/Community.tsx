@@ -10,13 +10,12 @@ import {
   WeeklyListItemContent,
 } from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
-import stripHtml from "@/utils/stripHtml";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import styles from "./Community.module.scss";
 import Helmets from "../helmets";
+import styles from "./Community.module.scss";
 
 const Community = () => {
   const navigate = useNavigate();
@@ -73,13 +72,17 @@ const Community = () => {
         description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
       ></Helmets>
       <div className={styles.wrap}>
-        <div
-          className={styles.banner}
-          style={{ backgroundColor: "#aaa", height: "180px" }}
-        >
-          배너
+        <div className={`${styles.banner} ${styles.banner_community}`}>
+          <div className={styles.opacity}></div>
+          <div className={styles.content}>
+            <button type="button" onClick={() => navigate("/notice/1")}>
+              글 남기기
+            </button>
+            <h4>우리의 사회복지 커뮤니티,</h4>
+            <span>NEEDU에서 이야기 나눠요!</span>
+          </div>
         </div>
-        <div className={styles.weekly_wrap}>
+        {/* <div className={styles.weekly_wrap}>
           <div className={styles.weekly_content}>
             <h2>Weekly Best</h2>
             <ul className={styles.content_list}>
@@ -170,7 +173,7 @@ const Community = () => {
           >
             배너
           </div>
-        </div>
+        </div> */}
         <div className={styles.content_wrap}>
           <div className={styles.free_wrap}>
             <div className={styles.header}>

@@ -9,8 +9,8 @@ import userLevel from "@/utils/calculateUserLevel";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Mypage.module.scss";
 import Helmets from "../helmets";
+import styles from "./Mypage.module.scss";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -30,7 +30,6 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
     ((userInfo.activity_points - minPoint) / (maxPoint - minPoint)) * 100,
     100
   );
-  const [gaugeHovered, setGaugeHovered] = useState(false);
 
   const [expandActivity, setExpandActivity] = useState(false);
   const handleExpand = () => {
@@ -131,6 +130,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
     getPointLog();
     hideLoading();
   }, [userInfo]);
+  console.log(score);
 
   return (
     <>
@@ -163,11 +163,7 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
               {windowWidth > 768 && "NEEDU 커뮤니티 "}Level {level}
             </span>
           </div>
-          <div
-            className={styles.gauge}
-            onMouseEnter={() => setGaugeHovered(true)}
-            onMouseLeave={() => setGaugeHovered(false)}
-          >
+          <div className={styles.gauge}>
             <div
               className={styles.values}
               style={{
@@ -183,14 +179,18 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
                   backgroundColor: "#6269f5",
                   borderRadius: `${score === 100 ? "5px" : "5px 0 0 5px"}`,
                   width: `${score}%`,
-                  height: `${gaugeHovered ? "10px" : "8px"}`,
+                  height: "8px",
                   position: "absolute",
                   textAlign: "center",
                   lineHeight: "45px",
-                  color: `${gaugeHovered ? "#222" : "#fff"}`,
+                  color: "#fff",
                 }}
+              ></span>
+              <span
+                className={`caption ${styles.score}`}
+                style={{ left: `calc(${score}% - 20px` }}
               >
-                {userInfo.activity_points} point
+                {userInfo.activity_points}
               </span>
             </div>
             <div className={styles.range}>

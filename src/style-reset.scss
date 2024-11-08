@@ -177,9 +177,7 @@ h5,
     font-size: 1.6rem !important;
   }
 }
-.slick-slide {
-  padding: 0 10px;
-}
+
 .slick-arrow {
   width: 40px !important;
   height: 40px !important;
@@ -277,6 +275,9 @@ select {
       font-size: 1.8rem !important;
     }
   }
+  .slick-slide {
+    padding: 0 10px;
+  }
   .slick-arrow {
     width: 48px !important;
     height: 48px !important;
@@ -311,6 +312,28 @@ select {
 @media screen and (min-width: 1280px) {
   .pc_show {
     display: block !important;
+  }
+  .main_banner {
+    .slick-slide {
+      & > div {
+        height: 400px;
+        display: flex;
+        align-items: center;
+      }
+    }
+    .slick-current {
+      & > div {
+        & > div {
+          height: 400px !important;
+        }
+      }
+    }
+    .slick-prev {
+      left: max(calc(50% - 640px - 20px), 75px);
+    }
+    .slick-next {
+      right: max(calc(50% - 640px - 20px), 75px);
+    }
   }
 }
 /* reset-end */

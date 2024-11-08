@@ -11,7 +11,6 @@ import { ReviewContent, ReviewTrainingContent } from "@/interface/Review";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Mypage.module.scss";
-import Helmets from "../helmets";
 
 interface PostList {
   working: ReviewContent[];
@@ -78,6 +77,7 @@ const Home = () => {
     hideLoading();
   }, []);
 
+  console.log(postList);
   const moveReviewDetail = (corpName: string, type: string) => {
     const encodedCorpName = encodeURIComponent(corpName).replace(/%2B/g, "%2B");
     navigate(`/review/detail/${type}?name=${encodedCorpName}`);
@@ -107,6 +107,7 @@ const Home = () => {
                   key={index}
                   onClick={() => moveReviewDetail(item.corpname, "working")}
                 >
+                  <h5>{item.corpname}</h5>
                   <div className={styles.title}>{item.highlight}</div>
                   <div className={styles.reaction}>
                     <div className="body2" style={{ color: "#aaa" }}>
@@ -162,6 +163,7 @@ const Home = () => {
                   key={index}
                   onClick={() => moveReviewDetail(item.corpname, "training")}
                 >
+                  <h5>{item.corpname}</h5>
                   <div className={styles.title}>{item.highlight}</div>
                   <div className={styles.reaction}>
                     <div className="body2" style={{ color: "#aaa" }}>

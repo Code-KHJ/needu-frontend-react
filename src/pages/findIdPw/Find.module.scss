@@ -31,11 +31,23 @@
   .info {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
     margin-top: 8px;
     & > i {
-      margin-left: 10px;
       width: 16px;
+      height: 16px;
       background: url(@/assets/images/ico_info.png) no-repeat center/contain;
+      flex-shrink: 0;
+    }
+    & > span:nth-of-type(1) {
+      text-wrap: nowrap;
+    }
+    .infomation {
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      padding: 8px 12px;
+      flex-shrink: 1;
     }
   }
 

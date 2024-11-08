@@ -13,13 +13,7 @@ const xShare = (url: string) => {
   );
 };
 
-const kakaoShare = (
-  title: string,
-  content: string,
-  url: string,
-  likeCnt: number,
-  commentCnt: number
-) => {
+const kakaoShare = (title: string, url: string) => {
   if (window.Kakao) {
     const kakao = window.Kakao;
     console.log(kakao);
@@ -31,18 +25,17 @@ const kakaoShare = (
       objectType: "feed",
       content: {
         title: title,
-        description: content,
         imageUrl:
-          "https://needu-image-bucket.s3.ap-northeast-2.amazonaws.com/images/logo_NeedU.png",
+          "https://github.com/Code-KHJ/Needu/assets/124508326/ff518c60-5d82-429e-befa-370ec59e3e52",
         link: {
           mobileWebUrl: url,
           webUrl: url,
         },
       },
-      social: {
-        likeCount: likeCnt,
-        commentCount: commentCnt,
-      },
+      // social: {
+      //   likeCount: likeCnt,
+      //   commentCount: commentCnt,
+      // },
       buttons: [
         {
           title: "자세히 보기",
@@ -65,4 +58,4 @@ const copyClipboard = async (url: string) => {
   }
 };
 
-export { fbShare, xShare, kakaoShare, copyClipboard };
+export { copyClipboard, fbShare, kakaoShare, xShare };

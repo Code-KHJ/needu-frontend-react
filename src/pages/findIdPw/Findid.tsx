@@ -1,22 +1,24 @@
 //@ts-nocheck
-import React, { useState } from "react";
-import styles from "./Find.module.scss";
-import Label from "@/components/elements/Label";
-import Input from "@/components/elements/Input";
-import { regPhone } from "@/utils/validation";
-import Button from "@/components/elements/Button";
 import userApi from "@/apis/user";
-import { useNavigate } from "react-router-dom";
-import SocialLogin from "@/components/IcoSocialLogin";
-import { useLoading } from "@/contexts/LoadingContext";
 import ico_google from "@/assets/images/ico_google.png";
 import ico_kakao from "@/assets/images/ico_kakao.png";
+import Button from "@/components/elements/Button";
+import Input from "@/components/elements/Input";
+import Label from "@/components/elements/Label";
+import SocialLogin from "@/components/IcoSocialLogin";
+import { useLoading } from "@/contexts/LoadingContext";
+import { regPhone } from "@/utils/validation";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Helmets from "../helmets";
+import styles from "./Find.module.scss";
 
 const Findid = () => {
   const { showLoading, hideLoading } = useLoading();
   const [values, setValues] = useState("");
   const [validValues, setValidValues] = useState<boolean | null>(null);
   const [validMsg, setValidMsg] = useState("");
+  const [infoHovered, setInfoHovered] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -172,8 +174,20 @@ const Findid = () => {
               />
               <div className={styles.info}>
                 <span className="body2">인증번호가 오지 않는다면?</span>
-                <i></i>
-                <span></span>
+                <i
+                  style={{ cursor: "pointer" }}
+                  onMouseEnter={() => setInfoHovered(true)}
+                  onMouseLeave={() => setInfoHovered(false)}
+                ></i>
+                <span
+                  className={`${styles.infomation} body2`}
+                  style={{ display: `${infoHovered ? "inline" : "none"}` }}
+                >
+                  070 번호가 스팸 문자로 등록되어 있는 것은 아닌지 확인해주세요.
+                  <br />
+                  스팸 문자로 등록되어 있지 않다면, 다시 한 번 '인증요청'을
+                  눌러주세요
+                </span>
               </div>
               <Button
                 children="확인"

@@ -7,6 +7,7 @@ import ico_reply from "@/assets/images/ico_reply.png";
 import ico_triangle from "@/assets/images/ico_triangle_blue.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_score from "@/assets/images/Star_1.png";
+import HotCorps from "@/components/HotCorps";
 import ProfileImage from "@/components/ProfileImage";
 import { NextArrow, PrevArrow } from "@/components/SliderArrow";
 import { useLoading } from "@/contexts/LoadingContext";
@@ -14,23 +15,22 @@ import { PostListItemContent } from "@/interface/Community";
 import { CommonReviewContent } from "@/interface/Review";
 import agoDate from "@/utils/agoDate";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import styles from "./Home.module.scss";
 import Helmets from "../helmets";
+import styles from "./Home.module.scss";
 
 interface PostList {
   working: CommonReviewContent[];
   training: CommonReviewContent[];
   free: PostListItemContent[];
   question: PostListItemContent[];
-  corp: { corpname: string; description: string; type: string }[];
+  corp: { corpname: string; criteria: string; type: string }[];
 }
 
 const Home = () => {
-  const location = useLocation();
   const alertMsg = document.cookie
     .split("; ")
     .find((row) => row.startsWith("alertMsg="))
@@ -190,8 +190,15 @@ const Home = () => {
   }, []);
 
   const [bannerSliderSettings, setBannerSliderSettings] = useState({
+    className: "variable=width",
     focusOnSelect: true,
     centerMode: winInnerWidth < 768 ? false : true,
+    centerPadding:
+      winInnerWidth >= 1280
+        ? winInnerWidth >= 1600
+          ? `${(winInnerWidth - 1280) / 2}px`
+          : "7%"
+        : "",
     infinite: true,
     speed: 1000,
     autoplay: true,
@@ -220,11 +227,64 @@ const Home = () => {
         description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
       ></Helmets>
       <div className={styles.home_wrap}>
-        <div className={styles.banner_wrap}>
+        <div className={`${styles.banner_wrap} main_banner`}>
           <Slider {...bannerSliderSettings}>
-            <div className={styles.banner}>배너1</div>
-            <div className={styles.banner}>배너2</div>
-            <div className={styles.banner}>배너3</div>
+            <div className={`${styles.banner} ${styles.banner_main}`}>
+              <div className={styles.opacity}></div>
+              <div className={styles.content}>
+                {/* <button></button> */}
+                {winInnerWidth >= 768 ? (
+                  <h3>사회복지 커뮤니티 플랫폼 'NEEDU'</h3>
+                ) : (
+                  <h4>사회복지 커뮤니티 플랫폼 'NEEDU'</h4>
+                )}
+                <span>현장의 모든 이야기, NEEDU에서 만나보세요!</span>
+              </div>
+            </div>
+            <div className={`${styles.banner} ${styles.banner_renewal}`}>
+              <div className={styles.opacity}></div>
+              <div className={styles.content}>
+                <button type="button" onClick={() => navigate("/notice/1")}>
+                  이벤트 참여하기
+                </button>
+                {winInnerWidth >= 768 ? (
+                  <h3>NEEDU 커뮤니티 오픈 이벤트!</h3>
+                ) : (
+                  <h4>NEEDU 커뮤니티 오픈 이벤트!</h4>
+                )}
+                <span>내 이야기를 남기고, 상품까지 받아가세요.</span>
+              </div>
+            </div>
+            <div className={`${styles.banner} ${styles.banner_community}`}>
+              <div className={styles.opacity}></div>
+              <div className={styles.content}>
+                <button type="button" onClick={() => navigate("/notice/1")}>
+                  글 남기기
+                </button>
+                {winInnerWidth >= 768 ? (
+                  <h3>우리의 사회복지 커뮤니티,</h3>
+                ) : (
+                  <h4>우리의 사회복지 커뮤니티,</h4>
+                )}
+                <span>NEEDU에서 이야기 나눠요!</span>
+              </div>
+            </div>
+            <div className={`${styles.banner} ${styles.banner_training}`}>
+              <div className={styles.opacity}></div>
+              <div className={styles.content}>
+                <button type="button" onClick={() => navigate("/notice/1")}>
+                  글 남기기
+                </button>
+                {winInnerWidth >= 768 ? (
+                  <h3>NEEDU에서만 볼 수 있는 실습지 리뷰!</h3>
+                ) : (
+                  <h4>NEEDU에서만 볼 수 있는 실습지 리뷰!</h4>
+                )}
+                <span>
+                  <br />
+                </span>
+              </div>
+            </div>
           </Slider>
         </div>
         <div className={styles.content_wrap}>
@@ -490,8 +550,8 @@ const Home = () => {
                       >
                         {corp.corpname}
                       </h5>
-                      <div className={` body2 ${styles.description}`}>
-                        {corp.description}
+                      <div className={`body2 ${styles.description}`}>
+                        <HotCorps criteria={corp.criteria} />
                       </div>
                     </li>
                   ))}
@@ -500,7 +560,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className={styles.bottom_banner}>하단배너</div>
+        {/* <div className={styles.bottom_banner}>하단배너</div> */}
       </div>
     </>
   );
