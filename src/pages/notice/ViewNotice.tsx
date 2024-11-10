@@ -283,7 +283,7 @@ const ViewNotice = () => {
               </div>
             </div>
             <div
-              className={styles.post_content}
+              className={`post_content ${styles.post_content}`}
               dangerouslySetInnerHTML={{
                 __html: dompurify(notice?.content as string),
               }}
