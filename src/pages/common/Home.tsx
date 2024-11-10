@@ -192,7 +192,7 @@ const Home = () => {
   const [bannerSliderSettings, setBannerSliderSettings] = useState({
     className: "variable=width",
     focusOnSelect: true,
-    centerMode: winInnerWidth < 768 ? false : true,
+    centerMode: winInnerWidth < 1280 ? false : true,
     centerPadding:
       winInnerWidth >= 1280
         ? winInnerWidth >= 1600
