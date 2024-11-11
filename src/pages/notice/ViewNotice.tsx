@@ -115,7 +115,8 @@ const ViewNotice = () => {
 
     try {
       if (!user || user.id === null) {
-        alert("로그인 후 이용이 가능합니다.");
+        alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+        navigate("/login");
         return;
       }
       if (type === "like" && isLike.dislike) {

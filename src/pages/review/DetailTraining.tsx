@@ -147,6 +147,12 @@ const DetailTraining = () => {
 
   const [showAll, setShowAll] = useState<boolean>(false);
   const handleShowAll = () => {
+    if (!user || user.user.id === null) {
+      alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+      navigate("/login");
+      return;
+    }
+
     //@ts-ignore
     if (user.user.authority > 0) {
       setShowAll(true);
@@ -160,7 +166,8 @@ const DetailTraining = () => {
   const like = async (review_no: number) => {
     //@ts-ignore
     if (!user || user.user.id === null) {
-      alert("로그인 후 이용이 가능합니다.");
+      alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+      navigate("/login");
       return;
     }
     const likeDto: LikeDto = {

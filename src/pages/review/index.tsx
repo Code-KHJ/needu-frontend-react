@@ -20,7 +20,7 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
         path="/working/write"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <WriteWorking />
           )
@@ -30,7 +30,7 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
         path="/training/write"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <WriteTraining />
           )
@@ -40,7 +40,7 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
         path="/working/edit"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <EditWorking />
           )
@@ -50,7 +50,7 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
         path="/training/edit"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <EditTraining />
           )

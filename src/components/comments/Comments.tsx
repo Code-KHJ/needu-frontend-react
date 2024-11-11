@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import ProfileImage from "../ProfileImage";
 import Comment from "./Comment";
 import styles from "./Comments.module.scss";
+import { useNavigate } from "react-router-dom";
 
 interface CommentsProps {
   postId: number;
@@ -27,6 +28,7 @@ const Comments: React.FC<CommentsProps> = ({
 }) => {
   //@ts-ignore
   const { user } = useUser();
+  const navigate = useNavigate();
   const { customConfirm } = useConfirm();
   const [fetch, setFetch] = useState(false);
   const refreshComments = () => {
@@ -88,7 +90,8 @@ const Comments: React.FC<CommentsProps> = ({
   }, [commentValues, commentValid]);
   const handleSubmitComment = async () => {
     if (!user || user.id === null) {
-      alert("로그인 후 이용이 가능합니다.");
+      alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+      navigate("/login");
       return;
     }
     const confirmed = await customConfirm("댓글을 등록하시겠습니까?");
@@ -175,7 +178,8 @@ const Comments: React.FC<CommentsProps> = ({
   };
   const handleSubmitChildComment = async (parent_id: number) => {
     if (!user || user.id === null) {
-      alert("로그인 후 이용이 가능합니다.");
+      alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+      navigate("/login");
       return;
     }
     if (

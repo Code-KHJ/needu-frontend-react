@@ -6,6 +6,7 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ModalComponent from "./Modal";
 import styles from "./Modal.module.scss";
+import { useNavigate } from "react-router-dom";
 
 interface ReportModalProps {
   target: string;
@@ -22,6 +23,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
 }) => {
   //@ts-ignore
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const [reportStep, setReportStep] = useState(0);
   const handleStep = (step: number) => {
@@ -86,7 +88,8 @@ const ReportModal: React.FC<ReportModalProps> = ({
     const response: any = await sharedApi.createReport(values);
     if (response.status !== 201) {
       if (response.status === 401) {
-        alert("신고는 회원만 가능합니다. 로그인 후 다시 시도해주세요.");
+        alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+        navigate("/login");
         return;
       }
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");

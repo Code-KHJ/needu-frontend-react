@@ -22,7 +22,7 @@ const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
         path="/free/write"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <WritePost type={1} />
           )
@@ -32,7 +32,7 @@ const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
         path="/question/write"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <WritePost type={2} />
           )
@@ -42,7 +42,7 @@ const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
         path="/free/edit/:no"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <EditPost type={1} />
           )
@@ -52,7 +52,7 @@ const CommunityRoutes: React.FC<CummunityRoutesProps> = ({ isLogin }) => {
         path="/question/edit/:no"
         element={
           !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} />
+            <Navigate to="/login" state={{ previous: previousPage }} replace />
           ) : (
             <EditPost type={2} />
           )

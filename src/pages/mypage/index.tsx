@@ -60,7 +60,7 @@ const MypageRoutes: React.FC<MypageRoutesProps> = ({ isLogin }) => {
       </div>
     </div>
   ) : (
-    <Navigate to="/login" state={{ previous: previousPage }} />
+    <Navigate to="/login" state={{ previous: previousPage }} replace />
   );
 };
 
