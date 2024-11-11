@@ -76,7 +76,7 @@ const Community = () => {
               공지 확인하기
             </button>
             <h4>우리의 사회복지 커뮤니티,</h4>
-            <span>NEEDU에서 이야기 나눠요!!</span>
+            <span>NEEDU에서 이야기 나눠요!</span>
           </div>
         </div>
         {/* <div className={styles.weekly_wrap}>
