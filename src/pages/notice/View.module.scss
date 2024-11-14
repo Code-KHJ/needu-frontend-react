@@ -10,8 +10,9 @@
     line-height: 140%;
     letter-spacing: -0.04em;
   }
-  margin: 80px auto;
+  margin: 0 auto 80px;
   .topic {
+    margin-top: 20px;
     padding: 20px 10%;
     .gray {
       color: #aaa;
@@ -26,7 +27,7 @@
   }
   .content_wrap {
     margin: 20px 0;
-    padding: 40px 10%;
+    padding: 0 10%;
     .post_wrap {
       .post_header {
         padding-bottom: 20px;
@@ -141,6 +142,7 @@
     textarea {
       font-size: 1.8rem;
     }
+    margin-top: 80px;
     width: 86%;
     .topic {
       padding: 20px 40px;

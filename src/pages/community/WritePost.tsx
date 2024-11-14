@@ -180,7 +180,7 @@ const WritePost = ({ type }) => {
       ></Helmets>
       <div className={styles.write_wrap}>
         <div className={styles.info}>
-          <h1>{type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}</h1>
+          <h3>{type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}</h3>
           <p className="body1">
             NEEDU 커뮤니티에서 지역과 기관을 넘는 집단지성을 경험해보세요.
           </p>

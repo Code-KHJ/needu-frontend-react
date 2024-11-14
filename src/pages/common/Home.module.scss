@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 .home_wrap {
-  margin: 40px auto;
+  margin: 40px auto 80px;
   .banner_wrap {
     padding: 0 10%;
     .banner {
@@ -300,7 +300,6 @@
 @media screen and (min-width: 768px) {
   .home_wrap {
     margin-top: 80px;
-    margin-bottom: 80px;
     .banner_wrap {
       max-width: 1400px;
       width: 86%;
