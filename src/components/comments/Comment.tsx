@@ -232,7 +232,6 @@ const Comment: React.FC<CommentProps> = ({
       onAction();
     }
   };
-
   return (
     <div
       className={`${styles.comment_item} ${
@@ -337,7 +336,7 @@ const Comment: React.FC<CommentProps> = ({
           </>
         ) : (
           <div
-            className={styles.comment_content}
+            className={`post_content ${styles.comment_content}`}
             dangerouslySetInnerHTML={{
               __html: dompurify(comment.content),
             }}

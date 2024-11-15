@@ -71,7 +71,15 @@ const KebabPost: React.FC<KebabPostProps> = ({
         : "",
     target_id: target_id,
   });
+  useEffect(() => {
+    setModal({
+      ...modal,
+      target_id: target_id,
+    });
+  }, [target_id]);
   const handleModalTarget = () => {
+    console.log(target_id);
+    console.log(modal.target_id);
     setModal({
       ...modal,
       isOpen: true,

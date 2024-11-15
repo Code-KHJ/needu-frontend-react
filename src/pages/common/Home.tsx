@@ -532,7 +532,11 @@ const Home = () => {
             <div className={styles.hot_corp_wrap}>
               <div className={styles.header}>
                 <h3>지금 떠오르는 기관</h3>
-                <img src={ico_rising} alt="icon" style={{ width: "24px" }} />
+                <img
+                  className={styles.hot_corp_icon}
+                  src={ico_rising}
+                  alt="icon"
+                />
               </div>
               <ul>
                 <Slider {...corpSliderSettings} className={styles.slider_corp}>
