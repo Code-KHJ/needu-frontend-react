@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 .detail_working_wrap {
-  margin: 80px auto;
+  margin: 0 auto 80px;
   .corp_info {
     background-color: #6269f5;
     padding: 40px 10%;
@@ -246,6 +246,7 @@
 
 @media screen and (min-width: 768px) {
   .detail_working_wrap {
+    margin-top: 80px;
     width: 86%;
     max-width: 1280px;
     .corp_info {

@@ -199,7 +199,8 @@
         cursor: pointer;
       }
       .current {
-        border-bottom: 1px solid #aaa;
+        border-bottom: 1px solid #222;
+        color: #222;
       }
     }
     .content {
@@ -790,6 +791,8 @@
   }
   .info_wrap {
     .user_info_wrap {
+      padding-top: 40px;
+
       .sub_nav {
         gap: 56px;
       }

@@ -149,7 +149,7 @@ const EditNotice = () => {
   return (
     <div className={styles.write_wrap}>
       <div className={styles.info}>
-        <h1>공지사항</h1>
+        <h3>공지사항</h3>
         <p className="body1">NEEDU 공지사항을 작성해주세요.</p>
       </div>
       <form className={styles.form_wrap}>
