@@ -1,12 +1,17 @@
 import communityApi from "@/apis/community";
 import ico_arrow from "@/assets/images/ico_arrow_down.png";
+import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ProfileImage from "@/components/ProfileImage";
-import { PostListItemContent } from "@/interface/Community";
+import {
+  PostListItemContent,
+  WeeklyListItemContent,
+} from "@/interface/Community";
 import agoDate from "@/utils/agoDate";
 import userLevel from "@/utils/calculateUserLevel";
+import stripHtml from "@/utils/stripHtml";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
@@ -31,7 +36,7 @@ const Community = () => {
     result: [],
     totalPages: 1,
   });
-  // const [weeklyList, setWeeklyList] = useState<WeeklyListItemContent[]>([]);
+  const [weeklyList, setWeeklyList] = useState<WeeklyListItemContent[]>([]);
   useEffect(() => {
     const getFreeList = async () => {
       const response: any = await communityApi.getPostList("?type=1&page=1");
@@ -55,7 +60,8 @@ const Community = () => {
         alert("오류가 발생하였습니다");
         window.location.reload();
       }
-      // setWeeklyList(response.data);
+      console.log(response);
+      setWeeklyList(response.data);
     };
     getFreeList();
     getQuestionList();
@@ -79,11 +85,11 @@ const Community = () => {
             <span>NEEDU에서 이야기 나눠요!</span>
           </div>
         </div>
-        {/* <div className={styles.weekly_wrap}>
+        <div className={styles.weekly_wrap}>
           <div className={styles.weekly_content}>
             <h2>Weekly Best</h2>
             <ul className={styles.content_list}>
-              {weeklyList.slice(0, 5).map((post, index) => (
+              {weeklyList.slice(0, 3).map((post, index) => (
                 <li className={styles.content_item} key={index}>
                   <div className={styles.info}>
                     <ProfileImage src={post.writer.profile_image} />
@@ -170,7 +176,7 @@ const Community = () => {
           >
             배너
           </div>
-        </div> */}
+        </div>
         <div className={styles.content_wrap}>
           <div className={styles.free_wrap}>
             <div className={styles.header}>
