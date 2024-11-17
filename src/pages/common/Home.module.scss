@@ -243,6 +243,10 @@
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
+          .hot_corp_icon {
+            width: 28px;
+            height: 28px;
+          }
         }
         & > ul {
           margin-top: 20px;
@@ -324,6 +328,7 @@
         .header {
           flex-direction: row;
           flex-wrap: nowrap;
+          align-items: center;
           .tab_wrap {
             .btn_more {
               font-size: 1.8rem;
@@ -382,6 +387,12 @@
           }
         }
         .hot_corp_wrap {
+          .header {
+            .hot_corp_icon {
+              width: 32px;
+              height: 32px;
+            }
+          }
           & > ul {
             .item {
               .description {

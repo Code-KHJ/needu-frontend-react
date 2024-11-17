@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
 import btn_kebab from "@/assets/images/btn_kebab.png";
-import ReportModal from "./modal/ReportModal";
 import { useUser } from "@/contexts/UserContext";
+import React, { useEffect, useRef, useState } from "react";
+import ReportModal from "./modal/ReportModal";
 
 interface KebabCommentProps {
   postType: string;
@@ -40,6 +40,12 @@ const KebabComment: React.FC<KebabCommentProps> = ({
         : "댓글",
     target_id: target_id,
   });
+  useEffect(() => {
+    setModal({
+      ...modal,
+      target_id: target_id,
+    });
+  }, [target_id]);
   const handleModalTarget = () => {
     setModal({
       ...modal,

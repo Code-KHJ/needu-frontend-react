@@ -4,9 +4,9 @@ import ico_ext from "@/assets/images/ico_ext.png";
 import { useUser } from "@/contexts/UserContext";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ModalComponent from "./Modal";
 import styles from "./Modal.module.scss";
-import { useNavigate } from "react-router-dom";
 
 interface ReportModalProps {
   target: string;
@@ -78,6 +78,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
   }, [modalOpen]);
 
   const handleValues = (e: any) => {
+    console.log(target_id);
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -85,6 +86,8 @@ const ReportModal: React.FC<ReportModalProps> = ({
     });
   };
   const handleSubmit = async () => {
+    console.log(values);
+    // return;
     const response: any = await sharedApi.createReport(values);
     if (response.status !== 201) {
       if (response.status === 401) {
@@ -104,7 +107,6 @@ const ReportModal: React.FC<ReportModalProps> = ({
       comment: "",
     });
   };
-
   return (
     <>
       {/* 신고종류 선택 */}

@@ -58,6 +58,7 @@
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                word-break: break-all;
                 cursor: pointer;
               }
             }
@@ -68,6 +69,7 @@
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
+              word-break: break-all;
               cursor: pointer;
             }
             .reaction_wrap {

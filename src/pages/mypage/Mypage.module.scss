@@ -477,6 +477,7 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: break-all;
         cursor: pointer;
       }
       .content {
@@ -486,6 +487,7 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: break-all;
         cursor: pointer;
       }
       .reaction_wrap {
@@ -563,6 +565,7 @@
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
+          word-break: break-all;
           cursor: pointer;
         }
         .kebab {
@@ -594,6 +597,7 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: break-all;
         margin-top: 4px;
       }
       .review_body {
