@@ -45,6 +45,10 @@
     padding: 0 10%;
     margin-top: 120px;
     .sub_banner {
+      background: url(@/assets/images/banner_commu_sub.png) no-repeat center;
+      background-size: cover;
+      border: 1px solid #aaa;
+      border-radius: 5px;
       display: none;
     }
   }

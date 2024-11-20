@@ -1,6 +1,5 @@
 import communityApi from "@/apis/community";
 import ico_arrow from "@/assets/images/ico_arrow_down.png";
-import ico_level from "@/assets/images/ico_level_default.png";
 import ico_like from "@/assets/images/ico_like.png";
 import ico_reply from "@/assets/images/ico_reply.png";
 import ico_view from "@/assets/images/ico_view.png";
@@ -99,7 +98,7 @@ const Community = () => {
                     >
                       <span>{post.writer.nickname}</span>
                       <img
-                        src={ico_level}
+                        src={userLevel(post.writer.activity_points)?.icon}
                         alt="레벨"
                         style={{ width: "18px", marginLeft: "4px" }}
                       />
@@ -170,12 +169,7 @@ const Community = () => {
               ))}
             </ul>
           </div>
-          <div
-            className={styles.sub_banner}
-            style={{ backgroundColor: "#aaa" }}
-          >
-            배너
-          </div>
+          <div className={styles.sub_banner}></div>
         </div>
         <div className={styles.content_wrap}>
           <div className={styles.free_wrap}>

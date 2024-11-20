@@ -11,8 +11,8 @@ import type { Editor } from "@toast-ui/react-editor";
 import { HookCallback } from "node_modules/@toast-ui/editor/types/editor";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./Write.module.scss";
 import Helmets from "../helmets";
+import styles from "./Write.module.scss";
 
 //@ts-ignore
 const WritePost = ({ type }) => {
@@ -131,12 +131,12 @@ const WritePost = ({ type }) => {
     if (confirmed) {
       showLoading();
       const response: any = await communityApi.createPost(values);
-      hideLoading();
       if (response.status !== 201) {
         if (response.status === 400 && response.data.msg === "Invalid title") {
           alert(
             "제목에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
           );
+          hideLoading();
           return;
         }
         if (
@@ -146,12 +146,15 @@ const WritePost = ({ type }) => {
           alert(
             "내용에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
           );
+          hideLoading();
           return;
         }
         alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
         return;
       }
       alert("게시글이 작성되었습니다.");
+      hideLoading();
       if (type === 1) {
         navigate(`/community/free/${response.data.post.id}`);
       }
