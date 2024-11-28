@@ -10,6 +10,7 @@ import ProfileImage from "../ProfileImage";
 import Comment from "./Comment";
 import styles from "./Comments.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "@/contexts/LoadingContext";
 
 interface CommentsProps {
   postId: number;
@@ -29,6 +30,7 @@ const Comments: React.FC<CommentsProps> = ({
   //@ts-ignore
   const { user } = useUser();
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
   const { customConfirm } = useConfirm();
   const [fetch, setFetch] = useState(false);
   const refreshComments = () => {
@@ -96,6 +98,7 @@ const Comments: React.FC<CommentsProps> = ({
     }
     const confirmed = await customConfirm("댓글을 등록하시겠습니까?");
     if (confirmed) {
+      showLoading();
       const response: any =
         type === "notice"
           ? await noticeApi.createComment(commentValues)
@@ -105,9 +108,11 @@ const Comments: React.FC<CommentsProps> = ({
           alert(
             "댓글에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
           );
+          hideLoading();
           return;
         }
         alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
         return;
       }
       alert("댓글이 작성되었습니다.");
@@ -116,6 +121,7 @@ const Comments: React.FC<CommentsProps> = ({
         content: "",
       });
       refreshComments();
+      hideLoading();
       return;
     }
   };
@@ -191,6 +197,7 @@ const Comments: React.FC<CommentsProps> = ({
     }
     const confirmed = await customConfirm("댓글을 등록하시겠습니까?");
     if (confirmed) {
+      showLoading();
       const response: any =
         type === "notice"
           ? await noticeApi.createComment(childCommentValues[parent_id])
@@ -200,9 +207,11 @@ const Comments: React.FC<CommentsProps> = ({
           alert(
             "댓글에 부절절한 표현이 포함되어 있습니다. 수정 후 다시 시도해주세요."
           );
+          hideLoading();
           return;
         }
         alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
         return;
       }
       alert("댓글이 작성되었습니다.");
@@ -214,6 +223,7 @@ const Comments: React.FC<CommentsProps> = ({
         },
       }));
       refreshComments();
+      hideLoading();
       return;
     }
   };
@@ -227,12 +237,15 @@ const Comments: React.FC<CommentsProps> = ({
     if (accepted_id === commentId) {
       const confirmed = await customConfirm("답변 채택을 취소하시겠습니까?");
       if (confirmed) {
+        showLoading();
         const response: any = await communityApi.unacceptComment(accepted_id);
         if (response.status !== 200) {
           alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+          hideLoading();
           return;
         }
         alert("답변 채택이 취소되었습니다.");
+        hideLoading();
         refresh?.();
         return;
       }
@@ -244,6 +257,7 @@ const Comments: React.FC<CommentsProps> = ({
       }
       const confirmed = await customConfirm("답변을 채택하시겠습니까?");
       if (confirmed) {
+        showLoading();
         const accpetDto = {
           post_id: postId,
           comment_id: commentId,
@@ -251,9 +265,11 @@ const Comments: React.FC<CommentsProps> = ({
         const response: any = await communityApi.acceptComment(accpetDto);
         if (response.status !== 201) {
           alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+          hideLoading();
           return;
         }
         alert("답변 채택되었습니다.");
+        hideLoading();
         refresh?.();
         return;
       }

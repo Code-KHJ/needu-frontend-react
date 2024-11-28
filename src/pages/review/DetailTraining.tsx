@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Detail.module.scss";
 import Helmets from "../helmets";
+import BtnWrite from "@/components/BtnWrite";
 
 const DetailTraining = () => {
   const { customConfirm } = useConfirm();
@@ -548,6 +549,15 @@ const DetailTraining = () => {
           target_id={modal.target_id}
           modalOpen={modal.isOpen}
           closeModal={closeModal}
+        />
+        <BtnWrite
+          onClick={() =>
+            navigate(`/review/training/write?name=${encodedCorpName}`, {
+              state: {
+                previous: location.pathname + location.search,
+              },
+            })
+          }
         />
       </div>
     </>

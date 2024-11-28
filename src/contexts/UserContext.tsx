@@ -4,6 +4,7 @@ import { useLoading } from "./LoadingContext";
 
 //@ts-ignore
 const UserContext = createContext();
+
 //@ts-ignore
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
@@ -26,51 +27,34 @@ export const UserProvider = ({ children }) => {
     }
   }
   const accessToken = getCookie("accessToken");
-
   useEffect(() => {
+    console.log(user);
+
     const fetchData = async () => {
       showLoading();
       if (user.id == null) {
         if (accessToken) {
-          const userInfo = localStorage.getItem("userInfo");
-          if (userInfo !== null) {
-            const userData = JSON.parse(userInfo);
+          const response: any = await userApi.getMe();
+          if (response.status == 200) {
             setUser({
-              id: userData.id,
-              user_id: userData.user_id,
-              nickname: userData.nickname,
-              authority: userData.authority,
-              profile_image: userData.profile_image,
+              id: response.data.id,
+              user_id: response.data.user_id,
+              nickname: response.data.nickname,
+              authority: response.data.authority,
+              profile_image: response.data.profile_image,
             });
           } else {
-            const response: any = await userApi.getMe();
-            if (response.status == 200) {
-              setUser({
-                id: response.data.id,
-                user_id: response.data.user_id,
-                nickname: response.data.nickname,
-                authority: response.data.authority,
-                profile_image: response.data.profile_image,
-              });
-              localStorage.setItem(
-                "userInfo",
-                JSON.stringify({
-                  id: response.data.id,
-                  user_id: response.data.user_id,
-                  nickname: response.data.nickname,
-                  authority: response.data.authority,
-                  profile_image: response.data.profile_image,
-                })
-              );
-            } else {
-              setUser({
-                id: null,
-                user_id: null,
-                nickname: null,
-                authority: null,
-                profile_image: null,
-              });
-            }
+            setUser({
+              id: null,
+              user_id: null,
+              nickname: null,
+              authority: null,
+              profile_image: null,
+            });
+            document.cookie =
+              "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+              "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           }
         } else {
           setUser({

@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import styles from "./Mypage.module.scss";
+import { useUser } from "@/contexts/UserContext";
 
 interface ProfileProps {
   userInfo: UserProfile;
@@ -18,6 +19,9 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
+
+  // @ts-ignore
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
 
   const { level, minPoint, maxPoint, icon } = userLevel(
@@ -66,16 +70,10 @@ const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
               ...prevInfo,
               profile_image: imageUrl,
             }));
-
-            const localStorageData = localStorage.getItem("userInfo");
-            const userInfoInLocalStorage = JSON.parse(
-              localStorageData as string
-            );
-            userInfoInLocalStorage.profile_image = imageUrl;
-            localStorage.setItem(
-              "userInfo",
-              JSON.stringify(userInfoInLocalStorage)
-            );
+            setUser({
+              ...user,
+              profile_image: imageUrl,
+            });
           }
           console.log(type);
         }
