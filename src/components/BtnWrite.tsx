@@ -8,25 +8,19 @@ interface BtnWriteProps {
 
 const StyledBtn = styled.button`
   position: sticky;
-  margin-left: calc(90% - 48px);
+  margin-left: calc(90% - 60px);
   bottom: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   background: rgba(98, 105, 245, 0.8);
   border-radius: 50px;
 
   @media screen and (min-width: 768px) {
     margin-left: unset;
     left: 100%;
-  }
-
-  @media screen and (min-width: 1024px) {
-    width: 54px;
-    height: 54px;
-    right: 7%;
   }
 `;
 

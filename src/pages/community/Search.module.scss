@@ -184,7 +184,7 @@
           gap: 10px;
           & > span {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             & > img {
               margin-right: 4px;
             }
@@ -263,7 +263,7 @@
               gap: 10px;
               & > span {
                 display: flex;
-                align-items: flex-start;
+                align-items: center;
                 & > img {
                   margin-right: 4px;
                 }
@@ -452,7 +452,6 @@
       .post_list {
         .post_item {
           padding: 20px 40px;
-          height: 177px;
           gap: 40px;
           .post_item_wrap {
             gap: 40px;
