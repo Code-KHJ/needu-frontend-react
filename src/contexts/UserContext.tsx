@@ -1,34 +1,19 @@
 import userApi from "@/apis/user";
-import React, { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { useLoading } from "./LoadingContext";
 
-type User = {
-  id: number | null;
-  user_id: number | null;
-  nickname: string | null;
-  authority: number | null;
-  profile_image: string | null;
-};
-type UserContextType = {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-  loading: boolean;
-};
+//@ts-ignore
+const UserContext = createContext();
 
-const initialUserState: User = {
-  id: null,
-  user_id: null,
-  nickname: null,
-  authority: null,
-  profile_image: null,
-};
-
-const UserContext = createContext<UserContextType | undefined>(undefined);
-
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [user, setUser] = useState<User>(initialUserState);
+//@ts-ignore
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState({
+    id: null,
+    user_id: null,
+    nickname: null,
+    authority: null,
+    profile_image: null,
+  });
   const { showLoading, hideLoading } = useLoading();
   const [loading, setLoading] = useState(true);
   function getCookie(name: string) {
@@ -94,10 +79,4 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useUser = (): UserContextType => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
-  }
-  return context;
-};
+export const useUser = () => useContext(UserContext);

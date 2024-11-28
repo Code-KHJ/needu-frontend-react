@@ -27,6 +27,7 @@ interface InfoProps {
 
 const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
+  // @ts-ignore
   const { user, setUser } = useUser();
   const { customConfirm } = useConfirm();
   const navigate = useNavigate();

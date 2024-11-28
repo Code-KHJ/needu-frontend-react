@@ -19,6 +19,8 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
+
+  // @ts-ignore
   const { user, setUser } = useUser();
   const navigate = useNavigate();
 
