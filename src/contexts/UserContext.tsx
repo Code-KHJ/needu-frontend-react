@@ -4,7 +4,7 @@ import { useLoading } from "./LoadingContext";
 
 type User = {
   id: number | null;
-  user_id: string | null;
+  user_id: number | null;
   nickname: string | null;
   authority: number | null;
   profile_image: string | null;
