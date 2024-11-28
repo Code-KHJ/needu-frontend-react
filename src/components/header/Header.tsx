@@ -3,6 +3,7 @@ import { useUser } from "@/contexts/UserContext";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.scss";
+import ProfileImage from "../ProfileImage";
 
 const Header = () => {
   //@ts-ignore
@@ -182,6 +183,7 @@ const Header = () => {
               {user.nickname !== null ? (
                 <>
                   <Link to="/mypage" className={styles.nickname}>
+                    <ProfileImage src={user.profile_image} />
                     {user.nickname}님
                   </Link>
                   <span className={styles.logout} onClick={logout}>

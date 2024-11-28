@@ -24,6 +24,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import PostItem from "./components/PostItem";
 import styles from "./Search.module.scss";
+import BtnWrite from "@/components/BtnWrite";
 
 interface SearchPostProps {
   type: number;
@@ -227,239 +228,259 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
       {isLoading ? (
         <div style={{ height: "1000px" }}></div>
       ) : (
-        <div className={styles.wrap}>
-          <div className={styles.header}>
-            <div className={styles.topic_wrap}>
-              <div className={styles.post_type}>
-                <h5 onClick={() => navigate("/community")}>커뮤니티 &gt; </h5>
-                <h5>
-                  {type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}
-                </h5>
-              </div>
-              <div className={styles.post_topic}>
-                <button
-                  className={Number(filters.topic) === 0 ? styles.select : ""}
-                  name="topic"
-                  value={0}
-                  onClick={handleFilter}
-                >
-                  <h5>전체</h5>
-                </button>
-                {topics.map((item) => (
+        <>
+          <div className={styles.wrap}>
+            <div className={styles.header}>
+              <div className={styles.topic_wrap}>
+                <div className={styles.post_type}>
+                  <h5 onClick={() => navigate("/community")}>커뮤니티 &gt; </h5>
+                  <h5>
+                    {type === 1 ? "자유게시판" : type === 2 ? "질문&답변" : ""}
+                  </h5>
+                </div>
+                <div className={styles.post_topic}>
                   <button
-                    className={
-                      Number(filters.topic) === Number(item.id)
-                        ? styles.select
-                        : ""
-                    }
-                    key={item.id}
+                    className={Number(filters.topic) === 0 ? styles.select : ""}
                     name="topic"
-                    value={item.id}
+                    value={0}
                     onClick={handleFilter}
                   >
-                    <h5>{item.topic}</h5>
+                    <h5>전체</h5>
                   </button>
-                ))}
-              </div>
-            </div>
-            <div className={styles.search_wrap} onKeyDown={handleKeyPress}>
-              <input
-                type="text"
-                placeholder="검색어를 입력해주세요"
-                value={searchValue}
-                onChange={handleSearchValue}
-              />
-              <div>
-                <button
-                  className={`mo_show_flex ${styles.btn_to_write}`}
-                  onClick={() =>
-                    navigate(
-                      type === 1
-                        ? "/community/free/write"
-                        : type === 2
-                        ? "/community/question/write"
-                        : "",
-                      {
-                        state: {
-                          previous: location.pathname + location.search,
-                        },
+                  {topics.map((item) => (
+                    <button
+                      className={
+                        Number(filters.topic) === Number(item.id)
+                          ? styles.select
+                          : ""
                       }
-                    )
-                  }
-                >
-                  <img src={ico_pencil} alt="to_write" />새 글 쓰기
-                </button>
-                <button
-                  className={styles.btn_search}
-                  name="search"
+                      key={item.id}
+                      name="topic"
+                      value={item.id}
+                      onClick={handleFilter}
+                    >
+                      <h5>{item.topic}</h5>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.search_wrap} onKeyDown={handleKeyPress}>
+                <input
+                  type="text"
+                  placeholder="검색어를 입력해주세요"
                   value={searchValue}
-                  onClick={handleFilter}
-                  ref={searchButtonRef}
-                >
-                  검색
-                </button>
-                <button
-                  className={`tab_show_flex ${styles.btn_to_write}`}
-                  onClick={() =>
-                    navigate(
-                      type === 1
-                        ? "/community/free/write"
-                        : type === 2
-                        ? "/community/question/write"
-                        : "",
-                      {
-                        state: {
-                          previous: location.pathname + location.search,
-                        },
-                      }
-                    )
-                  }
-                >
-                  <img src={ico_pencil} alt="to_write" />새 글 쓰기
-                </button>
+                  onChange={handleSearchValue}
+                />
+                <div>
+                  <button
+                    className={`mo_show_flex ${styles.btn_to_write}`}
+                    onClick={() =>
+                      navigate(
+                        type === 1
+                          ? "/community/free/write"
+                          : type === 2
+                          ? "/community/question/write"
+                          : "",
+                        {
+                          state: {
+                            previous: location.pathname + location.search,
+                          },
+                        }
+                      )
+                    }
+                  >
+                    <img src={ico_pencil} alt="to_write" />새 글 쓰기
+                  </button>
+                  <button
+                    className={styles.btn_search}
+                    name="search"
+                    value={searchValue}
+                    onClick={handleFilter}
+                    ref={searchButtonRef}
+                  >
+                    검색
+                  </button>
+                  <button
+                    className={`tab_show_flex ${styles.btn_to_write}`}
+                    onClick={() =>
+                      navigate(
+                        type === 1
+                          ? "/community/free/write"
+                          : type === 2
+                          ? "/community/question/write"
+                          : "",
+                        {
+                          state: {
+                            previous: location.pathname + location.search,
+                          },
+                        }
+                      )
+                    }
+                  >
+                    <img src={ico_pencil} alt="to_write" />새 글 쓰기
+                  </button>
+                </div>
+              </div>
+              <div className={styles.sort_wrap}>
+                {user.authority === 100 && (
+                  <div className={styles.admin_option}>
+                    <button className={styles.toggle} onClick={handleToggle}>
+                      <img src={ico_setting} alt="관리자 설정" />
+                    </button>
+                    <div
+                      className={styles.options}
+                      style={!showToggle ? { display: "none" } : {}}
+                    >
+                      <button className="body2" onClick={submitWeeklyBest}>
+                        <img src={ico_wb} alt="Weekly Best" />
+                        W.B
+                      </button>
+                      <button className="body2">
+                        <img src={ico_hide} alt="가림" />
+                        가림
+                      </button>
+                      <button className="body2">
+                        <img src={ico_edit} alt="수정" />
+                        수정
+                      </button>
+                      <button className="body2">
+                        <img src={ico_del} alt="삭제" />
+                        삭제
+                      </button>
+                    </div>
+                  </div>
+                )}
+                <select value={filters.order} onChange={handleFilterBySelect}>
+                  <option value="recents">최신순</option>
+                  <option value="likes">좋아요순</option>
+                  <option value="comments">
+                    {type === 1 ? "댓글순" : type === 2 ? "답변순" : ""}
+                  </option>
+                  <option value="views">조회순</option>
+                </select>
               </div>
             </div>
-            <div className={styles.sort_wrap}>
-              {user.authority === 100 && (
-                <div className={styles.admin_option}>
-                  <button className={styles.toggle} onClick={handleToggle}>
-                    <img src={ico_setting} alt="관리자 설정" />
-                  </button>
-                  <div
-                    className={styles.options}
-                    style={!showToggle ? { display: "none" } : {}}
-                  >
-                    <button className="body2" onClick={submitWeeklyBest}>
-                      <img src={ico_wb} alt="Weekly Best" />
-                      W.B
-                    </button>
-                    <button className="body2">
-                      <img src={ico_hide} alt="가림" />
-                      가림
-                    </button>
-                    <button className="body2">
-                      <img src={ico_edit} alt="수정" />
-                      수정
-                    </button>
-                    <button className="body2">
-                      <img src={ico_del} alt="삭제" />
-                      삭제
-                    </button>
+            <div className={styles.content_wrap}>
+              {notice.length > 0 && (
+                <div
+                  className={styles.notice}
+                  style={type === 1 ? { flexDirection: "column" } : {}}
+                >
+                  <div className={`body2 ${styles.label}`}>공지</div>
+                  <div className={styles.notice_content}>
+                    <div className={styles.info}>
+                      <ProfileImage src={notice[0]?.writer.profile_image} />
+                      <span className={`body2`}>
+                        {notice[0]?.writer.nickname}
+                        <img
+                          src={
+                            userLevel(notice[0].writer.activity_points)?.icon
+                          }
+                          alt="레벨"
+                          style={{ width: "17px", marginLeft: "4px" }}
+                        />
+                      </span>
+                      <span className={`caption`} style={{ color: "#aaa" }}>
+                        {agoDate(notice[0]?.created_at)}
+                      </span>
+                      <span className={`caption`} style={{ color: "#aaa" }}>
+                        <img
+                          src={ico_view}
+                          alt="views"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginRight: "2px",
+                          }}
+                        />
+                        {notice[0]?.view}
+                      </span>
+                    </div>
+                    <h5
+                      className={styles.title}
+                      onClick={() => navigate(`/notice/${notice[0]?.id}`)}
+                    >
+                      {notice[0]?.title}
+                    </h5>
+                    <div
+                      className={styles.content}
+                      onClick={() => navigate(`/notice/${notice[0]?.id}`)}
+                    >
+                      {stripHtml(notice[0]?.content)}
+                    </div>
+                    <div className={styles.reaction}>
+                      <span className={`body2`} style={{ color: "#aaa" }}>
+                        <img
+                          src={ico_like}
+                          alt="like"
+                          style={{ width: "16px" }}
+                        />
+                        {notice[0]?.like_cnt}
+                      </span>
+                      <span className={`body2`} style={{ color: "#aaa" }}>
+                        <img
+                          src={ico_reply}
+                          alt="reply"
+                          style={{ width: "20px" }}
+                        />
+                        {notice[0]?.comment_cnt}
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
-              <select value={filters.order} onChange={handleFilterBySelect}>
-                <option value="recents">최신순</option>
-                <option value="likes">좋아요순</option>
-                <option value="comments">
-                  {type === 1 ? "댓글순" : type === 2 ? "답변순" : ""}
-                </option>
-                <option value="views">조회순</option>
-              </select>
-            </div>
-          </div>
-          <div className={styles.content_wrap}>
-            {notice.length > 0 && (
-              <div
-                className={styles.notice}
-                style={type === 1 ? { flexDirection: "column" } : {}}
-              >
-                <div className={`body2 ${styles.label}`}>공지</div>
-                <div className={styles.notice_content}>
-                  <div className={styles.info}>
-                    <ProfileImage src={notice[0]?.writer.profile_image} />
-                    <span className={`body2`}>
-                      {notice[0]?.writer.nickname}
-                      <img
-                        src={userLevel(notice[0].writer.activity_points)?.icon}
-                        alt="레벨"
-                        style={{ width: "17px", marginLeft: "4px" }}
-                      />
-                    </span>
-                    <span className={`caption`} style={{ color: "#aaa" }}>
-                      {agoDate(notice[0]?.created_at)}
-                    </span>
-                    <span className={`caption`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_view}
-                        alt="views"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "2px",
-                        }}
-                      />
-                      {notice[0]?.view}
-                    </span>
-                  </div>
-                  <h5
-                    className={styles.title}
-                    onClick={() => navigate(`/notice/${notice[0]?.id}`)}
-                  >
-                    {notice[0]?.title}
-                  </h5>
-                  <div
-                    className={styles.content}
-                    onClick={() => navigate(`/notice/${notice[0]?.id}`)}
-                  >
-                    {stripHtml(notice[0]?.content)}
-                  </div>
-                  <div className={styles.reaction}>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_like}
-                        alt="like"
-                        style={{ width: "16px" }}
-                      />
-                      {notice[0]?.like_cnt}
-                    </span>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_reply}
-                        alt="reply"
-                        style={{ width: "20px" }}
-                      />
-                      {notice[0]?.comment_cnt}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-            <ul className={styles.post_list}>
-              {postList.result.map((post, index) => (
-                <li className={styles.post_item} key={index}>
-                  {user.authority === 100 && (
-                    <div className={styles.for_admin}>
-                      {/* @ts-ignore */}
-                      {post.wbAccepted && (
-                        <div className={`body2 ${styles.wb}`}>W.B</div>
-                      )}
-                      <div className={`body2 ${styles.post_id}`}>
+              <ul className={styles.post_list}>
+                {postList.result.map((post, index) => (
+                  <li className={styles.post_item} key={index}>
+                    {user.authority === 100 && (
+                      <div className={styles.for_admin}>
                         {/* @ts-ignore */}
-                        {post.id}
+                        {post.wbAccepted && (
+                          <div className={`body2 ${styles.wb}`}>W.B</div>
+                        )}
+                        <div className={`body2 ${styles.post_id}`}>
+                          {/* @ts-ignore */}
+                          {post.id}
+                        </div>
+                        <input
+                          type="checkbox"
+                          //@ts-ignore
+                          onChange={() => handleCheckbox(post.id)}
+                          //@ts-ignore
+                          checked={checkedPost.includes(post.id)}
+                        />
                       </div>
-                      <input
-                        type="checkbox"
-                        //@ts-ignore
-                        onChange={() => handleCheckbox(post.id)}
-                        //@ts-ignore
-                        checked={checkedPost.includes(post.id)}
-                      />
-                    </div>
-                  )}
-                  <PostItem post={post} />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className={styles.pagination}>
-            <Pagination
-              currentPage={filters.page}
-              totalPages={postList.totalPages}
-              onPageChange={handlePage}
+                    )}
+                    <PostItem post={post} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className={styles.pagination}>
+              <Pagination
+                currentPage={filters.page}
+                totalPages={postList.totalPages}
+                onPageChange={handlePage}
+              />
+            </div>
+            <BtnWrite
+              onClick={() =>
+                navigate(
+                  type === 1
+                    ? "/community/free/write"
+                    : type === 2
+                    ? "/community/question/write"
+                    : "",
+                  {
+                    state: {
+                      previous: location.pathname + location.search,
+                    },
+                  }
+                )
+              }
             />
           </div>
-        </div>
+        </>
       )}
     </>
   );

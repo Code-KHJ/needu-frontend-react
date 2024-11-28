@@ -24,11 +24,13 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import styles from "./View.module.scss";
+import BtnWrite from "@/components/BtnWrite";
 
 //@ts-ignore
 const ViewPost = ({ type }) => {
   const { showLoading, hideLoading } = useLoading();
   const previousPage = useLocation().state?.previous;
+  const location = useLocation();
   const pathname = useLocation().pathname.split("/");
   const postType = pathname[pathname.length - 2];
   const postId = parseFloat(pathname[pathname.length - 1]);
@@ -402,6 +404,15 @@ const ViewPost = ({ type }) => {
             목록
           </button>
         </div>
+        <BtnWrite
+          onClick={() =>
+            navigate(`/community/${postType}/write`, {
+              state: {
+                previous: location.pathname + location.search,
+              },
+            })
+          }
+        />
       </div>
     </>
   );

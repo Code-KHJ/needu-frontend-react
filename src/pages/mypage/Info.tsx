@@ -18,6 +18,7 @@ import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
+import { useUser } from "@/contexts/UserContext";
 
 interface InfoProps {
   userInfo: UserProfile;
@@ -26,6 +27,7 @@ interface InfoProps {
 
 const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
   const { showLoading, hideLoading } = useLoading();
+  const { user, setUser } = useUser();
   const { customConfirm } = useConfirm();
   const navigate = useNavigate();
 
@@ -291,13 +293,10 @@ const Info: React.FC<InfoProps> = ({ userInfo, setUserInfo }) => {
           return;
         }
         setUserInfo(response.data);
-        const localStorageData = localStorage.getItem("userInfo");
-        const userInfoInLocalStorage = JSON.parse(localStorageData as string);
-        userInfoInLocalStorage.nickname = response.data.nickname;
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify(userInfoInLocalStorage)
-        );
+        setUser({
+          ...user,
+          nickname: response.data.nickname,
+        });
         alert("정보가 변경되었습니다.");
         hideLoading();
         window.location.reload();

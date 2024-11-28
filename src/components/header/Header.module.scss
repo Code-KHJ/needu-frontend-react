@@ -161,15 +161,12 @@ header {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-    .nickname::before {
-      content: "";
-      display: inline-block;
-      transform: translateY(4px);
-      width: 18px;
-      height: 18px;
-      margin-right: 3px;
-      background: url(@/assets/images/ico_login.png) no-repeat center/contain;
+      & > img {
+        transform: translateY(4px);
+        width: 18px;
+        height: 18px;
+        margin-right: 3px;
+      }
     }
     .logout::before {
       content: "";

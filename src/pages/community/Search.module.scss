@@ -2,9 +2,9 @@
 
 .wrap {
   margin: 0 auto 100px;
+  position: relative;
   .header {
     padding: 40px 10% 15px;
-    position: sticky;
     top: -30px;
     background: #fafafa;
     .topic_wrap {
@@ -430,6 +430,7 @@
 @media screen and (min-width: 1024px) {
   .wrap {
     .header {
+      position: sticky;
       border-bottom: 1px solid #d9d9d9;
     }
     .qna_reaction {

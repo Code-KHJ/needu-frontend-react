@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import styles from "./Detail.module.scss";
+import BtnWrite from "@/components/BtnWrite";
 
 const DetailWorking = () => {
   const { customConfirm } = useConfirm();
@@ -579,6 +580,15 @@ const DetailWorking = () => {
           target_id={modal.target_id}
           modalOpen={modal.isOpen}
           closeModal={closeModal}
+        />
+        <BtnWrite
+          onClick={() =>
+            navigate(`/review/working/write?name=${encodedCorpName}`, {
+              state: {
+                previous: location.pathname + location.search,
+              },
+            })
+          }
         />
       </div>
     </>
