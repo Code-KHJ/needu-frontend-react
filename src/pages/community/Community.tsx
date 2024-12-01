@@ -88,85 +88,90 @@ const Community = () => {
           <div className={styles.weekly_content}>
             <h2>Weekly Best</h2>
             <ul className={styles.content_list}>
-              {weeklyList.slice(0, 3).map((post, index) => (
-                <li className={styles.content_item} key={index}>
-                  <div className={styles.info}>
-                    <ProfileImage src={post.writer.profile_image} />
-                    <span
-                      className={`body2  ${styles.nickname}`}
-                      onClick={() => navigate(`/users/${post.writer.nickname}`)}
+              {weeklyList
+                .slice(-3)
+                .reverse()
+                .map((post, index) => (
+                  <li className={styles.content_item} key={index}>
+                    <div className={styles.info}>
+                      <ProfileImage src={post.writer.profile_image} />
+                      <span
+                        className={`body2  ${styles.nickname}`}
+                        onClick={() =>
+                          navigate(`/users/${post.writer.nickname}`)
+                        }
+                      >
+                        <span>{post.writer.nickname}</span>
+                        <img
+                          src={userLevel(post.writer.activity_points)?.icon}
+                          alt="레벨"
+                          style={{ width: "18px", marginLeft: "4px" }}
+                        />
+                      </span>
+                      <span className={`caption`} style={{ color: "#aaa" }}>
+                        {agoDate(post.created_at)}
+                      </span>
+                      <span className={`caption`} style={{ color: "#aaa" }}>
+                        <img
+                          src={ico_view}
+                          alt="views"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginRight: "4px",
+                          }}
+                        />
+                        {post.view}
+                      </span>
+                    </div>
+                    <h5
+                      className={styles.title}
+                      onClick={() =>
+                        navigate(
+                          `${
+                            post.postType === "자유게시판"
+                              ? `/community/free/${post.id}`
+                              : `/community/question/${post.id}`
+                          }`
+                        )
+                      }
                     >
-                      <span>{post.writer.nickname}</span>
-                      <img
-                        src={userLevel(post.writer.activity_points)?.icon}
-                        alt="레벨"
-                        style={{ width: "18px", marginLeft: "4px" }}
-                      />
-                    </span>
-                    <span className={`caption`} style={{ color: "#aaa" }}>
-                      {agoDate(post.created_at)}
-                    </span>
-                    <span className={`caption`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_view}
-                        alt="views"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "4px",
-                        }}
-                      />
-                      {post.view}
-                    </span>
-                  </div>
-                  <h5
-                    className={styles.title}
-                    onClick={() =>
-                      navigate(
-                        `${
-                          post.postType === "자유게시판"
-                            ? `/community/free/${post.id}`
-                            : `/community/question/${post.id}`
-                        }`
-                      )
-                    }
-                  >
-                    {post.title}
-                  </h5>
-                  <div
-                    className={styles.content}
-                    onClick={() =>
-                      navigate(
-                        `${
-                          post.postType === "자유게시판"
-                            ? `/community/free/${post.id}`
-                            : `/community/question/${post.id}`
-                        }`
-                      )
-                    }
-                  >
-                    {stripHtml(post.content)}
-                  </div>
-                  <div className={styles.reaction}>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_like}
-                        alt="like"
-                        style={{ width: "16px", marginRight: "4px" }}
-                      />
-                      {post.like_cnt}
-                    </span>
-                    <span className={`body2`} style={{ color: "#aaa" }}>
-                      <img
-                        src={ico_reply}
-                        alt="reply"
-                        style={{ width: "20px", marginRight: "4px" }}
-                      />
-                      {post.comment_cnt}
-                    </span>
-                  </div>
-                </li>
-              ))}
+                      {post.title}
+                    </h5>
+                    <div
+                      className={styles.content}
+                      onClick={() =>
+                        navigate(
+                          `${
+                            post.postType === "자유게시판"
+                              ? `/community/free/${post.id}`
+                              : `/community/question/${post.id}`
+                          }`
+                        )
+                      }
+                    >
+                      {stripHtml(post.content)}
+                    </div>
+                    <div className={styles.reaction}>
+                      <span className={`body2`} style={{ color: "#aaa" }}>
+                        <img
+                          src={ico_like}
+                          alt="like"
+                          style={{ width: "16px", marginRight: "4px" }}
+                        />
+                        {post.like_cnt}
+                      </span>
+                      <span className={`body2`} style={{ color: "#aaa" }}>
+                        <img
+                          src={ico_reply}
+                          alt="reply"
+                          style={{ width: "20px", marginRight: "4px" }}
+                        />
+                        {post.comment_cnt}
+                      </span>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className={styles.sub_banner}></div>
