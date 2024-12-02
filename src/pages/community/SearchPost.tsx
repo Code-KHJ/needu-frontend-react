@@ -147,7 +147,9 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
   }, [filters]);
 
   const scrollView = () => {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   };
 
   //관리자도구
