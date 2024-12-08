@@ -149,9 +149,6 @@ const WritePost = ({ type }) => {
           hideLoading();
           return;
         }
-        alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-        hideLoading();
-        return;
       }
       alert("게시글이 작성되었습니다.");
       hideLoading();

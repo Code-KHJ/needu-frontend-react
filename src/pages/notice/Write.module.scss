@@ -13,13 +13,13 @@ select {
 
 .write_wrap {
   margin: 80px auto;
+  width: 86%;
   .info {
     background-color: #fff;
-    padding: 40px 10%;
+    padding: 40px 0;
   }
   .form_wrap {
-    margin-top: 60px;
-    padding: 40px 10%;
+    margin: 60px auto;
     .content_title {
       .title {
         & > input {
@@ -82,7 +82,7 @@ select {
 
 @media screen and (min-width: 768px) {
   .write_wrap {
-    width: 86%;
+    margin-top: 80px;
     .info {
       border-radius: 5px;
       padding: 40px;

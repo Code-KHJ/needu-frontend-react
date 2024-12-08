@@ -2,6 +2,7 @@
 
 .wrap {
   margin: 40px auto 80px;
+  width: 86%;
   .banner {
     background-color: #888;
     max-width: 1280px;
@@ -42,8 +43,7 @@
     background-size: cover;
   }
   .weekly_wrap {
-    padding: 0 10%;
-    margin-top: 120px;
+    margin-top: 60px;
     .sub_banner {
       background: url(@/assets/images/banner_commu_sub.png) no-repeat center;
       background-size: cover;
@@ -53,8 +53,7 @@
     }
   }
   .content_wrap {
-    padding: 0 10%;
-    margin-top: 120px;
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -158,8 +157,7 @@
       }
     }
     .weekly_wrap {
-      padding: 0;
-      margin-top: 100px;
+      margin-top: 120px;
       .weekly_content {
         border: 1px solid #aaa;
         border-radius: 5px;
@@ -167,7 +165,6 @@
       }
     }
     .content_wrap {
-      padding: 0;
       margin-top: 40px;
       gap: 20px;
       .free_wrap,

@@ -10,7 +10,8 @@ footer {
 
   .footer_wrap {
     display: flex;
-    width: 80%;
+    width: 86%;
+    max-width: 1280px;
     margin: 0 auto;
     flex-direction: column;
   }
@@ -78,24 +79,6 @@ footer {
         width: 15px;
         vertical-align: middle;
       }
-    }
-  }
-}
-
-/* mobile-end */
-
-@media screen and (min-width: 768px) {
-  footer {
-    .footer_wrap {
-      width: 86%;
-    }
-  }
-}
-
-@media screen and (min-width: 1280px) {
-  footer {
-    .footer_wrap {
-      max-width: 1280px;
     }
   }
 }

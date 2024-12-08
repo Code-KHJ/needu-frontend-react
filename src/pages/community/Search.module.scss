@@ -3,8 +3,9 @@
 .wrap {
   margin: 0 auto 100px;
   position: relative;
+  width: 86%;
   .header {
-    padding: 40px 10% 15px;
+    padding: 40px 0 15px;
     top: -30px;
     background: #fafafa;
     .topic_wrap {
@@ -130,63 +131,64 @@
     }
   }
   .content_wrap {
-    padding: 0 10%;
-    .notice {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      padding: 20px;
+    .notice_list {
       background-color: #eeefff;
       border: 1px solid #6269f5;
       border-radius: 5px;
-      .label {
-        width: 120px;
-        background-color: #6269f5;
-        color: #fafafa;
-        padding: 6px 0;
-        text-align: center;
-      }
-      .notice_content {
-        width: 100%;
-        .info {
-          display: flex;
-          flex-direction: row;
-          gap: 8px;
-          align-items: center;
-          & > img:nth-of-type(1) {
-            width: 18px;
-            height: 18px;
-          }
-          & > span {
+      .notice {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        .label {
+          width: 120px;
+          background-color: #6269f5;
+          color: #fafafa;
+          padding: 6px 0;
+          text-align: center;
+        }
+        .notice_content {
+          width: 100%;
+          .info {
             display: flex;
+            flex-direction: row;
+            gap: 8px;
             align-items: center;
+            & > img:nth-of-type(1) {
+              width: 18px;
+              height: 18px;
+            }
+            & > span {
+              display: flex;
+              align-items: center;
+            }
           }
-        }
-        & > h5 {
-          margin-top: 12px;
-          margin-bottom: 4px;
-          cursor: pointer;
-        }
-        .content {
-          display: -webkit-box;
-          -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
-          line-clamp: 2; /* 표준 속성 */
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          word-break: break-all;
-          cursor: pointer;
-        }
-        .reaction {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
-          gap: 10px;
-          & > span {
+          & > h5 {
+            margin-top: 12px;
+            margin-bottom: 4px;
+            cursor: pointer;
+          }
+          .content {
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Webkit 기반 브라우저용 */
+            line-clamp: 2; /* 표준 속성 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            cursor: pointer;
+          }
+          .reaction {
             display: flex;
-            align-items: center;
-            & > img {
-              margin-right: 4px;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 10px;
+            & > span {
+              display: flex;
+              align-items: center;
+              & > img {
+                margin-right: 4px;
+              }
             }
           }
         }
@@ -337,7 +339,6 @@
       }
     }
     .content_wrap {
-      padding: 0;
       .notice {
         flex-direction: row;
         align-items: flex-start;
