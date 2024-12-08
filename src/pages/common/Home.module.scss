@@ -277,6 +277,9 @@
             gap: 4px;
             & > h5 {
               cursor: pointer;
+              text-wrap: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
             }
             .description {
               width: fit-content;
