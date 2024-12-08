@@ -9,6 +9,7 @@ import ico_X from "@/assets/images/ico_sns_X.png";
 import ico_url from "@/assets/images/ico_url.png";
 import ico_view from "@/assets/images/ico_view.png";
 import ico_like_on from "@/assets/images/like_on.png";
+import BtnWrite from "@/components/BtnWrite";
 import Comments from "@/components/comments/Comments";
 import KebabPost from "@/components/KebabPost";
 import ProfileImage from "@/components/ProfileImage";
@@ -24,7 +25,6 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import styles from "./View.module.scss";
-import BtnWrite from "@/components/BtnWrite";
 
 //@ts-ignore
 const ViewPost = ({ type }) => {
@@ -412,6 +412,7 @@ const ViewPost = ({ type }) => {
               },
             })
           }
+          marginLeft="100%"
         />
       </div>
     </>

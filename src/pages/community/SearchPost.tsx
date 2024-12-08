@@ -363,74 +363,76 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
               </div>
             </div>
             <div className={styles.content_wrap}>
-              {notice.length > 0 &&
-                notice.slice(0, 2).map((item, index) => (
-                  <div
-                    className={styles.notice}
-                    style={type === 1 ? { flexDirection: "column" } : {}}
-                    key={index}
-                  >
-                    <div className={`body2 ${styles.label}`}>공지</div>
-                    <div className={styles.notice_content}>
-                      <div className={styles.info}>
-                        <ProfileImage src={item?.writer.profile_image} />
-                        <span className={`body2`}>
-                          {item?.writer.nickname}
-                          <img
-                            src={userLevel(item.writer.activity_points)?.icon}
-                            alt="레벨"
-                            style={{ width: "17px", marginLeft: "4px" }}
-                          />
-                        </span>
-                        <span className={`caption`} style={{ color: "#aaa" }}>
-                          {agoDate(item?.created_at)}
-                        </span>
-                        <span className={`caption`} style={{ color: "#aaa" }}>
-                          <img
-                            src={ico_view}
-                            alt="views"
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginRight: "2px",
-                            }}
-                          />
-                          {item?.view}
-                        </span>
-                      </div>
-                      <h5
-                        className={styles.title}
-                        onClick={() => navigate(`/notice/${item?.id}`)}
-                      >
-                        {item?.title}
-                      </h5>
-                      <div
-                        className={styles.content}
-                        onClick={() => navigate(`/notice/${item?.id}`)}
-                      >
-                        {stripHtml(item?.content)}
-                      </div>
-                      <div className={styles.reaction}>
-                        <span className={`body2`} style={{ color: "#aaa" }}>
-                          <img
-                            src={ico_like}
-                            alt="like"
-                            style={{ width: "16px" }}
-                          />
-                          {item?.like_cnt}
-                        </span>
-                        <span className={`body2`} style={{ color: "#aaa" }}>
-                          <img
-                            src={ico_reply}
-                            alt="reply"
-                            style={{ width: "20px" }}
-                          />
-                          {item?.comment_cnt}
-                        </span>
+              <div className={styles.notice_list}>
+                {notice.length > 0 &&
+                  notice.slice(0, 2).map((item, index) => (
+                    <div
+                      className={styles.notice}
+                      style={type === 1 ? { flexDirection: "column" } : {}}
+                      key={index}
+                    >
+                      <div className={`body2 ${styles.label}`}>공지</div>
+                      <div className={styles.notice_content}>
+                        <div className={styles.info}>
+                          <ProfileImage src={item?.writer.profile_image} />
+                          <span className={`body2`}>
+                            {item?.writer.nickname}
+                            <img
+                              src={userLevel(item.writer.activity_points)?.icon}
+                              alt="레벨"
+                              style={{ width: "17px", marginLeft: "4px" }}
+                            />
+                          </span>
+                          <span className={`caption`} style={{ color: "#aaa" }}>
+                            {agoDate(item?.created_at)}
+                          </span>
+                          <span className={`caption`} style={{ color: "#aaa" }}>
+                            <img
+                              src={ico_view}
+                              alt="views"
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "2px",
+                              }}
+                            />
+                            {item?.view}
+                          </span>
+                        </div>
+                        <h5
+                          className={styles.title}
+                          onClick={() => navigate(`/notice/${item?.id}`)}
+                        >
+                          {item?.title}
+                        </h5>
+                        <div
+                          className={styles.content}
+                          onClick={() => navigate(`/notice/${item?.id}`)}
+                        >
+                          {stripHtml(item?.content)}
+                        </div>
+                        <div className={styles.reaction}>
+                          <span className={`body2`} style={{ color: "#aaa" }}>
+                            <img
+                              src={ico_like}
+                              alt="like"
+                              style={{ width: "16px" }}
+                            />
+                            {item?.like_cnt}
+                          </span>
+                          <span className={`body2`} style={{ color: "#aaa" }}>
+                            <img
+                              src={ico_reply}
+                              alt="reply"
+                              style={{ width: "20px" }}
+                            />
+                            {item?.comment_cnt}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
               <ul className={styles.post_list}>
                 {postList.result.map((post, index) => (
                   <li className={styles.post_item} key={index}>
@@ -480,6 +482,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
                   }
                 )
               }
+              marginLeft="100%"
             />
           </div>
         </>

@@ -13,7 +13,7 @@
 header {
   position: sticky;
   width: 100%;
-  height: 97px;
+  height: 73px;
   top: 0;
   display: flex;
   align-items: center;
@@ -32,10 +32,11 @@ header {
   }
 
   .header_wrap {
-    width: 80%;
-    height: 37px;
+    width: 86%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
+    padding: 20px 0px 16px;
     margin: 0 auto;
     line-height: 1.6;
     .logo {
@@ -196,8 +197,9 @@ header {
     display: block !important;
   }
   header {
+    height: 97px;
     .header_wrap {
-      width: 86%;
+      padding: 40px 0px 20px;
       .logo {
         flex-shrink: 0;
       }

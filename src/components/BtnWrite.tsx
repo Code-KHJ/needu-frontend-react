@@ -1,14 +1,15 @@
+import ico_edit from "@/assets/images/ico_edit_white.png";
 import React from "react";
 import styled from "styled-components";
-import ico_edit from "@/assets/images/ico_edit_white.png";
 
 interface BtnWriteProps {
   onClick: () => void;
+  marginLeft: string;
 }
 
-const StyledBtn = styled.button`
+const StyledBtn = styled.button<BtnWriteProps>`
   position: sticky;
-  margin-left: calc(90% - 60px);
+  margin-left: ${(props) => `calc(${props.marginLeft} - 60px)`};
   bottom: 40px;
   display: flex;
   justify-content: center;
@@ -24,9 +25,9 @@ const StyledBtn = styled.button`
   }
 `;
 
-const BtnWrite: React.FC<BtnWriteProps> = ({ onClick }) => {
+const BtnWrite: React.FC<BtnWriteProps> = ({ onClick, marginLeft }) => {
   return (
-    <StyledBtn onClick={onClick}>
+    <StyledBtn onClick={onClick} marginLeft={marginLeft}>
       <img src={ico_edit} style={{ width: "24px" }} />
     </StyledBtn>
   );

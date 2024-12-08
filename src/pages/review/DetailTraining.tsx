@@ -9,6 +9,7 @@ import like_off from "@/assets/images/like.png";
 import like_on from "@/assets/images/like_on.png";
 import { StarList } from "@/common/StarList";
 import BlindComment from "@/components/BlindComment";
+import BtnWrite from "@/components/BtnWrite";
 import Hashtag from "@/components/Hashtag";
 import ReportModal from "@/components/modal/ReportModal";
 import ScoreBar from "@/components/ScoreBar";
@@ -23,9 +24,8 @@ import {
 } from "@/interface/Review";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import styles from "./Detail.module.scss";
 import Helmets from "../helmets";
-import BtnWrite from "@/components/BtnWrite";
+import styles from "./Detail.module.scss";
 
 const DetailTraining = () => {
   const { customConfirm } = useConfirm();
@@ -558,6 +558,7 @@ const DetailTraining = () => {
               },
             })
           }
+          marginLeft="93%"
         />
       </div>
     </>
