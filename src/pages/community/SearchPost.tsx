@@ -365,7 +365,7 @@ const SearchPost: React.FC<SearchPostProps> = ({ type }) => {
             <div className={styles.content_wrap}>
               <div className={styles.notice_list}>
                 {notice.length > 0 &&
-                  notice.slice(0, 2).map((item, index) => (
+                  notice.slice(0, 1).map((item, index) => (
                     <div
                       className={styles.notice}
                       style={type === 1 ? { flexDirection: "column" } : {}}
