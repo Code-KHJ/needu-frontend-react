@@ -241,32 +241,32 @@ const Home = () => {
                 <span>현장의 모든 이야기, NEEDU에서 만나보세요!</span>
               </div>
             </div>
-            <div className={`${styles.banner} ${styles.banner_renewal}`}>
+            {/* <div className={`${styles.banner} ${styles.banner_renewal}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/1")}>
+                <button type="button" onClick={() => navigate("/notice/4")}>
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>NEEDU 커뮤니티 오픈 이벤트!</h3>
+                  <h3>NEEDU 커뮤니티 이벤트!</h3>
                 ) : (
-                  <h4>NEEDU 커뮤니티 오픈 이벤트!</h4>
+                  <h4>NEEDU 커뮤니티 이벤트!</h4>
                 )}
                 <span>내 이야기를 남기고, 상품까지 받아가세요.</span>
               </div>
-            </div>
+            </div> */}
             <div className={`${styles.banner} ${styles.banner_community}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/1")}>
-                  글 남기기
+                <button type="button" onClick={() => navigate("/notice/4")}>
+                  이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>우리의 사회복지 커뮤니티,</h3>
+                  <h3>1월 이벤트</h3>
                 ) : (
-                  <h4>우리의 사회복지 커뮤니티,</h4>
+                  <h4>1월 이벤트</h4>
                 )}
-                <span>NEEDU에서 이야기 나눠요!</span>
+                <span>2025년에 꼭 이루고 싶은 것은?</span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>
