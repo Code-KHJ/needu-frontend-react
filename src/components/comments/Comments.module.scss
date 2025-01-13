@@ -112,6 +112,9 @@
               color: #fafafa;
             }
           }
+          .comment_content {
+            word-break: break-all;
+          }
           .likes {
             margin-top: 4px;
             display: flex;
