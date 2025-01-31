@@ -258,15 +258,15 @@ const Home = () => {
             <div className={`${styles.banner} ${styles.banner_community}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/4")}>
+                <button type="button" onClick={() => navigate("/notice/5")}>
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>1월 이벤트</h3>
+                  <h3>2월 이벤트</h3>
                 ) : (
-                  <h4>1월 이벤트</h4>
+                  <h4>2월 이벤트</h4>
                 )}
-                <span>2025년에 꼭 이루고 싶은 것은?</span>
+                <span>사회복지사가 더 좋은 직업이 되려면 변해야 할 것은?</span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>
