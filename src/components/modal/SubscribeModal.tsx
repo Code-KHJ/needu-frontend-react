@@ -1,4 +1,3 @@
-import sharedApi from "@/apis/shared";
 import ico_arrow from "@/assets/images/arrow_right.png";
 import ico_checked from "@/assets/images/ico_checked.svg";
 import ico_unchecked from "@/assets/images/ico_unchecked.svg";
@@ -66,11 +65,11 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
       alert("수신동의에 체크해주세요.");
       return;
     }
-    const response: any = await sharedApi.subscribe(values);
-    if (response.status !== 201) {
-      alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-      return;
-    }
+    // const response: any = await sharedApi.subscribe(values);
+    // if (response.status !== 201) {
+    //   alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+    //   return;
+    // }
 
     setSubmitted(true);
   };
