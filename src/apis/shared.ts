@@ -1,4 +1,4 @@
-import { ReportDto } from "@/interface/Shared";
+import { ReportDto, SubscribeDto } from "@/interface/Shared";
 import customAxios from "./axios-config";
 
 const sharedApi = {
@@ -23,6 +23,18 @@ const sharedApi = {
   createReport: async (reportData: ReportDto) => {
     try {
       const response = await customAxios.post("/shared/report", reportData);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
+  subscribe: async (subscribeDto: SubscribeDto) => {
+    try {
+      const response = await customAxios.post(
+        "/shared/subscribe",
+        subscribeDto
+      );
       return response;
     } catch (error) {
       console.error(error);

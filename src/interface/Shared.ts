@@ -5,3 +5,9 @@ export type ReportDto = {
   report_type: string;
   comment: string;
 };
+
+export type SubscribeDto = {
+  nickname: string;
+  email: string;
+  subscribe: boolean;
+};

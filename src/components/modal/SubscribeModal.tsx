@@ -1,3 +1,4 @@
+import sharedApi from "@/apis/shared";
 import ico_arrow from "@/assets/images/arrow_right.png";
 import ico_checked from "@/assets/images/ico_checked.svg";
 import ico_unchecked from "@/assets/images/ico_unchecked.svg";
@@ -65,11 +66,11 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
       alert("수신동의에 체크해주세요.");
       return;
     }
-    // const response: any = await sharedApi.subscribe(values);
-    // if (response.status !== 201) {
-    //   alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-    //   return;
-    // }
+    const response: any = await sharedApi.subscribe(values);
+    if (response.status !== 201) {
+      alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
 
     setSubmitted(true);
   };
@@ -84,20 +85,20 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
           <div>
             <div>
               <h3>&lt;NEEDU 레터&gt; 구독 신청</h3>
-              <p style={{ marginTop: "20px" }}>
-                &lt;NEEDU 레터&gt;는 사회복지분야의 소식을 알려드리고 어쩌고
-                저쩌고 새로운 뉴스레터입니다. 격주로 뉴스레터를 통해
-                사회복지계의 소식을 확인해보세요! 블라블라
-                <br /> <br />
-                매월 2,4째주 무슨 요일에 니쥬레터와 함께하세요.
+              <p style={{ marginTop: "10px" }}>
+                NEEDU레터는 사회복지 현장의 진짜 이야기를 담은 뉴스레터입니다.
+                <br />
+                우리 주변의 이야기, 우리가 나아가야 할 이야기를 함께 볼 수
+                있도록 큐레이팅해요.
+                <br />월 2회, NEEDU레터와 함께해보세요!
               </p>
             </div>
             <form
               style={{
-                marginTop: "48px",
+                marginTop: "40px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "40px",
+                gap: "30px",
               }}
             >
               <div>
@@ -144,7 +145,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
                   <a
                     href="https://neighborly-arithmetic-8e6.notion.site/d262bf0970b143fa97cfb93552a1b33f?pvs=4"
                     target="_blank"
-                    style={{ display: "flex" }}
+                    style={{ display: "flex", alignItems: "center" }}
                   >
                     <img
                       src={ico_arrow}
@@ -177,15 +178,16 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
         </ModalComponent>
       ) : (
         <ModalComponent
-          title="뉴스레터 구독 신청 완료"
+          title="뉴스레터 구독 완료"
           modalOpen={modalOpen}
           closeModal={onClickCancel}
         >
           <div>
             <div>
-              <h3>&lt;NEEDU 레터&gt; 구독 신청 완료</h3>
+              <h3>&lt;NEEDU 레터&gt; 구독 완료</h3>
               <p style={{ marginTop: "20px" }}>
-                구독 신청이 완료되었습니다. 감사합니다. 어쩌구
+                구독 신청이 완료되었습니다!
+                <br />더 나은 사회복지를 위한 관심 감사합니다.
               </p>
             </div>
           </div>
