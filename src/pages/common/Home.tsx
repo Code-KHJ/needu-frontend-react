@@ -241,32 +241,42 @@ const Home = () => {
                 <span>현장의 모든 이야기, NEEDU에서 만나보세요!</span>
               </div>
             </div>
-            {/* <div className={`${styles.banner} ${styles.banner_renewal}`}>
+            <div className={`${styles.banner} ${styles.banner_needuchat}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/4")}>
-                  이벤트 참여하기
+                <button
+                  type="button"
+                  onClick={() =>
+                    window.open(
+                      "https://docs.google.com/forms/d/e/1FAIpQLSeNlq_QAK3B7A5IC1xTff9KFm9qdgRr2x5-aqfMKPlhvmj8hg/viewform",
+                      "_blank"
+                    )
+                  }
+                >
+                  신청하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>NEEDU 커뮤니티 이벤트!</h3>
+                  <h3>니쥬챗 호스트로 함께하기</h3>
                 ) : (
-                  <h4>NEEDU 커뮤니티 이벤트!</h4>
+                  <h4>니쥬챗 호스트로 함께하기</h4>
                 )}
-                <span>내 이야기를 남기고, 상품까지 받아가세요.</span>
+                <span>사회복지 후배·동료의 멘토가 되어주세요</span>
               </div>
-            </div> */}
+            </div>
             <div className={`${styles.banner} ${styles.banner_community}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/5")}>
+                <button type="button" onClick={() => navigate("/notice/6")}>
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>2월 이벤트</h3>
+                  <h3>3월 이벤트</h3>
                 ) : (
-                  <h4>2월 이벤트</h4>
+                  <h4>3월 이벤트</h4>
                 )}
-                <span>사회복지사가 더 좋은 직업이 되려면 변해야 할 것은?</span>
+                <span>
+                  예비 사회복지사들, 취업 관련 궁금한 것들 물어보세요!
+                </span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>
