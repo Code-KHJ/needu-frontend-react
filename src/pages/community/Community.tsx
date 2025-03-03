@@ -77,11 +77,11 @@ const Community = () => {
         <div className={`${styles.banner} ${styles.banner_community}`}>
           <div className={styles.opacity}></div>
           <div className={styles.content}>
-            <button type="button" onClick={() => navigate("/notice/5")}>
+            <button type="button" onClick={() => navigate("/notice/6")}>
               이벤트 참여하기
             </button>
-            <h4>2월 이벤트</h4>
-            <span>사회복지사가 더 좋은 직업이 되려면 변해야 할 것은?</span>
+            <h4>3월 이벤트</h4>
+            <span>예비 사회복지사들, 취업 관련 궁금한 것들 물어보세요!</span>
           </div>
         </div>
         <div className={styles.weekly_wrap}>
