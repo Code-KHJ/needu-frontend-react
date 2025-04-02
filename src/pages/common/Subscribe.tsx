@@ -140,7 +140,7 @@ const Subscribe = () => {
       <div className={styles.subscribe_wrap}>
         <div className={styles.description}>
           <h1>NEEDU레터 구독 신청</h1>
-          <p className="body1" style={{ marginTop: "10px" }}>
+          <p className="default" style={{ marginTop: "10px" }}>
             NEEDU레터는 사회복지 현장의 진짜 이야기를 담은 뉴스레터입니다.
             <br />
             우리 주변의 이야기, 우리가 나아가야 할 이야기를 함께 볼 수 있도록
