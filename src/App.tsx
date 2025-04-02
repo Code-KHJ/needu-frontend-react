@@ -18,6 +18,7 @@ import Users from "./pages/mypage/Users";
 import NoticeRoutes from "./pages/notice";
 import ReviewRoutes from "./pages/review";
 import Signup from "./pages/signup/Signup";
+import Subscribe from "./pages/common/Subscribe";
 
 declare global {
   interface Window {
@@ -81,6 +82,7 @@ function App() {
             element={<MypageRoutes isLogin={isLogin} />}
           />
           <Route path="/users/*" element={<Users />} />
+          <Route path="/subscribe" element={<Subscribe />} />
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

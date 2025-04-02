@@ -20,7 +20,7 @@ const Header = () => {
 
   const handleResize = () => {
     const winResize = window.innerWidth;
-    if (winResize >= 768) {
+    if (winResize >= 1024) {
       setMenuShow(false);
       setToggle({ review: false, community: false });
     }
@@ -97,10 +97,10 @@ const Header = () => {
                 <li
                   className={styles.parent_li}
                   onMouseEnter={() =>
-                    window.innerWidth >= 768 && handleToggle("review")
+                    window.innerWidth >= 1024 && handleToggle("review")
                   }
                   onMouseLeave={() =>
-                    window.innerWidth >= 768 && handleToggle("review")
+                    window.innerWidth >= 1024 && handleToggle("review")
                   }
                 >
                   <Link
@@ -133,10 +133,10 @@ const Header = () => {
                 <li
                   className={styles.parent_li}
                   onMouseEnter={() =>
-                    window.innerWidth >= 768 && handleToggle("community")
+                    window.innerWidth >= 1024 && handleToggle("community")
                   }
                   onMouseLeave={() =>
-                    window.innerWidth >= 768 && handleToggle("community")
+                    window.innerWidth >= 1024 && handleToggle("community")
                   }
                 >
                   <Link
@@ -168,6 +168,9 @@ const Header = () => {
                 </li>
                 <li>
                   <a href="https://needu.oopy.io">니쥬챗</a>
+                </li>
+                <li>
+                  <Link to="/subscribe">NEEDU레터</Link>
                 </li>
                 <li>
                   <a

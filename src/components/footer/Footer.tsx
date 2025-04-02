@@ -40,13 +40,13 @@ const Footer = () => {
             >
               커뮤니티 운영가이드
             </a>
-            <span
+            <a
+              href="https://neighborly-arithmetic-8e6.notion.site/NeedU-2323fd6cf25042c28a5b9fb0029d67ce?pvs=4"
+              target="_blank"
               className="caption"
-              style={{ cursor: "pointer" }}
-              onClick={() => setSubscribeModalOpen(true)}
             >
-              <strong>뉴스레터 구독</strong>
-            </span>
+              <strong>NEEDU 소개</strong>
+            </a>
           </div>
         </div>
         <div className={styles.footer_info}>
