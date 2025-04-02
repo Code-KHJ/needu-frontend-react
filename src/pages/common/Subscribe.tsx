@@ -118,7 +118,6 @@ const Subscribe = () => {
     const isSubmit = Object.values(validValues).every((value) => value);
     setIsSubmitDisabled(!isSubmit);
   }, [values, validValues]);
-  console.log(validValues);
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();

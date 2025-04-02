@@ -72,8 +72,10 @@ header {
   nav {
     display: none;
     width: 100%;
+    float: right;
+    max-width: 300px;
     .gnb_wrap {
-      margin-top: 60px;
+      margin-top: 80px;
       width: 100%;
       margin-right: 60px;
     }
@@ -189,7 +191,7 @@ header {
 
 /* mobile-end */
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .mo {
     display: none !important;
   }
@@ -215,6 +217,8 @@ header {
       display: none;
     }
     nav {
+      max-width: unset;
+      float: unset;
       display: flex !important;
       justify-content: space-between !important;
       gap: 20px;
@@ -301,7 +305,7 @@ header {
   nav {
     .gnb_wrap {
       .gnb li {
-        margin-left: 60px;
+        margin-left: 30px;
       }
     }
   }
