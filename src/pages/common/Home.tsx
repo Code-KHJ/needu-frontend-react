@@ -266,7 +266,7 @@ const Home = () => {
             <div className={`${styles.banner} ${styles.banner_community}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/5")}>
+                <button type="button" onClick={() => navigate("/notice/8")}>
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
