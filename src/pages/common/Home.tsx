@@ -266,15 +266,17 @@ const Home = () => {
             <div className={`${styles.banner} ${styles.banner_community}`}>
               <div className={styles.opacity}></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/7")}>
+                <button type="button" onClick={() => navigate("/notice/5")}>
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>4월 이벤트</h3>
+                  <h3>5월 이벤트</h3>
                 ) : (
-                  <h4>4월 이벤트</h4>
+                  <h4>5월 이벤트</h4>
                 )}
-                <span>최근 직장에서 기억에 남는 에피소드를 들려주세요!</span>
+                <span>
+                  사회복지실습 준비, 나는 이렇게 했다! 경험을 남겨주세요.
+                </span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>

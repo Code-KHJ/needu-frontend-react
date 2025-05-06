@@ -77,11 +77,11 @@ const Community = () => {
         <div className={`${styles.banner} ${styles.banner_community}`}>
           <div className={styles.opacity}></div>
           <div className={styles.content}>
-            <button type="button" onClick={() => navigate("/notice/7")}>
+            <button type="button" onClick={() => navigate("/notice/8")}>
               이벤트 참여하기
             </button>
-            <h4>4월 이벤트</h4>
-            <span>최근 직장에서 기억에 남는 에피소드를 들려주세요!</span>
+            <h4>5월 이벤트</h4>
+            <span>사회복지실습 준비, 나는 이렇게 했다! 경험을 남겨주세요.</span>
           </div>
         </div>
         <div className={styles.weekly_wrap}>
