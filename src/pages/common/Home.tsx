@@ -242,9 +242,21 @@ const Home = () => {
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_needuchat}`}>
-              <div className={styles.opacity}></div>
+              <div
+                className={styles.opacity}
+                onClick={
+                  winInnerWidth < 768
+                    ? () =>
+                        window.open(
+                          "https://docs.google.com/forms/d/e/1FAIpQLSeNlq_QAK3B7A5IC1xTff9KFm9qdgRr2x5-aqfMKPlhvmj8hg/viewform",
+                          "_blank"
+                        )
+                    : () => {}
+                }
+              ></div>
               <div className={styles.content}>
                 <button
+                  className="tab_show"
                   type="button"
                   onClick={() =>
                     window.open(
@@ -264,25 +276,44 @@ const Home = () => {
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_community}`}>
-              <div className={styles.opacity}></div>
+              <div
+                className={styles.opacity}
+                onClick={
+                  winInnerWidth < 768 ? () => navigate("/notice/10") : () => {}
+                }
+              ></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/8")}>
+                <button
+                  className="tab_show"
+                  type="button"
+                  onClick={() => navigate("/notice/10")}
+                >
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>5월 이벤트</h3>
+                  <h3>6월 이벤트</h3>
                 ) : (
-                  <h4>5월 이벤트</h4>
+                  <h4>6월 이벤트</h4>
                 )}
                 <span>
-                  사회복지실습 준비, 나는 이렇게 했다! 경험을 남겨주세요.
+                  최근 나에게 가장 쓸모 있었던 업무 참고자료/가이드를
+                  모아주세요.
                 </span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>
-              <div className={styles.opacity}></div>
+              <div
+                className={styles.opacity}
+                onClick={
+                  winInnerWidth < 768 ? () => navigate("/notice/1") : () => {}
+                }
+              ></div>
               <div className={styles.content}>
-                <button type="button" onClick={() => navigate("/notice/1")}>
+                <button
+                  className="tab_show"
+                  type="button"
+                  onClick={() => navigate("/notice/1")}
+                >
                   글 남기기
                 </button>
                 {winInnerWidth >= 768 ? (
