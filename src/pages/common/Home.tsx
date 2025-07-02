@@ -279,26 +279,23 @@ const Home = () => {
               <div
                 className={styles.opacity}
                 onClick={
-                  winInnerWidth < 768 ? () => navigate("/notice/10") : () => {}
+                  winInnerWidth < 768 ? () => navigate("/notice/11") : () => {}
                 }
               ></div>
               <div className={styles.content}>
                 <button
                   className="tab_show"
                   type="button"
-                  onClick={() => navigate("/notice/10")}
+                  onClick={() => navigate("/notice/11")}
                 >
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>6월 이벤트</h3>
+                  <h3>7월 이벤트</h3>
                 ) : (
-                  <h4>6월 이벤트</h4>
+                  <h4>7월 이벤트</h4>
                 )}
-                <span>
-                  최근 나에게 가장 쓸모 있었던 업무 참고자료/가이드를
-                  모아주세요.
-                </span>
+                <span>올해 목표한 것들, 지금까지 잘 되고 있나요?</span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>
