@@ -20,6 +20,7 @@ import styles from "./Community.module.scss";
 
 const Community = () => {
   const navigate = useNavigate();
+  const winInnerWidth = window.innerWidth;
 
   const [freeList, setFreeList] = useState<{
     result: PostListItemContent[];
@@ -75,15 +76,22 @@ const Community = () => {
       ></Helmets>
       <div className={styles.wrap}>
         <div className={`${styles.banner} ${styles.banner_community}`}>
-          <div className={styles.opacity}></div>
+          <div
+            className={styles.opacity}
+            onClick={
+              winInnerWidth < 768 ? () => navigate("/notice/11") : () => {}
+            }
+          ></div>
           <div className={styles.content}>
-            <button type="button" onClick={() => navigate("/notice/10")}>
+            <button
+              className="tab_show"
+              type="button"
+              onClick={() => navigate("/notice/11")}
+            >
               이벤트 참여하기
             </button>
-            <h4>6월 이벤트</h4>
-            <span>
-              최근 나에게 가장 쓸모 있었던 업무 참고자료/가이드를 모아주세요.
-            </span>
+            <h4>7월 이벤트</h4>
+            <span>올해 목표한 것들, 지금까지 잘 되고 있나요?</span>
           </div>
         </div>
         <div className={styles.weekly_wrap}>
