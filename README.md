@@ -1,30 +1,99 @@
-# React + TypeScript + Vite
+![](https://github.com/Code-KHJ/needu-frontend-react/blob/main/src/assets/images/logo_NeedU.png?raw=true)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 개요
 
-Currently, two official plugins are available:
+- 사회복지 커리어 플랫폼 **NEEDU**는 사회복지 종사자의 정보 공유와 생태계 발전을 위한 커뮤니티입니다.
+- 현재 약 **700명의 회원**을 대상으로 다음 기능을 제공합니다:
+  - 전·현직자 기관 리뷰
+  - 실습생 기관 리뷰
+  - 커피챗 연계
+  - 커뮤니티 (자유게시판, Q&A)
+  - 뉴스레터(레터) 구독
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> 🧪 데모 계정: test@test.com / test1234
 
-## Expanding the ESLint configuration
+> 🔗 배포 URL: https://needu.site
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 기술 스택
 
-- Configure the top-level `parserOptions` property like this:
+- **React 18.2**: 컴포넌트 기반 UI 구성
+- **TypeScript**: 타입 안정성 확보 및 유지보수 효율 향상
+- **Axios**: REST API 통신 처리
+- **SASS**: 모듈화된 스타일 관리
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## 아키텍처 및 구조
+
+```
+src/
+├── apis/ # API 요청 함수 모음
+├── assets/ # 이미지, 폰트 등 정적 자산
+├── common/ # 공통 상수 정의
+├── components/ # 공통 UI 컴포넌트 (버튼, 모달 등 재사용 가능 요소)
+├── contexts/ # 전역 상태 관리 (예: 로그인 정보, 로딩 상태, 토스트 알림 등)
+├── interface/ # 전역 타입 정의 (DTO, API 응답 등)
+├── pages/ # 라우트 단위 페이지 컴포넌트
+│ ├── common/ # 공통 페이지 (예: 404, HOME 등)
+│ ├── community/ # 커뮤니티 관련 페이지
+│ ├── login/ # 로그인, 비밀번호 찾기 등 인증 관련
+│ ├── mypage/ # 사용자 프로필, 내 게시글 관리
+│ ├── notice/ # 공지사항
+│ ├── review/ # 기관 리뷰 관련 페이지
+│ └── signup/ # 회원가입 및 개인정보 입력 페이지
+├── utils/ # 공통 함수 (날짜 포맷 등 유틸리티 함수)
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 주요 기능 구현
+
+### 🔐 인증 흐름
+
+- **JWT 기반 인증**을 사용하며, `accessToken` 및 `refreshToken`은 **쿠키에 저장**됩니다.
+- 로그인 시 발급된 JWT 토큰을 쿠키에 저장하고, 이후 요청 시 자동으로 포함되도록 `withCredentials: true` 설정을 사용합니다.
+- `401 Unauthorized` 응답 시, `refreshToken`으로 토큰 재발급을 시도하며, 실패 시 로그인 페이지로 리다이렉션됩니다.
+- **카카오, 구글 OAuth** 로그인도 지원하며, 로그인 성공 시 동일한 방식으로 JWT 토큰을 쿠키에 저장하여 인증을 유지합니다.
+
+### 📝 리뷰 서비스
+
+- **기관 리뷰 작성 기능**
+  - 사용자는 기관 상세 페이지에서 리뷰를 작성할 수 있으며, 별점(정수형), 텍스트, 항목별 점수를 입력합니다.
+  - 리뷰 작성 시 인증 토큰이 필요하며, 작성자는 마이페이지에서 본인의 리뷰를 수정/삭제할 수 있습니다.
+- **기관 검색 및 필터링**
+  - 지역, 평점 범위, 해시태그 등의 필터 조건으로 기관 목록을 조회할 수 있도록 API에 쿼리 파라미터를 전달합니다.
+  - 정렬 옵션(최신순, 평점순 등)에 따라 서버에서 정렬된 데이터를 반환받습니다.
+
+### 🗣 자유 게시판 & Q&A
+
+- 게시글 및 댓글 CRUD
+  - 자유게시판과 Q&A 게시판은 각각 독립된 게시판 ID로 구분되며, 하위 항목으로 토픽을 갖습니다.
+  - 게시글/댓글/대댓글은 JWT 인증이 필요한 API를 통해 생성되며, 사용자 권한에 따라 수정/삭제가 가능합니다.
+  - Q&A에서는 작성자가 적절한 댓글을 답변 채택하는 기능을 제공합니다.
+- 페이지네이션 및 정렬
+  - 클라이언트는 페이지 번호와 정렬 기준(최신순, 조회순 등)을 API에 전달하며, 서버에서 해당 조건으로 페이징된 데이터를 반환합니다.
+- SNS 공유 기능
+  - 클라이언트에서 페이스북, 카카오톡 JavaScript SDK를 이용해 해당 게시글 URL 공유 기능 제공
+- 공감(좋아요)/비공감(싫어요) 기능
+  - 서버에서 게시글/댓글에 대한 사용자별 감정표현 상태를 기록하고 중복 입력을 제한
+- 욕설/비속어 제한
+  - 게시글 및 댓글 입력 시 서버에서 욕설·비속어 제한
+- 관리자 기능
+  - 관리자 권한을 가진 사용자는 부적절한 게시글을 Blind 하거나, 인기 게시글을 Best 게시글로 선정할 수 있습니다.
+
+### 💬 커피챗 신청
+
+- 외부 연동 기반 인터페이스
+  - 호스트 소개 상세 페이지 등은 노션에서 작성한 후 Oopy를 통해 연동하여 CTA를 포함한 상세페이지로 노출합니다.
+- 신청자 → 대상자 연결 흐름 구성
+  - 신청자가 원하는 대상자에게 신청 폼을 제출하여 커피챗을 요청합니다.
+
+### 👤 사용자 프로필 (마이페이지)
+
+- 프로필 편집 기능
+  - 사용자 프로필 이미지, 닉네임, 소개글 등의 정보는 클라이언트에서 FormData를 통해 서버에 전송됩니다.
+- 사용자 활동 조회
+  - 마이페이지에서 본인이 작성한 게시글, 댓글, 리뷰 등을 확인하며, 수정, 삭제가 가능합니다.
+- 타인 프로필 보기
+  - 게시글 작성자 클릭 시 해당 사용자의 공개 프로필로 이동 가능하며, 해당 유저의 최근 활동 내역(게시글, 댓글 등)을 확인할 수 있습니다.
+
+### 📱 반응형 디자인
+
+- SCSS(SASS) 기반 미디어쿼리를 활용하여 **3가지 주요 브레이크포인트**에 대응: `Mobile(≤768px)`, `Tablet(769px~1024px)`, `Desktop(>1024px)`
+- 일부 컴포넌트는 모바일 전용 UI를 별도 구성하여 사용자 경험 최적화
