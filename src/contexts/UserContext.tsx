@@ -1,5 +1,5 @@
 import userApi from "@/apis/user";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useLoading } from "./LoadingContext";
 
 //@ts-ignore
@@ -28,8 +28,6 @@ export const UserProvider = ({ children }) => {
   }
   const accessToken = getCookie("accessToken");
   useEffect(() => {
-    console.log(user);
-
     const fetchData = async () => {
       showLoading();
       if (user.id == null) {
