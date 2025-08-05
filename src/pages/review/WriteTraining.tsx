@@ -8,8 +8,8 @@ import { useUser } from "@/contexts/UserContext";
 import { ReviewTrainingDto } from "@/interface/Review";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./Write.module.scss";
 import Helmets from "../helmets";
+import styles from "./Write.module.scss";
 
 const WriteTraining = () => {
   const { showLoading, hideLoading } = useLoading();
@@ -19,7 +19,7 @@ const WriteTraining = () => {
   const queryParams = new URLSearchParams(location.search);
   const name = queryParams.get("name");
   //@ts-ignore
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const [corp, setCorp] = useState({
     id: null,
@@ -188,6 +188,11 @@ const WriteTraining = () => {
       alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
     } else {
       alert("리뷰가 작성되었습니다.");
+      if (user.authority === 0) {
+        setUser({ ...user, authority: 1 });
+      }
+      console.log(user);
+
       const encodedCorpName = encodeURIComponent(values.corp_name).replace(
         /%2B/g,
         "%2B"
