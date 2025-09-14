@@ -5,7 +5,6 @@ import { StarList } from "@/common/StarList";
 import Button from "@/components/elements/Button";
 import InputDate from "@/components/elements/InputDate";
 import ScoreStar from "@/components/ScoreStar";
-import SearchCorpBar from "@/components/SearchCorpBar";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { ReviewWorkingDto } from "@/interface/Review";
@@ -14,13 +13,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import styles from "./Write.module.scss";
 
-const WriteWorking = () => {
+const WriteWorkingOld = () => {
   const { showLoading, hideLoading } = useLoading();
   const previousPage = useLocation().state?.previous;
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  // const name = queryParams.get("name");
+  const name = queryParams.get("name");
   //@ts-ignore
   const { user, setUser } = useUser();
 
@@ -67,16 +66,14 @@ const WriteWorking = () => {
     getShared();
   }, []);
 
-  const [selectedCorp, setSelectedCorp] = useState<string | null>(null);
-
   useEffect(() => {
-    if (!selectedCorp) {
-      // navigate("/404");
+    if (!name) {
+      navigate("/404");
       return;
     }
     showLoading();
     const getCorp = async () => {
-      const response: any = await corpApi.getWithWorking(selectedCorp);
+      const response: any = await corpApi.getWithWorking(name);
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
@@ -99,7 +96,7 @@ const WriteWorking = () => {
     };
     getCorp();
     hideLoading();
-  }, [selectedCorp]);
+  }, [name]);
 
   const [values, setValues] = useState<ReviewWorkingDto>({
     corp_name: "",
@@ -256,19 +253,15 @@ const WriteWorking = () => {
         description=""
       ></Helmets>
       <div className={styles.write_working_wrap}>
-        <div className={styles.corp_info} style={{ position: "relative" }}>
-          <SearchCorpBar onSelect={setSelectedCorp} />
+        <div className={styles.corp_info}>
+          <h1 className={styles.corp_name}>{corp.corp_name}</h1>
           <p className={`body1 ${styles.corp_location}`}>
             {corp.city} {corp.gugun}
           </p>
-          {corp.cnt ? (
-            <p className={`body1 ${styles.corp_review_cnt}`}>
-              이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong>{" "}
-              개 리뷰가 있어요!
-            </p>
-          ) : (
-            <></>
-          )}
+          <p className={`body1 ${styles.corp_review_cnt}`}>
+            이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong> 개
+            리뷰가 있어요!
+          </p>
         </div>
         <div className={styles.guide}>
           <p>입력하신 모든 정보는 익명으로 처리됩니다.</p>
@@ -507,17 +500,10 @@ const WriteWorking = () => {
               onClick={handleSubmit}
             ></Button>
           </div>
-          {!corp.corp_name ? (
-            <div className={styles.lock_overlay}>
-              <h1 style={{ color: "#fafafa" }}>기관을 먼저 선택해주세요.</h1>
-            </div>
-          ) : (
-            <></>
-          )}
         </form>
       </div>
     </>
   );
 };
 
-export default WriteWorking;
+export default WriteWorkingOld;

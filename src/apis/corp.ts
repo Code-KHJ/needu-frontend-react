@@ -46,6 +46,15 @@ const corpApi = {
       return error;
     }
   },
+  getAllListForDump: async () => {
+    try {
+      const response = await customAxios.get("/corp/dump");
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default corpApi;

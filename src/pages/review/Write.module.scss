@@ -239,6 +239,7 @@ select {
     width: 86%;
     margin: 0 auto;
     margin-top: 80px;
+    position: relative;
     input,
     select,
     textarea {
@@ -397,6 +398,54 @@ select {
   }
 }
 
+.search_bar {
+  height: 60px;
+  .search_warp {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    z-index: 1000;
+    & > input {
+      width: 100%;
+      height: 60px;
+      border: none;
+      border-bottom: 1px solid #aaa;
+      padding: 0 20px;
+      padding-right: 50px;
+      background-image: url("../../assets/images/ico_search.png");
+      background-repeat: no-repeat;
+      background-position: right 20px center;
+      background-size: 24px 24px;
+    }
+    & > input::placeholder {
+      color: rgba(34, 34, 34, 0.3);
+    }
+    .search_results {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 178px;
+      overflow-y: scroll;
+      & > div {
+        height: 54px;
+      }
+    }
+  }
+}
+
+.lock_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0.5;
+  text-align: center;
+  padding-top: 100px;
+}
 /* main end */
 /* mobile-end */
 
@@ -508,6 +557,25 @@ select {
         justify-content: center;
         & > button {
           width: 110px;
+        }
+      }
+    }
+  }
+
+  .search_bar {
+    .search_warp {
+      width: calc(100% - 80px);
+      max-width: 920px;
+      left: 40px;
+      border-radius: 5px;
+      padding: 20px;
+      & > input {
+        border-radius: 5px;
+      }
+      .search_results {
+        max-height: 187px;
+        & > div {
+          height: 57px;
         }
       }
     }
