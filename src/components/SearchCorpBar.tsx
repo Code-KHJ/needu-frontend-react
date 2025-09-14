@@ -1,4 +1,5 @@
 import corpApi from "@/apis/corp";
+import ico_edit from "@/assets/images/ico_edit_white.png";
 import { useEffect, useState } from "react";
 import styles from "../pages/review/Write.module.scss";
 
@@ -89,6 +90,11 @@ const SearchCorpBar: React.FC<SearchCorpBarProps> = ({ onSelect }) => {
             onClick={() => setIsFocused(true)}
           >
             {selected}
+            <img
+              src={ico_edit}
+              alt="수정"
+              style={{ height: "18px", marginLeft: "10px" }}
+            />
           </h1>
         )
       ) : (
