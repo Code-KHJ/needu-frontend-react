@@ -17,10 +17,8 @@ import styles from "./Write.module.scss";
 const WriteWorking = () => {
   const { showLoading, hideLoading } = useLoading();
   const previousPage = useLocation().state?.previous;
-  // const location = useLocation();
   const navigate = useNavigate();
-  // const queryParams = new URLSearchParams(location.search);
-  // const name = queryParams.get("name");
+
   //@ts-ignore
   const { user, setUser } = useUser();
 
@@ -71,7 +69,6 @@ const WriteWorking = () => {
 
   useEffect(() => {
     if (!selectedCorp) {
-      // navigate("/404");
       return;
     }
     showLoading();

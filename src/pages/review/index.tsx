@@ -17,16 +17,6 @@ const ReviewRoutes: React.FC<ReviewRoutesProps> = ({ isLogin }) => {
   return (
     <Routes>
       <Route
-        path="/working/write/new"
-        element={
-          !isLogin ? (
-            <Navigate to="/login" state={{ previous: previousPage }} replace />
-          ) : (
-            <WriteWorking />
-          )
-        }
-      />
-      <Route
         path="/working/write"
         element={
           !isLogin ? (

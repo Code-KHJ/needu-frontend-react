@@ -352,9 +352,7 @@ const DetailTraining = () => {
             <div className={styles.write_review}>
               <p>이 기관에 대해 나눠주실 경험이 있으신가요?</p>
               <button type="button">
-                <Link to={`/review/training/write?name=${encodedCorpName}`}>
-                  리뷰하러 가기
-                </Link>
+                <Link to={`/review/training/write`}>리뷰하러 가기</Link>
               </button>
             </div>
           </div>
@@ -552,7 +550,7 @@ const DetailTraining = () => {
         />
         <BtnWrite
           onClick={() =>
-            navigate(`/review/training/write?name=${encodedCorpName}`, {
+            navigate(`/review/training/write`, {
               state: {
                 previous: location.pathname + location.search,
               },

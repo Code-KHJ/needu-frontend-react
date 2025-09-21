@@ -2,6 +2,7 @@ import corpApi from "@/apis/corp";
 import reviewApi from "@/apis/review";
 import { StarList } from "@/common/StarList";
 import ScoreStar from "@/components/ScoreStar";
+import SearchCorpBar from "@/components/SearchCorpBar";
 import Button from "@/components/elements/Button";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
@@ -32,14 +33,15 @@ const WriteTraining = () => {
 
   const starList = StarList.training;
 
+  const [selectedCorp, setSelectedCorp] = useState<string | null>(null);
+
   useEffect(() => {
-    if (!name) {
-      navigate("/404");
+    if (!selectedCorp) {
       return;
     }
     showLoading();
     const getCorp = async () => {
-      const response: any = await corpApi.getWithTraining(name);
+      const response: any = await corpApi.getWithTraining(selectedCorp);
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
@@ -62,7 +64,7 @@ const WriteTraining = () => {
     };
     getCorp();
     hideLoading();
-  }, [name]);
+  }, [selectedCorp]);
 
   const [values, setValues] = useState<ReviewTrainingDto>({
     corp_name: "",
@@ -191,7 +193,6 @@ const WriteTraining = () => {
       if (user.authority === 0) {
         setUser({ ...user, authority: 1 });
       }
-      console.log(user);
 
       const encodedCorpName = encodeURIComponent(values.corp_name).replace(
         /%2B/g,
@@ -208,15 +209,19 @@ const WriteTraining = () => {
         description=""
       ></Helmets>
       <div className={styles.write_training_wrap}>
-        <div className={styles.corp_info}>
-          <h1 className={styles.corp_name}>{corp.corp_name}</h1>
+        <div className={styles.corp_info} style={{ position: "relative" }}>
+          <SearchCorpBar onSelect={setSelectedCorp} />
           <p className={`body1 ${styles.corp_location}`}>
             {corp.city} {corp.gugun}
           </p>
-          <p className={`body1 ${styles.corp_review_cnt}`}>
-            이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong>개
-            리뷰가 있어요!
-          </p>
+          {corp.cnt ? (
+            <p className={`body1 ${styles.corp_review_cnt}`}>
+              이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong>{" "}
+              개 리뷰가 있어요!
+            </p>
+          ) : (
+            <></>
+          )}
         </div>
         <div className={styles.guide}>
           <p>입력하신 모든 정보는 익명으로 처리됩니다.</p>
@@ -492,6 +497,13 @@ const WriteTraining = () => {
               onClick={handleSubmit}
             ></Button>
           </div>
+          {!corp.corp_name ? (
+            <div className={styles.lock_overlay}>
+              <h1 style={{ color: "#fafafa" }}>기관을 먼저 선택해주세요.</h1>
+            </div>
+          ) : (
+            <></>
+          )}
         </form>
       </div>
     </>
