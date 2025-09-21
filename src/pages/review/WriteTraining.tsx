@@ -16,9 +16,7 @@ const WriteTraining = () => {
   const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
   const previousPage = useLocation().state?.previous;
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get("name");
+
   //@ts-ignore
   const { user, setUser } = useUser();
 
