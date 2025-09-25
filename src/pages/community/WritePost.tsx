@@ -17,7 +17,7 @@ import styles from "./Write.module.scss";
 //@ts-ignore
 const WritePost = ({ type }) => {
   //@ts-ignore
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const { showLoading, hideLoading } = useLoading();
   const { customConfirm } = useConfirm();
   const navigate = useNavigate();
@@ -151,6 +151,9 @@ const WritePost = ({ type }) => {
         }
       }
       alert("게시글이 작성되었습니다.");
+      if (user.authority === 0) {
+        setUser({ ...user, authority: 1 });
+      }
       hideLoading();
       if (type === 1) {
         navigate(`/community/free/${response.data.post.id}`);

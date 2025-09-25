@@ -4,6 +4,7 @@ import { StarList } from "@/common/StarList";
 import ScoreStar from "@/components/ScoreStar";
 import SearchCorpBar from "@/components/SearchCorpBar";
 import Button from "@/components/elements/Button";
+import { useConfirm } from "@/contexts/ConfirmContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { ReviewTrainingDto } from "@/interface/Review";
@@ -19,6 +20,7 @@ const WriteTraining = () => {
 
   //@ts-ignore
   const { user, setUser } = useUser();
+  const { customConfirm } = useConfirm();
 
   const [corp, setCorp] = useState({
     id: null,
@@ -181,17 +183,21 @@ const WriteTraining = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    showLoading();
-    const response: any = await reviewApi.createTraining(values);
-    hideLoading();
-    if (response.status !== 201) {
-      alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-    } else {
+    const confirmed = await customConfirm("리뷰를 등록하시겠습니까?");
+    if (confirmed) {
+      showLoading();
+      const response: any = await reviewApi.createTraining(values);
+
+      if (response.status !== 201) {
+        alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
+        return;
+      }
       alert("리뷰가 작성되었습니다.");
       if (user.authority === 0) {
         setUser({ ...user, authority: 1 });
       }
-
+      hideLoading();
       const encodedCorpName = encodeURIComponent(values.corp_name).replace(
         /%2B/g,
         "%2B"
