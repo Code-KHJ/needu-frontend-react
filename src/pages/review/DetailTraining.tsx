@@ -150,7 +150,9 @@ const DetailTraining = () => {
   const handleShowAll = () => {
     if (!user || user.user.id === null) {
       alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
-      navigate("/login");
+      navigate("/login", {
+        state: { previous: location.pathname + location.search },
+      });
       return;
     }
 
@@ -168,7 +170,9 @@ const DetailTraining = () => {
     //@ts-ignore
     if (!user || user.user.id === null) {
       alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
-      navigate("/login");
+      navigate("/login", {
+        state: { previous: location.pathname + location.search },
+      });
       return;
     }
     const likeDto: LikeDto = {

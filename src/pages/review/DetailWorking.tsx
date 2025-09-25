@@ -13,6 +13,7 @@ import { StarList } from "@/common/StarList";
 import BlindComment from "@/components/BlindComment";
 import BtnWrite from "@/components/BtnWrite";
 import Hashtag from "@/components/Hashtag";
+import MoreReviewModal from "@/components/modal/MoreReviewModal";
 import ReportModal from "@/components/modal/ReportModal";
 import ScoreBar from "@/components/ScoreBar";
 import ScoreStar from "@/components/ScoreStar";
@@ -155,10 +156,14 @@ const DetailWorking = () => {
   };
 
   const [showAll, setShowAll] = useState<boolean>(false);
+  const [moreViewModalIsOpen, setMoreViewModalIsOpen] =
+    useState<boolean>(false);
   const handleShowAll = () => {
     if (!user || user.user.id === null) {
       alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
-      navigate("/login");
+      navigate("/login", {
+        state: { previous: location.pathname + location.search },
+      });
       return;
     }
 
@@ -166,8 +171,9 @@ const DetailWorking = () => {
     if (user.user.authority > 0) {
       setShowAll(true);
       return;
+    } else {
+      setMoreViewModalIsOpen(true);
     }
-    alert("더 많은 리뷰를 보려면 리뷰를 작성해주세요.");
   };
 
   const [isLike, setIsLike] = useState<{ [key: number]: boolean }>({});
@@ -181,7 +187,9 @@ const DetailWorking = () => {
       //@ts-ignore
       if (!user || user.user.id === null) {
         alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
-        navigate("/login");
+        navigate("/login", {
+          state: { previous: location.pathname + location.search },
+        });
         return;
       }
       const likeDto: LikeDto = {
@@ -578,6 +586,12 @@ const DetailWorking = () => {
           target_id={modal.target_id}
           modalOpen={modal.isOpen}
           closeModal={closeModal}
+        />
+        <MoreReviewModal
+          modalOpen={moreViewModalIsOpen}
+          closeModal={() => {
+            setMoreViewModalIsOpen(false);
+          }}
         />
         <BtnWrite
           onClick={() =>
