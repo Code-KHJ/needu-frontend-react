@@ -147,6 +147,8 @@ const DetailTraining = () => {
   };
 
   const [showAll, setShowAll] = useState<boolean>(false);
+  const [moreViewModalIsOpen, setMoreViewModalIsOpen] =
+    useState<boolean>(false);
   const handleShowAll = () => {
     if (!user || user.user.id === null) {
       alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
@@ -160,8 +162,9 @@ const DetailTraining = () => {
     if (user.user.authority > 0) {
       setShowAll(true);
       return;
+    } else {
+      setMoreViewModalIsOpen(true);
     }
-    alert("더 많은 리뷰를 보려면 리뷰를 작성해주세요.");
   };
 
   const [isLike, setIsLike] = useState<{ [key: number]: boolean }>({});
@@ -551,6 +554,12 @@ const DetailTraining = () => {
           target_id={modal.target_id}
           modalOpen={modal.isOpen}
           closeModal={closeModal}
+        />
+        <MoreReviewModal
+          modalOpen={moreViewModalIsOpen}
+          closeModal={() => {
+            setMoreViewModalIsOpen(false);
+          }}
         />
         <BtnWrite
           onClick={() =>
