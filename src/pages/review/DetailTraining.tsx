@@ -302,9 +302,9 @@ const DetailTraining = () => {
           <div>
             {corp.cnt == 0 ? (
               <>
-                <h4 style={{ fontWeight: 400 }}>
+                <h3 style={{ fontWeight: 400 }}>
                   아직 <strong>{corp.corp_name}</strong>에 대한 리뷰가 없어요.
-                </h4>
+                </h3>
                 <p>
                   <strong>{user.user.nickname}님</strong>의 경험을 첫 리뷰로
                   남겨주세요!
@@ -312,10 +312,10 @@ const DetailTraining = () => {
               </>
             ) : corp.cnt == 1 ? (
               <>
-                <h4 style={{ fontWeight: 400 }}>
+                <h3 style={{ fontWeight: 400 }}>
                   현재 <strong>{corp.cnt}</strong>개의 기관에 대한 리뷰가
                   등록되었어요!
-                </h4>
+                </h3>
                 <p>
                   지금 <strong>{user.user.nickname}님</strong>의 경험을 리뷰로
                   남기고, 다른 기관의 리뷰도 확인해보세요!
@@ -323,10 +323,10 @@ const DetailTraining = () => {
               </>
             ) : (
               <>
-                <h4 style={{ fontWeight: 400 }}>
+                <h3 style={{ fontWeight: 400 }}>
                   현재 <strong>{corp.cnt}</strong>개의 기관에 대한 리뷰가
                   등록되었어요!
-                </h4>
+                </h3>
                 <p>
                   지금 <strong>{user.user.nickname}님</strong>의 경험을 리뷰로
                   남기고,{" "}

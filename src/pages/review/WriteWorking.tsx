@@ -509,14 +509,8 @@ const WriteWorking = () => {
               onClick={handleSubmit}
             ></Button>
           </div>
-          {!corp.corp_name ? (
-            <div className={styles.lock_overlay}>
-              <h1 style={{ color: "#fafafa" }}>기관을 먼저 선택해주세요.</h1>
-            </div>
-          ) : (
-            <></>
-          )}
         </form>
+        {!corp.corp_name ? <div className={styles.lock_overlay}></div> : <></>}
       </div>
     </>
   );

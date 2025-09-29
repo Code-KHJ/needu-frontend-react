@@ -1,4 +1,6 @@
 @charset "utf-8";
+@use "sass:math";
+
 select {
   color: #aaa;
   border: #aaa solid 1px;
@@ -35,6 +37,7 @@ select {
   .corp_info {
     background-color: #6269f5;
     padding: 40px 7%;
+    z-index: 8;
     .corp_name {
       color: #fafafa;
       line-height: 34px;
@@ -205,6 +208,7 @@ select {
   .corp_info {
     background-color: #6269f5;
     padding: 40px 7%;
+    z-index: 8;
     .corp_name {
       color: #fafafa;
       line-height: 34px;
@@ -437,15 +441,12 @@ select {
 }
 
 .lock_overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: 0px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0.5;
-  text-align: center;
-  padding-top: 100px;
 }
 /* main end */
 /* mobile-end */
@@ -580,6 +581,10 @@ select {
         }
       }
     }
+  }
+  .lock_overlay {
+    left: calc(50% - 50vw);
+    width: calc(100% * 100 / 86);
   }
 }
 
