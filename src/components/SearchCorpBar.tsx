@@ -93,7 +93,7 @@ const SearchCorpBar: React.FC<SearchCorpBarProps> = ({ onSelect }) => {
             <img
               src={ico_edit}
               alt="수정"
-              style={{ height: "18px", marginLeft: "10px" }}
+              style={{ height: "18px", marginLeft: "10px", cursor: "pointer" }}
             />
           </h1>
         )
