@@ -21,6 +21,7 @@ jobs:
           username: ${{ secrets.REMOTE_STAGING_USER }}
           key: ${{ secrets.REMOTE_PRIVATE_STAGING_KEY }}
           port: ${{ secrets.REMOTE_STAGING_PORT }}
+          timeout: 30m
           script: |
             cd /home/ubuntu/needu_new/needu-frontend-react/
             sudo git pull origin staging

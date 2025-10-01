@@ -5,6 +5,8 @@ import { StarList } from "@/common/StarList";
 import Button from "@/components/elements/Button";
 import InputDate from "@/components/elements/InputDate";
 import ScoreStar from "@/components/ScoreStar";
+import SearchCorpBar from "@/components/SearchCorpBar";
+import { useConfirm } from "@/contexts/ConfirmContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { ReviewWorkingDto } from "@/interface/Review";
@@ -16,12 +18,11 @@ import styles from "./Write.module.scss";
 const WriteWorking = () => {
   const { showLoading, hideLoading } = useLoading();
   const previousPage = useLocation().state?.previous;
-  const location = useLocation();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get("name");
+
   //@ts-ignore
   const { user, setUser } = useUser();
+  const { customConfirm } = useConfirm();
 
   const [corp, setCorp] = useState({
     id: null,
@@ -66,14 +67,15 @@ const WriteWorking = () => {
     getShared();
   }, []);
 
+  const [selectedCorp, setSelectedCorp] = useState<string | null>(null);
+
   useEffect(() => {
-    if (!name) {
-      navigate("/404");
+    if (!selectedCorp) {
       return;
     }
     showLoading();
     const getCorp = async () => {
-      const response: any = await corpApi.getWithWorking(name);
+      const response: any = await corpApi.getWithWorking(selectedCorp);
       if (response.status !== 200) {
         hideLoading();
         navigate("/error", {
@@ -96,7 +98,7 @@ const WriteWorking = () => {
     };
     getCorp();
     hideLoading();
-  }, [name]);
+  }, [selectedCorp]);
 
   const [values, setValues] = useState<ReviewWorkingDto>({
     corp_name: "",
@@ -227,17 +229,20 @@ const WriteWorking = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    showLoading();
-    const response: any = await reviewApi.createWorking(values);
-    hideLoading();
-    if (response.status !== 201) {
-      alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-    } else {
+    const confirmed = await customConfirm("리뷰를 등록하시겠습니까?");
+    if (confirmed) {
+      showLoading();
+      const response: any = await reviewApi.createWorking(values);
+      if (response.status !== 201) {
+        alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+        hideLoading();
+        return;
+      }
       alert("리뷰가 작성되었습니다.");
       if (user.authority === 0) {
         setUser({ ...user, authority: 1 });
       }
-
+      hideLoading();
       const encodedCorpName = encodeURIComponent(values.corp_name).replace(
         /%2B/g,
         "%2B"
@@ -253,15 +258,19 @@ const WriteWorking = () => {
         description=""
       ></Helmets>
       <div className={styles.write_working_wrap}>
-        <div className={styles.corp_info}>
-          <h1 className={styles.corp_name}>{corp.corp_name}</h1>
+        <div className={styles.corp_info} style={{ position: "relative" }}>
+          <SearchCorpBar onSelect={setSelectedCorp} />
           <p className={`body1 ${styles.corp_location}`}>
             {corp.city} {corp.gugun}
           </p>
-          <p className={`body1 ${styles.corp_review_cnt}`}>
-            이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong> 개
-            리뷰가 있어요!
-          </p>
+          {corp.cnt ? (
+            <p className={`body1 ${styles.corp_review_cnt}`}>
+              이 기관에 <strong className={`banner_title`}>{corp.cnt}</strong>{" "}
+              개 리뷰가 있어요!
+            </p>
+          ) : (
+            <></>
+          )}
         </div>
         <div className={styles.guide}>
           <p>입력하신 모든 정보는 익명으로 처리됩니다.</p>
@@ -501,6 +510,7 @@ const WriteWorking = () => {
             ></Button>
           </div>
         </form>
+        {!corp.corp_name ? <div className={styles.lock_overlay}></div> : <></>}
       </div>
     </>
   );

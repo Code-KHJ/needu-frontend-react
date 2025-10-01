@@ -6,6 +6,9 @@
 footer {
   width: 100%;
   padding-bottom: 50px;
+  position: relative;
+  z-index: 1;
+  background: #fafafa;
   .footer_wrap {
     display: flex;
     width: 86%;

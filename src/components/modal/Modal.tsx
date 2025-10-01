@@ -1,7 +1,7 @@
+import ico_cancel from "@/assets/images/ico_cancel_white.png";
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./Modal.module.scss";
-import ico_cancel from "@/assets/images/ico_cancel_white.png";
 
 interface ModalProps {
   modalOpen: boolean;
@@ -28,8 +28,9 @@ const ModalComponent: React.FC<ModalProps> = ({
       position: "absolute",
       width: "80%",
       height: "auto",
+      minWidth: "320px",
       maxWidth: "740px",
-      maxHeight: "80vh",
+      maxHeight: "85vh",
       top: "50%",
       right: "unset",
       bottom: "unset",

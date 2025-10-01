@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import WriteWorking from "./WriteWorking";
-import WriteTraining from "./WriteTraining";
-import DetailWorking from "./DetailWorking";
 import DetailTraining from "./DetailTraining";
-import SearchWorking from "./SearchWorking";
-import EditWorking from "./EditWorking";
+import DetailWorking from "./DetailWorking";
 import EditTraining from "./EditTraining";
+import EditWorking from "./EditWorking";
 import SearchTraining from "./SearchTraining";
+import SearchWorking from "./SearchWorking";
+import WriteTraining from "./WriteTraining";
+import WriteWorking from "./WriteWorking";
 
 interface ReviewRoutesProps {
   isLogin: boolean;

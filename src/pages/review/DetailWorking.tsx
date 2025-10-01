@@ -12,7 +12,9 @@ import like_on from "@/assets/images/like_on.png";
 import { StarList } from "@/common/StarList";
 import BlindComment from "@/components/BlindComment";
 import BtnWrite from "@/components/BtnWrite";
+import Button from "@/components/elements/Button";
 import Hashtag from "@/components/Hashtag";
+import MoreReviewModal from "@/components/modal/MoreReviewModal";
 import ReportModal from "@/components/modal/ReportModal";
 import ScoreBar from "@/components/ScoreBar";
 import ScoreStar from "@/components/ScoreStar";
@@ -21,7 +23,7 @@ import { useLoading } from "@/contexts/LoadingContext";
 import { useUser } from "@/contexts/UserContext";
 import { DeleteReviewDto, LikeDto, ReviewContent } from "@/interface/Review";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Helmets from "../helmets";
 import styles from "./Detail.module.scss";
 
@@ -155,10 +157,14 @@ const DetailWorking = () => {
   };
 
   const [showAll, setShowAll] = useState<boolean>(false);
+  const [moreViewModalIsOpen, setMoreViewModalIsOpen] =
+    useState<boolean>(false);
   const handleShowAll = () => {
     if (!user || user.user.id === null) {
       alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
-      navigate("/login");
+      navigate("/login", {
+        state: { previous: location.pathname + location.search },
+      });
       return;
     }
 
@@ -166,8 +172,9 @@ const DetailWorking = () => {
     if (user.user.authority > 0) {
       setShowAll(true);
       return;
+    } else {
+      setMoreViewModalIsOpen(true);
     }
-    alert("더 많은 리뷰를 보려면 리뷰를 작성해주세요.");
   };
 
   const [isLike, setIsLike] = useState<{ [key: number]: boolean }>({});
@@ -181,7 +188,9 @@ const DetailWorking = () => {
       //@ts-ignore
       if (!user || user.user.id === null) {
         alert("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
-        navigate("/login");
+        navigate("/login", {
+          state: { previous: location.pathname + location.search },
+        });
         return;
       }
       const likeDto: LikeDto = {
@@ -308,6 +317,60 @@ const DetailWorking = () => {
               ))}
           </p>
         </div>
+        <div className={styles.write_review}>
+          <div>
+            {corp.cnt == 0 ? (
+              <>
+                <h3 style={{ fontWeight: 400 }}>
+                  아직 <strong>{corp.corp_name}</strong>에 대한 리뷰가 없어요.
+                </h3>
+                <p>
+                  <strong>{user.user.nickname}님</strong>의 경험을 첫 리뷰로
+                  남겨주세요!
+                </p>
+              </>
+            ) : corp.cnt == 1 ? (
+              <>
+                <h3 style={{ fontWeight: 400 }}>
+                  현재 <strong>{corp.cnt}</strong>개의 기관에 대한 리뷰가
+                  등록되었어요!
+                </h3>
+                <p>
+                  지금 <strong>{user.user.nickname}님</strong>의 경험을 리뷰로
+                  남기고, 다른 기관의 리뷰도 확인해보세요!
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 style={{ fontWeight: 400 }}>
+                  현재 <strong>{corp.cnt}</strong>개의 기관에 대한 리뷰가
+                  등록되었어요!
+                </h3>
+                <p>
+                  지금 <strong>{user.user.nickname}님</strong>의 경험을 리뷰로
+                  남기고,{" "}
+                  <strong>
+                    {corp.corp_name}의 생생한 후기 {corp.cnt}건
+                  </strong>
+                  을 모두 확인해보세요!
+                </p>
+              </>
+            )}
+          </div>
+          <Button
+            children="리뷰하러 가기"
+            className="btn_condition_true"
+            style={{ minWidth: "174px" }}
+            isDisabled={false}
+            onClick={() =>
+              navigate(`/review/working/write`, {
+                state: {
+                  previous: location.pathname + location.search,
+                },
+              })
+            }
+          ></Button>
+        </div>
         <section>
           <div className={styles.tab}>
             <div
@@ -367,14 +430,6 @@ const DetailWorking = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className={styles.write_review}>
-              <p>이 기관에 대해 나눠주실 경험이 있으신가요?</p>
-              <button type="button">
-                <Link to={`/review/working/write?name=${encodedCorpName}`}>
-                  리뷰하러 가기
-                </Link>
-              </button>
             </div>
           </div>
           {reviews.length != 0 ? (
@@ -581,9 +636,15 @@ const DetailWorking = () => {
           modalOpen={modal.isOpen}
           closeModal={closeModal}
         />
+        <MoreReviewModal
+          modalOpen={moreViewModalIsOpen}
+          closeModal={() => {
+            setMoreViewModalIsOpen(false);
+          }}
+        />
         <BtnWrite
           onClick={() =>
-            navigate(`/review/working/write?name=${encodedCorpName}`, {
+            navigate(`/review/working/write`, {
               state: {
                 previous: location.pathname + location.search,
               },
