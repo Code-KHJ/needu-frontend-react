@@ -279,25 +279,23 @@ const Home = () => {
               <div
                 className={styles.opacity}
                 onClick={
-                  winInnerWidth < 768 ? () => navigate("/notice/13") : () => {}
+                  winInnerWidth < 768 ? () => navigate("/notice/14") : () => {}
                 }
               ></div>
               <div className={styles.content}>
                 <button
                   className="tab_show"
                   type="button"
-                  onClick={() => navigate("/notice/13")}
+                  onClick={() => navigate("/notice/14")}
                 >
                   이벤트 참여하기
                 </button>
                 {winInnerWidth >= 768 ? (
-                  <h3>9월 이벤트</h3>
+                  <h3>10월 이벤트</h3>
                 ) : (
-                  <h4>9월 이벤트</h4>
+                  <h4>10월 이벤트</h4>
                 )}
-                <span>
-                  요즘 나를 지치게 하는 일, 그런데 아무 데도 말 못 했던 것
-                </span>
+                <span>행사 많은 시즌, 어떤 행사 진행하고 계신가요?</span>
               </div>
             </div>
             <div className={`${styles.banner} ${styles.banner_training}`}>
