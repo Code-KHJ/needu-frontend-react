@@ -79,19 +79,19 @@ const Community = () => {
           <div
             className={styles.opacity}
             onClick={
-              winInnerWidth < 768 ? () => navigate("/notice/15") : () => {}
+              winInnerWidth < 768 ? () => navigate("/notice/16") : () => {}
             }
           ></div>
           <div className={styles.content}>
             <button
               className="tab_show"
               type="button"
-              onClick={() => navigate("/notice/15")}
+              onClick={() => navigate("/notice/16")}
             >
               이벤트 참여하기
             </button>
-            <h4>11월 이벤트</h4>
-            <span>올해 맡은 프로그램, 어떻게 마무리 하고 있나요?</span>
+            <h4>12월 이벤트</h4>
+            <span>올해를 돌아봤을 때, 가장 기억남는 일은?</span>
           </div>
         </div>
         <div className={styles.weekly_wrap}>
