@@ -38,6 +38,10 @@
       }
     }
   }
+  .banner_main {
+    background: url(@/assets/images/banner_main.png) no-repeat center;
+    background-size: cover;
+  }
   .banner_community {
     background: url(@/assets/images/banner_community.png) no-repeat center;
     background-size: cover;

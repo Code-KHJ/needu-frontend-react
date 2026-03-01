@@ -63,14 +63,14 @@ const Home = () => {
         currentTab.post === "free"
           ? postList.free
           : currentTab.post === "question"
-          ? postList.question
-          : [...postList.free, ...postList.question],
+            ? postList.question
+            : [...postList.free, ...postList.question],
       review:
         currentTab.review === "working"
           ? postList.working
           : currentTab.review === "training"
-          ? postList.training
-          : [...postList.working, ...postList.training],
+            ? postList.training
+            : [...postList.working, ...postList.training],
     });
   }, [currentTab, postList]);
   useEffect(() => {
@@ -249,7 +249,7 @@ const Home = () => {
                     ? () =>
                         window.open(
                           "https://docs.google.com/forms/d/e/1FAIpQLSeNlq_QAK3B7A5IC1xTff9KFm9qdgRr2x5-aqfMKPlhvmj8hg/viewform",
-                          "_blank"
+                          "_blank",
                         )
                     : () => {}
                 }
@@ -261,7 +261,7 @@ const Home = () => {
                   onClick={() =>
                     window.open(
                       "https://docs.google.com/forms/d/e/1FAIpQLSeNlq_QAK3B7A5IC1xTff9KFm9qdgRr2x5-aqfMKPlhvmj8hg/viewform",
-                      "_blank"
+                      "_blank",
                     )
                   }
                 >
@@ -275,7 +275,7 @@ const Home = () => {
                 <span>사회복지 후배·동료의 멘토가 되어주세요</span>
               </div>
             </div>
-            <div className={`${styles.banner} ${styles.banner_community}`}>
+            {/* <div className={`${styles.banner} ${styles.banner_community}`}>
               <div
                 className={styles.opacity}
                 onClick={
@@ -297,7 +297,7 @@ const Home = () => {
                 )}
                 <span>올해를 돌아봤을 때, 가장 기억남는 일은?</span>
               </div>
-            </div>
+            </div> */}
             <div className={`${styles.banner} ${styles.banner_training}`}>
               <div
                 className={styles.opacity}
@@ -371,9 +371,9 @@ const Home = () => {
                         currentTab.post === "all"
                           ? "/community"
                           : currentTab.post === "free"
-                          ? "/community/free"
-                          : "/community/question"
-                      }`
+                            ? "/community/free"
+                            : "/community/question"
+                      }`,
                     )
                   }
                 >
@@ -392,7 +392,7 @@ const Home = () => {
                   .sort(
                     (a, b) =>
                       new Date(b.created_at).getTime() -
-                      new Date(a.created_at).getTime()
+                      new Date(a.created_at).getTime(),
                   )
                   .slice(0, sliceCount)
                   .map((post, index) => (
@@ -412,7 +412,7 @@ const Home = () => {
                                   post.postType.toString() === "1"
                                     ? `/community/free/${post.id}`
                                     : `/community/question/${post.id}`
-                                }`
+                                }`,
                               )
                             }
                           >
@@ -508,7 +508,7 @@ const Home = () => {
                           currentTab.review === "training"
                             ? "/review/search/training"
                             : "/review/search/working"
-                        }`
+                        }`,
                       )
                     }
                   >
@@ -527,7 +527,7 @@ const Home = () => {
                     .sort(
                       (a, b) =>
                         new Date(b.created_date).getTime() -
-                        new Date(a.created_date).getTime()
+                        new Date(a.created_date).getTime(),
                     )
                     .slice(0, sliceCount)
                     .map((review, index) => (
@@ -541,7 +541,7 @@ const Home = () => {
                                 review.type === "전현직"
                                   ? `/review/detail/working?name=${review.corpname}`
                                   : `/review/detail/training?name=${review.corpname}`
-                              }`
+                              }`,
                             )
                           }
                         >
@@ -583,10 +583,10 @@ const Home = () => {
                       <h5
                         onClick={() => {
                           const encodedCorpName = encodeURIComponent(
-                            corp.corpname
+                            corp.corpname,
                           ).replace(/%2B/g, "%2B");
                           navigate(
-                            `${`/review/detail/${corp.type}?name=${encodedCorpName}`}`
+                            `${`/review/detail/${corp.type}?name=${encodedCorpName}`}`,
                           );
                         }}
                       >
