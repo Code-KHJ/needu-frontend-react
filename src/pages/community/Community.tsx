@@ -75,7 +75,19 @@ const Community = () => {
         description="전혁직 기관 리뷰, 실습니뷰,  니쥬챗, 커뮤니티까지 사회복지에 대한 모든 이야기를 나누며 더 발전해보세요"
       ></Helmets>
       <div className={styles.wrap}>
-        <div className={`${styles.banner} ${styles.banner_community}`}>
+        <div className={`${styles.banner} ${styles.banner_main}`}>
+          <div className={styles.opacity}></div>
+          <div className={styles.content}>
+            {/* <button></button> */}
+            {winInnerWidth >= 768 ? (
+              <h3>사회복지 커뮤니티 플랫폼 'NEEDU'</h3>
+            ) : (
+              <h4>사회복지 커뮤니티 플랫폼 'NEEDU'</h4>
+            )}
+            <span>현장의 모든 이야기, NEEDU에서 만나보세요!</span>
+          </div>
+        </div>
+        {/* <div className={`${styles.banner} ${styles.banner_community}`}>
           <div
             className={styles.opacity}
             onClick={
@@ -93,7 +105,7 @@ const Community = () => {
             <h4>12월 이벤트</h4>
             <span>올해를 돌아봤을 때, 가장 기억남는 일은?</span>
           </div>
-        </div>
+        </div> */}
         <div className={styles.weekly_wrap}>
           <div className={styles.weekly_content}>
             <h2>Weekly Best</h2>
@@ -142,7 +154,7 @@ const Community = () => {
                             post.postType === "자유게시판"
                               ? `/community/free/${post.id}`
                               : `/community/question/${post.id}`
-                          }`
+                          }`,
                         )
                       }
                     >
@@ -156,7 +168,7 @@ const Community = () => {
                             post.postType === "자유게시판"
                               ? `/community/free/${post.id}`
                               : `/community/question/${post.id}`
-                          }`
+                          }`,
                         )
                       }
                     >
@@ -184,7 +196,7 @@ const Community = () => {
                 ))}
             </ul>
           </div>
-          <div className={styles.sub_banner}></div>
+          {/* <div className={styles.sub_banner}></div> */}
         </div>
         <div className={styles.content_wrap}>
           <div className={styles.free_wrap}>
